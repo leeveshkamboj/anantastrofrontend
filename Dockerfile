@@ -20,8 +20,9 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set build-time environment variable (can be overridden)
+# Empty string means use relative URLs (same domain via nginx)
 ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-}
 
 # Build the application
 RUN npm run build
