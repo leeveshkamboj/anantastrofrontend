@@ -25,6 +25,8 @@ export interface AuthData {
     profileImage?: string;
     provider: string;
     role: 'user' | 'admin' | 'astrologer';
+    currency?: string;
+    timezone?: string;
     createdAt: string;
     updatedAt: string;
   };
@@ -44,6 +46,8 @@ export interface User {
   profileImage?: string;
   provider: string;
   role: 'user' | 'admin' | 'astrologer';
+  currency?: string;
+  timezone?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -112,7 +116,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     getProfile: builder.query<UserResponse, void>({
       query: () => '/auth/profile',
-      providesTags: ['User'],
+      providesTags: ['User', 'Auth'],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -134,12 +138,15 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Auth', 'User'],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        // Immediately remove token from Redux state before API call
+        // This ensures that any refetches triggered by invalidatesTags won't use the old token
+        dispatch(logoutAction());
+        
         try {
           await queryFulfilled;
-          dispatch(logoutAction());
         } catch {
-          // Even if logout fails on server, clear local state
-          dispatch(logoutAction());
+          // Even if logout fails on server, state is already cleared
+          // No need to dispatch logoutAction again
         }
       },
     }),

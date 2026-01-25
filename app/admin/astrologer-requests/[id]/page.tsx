@@ -84,9 +84,9 @@ export default function AdminAstrologerRequestDetailPage() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, any> = {
-      pending: { variant: 'default', label: 'Pending', className: 'text-white' },
-      approved: { variant: 'secondary', label: 'Approved' },
-      rejected: { variant: 'destructive', label: 'Rejected' },
+      pending: { variant: 'default', label: 'Pending', className: 'bg-amber-500 text-white border-amber-600' },
+      approved: { variant: 'secondary', label: 'Approved', className: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+      rejected: { variant: 'destructive', label: 'Rejected', className: 'bg-red-100 text-red-800 border-red-200' },
     };
     const config = variants[status] || variants.pending;
     return <Badge variant={config.variant} className={config.className}>{config.label}</Badge>;

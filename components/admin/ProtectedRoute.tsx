@@ -3,19 +3,21 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated, selectUserRole } from '@/store/slices/authSlice';
+import { selectIsAuthenticated, selectUserRole, selectToken } from '@/store/slices/authSlice';
 import { useGetProfileQuery } from '@/store/api/authApi';
+import { useGetMyProfileQuery } from '@/store/api/astrologerProfileApi';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
   requireAdmin?: boolean;
+  requireAstrologer?: boolean;
 }
 
-export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRouteProps) {
+export function ProtectedRoute({ children, requireAdmin = false, requireAstrologer = false }: ProtectedRouteProps) {
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userRole = useSelector(selectUserRole);
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  const token = useSelector(selectToken);
   
   // Always fetch profile if we have a token (handles refresh case)
   const { isLoading: isProfileLoading, isError } = useGetProfileQuery(undefined, {
@@ -23,11 +25,16 @@ export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRout
     refetchOnMountOrArgChange: true,
   });
 
+  // For astrologers, also check profile status
+  const { data: astrologerProfile, isLoading: isAstrologerProfileLoading } = useGetMyProfileQuery(undefined, {
+    skip: !requireAstrologer || !token || userRole !== 'astrologer',
+  });
+
   const [hasChecked, setHasChecked] = useState(false);
 
   useEffect(() => {
     // Wait for profile query to complete
-    if (isProfileLoading) {
+    if (isProfileLoading || (requireAstrologer && isAstrologerProfileLoading)) {
       return;
     }
 
@@ -58,13 +65,25 @@ export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRout
         router.push('/');
         return;
       }
+
+      if (requireAstrologer) {
+        if (userRole !== 'astrologer') {
+          router.push('/');
+          return;
+        }
+        // Check if astrologer is active
+        if (astrologerProfile?.data && !astrologerProfile.data.isActive) {
+          router.push('/?error=account_deactivated');
+          return;
+        }
+      }
     }, 200);
 
     return () => clearTimeout(timer);
-  }, [isAuthenticated, userRole, router, requireAdmin, isProfileLoading, isError, token]);
+  }, [isAuthenticated, userRole, router, requireAdmin, requireAstrologer, isProfileLoading, isAstrologerProfileLoading, isError, token, astrologerProfile]);
 
   // Show loading state while checking auth
-  if (!hasChecked || isProfileLoading) {
+  if (!hasChecked || isProfileLoading || (requireAstrologer && isAstrologerProfileLoading)) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="text-center">
@@ -75,8 +94,13 @@ export function ProtectedRoute({ children, requireAdmin = false }: ProtectedRout
     );
   }
 
-  // Don't render if not authenticated or not admin (redirect is in progress)
-  if (!isAuthenticated || (requireAdmin && userRole !== 'admin')) {
+  // Don't render if not authenticated or not authorized (redirect is in progress)
+  if (!isAuthenticated || (requireAdmin && userRole !== 'admin') || (requireAstrologer && userRole !== 'astrologer')) {
+    return null;
+  }
+
+  // Don't render if astrologer is inactive
+  if (requireAstrologer && astrologerProfile?.data && !astrologerProfile.data.isActive) {
     return null;
   }
 

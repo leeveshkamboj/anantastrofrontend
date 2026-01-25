@@ -19,7 +19,10 @@ export default function AdminDashboardPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">Loading...</div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <div className="text-gray-500 font-medium">Loading dashboard...</div>
+        </div>
       </div>
     );
   }
@@ -103,40 +106,41 @@ export default function AdminDashboardPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">Welcome to the admin dashboard</p>
+        <p className="text-gray-600 mt-1.5">Welcome back! Here's an overview of your platform</p>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
         {statCards.slice(0, 4).map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title} className="border-0 shadow-sm">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">
+            <Card key={stat.title} className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+                <CardTitle className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
                   {stat.title}
                 </CardTitle>
-                <div className={`p-2 rounded-lg ${stat.bgColor}`}>
+                <div className={`p-2.5 rounded-lg ${stat.bgColor} border ${stat.bgColor.replace('bg-', 'border-').replace('-50', '-100')}`}>
                   <Icon className={`w-5 h-5 ${stat.color}`} />
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
+              <CardContent className="pt-0">
+                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
                 {stat.trend && (
-                  <div className="flex items-center text-xs mt-1">
+                  <div className="flex items-center text-xs mt-2">
                     {stat.trendUp ? (
-                      <TrendingUp className="w-3 h-3 text-green-600 mr-1" />
+                      <TrendingUp className="w-3.5 h-3.5 text-emerald-600 mr-1.5" />
                     ) : (
-                      <TrendingDown className="w-3 h-3 text-red-600 mr-1" />
+                      <TrendingDown className="w-3.5 h-3.5 text-red-600 mr-1.5" />
                     )}
-                    <span className={stat.trendUp ? 'text-green-600' : 'text-red-600'}>
+                    <span className={stat.trendUp ? 'text-emerald-600 font-semibold' : 'text-red-600 font-semibold'}>
                       {stat.trend}
                     </span>
-                    <span className="text-gray-500 ml-1">vs last month</span>
+                    <span className="text-gray-500 ml-1.5">vs last month</span>
                   </div>
                 )}
                 {stat.urgent && (
-                  <div className="text-xs text-yellow-600 mt-1 font-medium">
+                  <div className="text-xs text-amber-600 mt-2 font-semibold flex items-center gap-1">
+                    <FileClock className="w-3 h-3" />
                     Action required
                   </div>
                 )}
@@ -147,40 +151,56 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* User Growth Chart */}
-        <Card className="border-0 shadow-sm">
-          <CardHeader>
-            <CardTitle>User Growth</CardTitle>
+        <Card className="border border-gray-200 shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl">User Growth</CardTitle>
+            <p className="text-sm text-gray-500 mt-1">Monthly user and astrologer growth trends</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={userGrowthData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }} 
+                />
                 <Legend />
-                <Bar dataKey="users" fill="#3b82f6" name="Users" />
-                <Bar dataKey="astrologers" fill="#10b981" name="Astrologers" />
+                <Bar dataKey="users" fill="#3b82f6" name="Users" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="astrologers" fill="#10b981" name="Astrologers" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
         {/* Request Status Chart */}
-        <Card className="border-0 shadow-sm">
-          <CardHeader>
-            <CardTitle>Request Status Overview</CardTitle>
+        <Card className="border border-gray-200 shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl">Request Status Overview</CardTitle>
+            <p className="text-sm text-gray-500 mt-1">Distribution of astrologer registration requests</p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={requestStatusData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#8884d8" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }} 
+                />
+                <Bar dataKey="value" fill="#8884d8" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -188,23 +208,24 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Additional Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {statCards.slice(4).map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title} className="border-0 shadow-sm">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-gray-600">
+            <Card key={stat.title} className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+                <CardTitle className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
                   {stat.title}
                 </CardTitle>
-                <div className={`p-2 rounded-lg ${stat.bgColor}`}>
+                <div className={`p-2.5 rounded-lg ${stat.bgColor} border ${stat.bgColor.replace('bg-', 'border-').replace('-50', '-100')}`}>
                   <Icon className={`w-5 h-5 ${stat.color}`} />
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
+              <CardContent className="pt-0">
+                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
                 {stat.urgent && (
-                  <div className="text-xs text-yellow-600 mt-1 font-medium">
+                  <div className="text-xs text-amber-600 mt-2 font-semibold flex items-center gap-1">
+                    <FileClock className="w-3 h-3" />
                     Action required
                   </div>
                 )}

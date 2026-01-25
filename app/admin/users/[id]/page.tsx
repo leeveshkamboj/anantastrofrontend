@@ -14,7 +14,7 @@ function getRoleBadgeVariant(role: string) {
     case 'admin':
       return { variant: 'default' as const, color: 'bg-purple-100 text-purple-800' };
     case 'astrologer':
-      return { variant: 'secondary' as const, color: 'bg-green-100 text-green-800' };
+      return { variant: 'secondary' as const, color: 'bg-emerald-100 text-emerald-800 border-emerald-200' };
     default:
       return { variant: 'outline' as const, color: 'bg-gray-100 text-gray-800' };
   }

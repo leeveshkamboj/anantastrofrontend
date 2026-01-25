@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,14 +10,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { useCreateAstrologerRequestMutation, useUploadFileMutation, useGetMyAstrologerRequestQuery } from '@/store/api/astrologerApi';
 import { useGetProfileQuery } from '@/store/api/authApi';
+import { useGetPredefinedLanguagesQuery } from '@/store/api/astrologerProfileApi';
 import { useSelector } from 'react-redux';
 import { selectUser } from '@/store/slices/authSlice';
 import { ProtectedRoute } from '@/components/admin/ProtectedRoute';
 import { toast } from 'sonner';
-import { Upload, X, FileText, ChevronLeft, ChevronRight, Check, CheckCircle2, XCircle, Clock, Mail } from 'lucide-react';
+import { Upload, X, FileText, ChevronLeft, ChevronRight, Check, CheckCircle2, XCircle, Clock, Mail, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { DatePicker } from '@/components/ui/date-picker';
-import { useEffect } from 'react';
 
 const EXPERTISE_OPTIONS = [
   'Vedic Astrology',
@@ -44,6 +44,37 @@ export default function AstrologerRegisterPage() {
   const [createRequest, { isLoading: isSubmittingRequest }] = useCreateAstrologerRequestMutation();
   const [uploadFile, { isLoading: isUploading }] = useUploadFileMutation();
   
+  // Language search state
+  const [languageSearch, setLanguageSearch] = useState('');
+  const [debouncedLanguageSearch, setDebouncedLanguageSearch] = useState<string | undefined>(undefined);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const languageSearchRef = useRef<HTMLDivElement>(null);
+  
+  // Debounce language search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedLanguageSearch(languageSearch.trim() || undefined);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [languageSearch]);
+  
+  // Fetch languages with search
+  const { data: languagesData, isLoading: isLoadingLanguages } = useGetPredefinedLanguagesQuery(debouncedLanguageSearch);
+  const predefinedLanguages = languagesData?.data || [];
+  
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageSearchRef.current && !languageSearchRef.current.contains(event.target as Node)) {
+        setShowLanguageDropdown(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+  
   const [currentStep, setCurrentStep] = useState(1);
   const [aadharPreview, setAadharPreview] = useState<string | null>(null);
   const [panPreview, setPanPreview] = useState<string | null>(null);
@@ -67,7 +98,7 @@ export default function AstrologerRegisterPage() {
     bio: '',
     yearsOfExperience: '',
     education: '',
-    languages: '',
+    languages: [] as string[],
     
     // Step 3: Expertise
     expertise: [] as string[],
@@ -133,8 +164,8 @@ export default function AstrologerRegisterPage() {
       if (!formData.education.trim()) {
         newErrors.education = 'Education/Qualifications is required';
       }
-      if (!formData.languages.trim()) {
-        newErrors.languages = 'Languages spoken is required';
+      if (formData.languages.length === 0) {
+        newErrors.languages = 'At least one language is required';
       }
     }
 
@@ -280,7 +311,7 @@ export default function AstrologerRegisterPage() {
         bio: formData.bio,
         yearsOfExperience: parseInt(formData.yearsOfExperience),
         education: formData.education,
-        languages: formData.languages,
+        languages: formData.languages.join(', '),
         expertise: formData.expertise,
         customExpertise: formData.customExpertise || undefined,
         consultationFee: parseFloat(formData.consultationFee),
@@ -302,7 +333,7 @@ export default function AstrologerRegisterPage() {
         bio: '',
         yearsOfExperience: '',
         education: '',
-        languages: '',
+        languages: [],
         expertise: [],
         customExpertise: '',
         consultationFee: '',
@@ -395,7 +426,7 @@ export default function AstrologerRegisterPage() {
                   <div className="flex items-center justify-center mb-4">
                     <Badge
                       variant={myRequest.status === 'approved' ? 'default' : myRequest.status === 'rejected' ? 'destructive' : 'secondary'}
-                      className={`text-lg px-4 py-2`}
+                      className={`text-lg px-4 py-2 ${myRequest.status === 'approved' ? 'text-white' : 'text-gray-800'}`}
                     >
                       {myRequest.status.toUpperCase()}
                     </Badge>
@@ -694,16 +725,103 @@ export default function AstrologerRegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="languages">Languages Spoken *</Label>
-                  <Input
-                    id="languages"
-                    type="text"
-                    placeholder="e.g., English, Hindi, Sanskrit (comma-separated)"
-                    value={formData.languages}
-                    onChange={(e) => setFormData({ ...formData, languages: e.target.value })}
-                    className={errors.languages ? 'border-red-500' : ''}
-                  />
-                  {errors.languages && <p className="text-sm text-red-600">{errors.languages}</p>}
+                  <Label>Languages Spoken *</Label>
+                  
+                  {/* Selected Languages Badges */}
+                  {formData.languages.length > 0 && (
+                    <div className="mb-3">
+                      <div className="flex flex-wrap gap-2">
+                        {formData.languages.map((lang) => (
+                          <Badge 
+                            key={lang} 
+                            variant="secondary" 
+                            className="flex items-center gap-1 pr-1"
+                          >
+                            {lang}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormData({
+                                  ...formData,
+                                  languages: formData.languages.filter(l => l !== lang),
+                                });
+                              }}
+                              className="ml-1 hover:bg-gray-300 rounded-full p-0.5"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Search Input and Dropdown */}
+                  <div className="relative" ref={languageSearchRef}>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Input
+                        type="text"
+                        placeholder={languageSearch ? "Search languages..." : "Search to add languages (showing 6 most common)"}
+                        value={languageSearch}
+                        onChange={(e) => {
+                          setLanguageSearch(e.target.value);
+                          setShowLanguageDropdown(true);
+                        }}
+                        onFocus={() => setShowLanguageDropdown(true)}
+                        className={`pl-10 ${errors.languages ? 'border-red-500' : ''}`}
+                      />
+                    </div>
+                    
+                    {/* Dropdown */}
+                    {showLanguageDropdown && (
+                      <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        {isLoadingLanguages ? (
+                          <div className="p-4 text-center text-sm text-gray-500">
+                            Searching...
+                          </div>
+                        ) : predefinedLanguages.length > 0 ? (
+                          <div className="py-1">
+                            {predefinedLanguages
+                              .filter(lang => !formData.languages.includes(lang.name))
+                              .map((language) => (
+                                <button
+                                  key={language.id}
+                                  type="button"
+                                  onClick={() => {
+                                    if (!formData.languages.includes(language.name)) {
+                                      setFormData({
+                                        ...formData,
+                                        languages: [...formData.languages, language.name],
+                                      });
+                                    }
+                                    setLanguageSearch('');
+                                    setShowLanguageDropdown(false);
+                                  }}
+                                  className="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors flex items-center space-x-2"
+                                >
+                                  <Check className={`h-4 w-4 ${formData.languages.includes(language.name) ? 'text-primary' : 'text-transparent'}`} />
+                                  <span className="text-sm">{language.name}</span>
+                                </button>
+                              ))}
+                            {predefinedLanguages.filter(lang => !formData.languages.includes(lang.name)).length === 0 && (
+                              <div className="p-4 text-center text-sm text-gray-500">
+                                All available languages are selected
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="p-4 text-center text-sm text-gray-500">
+                            {languageSearch ? 'No languages found' : 'Loading languages...'}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {errors.languages && (
+                    <p className="text-sm text-red-600">{errors.languages}</p>
+                  )}
                 </div>
               </div>
             )}

@@ -70,6 +70,7 @@ export const astrologerApi = baseApi.injectEndpoints({
           body: formData,
         };
       },
+      invalidatesTags: ['Auth'],
     }),
     createAstrologerRequest: builder.mutation<AstrologerRequestResponse, CreateAstrologerRequestData>({
       query: (data) => ({
@@ -101,26 +102,26 @@ export const astrologerApi = baseApi.injectEndpoints({
         }
         return response;
       },
-      invalidatesTags: ['AstrologerRequests'],
+      invalidatesTags: ['AstrologerRequests', 'Auth'],
     }),
     getAstrologerRequests: builder.query<AstrologerRequestsResponse, void>({
       query: () => '/astrologer-requests',
-      providesTags: ['AstrologerRequests'],
+      providesTags: ['AstrologerRequests', 'Auth'],
     }),
     getMyAstrologerRequest: builder.query<AstrologerRequestResponse, void>({
       query: () => '/astrologer-requests/my-request',
-      providesTags: ['AstrologerRequests'],
+      providesTags: ['AstrologerRequests', 'Auth'],
     }),
     getAstrologerRequest: builder.query<AstrologerRequestResponse, number>({
       query: (id) => `/astrologer-requests/${id}`,
-      providesTags: ['AstrologerRequests'],
+      providesTags: ['AstrologerRequests', 'Auth'],
     }),
     approveAstrologerRequest: builder.mutation<AstrologerRequestResponse, number>({
       query: (id) => ({
         url: `/astrologer-requests/${id}/approve`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerRequests'],
+      invalidatesTags: ['AstrologerRequests', 'Auth'],
     }),
     rejectAstrologerRequest: builder.mutation<
       AstrologerRequestResponse,
@@ -131,14 +132,14 @@ export const astrologerApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { rejectionNote },
       }),
-      invalidatesTags: ['AstrologerRequests'],
+      invalidatesTags: ['AstrologerRequests', 'Auth'],
     }),
     allowReapply: builder.mutation<AstrologerRequestResponse, number>({
       query: (id) => ({
         url: `/astrologer-requests/${id}/allow-reapply`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerRequests'],
+      invalidatesTags: ['AstrologerRequests', 'Auth'],
     }),
   }),
 });

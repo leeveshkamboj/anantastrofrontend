@@ -36,11 +36,11 @@ import {
 function getRoleBadgeVariant(role: string) {
   switch (role) {
     case 'admin':
-      return { variant: 'default' as const, color: 'bg-purple-100 text-purple-800' };
+      return { variant: 'default' as const, color: 'bg-purple-100 text-purple-800 border-purple-200' };
     case 'astrologer':
-      return { variant: 'secondary' as const, color: 'bg-green-100 text-green-800' };
+      return { variant: 'secondary' as const, color: 'bg-emerald-100 text-emerald-800 border-emerald-200' };
     default:
-      return { variant: 'outline' as const, color: 'bg-gray-100 text-gray-800' };
+      return { variant: 'outline' as const, color: 'bg-gray-100 text-gray-800 border-gray-200' };
   }
 }
 
@@ -56,7 +56,10 @@ export default function AdminUsersPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">Loading...</div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+          <div className="text-gray-500 font-medium">Loading users...</div>
+        </div>
       </div>
     );
   }
@@ -80,14 +83,17 @@ export default function AdminUsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Users Management</h1>
-          <p className="text-gray-600 mt-1">Manage all users in the system</p>
+          <p className="text-gray-600 mt-1.5">Manage all users in the system</p>
         </div>
       </div>
 
-      <Card className="border-0 shadow-sm">
-        <CardHeader>
+      <Card className="border border-gray-200 shadow-sm">
+        <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle>All Users</CardTitle>
+            <div>
+              <CardTitle className="text-xl">All Users</CardTitle>
+              <p className="text-sm text-gray-500 mt-1">View and manage user accounts</p>
+            </div>
             <div className="flex items-center gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -127,20 +133,20 @@ export default function AdminUsersPage() {
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[80px]">ID</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Created At</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                <TableRow className="bg-gray-50">
+                  <TableHead className="w-[80px] font-semibold">ID</TableHead>
+                  <TableHead className="font-semibold">Name</TableHead>
+                  <TableHead className="font-semibold">Email</TableHead>
+                  <TableHead className="font-semibold">Phone</TableHead>
+                  <TableHead className="font-semibold">Role</TableHead>
+                  <TableHead className="font-semibold">Created At</TableHead>
+                  <TableHead className="text-right font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredUsers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                    <TableCell colSpan={7} className="text-center py-12 text-gray-500">
                       No users found
                     </TableCell>
                   </TableRow>
@@ -148,7 +154,7 @@ export default function AdminUsersPage() {
                   filteredUsers.map((user) => {
                     const badgeConfig = getRoleBadgeVariant(user.role);
                     return (
-                      <TableRow key={user.id} className="hover:bg-gray-50">
+                      <TableRow key={user.id} className="hover:bg-gray-50/50 transition-colors">
                         <TableCell className="font-medium">{user.id}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-3">
@@ -171,11 +177,11 @@ export default function AdminUsersPage() {
                         <TableCell>{user.email}</TableCell>
                         <TableCell>{user.phone || '-'}</TableCell>
                         <TableCell>
-                          <Badge variant={badgeConfig.variant} className={badgeConfig.color}>
+                          <Badge variant={badgeConfig.variant} className={`${badgeConfig.color} border px-2.5 py-0.5`}>
                             {user.role}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm text-gray-500">
+                        <TableCell className="text-sm text-gray-600">
                           {new Date(user.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell className="text-right">
@@ -183,7 +189,7 @@ export default function AdminUsersPage() {
                             <Button 
                               variant="ghost" 
                               size="sm" 
-                              className="gap-2"
+                              className="gap-1.5 hover:bg-blue-50 hover:text-blue-600"
                               onClick={() => router.push(`/admin/users/${user.id}`)}
                             >
                               <Eye className="w-4 h-4" />
@@ -192,7 +198,7 @@ export default function AdminUsersPage() {
                             <Button 
                               variant="ghost" 
                               size="sm" 
-                              className="gap-2"
+                              className="gap-1.5 hover:bg-gray-100"
                               onClick={() => router.push(`/admin/users/${user.id}/edit`)}
                             >
                               <Edit className="w-4 h-4" />
@@ -201,7 +207,7 @@ export default function AdminUsersPage() {
                             <Button 
                               variant="ghost" 
                               size="sm" 
-                              className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                              className="gap-1.5 text-red-600 hover:text-red-700 hover:bg-red-50"
                               onClick={() => {
                                 setUserToDelete(user);
                                 setShowDeleteDialog(true);
@@ -220,7 +226,7 @@ export default function AdminUsersPage() {
             </Table>
           </div>
           {filteredUsers.length > 0 && (
-            <div className="px-6 py-4 border-t text-sm text-gray-500">
+            <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 text-sm text-gray-600 font-medium">
               Showing {filteredUsers.length} of {users.length} users
             </div>
           )}

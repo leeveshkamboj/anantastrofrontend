@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated, selectUserRole } from '@/store/slices/authSlice';
+import { selectIsAuthenticated, selectUserRole, selectToken } from '@/store/slices/authSlice';
 import { useGetProfileQuery } from '@/store/api/authApi';
 
 interface GuestRouteProps {
@@ -14,7 +14,7 @@ export function GuestRoute({ children }: GuestRouteProps) {
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userRole = useSelector(selectUserRole);
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  const token = useSelector(selectToken);
   
   // Check profile if we have a token (handles refresh case)
   const { isLoading: isProfileLoading } = useGetProfileQuery(undefined, {

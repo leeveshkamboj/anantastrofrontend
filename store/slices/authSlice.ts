@@ -38,10 +38,13 @@ const authSlice = createSlice({
       state.error = null;
     },
     logout: (state) => {
+      // Immediately clear token from Redux state first
+      // This ensures APIs stop using the token right away
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
+      // Then remove from localStorage
       removeToken();
     },
     setLoading: (state, action: PayloadAction<boolean>) => {

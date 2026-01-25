@@ -46,6 +46,8 @@ export interface UpdateUserRequest {
     phone?: string;
     dateOfBirth?: string;
     role?: 'user' | 'admin' | 'astrologer';
+    currency?: string;
+    timezone?: string;
   };
 }
 
@@ -65,15 +67,15 @@ export const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getDashboardStats: builder.query<DashboardStatsResponse, void>({
       query: () => '/admin/dashboard/stats',
-      providesTags: ['Admin'],
+      providesTags: ['Admin', 'Auth'],
     }),
     getAllUsers: builder.query<UsersResponse, void>({
       query: () => '/admin/users',
-      providesTags: ['Admin', 'User'],
+      providesTags: ['Admin', 'User', 'Auth'],
     }),
     getUser: builder.query<UserResponse, number>({
       query: (id) => `/admin/users/${id}`,
-      providesTags: (result, error, id) => [{ type: 'User', id }],
+      providesTags: (result, error, id) => [{ type: 'User', id }, 'Auth'],
     }),
     updateUser: builder.mutation<UpdateUserResponse, UpdateUserRequest>({
       query: ({ id, data }) => ({
@@ -81,17 +83,30 @@ export const adminApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Admin', 'User'],
+      invalidatesTags: ['Admin', 'User', 'Auth'],
     }),
     deleteUser: builder.mutation<DeleteUserResponse, number>({
       query: (id) => ({
         url: `/admin/users/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Admin', 'User'],
+      invalidatesTags: ['Admin', 'User', 'Auth'],
     }),
   }),
 });
+
+// Re-export astrologer profile endpoints for admin
+export {
+  useGetAstrologerProfilesQuery,
+  useGetAstrologerProfileQuery,
+  useUpdateAstrologerProfileMutation,
+  useActivateAstrologerMutation,
+  useDeactivateAstrologerMutation,
+  useApproveProfileMutation,
+  useRejectProfileMutation,
+  useApprovePricingMutation,
+  useRejectPricingMutation,
+} from './astrologerProfileApi';
 
 export const { 
   useGetDashboardStatsQuery, 
