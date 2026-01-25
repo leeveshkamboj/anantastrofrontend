@@ -2,15 +2,22 @@ name: Deploy Frontend
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
   deploy-frontend:
+    name: Deploy Frontend to EC2
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Configure SSH
         run: |
@@ -19,15 +26,70 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Test SSH connection
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+              "echo 'SSH connection successful'"
+
       - name: Deploy Frontend
         run: |
-          ssh ec2 << 'EOF'
+          ssh -i ~/.ssh/deploy_key \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             set -e
-            cd ~/anantastrofrontend
-            [ -d .git ] && git pull origin main || true
+
+            echo "🚀 Starting frontend deployment..."
+
+            cd ~/anantastrofrontend || exit 1
+
+            if [ -d ".git" ]; then
+              echo "📥 Pulling latest frontend code..."
+              git pull origin master || true
+            else
+              echo "⚠️ Frontend directory is not a git repo"
+            fi
+
             cd ~
-            sudo docker compose stop frontend || true
-            sudo docker compose rm -f frontend || true
-            sudo docker compose build frontend
-            sudo docker compose up -d frontend
+
+            echo "🛑 Stopping frontend container..."
+            docker compose stop frontend || true
+            docker compose rm -f frontend || true
+
+            echo "🔨 Building frontend..."
+            docker compose build frontend
+
+            echo "🚀 Starting frontend..."
+            docker compose up -d frontend
+
+            echo "⏳ Waiting for frontend to stabilize..."
+            sleep 15
+
+            echo "📊 Frontend status:"
+            docker compose ps frontend
+
+            echo "📋 Frontend logs:"
+            docker compose logs --tail=50 frontend
+
+            echo "✅ Frontend deployment completed!"
+          EOF
+
+      - name: Verify Frontend
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+            set -e
+
+            echo "🔍 Verifying frontend..."
+
+            if docker compose ps frontend | grep -q "Up"; then
+              echo "✅ Frontend container is running"
+            else
+              echo "❌ Frontend container is NOT running"
+              docker compose ps frontend
+              exit 1
+            fi
+
+            curl -f http://localhost >/dev/null 2>&1 \
+              && echo "✅ Frontend responding" \
+              || echo "⚠️ Frontend not responding"
           EOF
