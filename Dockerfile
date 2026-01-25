@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Install dependencies
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+# Use npm install to handle lock file mismatches gracefully
+RUN npm install
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
