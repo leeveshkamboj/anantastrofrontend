@@ -60,10 +60,13 @@ export interface CreateAstrologerRequestData {
 
 export const astrologerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    uploadFile: builder.mutation<UploadResponse, File>({
-      query: (file) => {
+    uploadFile: builder.mutation<UploadResponse, { file: File; type?: string }>({
+      query: ({ file, type }) => {
         const formData = new FormData();
         formData.append('file', file);
+        if (type) {
+          formData.append('type', type);
+        }
         return {
           url: '/upload',
           method: 'POST',

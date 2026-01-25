@@ -280,8 +280,8 @@ export default function AstrologerRegisterPage() {
       
       try {
         [aadharUploadResult, panUploadResult] = await Promise.all([
-          uploadFile(formData.aadharCard).unwrap(),
-          uploadFile(formData.panCard).unwrap(),
+          uploadFile({ file: formData.aadharCard, type: 'aadhar_card' }).unwrap(),
+          uploadFile({ file: formData.panCard, type: 'pan_card' }).unwrap(),
         ]);
       } catch (uploadErr: any) {
         toast.dismiss('upload');

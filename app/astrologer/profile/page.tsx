@@ -236,14 +236,18 @@ export default function AstrologerProfilePage() {
     // Upload image
     try {
       toast.loading('Uploading image...', { id: 'upload-image' });
-      const uploadResult = await uploadFile(file).unwrap();
+      // Pass type='profile_pic' to create media record with correct type
+      const uploadResult = await uploadFile({ file, type: 'profile_pic' }).unwrap();
       
-      if (uploadResult?.isSuccess && uploadResult?.data?.url) {
-        const uploadedUrl = uploadResult.data.url;
-        // Update formData with uploaded URL
-        setFormData(prev => ({ ...prev, profileImage: uploadedUrl }));
-        // Update preview to use the uploaded URL (ensures consistency)
-        setProfileImagePreview(uploadedUrl);
+      if (uploadResult?.isSuccess && uploadResult?.data) {
+        // Use UUID (GUID) for storage, URL for preview
+        const uuid = uploadResult.data.uuid;
+        const previewUrl = uploadResult.data.url;
+        
+        // Update formData with UUID (not URL)
+        setFormData(prev => ({ ...prev, profileImage: uuid }));
+        // Update preview to use the uploaded URL (for display)
+        setProfileImagePreview(previewUrl);
         // Clear missing fields validation
         setMissingFields(prev => {
           const next = new Set(prev);
