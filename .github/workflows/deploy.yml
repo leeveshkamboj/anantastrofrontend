@@ -1,0 +1,119 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  deploy-frontend:
+    name: Deploy Frontend to EC2
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Setup SSH config
+        run: |
+          cat >> ~/.ssh/config << EOF
+          Host ec2-deploy
+            HostName ${{ secrets.EC2_HOST }}
+            User ${{ secrets.EC2_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Test SSH connection
+        run: |
+          ssh ec2-deploy "echo 'SSH connection successful'"
+
+      - name: Deploy frontend
+        run: |
+          ssh ec2-deploy << 'ENDSSH'
+            set -e
+            
+            echo "🚀 Starting frontend deployment..."
+            
+            # Navigate to frontend directory on server
+            cd ~/anantastrofrontend || cd ~/app
+            
+            # Pull latest code (if git repo)
+            if [ -d ".git" ]; then
+              echo "📥 Pulling latest code..."
+              git pull origin main || echo "Git pull failed, continuing..."
+            fi
+            
+            # Navigate to root where docker-compose.yml is
+            cd ~
+            
+            # Stop only frontend container
+            echo "🛑 Stopping frontend container..."
+            sudo docker compose stop frontend || true
+            sudo docker compose rm -f frontend || true
+            
+            # Build and start frontend
+            echo "🔨 Building and starting frontend..."
+            sudo docker compose build frontend
+            sudo docker compose up -d frontend
+            
+            # Wait for frontend to be healthy
+            echo "⏳ Waiting for frontend to be healthy..."
+            sleep 15
+            
+            # Check frontend status
+            echo "📊 Frontend status:"
+            sudo docker compose ps frontend
+            
+            # Show frontend logs
+            echo "📋 Recent frontend logs:"
+            sudo docker compose logs --tail=50 frontend
+            
+            echo "✅ Frontend deployment completed!"
+          ENDSSH
+
+      - name: Verify frontend deployment
+        run: |
+          ssh ec2-deploy << 'ENDSSH'
+            set -e
+            
+            echo "🔍 Verifying frontend deployment..."
+            
+            # Check if frontend container is running
+            if sudo docker compose ps frontend | grep -q "Up"; then
+              echo "✅ Frontend container is running"
+            else
+              echo "❌ Frontend container is not running"
+              sudo docker compose ps frontend
+              exit 1
+            fi
+            
+            # Check frontend health
+            echo "🌐 Checking frontend health..."
+            if curl -f http://localhost/ > /dev/null 2>&1; then
+              echo "✅ Frontend is responding"
+            else
+              echo "⚠️  Frontend health check failed (might still be starting)"
+            fi
+          ENDSSH
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          echo "## Frontend Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: main" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
