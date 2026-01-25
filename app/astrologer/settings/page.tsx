@@ -44,10 +44,10 @@ export default function AstrologerSettingsPage() {
       await updateSettings({
         currency: settings.currency,
         timezone: settings.timezone,
-      }).unwrap();
+      });
       toast.success('Settings updated successfully');
     } catch (error: any) {
-      toast.error(error?.data?.message || 'Failed to update settings');
+      toast.error(error?.data?.message || error?.message || 'Failed to update settings');
     } finally {
       setIsSaving(false);
     }

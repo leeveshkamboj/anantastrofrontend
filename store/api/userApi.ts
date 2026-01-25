@@ -27,10 +27,11 @@ export function useUpdateUserSettings() {
       if (!userData?.data) {
         throw new Error('User not found');
       }
-      return updateUser({
+      const result = await updateUser({
         id: userData.data.id,
         data: settings,
-      });
+      }).unwrap();
+      return result;
     },
   };
 }

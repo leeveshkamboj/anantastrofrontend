@@ -560,7 +560,7 @@ export default function AdminAstrologerDetailPage() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {DAYS_OF_WEEK.map((day) => {
-                const dayHours = profile.preferredHours.find((h: any) => h.dayOfWeek === day.value);
+                const dayHours = profile.preferredHours?.find((h: any) => h.dayOfWeek === day.value);
                 return (
                   <div key={day.value} className="border rounded-lg p-4">
                     <div className="font-medium mb-2">{day.label}</div>
