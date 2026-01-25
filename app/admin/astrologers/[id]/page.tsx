@@ -243,9 +243,9 @@ export default function AdminAstrologerDetailPage() {
           <div className="flex items-start gap-6">
             {/* Profile Image */}
             <div className="shrink-0">
-              {user?.profileImage || profile?.profileImage ? (
+              {profile?.profileImage ? (
                 <Image
-                  src={user?.profileImage || profile?.profileImage}
+                  src={profile.profileImage}
                   alt={user?.name || 'Astrologer'}
                   width={120}
                   height={120}
