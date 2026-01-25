@@ -76,6 +76,7 @@ export default function AstrologerProfilePage() {
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadedImageUuidRef = useRef<string | null>(null); // Track uploaded UUID to prevent overwriting
 
   const [userSettings, setUserSettings] = useState({
     currency: 'INR',
@@ -106,17 +107,26 @@ export default function AstrologerProfilePage() {
     const profileImageToUse = profile?.profileImage || userProfileImage || '';
     
     if (profile) {
-      setFormData({
+      // Check if we have an uploaded UUID that hasn't been saved yet
+      // If so, keep it in formData (don't overwrite with presigned URL from refetch)
+      const hasUploadedUuid = uploadedImageUuidRef.current && 
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uploadedImageUuidRef.current);
+      
+      setFormData(prev => ({
         bio: profile.bio || '',
         yearsOfExperience: profile.yearsOfExperience?.toString() || '',
         education: profile.education || '',
         isVisible: profile.isVisible ?? true,
         baseCurrency: profile.baseCurrency || 'INR',
-        profileImage: profileImageToUse,
-      });
+        // Keep uploaded UUID if it exists, otherwise use profile image
+        profileImage: hasUploadedUuid ? uploadedImageUuidRef.current! : (profileImageToUse || ''),
+      }));
+      
+      // Update preview with the URL (for display), but keep UUID in formData
       if (profileImageToUse) {
         setProfileImagePreview(profileImageToUse);
       }
+      // If we're keeping the UUID, the preview was already set during upload, so don't overwrite it
       // Load ALL languages and expertise (both approved and pending) for editing
       setSelectedLanguages(profile.languages?.map(l => l.language) || []);
       setSelectedExpertise(profile.expertise?.map(e => e.expertise) || []);
@@ -129,7 +139,9 @@ export default function AstrologerProfilePage() {
         if (profile.education && profile.education.trim() !== '') next.delete('education');
         if (profile.languages && profile.languages.length > 0) next.delete('languages');
         if (profile.expertise && profile.expertise.length > 0) next.delete('expertise');
-        if (profileImageToUse) next.delete('profileImage');
+        // Check both profileImageToUse and current formData (in case UUID is set)
+        const hasProfileImage = profileImageToUse || (formData.profileImage && formData.profileImage.trim() !== '');
+        if (hasProfileImage) next.delete('profileImage');
         return next;
       });
       
@@ -202,6 +214,9 @@ export default function AstrologerProfilePage() {
         })),
         submitForReview: false, // No validation, only type checking
       }).unwrap();
+      
+      // Clear the uploaded UUID ref after successful save
+      uploadedImageUuidRef.current = null;
       toast.success('Profile saved as draft successfully.');
     } catch (error: any) {
       toast.error(error?.data?.message || 'Failed to save profile');
@@ -246,6 +261,8 @@ export default function AstrologerProfilePage() {
         
         // Update formData with UUID (not URL)
         setFormData(prev => ({ ...prev, profileImage: uuid }));
+        // Track the uploaded UUID to prevent overwriting on refetch
+        uploadedImageUuidRef.current = uuid;
         // Update preview to use the uploaded URL (for display)
         setProfileImagePreview(previewUrl);
         // Clear missing fields validation
@@ -278,6 +295,7 @@ export default function AstrologerProfilePage() {
     setProfileImageFile(null);
     setProfileImagePreview(null);
     setFormData({ ...formData, profileImage: '' });
+    uploadedImageUuidRef.current = null; // Clear the ref when removing image
     setMissingFields(prev => new Set(prev).add('profileImage'));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -359,6 +377,8 @@ export default function AstrologerProfilePage() {
         submitForReview: true, // This will validate if true, otherwise just type validation
       }).unwrap();
       
+      // Clear the uploaded UUID ref after successful save
+      uploadedImageUuidRef.current = null;
       toast.success('Profile submitted for review successfully. You will be notified once it is reviewed.');
     } catch (error: any) {
       const errorMessage = error?.data?.message || 'Failed to submit profile for review';
