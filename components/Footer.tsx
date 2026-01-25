@@ -15,7 +15,7 @@ export function Footer() {
                   <span className="text-primary text-sm font-bold">A</span>
                 </div>
               </div>
-              <span className="text-xl font-serif font-bold ">AnantAstro</span>
+              <span className="text-xl font-serif font-bold ">AnantAstro2</span>
             </div>
             <p className="text-sm leading-relaxed">
               Your trusted companion for astrological insights, kundli generation, and personalized horoscope readings.
