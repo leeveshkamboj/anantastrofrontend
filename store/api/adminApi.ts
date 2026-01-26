@@ -83,14 +83,14 @@ export const adminApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['Admin', 'User', 'Auth'],
+      invalidatesTags: ['Admin', 'User'],
     }),
     deleteUser: builder.mutation<DeleteUserResponse, number>({
       query: (id) => ({
         url: `/admin/users/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Admin', 'User', 'Auth'],
+      invalidatesTags: ['Admin', 'User'],
     }),
   }),
 });

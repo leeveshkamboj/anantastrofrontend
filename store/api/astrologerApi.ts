@@ -73,7 +73,7 @@ export const astrologerApi = baseApi.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: ['Auth'],
+      invalidatesTags: [],
     }),
     createAstrologerRequest: builder.mutation<AstrologerRequestResponse, CreateAstrologerRequestData>({
       query: (data) => ({
@@ -105,7 +105,7 @@ export const astrologerApi = baseApi.injectEndpoints({
         }
         return response;
       },
-      invalidatesTags: ['AstrologerRequests', 'Auth'],
+      invalidatesTags: ['AstrologerRequests'],
     }),
     getAstrologerRequests: builder.query<AstrologerRequestsResponse, void>({
       query: () => '/astrologer-requests',
@@ -124,7 +124,7 @@ export const astrologerApi = baseApi.injectEndpoints({
         url: `/astrologer-requests/${id}/approve`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerRequests', 'Auth'],
+      invalidatesTags: ['AstrologerRequests'],
     }),
     rejectAstrologerRequest: builder.mutation<
       AstrologerRequestResponse,
@@ -135,14 +135,14 @@ export const astrologerApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { rejectionNote },
       }),
-      invalidatesTags: ['AstrologerRequests', 'Auth'],
+      invalidatesTags: ['AstrologerRequests'],
     }),
     allowReapply: builder.mutation<AstrologerRequestResponse, number>({
       query: (id) => ({
         url: `/astrologer-requests/${id}/allow-reapply`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerRequests', 'Auth'],
+      invalidatesTags: ['AstrologerRequests'],
     }),
   }),
 });

@@ -197,7 +197,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfile'],
     }),
     updateLanguages: builder.mutation<{ isSuccess: boolean; data: { message: string } }, UpdateLanguagesRequest>({
       query: (data) => ({
@@ -205,7 +205,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfile'],
     }),
     updateExpertise: builder.mutation<{ isSuccess: boolean; data: { message: string } }, UpdateExpertiseRequest>({
       query: (data) => ({
@@ -213,7 +213,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfile'],
     }),
     updateServicePricing: builder.mutation<{ isSuccess: boolean; data: { message: string } }, UpdateServicePricingRequest>({
       query: (data) => ({
@@ -221,7 +221,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfile'],
     }),
     updatePreferredHours: builder.mutation<{ isSuccess: boolean; data: { message: string } }, UpdatePreferredHoursRequest>({
       query: (data) => ({
@@ -237,7 +237,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         url: '/astrologer-profiles/my-profile/submit-for-review',
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfile'],
     }),
     checkProfileCompletion: builder.query<{ isSuccess: boolean; data: { isComplete: boolean; profileApproved: boolean } }, void>({
       query: () => '/astrologer-profiles/my-profile/completion-status',
@@ -275,7 +275,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         url: `/astrologer-profiles/my-profile/notifications/${id}/read`,
         method: 'PUT',
       }),
-      invalidatesTags: ['Notifications', 'AstrologerProfile', 'Auth'],
+      invalidatesTags: ['Notifications', 'AstrologerProfile'],
     }),
     // Admin endpoints
     getAstrologerProfiles: builder.query<{ isSuccess: boolean; data: AstrologerProfile[] }, void>({
@@ -292,28 +292,28 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile'],
     }),
     activateAstrologer: builder.mutation<AstrologerProfileResponse, number>({
       query: (id) => ({
         url: `/astrologer-profiles/admin/astrologer-profiles/${id}/activate`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile'],
     }),
     deactivateAstrologer: builder.mutation<AstrologerProfileResponse, number>({
       query: (id) => ({
         url: `/astrologer-profiles/admin/astrologer-profiles/${id}/deactivate`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile'],
     }),
     approveProfile: builder.mutation<AstrologerProfileResponse, number>({
       query: (id) => ({
         url: `/astrologer-profiles/admin/astrologer-profiles/${id}/approve-profile`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications'],
     }),
     rejectProfile: builder.mutation<AstrologerProfileResponse, { id: number; reason: string }>({
       query: ({ id, reason }) => ({
@@ -321,14 +321,14 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { reason },
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications'],
     }),
     approvePricing: builder.mutation<{ isSuccess: boolean; data: { message: string } }, { id: number; serviceType?: string }>({
       query: ({ id, serviceType }) => ({
         url: `/astrologer-profiles/admin/astrologer-profiles/${id}/approve-pricing${serviceType ? `?serviceType=${serviceType}` : ''}`,
         method: 'POST',
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications'],
     }),
     rejectPricing: builder.mutation<{ isSuccess: boolean; data: { message: string } }, { id: number; data: RejectPricingRequest }>({
       query: ({ id, data }) => ({
@@ -336,7 +336,7 @@ export const astrologerProfileApi = baseApi.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications', 'Auth'],
+      invalidatesTags: ['AstrologerProfiles', 'AstrologerProfile', 'Notifications'],
     }),
   }),
 });
