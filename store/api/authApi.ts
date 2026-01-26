@@ -38,8 +38,6 @@ export interface AuthResponse {
 }
 
 export interface User {
-  profileImageUuid?: string | null; // UUID for submitting/saving
-  profileImageUrl?: string | null; // URL for displaying
   id: number;
   email: string;
   name: string;
