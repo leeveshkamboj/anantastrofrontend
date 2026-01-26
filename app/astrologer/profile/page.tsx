@@ -102,13 +102,21 @@ export default function AstrologerProfilePage() {
   }, []);
 
   useEffect(() => {
-    // Auto-load user's profile image if astrologer profile doesn't have one
-    const userProfileImage = userData?.data?.profileImage;
-    const profileImageToUse = profile?.profileImage || userProfileImage || '';
+    // Get UUID and URL from profile response (backend now returns both)
+    const profileImageUuid = profile?.profileImageUuid || profile?.user?.profileImageUuid || null;
+    const profileImageUrl = profile?.profileImageUrl || profile?.profileImage || profile?.user?.profileImageUrl || profile?.user?.profileImage || '';
+    // Fallback to userData for backward compatibility
+    const userProfileImageUrl = userData?.data?.profileImageUrl || userData?.data?.profileImage || '';
+    const userProfileImageUuid = userData?.data?.profileImageUuid || null;
+    
+    // Use UUID from profile, fallback to user, then to empty string
+    const uuidToUse = profileImageUuid || userProfileImageUuid;
+    // Use URL from profile, fallback to user, then to empty string (for display)
+    const urlToUse = profileImageUrl || userProfileImageUrl || '';
     
     if (profile) {
       // Check if we have an uploaded UUID that hasn't been saved yet
-      // If so, keep it in formData (don't overwrite with presigned URL from refetch)
+      // If so, keep it in formData (don't overwrite with UUID from refetch)
       const hasUploadedUuid = uploadedImageUuidRef.current && 
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uploadedImageUuidRef.current);
       
@@ -118,13 +126,14 @@ export default function AstrologerProfilePage() {
         education: profile.education || '',
         isVisible: profile.isVisible ?? true,
         baseCurrency: profile.baseCurrency || 'INR',
-        // Keep uploaded UUID if it exists, otherwise use profile image
-        profileImage: hasUploadedUuid ? uploadedImageUuidRef.current! : (profileImageToUse || ''),
+        // Keep uploaded UUID if it exists, otherwise use UUID from profile/user
+        profileImage: hasUploadedUuid ? uploadedImageUuidRef.current! : (uuidToUse || ''),
       }));
       
       // Update preview with the URL (for display), but keep UUID in formData
-      if (profileImageToUse) {
-        setProfileImagePreview(profileImageToUse);
+      // Only update preview if we don't have an uploaded UUID (to prevent reverting to old image)
+      if (urlToUse && !hasUploadedUuid) {
+        setProfileImagePreview(urlToUse);
       }
       // If we're keeping the UUID, the preview was already set during upload, so don't overwrite it
       // Load ALL languages and expertise (both approved and pending) for editing
@@ -139,8 +148,8 @@ export default function AstrologerProfilePage() {
         if (profile.education && profile.education.trim() !== '') next.delete('education');
         if (profile.languages && profile.languages.length > 0) next.delete('languages');
         if (profile.expertise && profile.expertise.length > 0) next.delete('expertise');
-        // Check both profileImageToUse and current formData (in case UUID is set)
-        const hasProfileImage = profileImageToUse || (formData.profileImage && formData.profileImage.trim() !== '');
+        // Check both UUID and current formData (in case UUID is set)
+        const hasProfileImage = uuidToUse || (formData.profileImage && formData.profileImage.trim() !== '');
         if (hasProfileImage) next.delete('profileImage');
         return next;
       });
@@ -157,13 +166,16 @@ export default function AstrologerProfilePage() {
       });
       setPreferredHours(hours);
     } else {
-      // No profile yet - initialize with user's profile image if available
+      // No profile yet - initialize with user's profile image UUID if available
+      const userProfileImageUuid = userData?.data?.profileImageUuid || null;
+      const userProfileImageUrl = userData?.data?.profileImageUrl || userData?.data?.profileImage || '';
+      
       setFormData(prev => ({
         ...prev,
-        profileImage: userProfileImage || '',
+        profileImage: userProfileImageUuid || '',
       }));
-      if (userProfileImage) {
-        setProfileImagePreview(userProfileImage);
+      if (userProfileImageUrl) {
+        setProfileImagePreview(userProfileImageUrl);
         setMissingFields(prev => {
           const next = new Set(prev);
           next.delete('profileImage');
@@ -553,18 +565,19 @@ export default function AstrologerProfilePage() {
             <div className="flex items-start gap-6">
               <div className="shrink-0">
                 {profileImagePreview ? (
-                  <div className="relative">
+                  <div className="relative w-[120px] h-[120px] rounded-full overflow-hidden border-4 border-gray-200">
                     <Image
                       src={profileImagePreview}
                       alt="Profile preview"
                       width={120}
                       height={120}
-                      className="rounded-full object-cover border-4 border-gray-200"
+                      className="w-full h-full object-cover"
+                      style={{ objectFit: 'cover', objectPosition: 'center' }}
                     />
                     <button
                       type="button"
                       onClick={handleRemoveImage}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors z-10"
                     >
                       <X className="w-4 h-4" />
                     </button>

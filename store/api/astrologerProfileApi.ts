@@ -6,7 +6,9 @@ export interface AstrologerProfile {
   bio?: string;
   yearsOfExperience?: number;
   education?: string;
-  profileImage?: string;
+  profileImage?: string; // URL for backward compatibility
+  profileImageUuid?: string | null; // UUID for submitting/saving
+  profileImageUrl?: string | null; // URL for displaying
   isActive: boolean;
   isVisible: boolean;
   profileApproved: boolean;
@@ -30,6 +32,9 @@ export interface AstrologerProfile {
     id: number;
     name: string;
     email: string;
+    profileImage?: string; // URL for backward compatibility
+    profileImageUuid?: string | null; // UUID for submitting/saving
+    profileImageUrl?: string | null; // URL for displaying
   };
 }
 
