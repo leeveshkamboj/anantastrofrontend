@@ -61,7 +61,7 @@ export function Navbar() {
               </div>
             </div>
             <span className="text-xl md:text-2xl font-serif font-bold text-gray-900">
-              AnantAstro
+              AnantAstro2
             </span>
           </Link>
 
