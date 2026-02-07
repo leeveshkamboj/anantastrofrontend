@@ -27,6 +27,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const kundliForm = useSelector(selectKundliFormData);
   const { login, isLoading, error, clearError } = useAuth();
 
   const {
