@@ -61,6 +61,8 @@ export const useAuth = () => {
     name: string;
     phone?: string;
     dateOfBirth?: string;
+    timeOfBirth?: string;
+    placeOfBirth?: string;
   }) => {
     try {
       dispatch(setLoading(true));

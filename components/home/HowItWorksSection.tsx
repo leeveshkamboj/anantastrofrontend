@@ -11,13 +11,13 @@ const howItWorks = [
   },
   {
     step: "2",
-    title: "Generate Kundli",
-    description: "Enter your birth details to generate your personalized birth chart.",
+    title: "Get Kundli",
+    description: "Enter your birth details to get your personalized birth chart.",
   },
   {
     step: "3",
     title: "Get Reports",
-    description: "Access AI-generated reports and horoscope predictions instantly.",
+    description: "Access personalized reports and horoscope predictions instantly.",
   },
   {
     step: "4",

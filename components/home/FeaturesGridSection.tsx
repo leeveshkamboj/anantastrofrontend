@@ -45,7 +45,7 @@ export function FeaturesGridSection() {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-base">
-                Get AI-generated reports instantly. No waiting, no delays - just instant insights.
+                Get personalized reports instantly. No waiting, no delays - just instant insights.
               </CardDescription>
             </CardContent>
           </Card>

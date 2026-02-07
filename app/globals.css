@@ -1,72 +1,63 @@
 @import "tailwindcss";
 @import "react-day-picker/style.css";
 
-/* Fix react-day-picker styling */
-.rdp {
-  --rdp-cell-size: 36px;
+/* react-day-picker v9: use .rdp-root for variables and layout */
+.rdp-root {
   --rdp-accent-color: #f37833;
-  --rdp-background-color: #fff5eb;
-  --rdp-accent-color-dark: #794235;
-  --rdp-background-color-dark: #1800;
-  --rdp-outline: 2px solid var(--rdp-accent-color);
-  --rdp-outline-selected: 2px solid var(--rdp-accent-color);
+  --rdp-accent-background-color: #fff5eb;
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-day_button-height: 34px;
+  --rdp-day_button-width: 34px;
+  --rdp-today-color: var(--rdp-accent-color);
+  --rdp-selected-border: 2px solid var(--rdp-accent-color);
   margin: 0;
+  padding: 20;
 }
 
-.rdp-head_cell {
-  width: var(--rdp-cell-size) !important;
-  min-width: var(--rdp-cell-size) !important;
-  max-width: var(--rdp-cell-size) !important;
+.rdp-root .rdp-weekdays {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.rdp-root .rdp-weekday {
+  width: 36px;
+  min-width: 36px;
+  flex-shrink: 0;
   font-size: 0.75rem;
   font-weight: 600;
   text-align: center;
   padding: 0.5rem 0;
-  flex: 0 0 var(--rdp-cell-size) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
 }
 
-.rdp-head_row {
-  display: flex !important;
-  width: 100% !important;
-  justify-content: space-between !important;
-  gap: 0 !important;
-  margin-bottom: 0.5rem !important;
+.rdp-root .rdp-week {
+  display: flex;
+  width: 100%;
+  margin-top: 0.25rem;
+  justify-content: space-between;
 }
 
-.rdp-row {
-  display: flex !important;
-  width: 100% !important;
-  justify-content: space-between !important;
-  gap: 0 !important;
-  margin-top: 0.25rem !important;
-}
-
-.rdp-table {
-  width: 100% !important;
-  table-layout: fixed !important;
-}
-
-.rdp-cell {
-  width: var(--rdp-cell-size) !important;
-  min-width: var(--rdp-cell-size) !important;
-  max-width: var(--rdp-cell-size) !important;
-  height: var(--rdp-cell-size);
-  flex: 0 0 var(--rdp-cell-size) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
-}
-
-.rdp-day {
-  width: var(--rdp-cell-size);
-  height: var(--rdp-cell-size);
+.rdp-root .rdp-day {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.rdp-root .rdp-day_button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rdp-root .rdp-month_grid {
+  width: 100%;
 }
 
 @layer base {

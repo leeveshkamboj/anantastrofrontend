@@ -6,20 +6,33 @@ import { Calendar as CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { DayPicker } from "react-day-picker"
+
+/** Parse "yyyy-MM-dd" as local calendar date (no timezone shift). */
+function parseLocalDate(value: string): Date {
+  const [y, m, d] = value.split("-").map(Number)
+  return new Date(y, (m ?? 1) - 1, d ?? 1)
+}
+
+function formatDate(date: Date) {
+  return format(date, "PPP")
+}
 
 interface DatePickerProps {
-  value?: string;
-  onChange: (date: string | undefined) => void;
-  placeholder?: string;
-  className?: string;
-  error?: boolean;
-  disabled?: boolean;
+  value?: string
+  onChange: (date: string | undefined) => void
+  placeholder?: string
+  className?: string
+  error?: boolean
+  disabled?: boolean
+  name?: string
+  min?: Date
+  max?: Date
 }
 
 export function DatePicker({
@@ -29,56 +42,85 @@ export function DatePicker({
   className,
   error,
   disabled,
+  name,
+  min,
+  max,
+  ...props
 }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date | undefined>(
-    value ? new Date(value) : undefined
-  );
+  const [isOpen, setIsOpen] = React.useState(false)
+  const valueAsDate = value ? parseLocalDate(value) : undefined
+  const [newValue, setNewValue] = React.useState<Date | "">(valueAsDate ?? "")
+
+  const handleSelect = (val: Date | undefined) => {
+    if (val) {
+      const y = val.getFullYear()
+      const m = String(val.getMonth() + 1).padStart(2, "0")
+      const d = String(val.getDate()).padStart(2, "0")
+      onChange(`${y}-${m}-${d}`)
+    } else {
+      onChange(undefined)
+    }
+    setIsOpen(false)
+  }
+
+  const handleMonthChange = (val: Date | undefined) => {
+    if (val) {
+      const year = val.getFullYear()
+      const month = val.getMonth()
+      const day = valueAsDate ? new Date(valueAsDate).getDate() : 1
+      const updatedDate = new Date(year, month, day)
+      updatedDate.setDate(updatedDate.getDate() + 2)
+      const formatted = format(updatedDate, "yyyy-MM-dd")
+      onChange(formatted)
+      setNewValue(updatedDate)
+    } else {
+      setNewValue("")
+      onChange(undefined)
+    }
+  }
 
   React.useEffect(() => {
-    if (value) {
-      setDate(new Date(value));
-    } else {
-      setDate(undefined);
-    }
-  }, [value]);
-
-  const handleSelect = (selectedDate: Date | undefined) => {
-    setDate(selectedDate);
-    if (selectedDate) {
-      // Format as YYYY-MM-DD for HTML date input compatibility
-      const formattedDate = format(selectedDate, "yyyy-MM-dd");
-      onChange(formattedDate);
-    } else {
-      onChange(undefined);
-    }
-  };
+    setNewValue(value ? parseLocalDate(value) : "")
+  }, [value])
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
+          type="button"
           variant="outline"
           disabled={disabled}
           className={cn(
             "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            !value && "text-muted-foreground",
             error && "border-red-500",
             className
           )}
+          onClick={() => setIsOpen(!isOpen)}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>{placeholder}</span>}
+          {value ? (
+            formatDate(parseLocalDate(value))
+          ) : (
+            <span>{placeholder}</span>
+          )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
+      <PopoverContent className="w-auto p-0">
+        <DayPicker
           mode="single"
-          selected={date}
+          selected={valueAsDate}
           onSelect={handleSelect}
           initialFocus
-          disabled={(date) => date > new Date()}
+          month={newValue || undefined}
+          onMonthChange={handleMonthChange}
+          fromDate={min}
+          toDate={max}
+          captionLayout="dropdown"
+          showOutsideDays={true}
+          {...props}
         />
       </PopoverContent>
     </Popover>
-  );
+  )
 }

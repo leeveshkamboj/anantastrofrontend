@@ -16,7 +16,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Menu, User, LogIn, LogOut, LayoutDashboard, Sparkles, Settings, Shield } from "lucide-react"
+import { Menu, User, LogIn, LogOut, LayoutDashboard, FileText, Settings, Shield } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { useAuth } from "@/store/hooks/useAuth"
@@ -76,12 +76,12 @@ export function Navbar() {
                   <NavigationMenuContent className="bg-white border border-gray-200 shadow-lg rounded-md">
                     <div className="grid w-[500px] gap-3 p-4 md:grid-cols-2 bg-white rounded-md">
                       <Link
-                        href="/services/kundli"
+                        href="/kundli/generate"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
                         <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Kundli Generation</div>
                         <p className="line-clamp-2 text-sm leading-snug text-gray-600 group-hover:text-gray-700">
-                          Generate your complete birth chart
+                          Your complete birth chart
                         </p>
                       </Link>
                       <Link
@@ -106,7 +106,7 @@ export function Navbar() {
                         href="/services/ai-reports"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
-                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">AI Reports</div>
+                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Reports</div>
                         <p className="line-clamp-2 text-sm leading-snug text-gray-600 group-hover:text-gray-700">
                           Career, love, and personality insights
                         </p>
@@ -116,45 +116,45 @@ export function Navbar() {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link href="/astrologers" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
+                  <NavigationMenuLink asChild>
+                    <Link href="/astrologers" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
                       Astrologers
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 {!isAstrologer && (
                   <NavigationMenuItem>
-                    <Link href="/astrologer/register" legacyBehavior passHref>
-                      <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
+                    <NavigationMenuLink asChild>
+                      <Link href="/astrologer/register" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
                         Become an Astrologer
-                      </NavigationMenuLink>
-                    </Link>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 )}
 
                 <NavigationMenuItem>
-                  <Link href="/pricing" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
+                  <NavigationMenuLink asChild>
+                    <Link href="/pricing" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
                       Pricing
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
+                  <NavigationMenuLink asChild>
+                    <Link href="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
                       About
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link href="/contact" legacyBehavior passHref>
-                    <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
+                  <NavigationMenuLink asChild>
+                    <Link href="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
                       Contact
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
@@ -210,7 +210,7 @@ export function Navbar() {
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href="/reports" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
-                            <Sparkles className="mr-2 h-4 w-4 text-primary-dark" />
+                            <FileText className="mr-2 h-4 w-4 text-primary-dark" />
                             My Reports
                           </Link>
                         </DropdownMenuItem>
@@ -252,7 +252,7 @@ export function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
                 <DropdownMenuItem asChild>
-                  <Link href="/services/kundli">Kundli Generation</Link>
+                  <Link href="/kundli/generate">Kundli Generation</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/services/horoscope">Horoscope</Link>
@@ -261,7 +261,7 @@ export function Navbar() {
                   <Link href="/services/matchmaking">Matchmaking</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/services/ai-reports">AI Reports</Link>
+                  <Link href="/services/ai-reports">Reports</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>

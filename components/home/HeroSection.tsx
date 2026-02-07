@@ -1,12 +1,19 @@
 "use client"
 
+import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
+import { useDispatch, useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Calendar } from "lucide-react"
+import { Calendar, Clock } from "lucide-react"
 import Link from "next/link"
+import { setKundliFormData } from "@/store/slices/kundliFormSlice"
+import { useCreateKundliMutation, useLazyGetGeocodeSuggestionsQuery } from "@/store/api/kundliApi"
+import type { PlaceSuggestion } from "@/store/api/kundliApi"
+import { selectIsAuthenticated } from "@/store/slices/authSlice"
+import { DatePicker } from "@/components/ui/date-picker"
 import { 
   TbZodiacAries, 
   TbZodiacTaurus, 
@@ -63,6 +70,120 @@ const scatterPositions = [
 ]
 
 export function HeroSection() {
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const [createKundli] = useCreateKundliMutation()
+  const [getGeocodeSuggestions] = useLazyGetGeocodeSuggestionsQuery()
+  const [name, setName] = useState("")
+  const [dateOfBirth, setDateOfBirth] = useState<string | undefined>()
+  const [timeOfBirth, setTimeOfBirth] = useState("")
+  const [placeOfBirth, setPlaceOfBirth] = useState("")
+  const [selectedPlace, setSelectedPlace] = useState<PlaceSuggestion | null>(null)
+  const [placeSuggestions, setPlaceSuggestions] = useState<PlaceSuggestion[]>([])
+  const [placeSearchLoading, setPlaceSearchLoading] = useState(false)
+  const placeInputContainerRef = useRef<HTMLDivElement>(null)
+  const skipSuggestionsRef = useRef(false)
+
+  const [debouncedPlaceSearch, setDebouncedPlaceSearch] = useState("")
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setDebouncedPlaceSearch(placeOfBirth?.trim() ?? "")
+    }, 400)
+    return () => clearTimeout(t)
+  }, [placeOfBirth])
+
+  useEffect(() => {
+    if (skipSuggestionsRef.current) {
+      skipSuggestionsRef.current = false
+      setPlaceSuggestions([])
+      setPlaceSearchLoading(false)
+      return
+    }
+    if (!isAuthenticated) {
+      setPlaceSuggestions([])
+      setPlaceSearchLoading(false)
+      return
+    }
+    const query = debouncedPlaceSearch
+    if (!query) {
+      setPlaceSuggestions([])
+      setPlaceSearchLoading(false)
+      return
+    }
+    let cancelled = false
+    setPlaceSearchLoading(true)
+    getGeocodeSuggestions({ place: query, limit: 8 })
+      .unwrap()
+      .then((res) => {
+        if (!cancelled && res?.data) setPlaceSuggestions(res.data)
+      })
+      .catch(() => {
+        if (!cancelled) setPlaceSuggestions([])
+      })
+      .finally(() => {
+        if (!cancelled) setPlaceSearchLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [debouncedPlaceSearch, getGeocodeSuggestions, isAuthenticated])
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (placeInputContainerRef.current && !placeInputContainerRef.current.contains(e.target as Node)) {
+        setPlaceSuggestions([])
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const onSelectPlace = (suggestion: PlaceSuggestion) => {
+    setPlaceSuggestions([])
+    skipSuggestionsRef.current = true
+    setPlaceOfBirth(suggestion.formattedAddress)
+    setSelectedPlace(suggestion)
+  }
+
+  useEffect(() => {
+    if (selectedPlace && placeOfBirth.trim() !== (selectedPlace.formattedAddress ?? '').trim()) {
+      setSelectedPlace(null)
+    }
+  }, [placeOfBirth, selectedPlace])
+
+  const handleKundliSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (isAuthenticated && name.trim()) {
+      try {
+        const result = await createKundli({
+          name: name.trim(),
+          dateOfBirth: dateOfBirth || undefined,
+          timeOfBirth: timeOfBirth || undefined,
+          placeOfBirth: placeOfBirth || undefined,
+          ...(selectedPlace && selectedPlace.placeId && (selectedPlace.formattedAddress ?? '').trim() === (placeOfBirth ?? '').trim() && { placeId: selectedPlace.placeId }),
+        }).unwrap()
+        if (result?.data?.id) {
+          router.push(`/kundli/generate?profileId=${result.data.id}&from=hero`)
+        } else {
+          router.push("/kundli/generate?from=hero")
+        }
+      } catch {
+        router.push("/kundli/generate?from=hero")
+      }
+    } else {
+      dispatch(
+        setKundliFormData({
+          name,
+          dateOfBirth: dateOfBirth ?? "",
+          timeOfBirth,
+          placeOfBirth,
+        })
+      )
+      router.push("/auth/register")
+    }
+  }
+
   return (
     <div className="celestial-header relative min-h-[70vh] flex flex-col items-center justify-center pt-32 px-4 md:px-8 pb-24 overflow-hidden">
       {/* Zodiac symbols decorative background - filled pattern */}
@@ -144,69 +265,100 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column - Booking Form Card */}
+          {/* Right Column - Get your first kundli free form */}
           <Card className="rounded-3xl shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-900">Book a Consultation</CardTitle>
-              <CardDescription>Schedule a session with our expert astrologers</CardDescription>
+              <CardTitle className="text-2xl font-bold text-gray-900">
+                Get your first kundli free
+              </CardTitle>
+              <CardDescription>
+                Enter your birth details to get started
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-5">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-gray-700 font-medium text-sm">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-700 font-medium text-sm">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="date-time" className="text-gray-700 font-medium text-sm">
-                  Date & Time
-                </Label>
-                <div className="relative">
+            <CardContent>
+              <form onSubmit={handleKundliSubmit} className="space-y-5">
+                <div className="space-y-2">
+                  <Label htmlFor="kundli-name" className="text-gray-700 font-medium text-sm">
+                    Name
+                  </Label>
                   <Input
-                    id="date-time"
+                    id="kundli-name"
                     type="text"
-                    placeholder="Select date and time"
-                    className="bg-gray-50 border-gray-200 rounded-lg h-12 pr-10 text-base"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
                   />
-                  <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-dark pointer-events-none" />
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="consultation" className="text-gray-700 font-medium text-sm">
-                  Consultation Type
-                </Label>
-                <Textarea
-                  id="consultation"
-                  placeholder="Describe what you'd like to discuss"
-                  className="bg-gray-50 border-gray-200 rounded-lg min-h-24 text-base"
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label htmlFor="kundli-dob" className="text-gray-700 font-medium text-sm">
+                    Date of birth
+                  </Label>
+                  <DatePicker
+                    value={dateOfBirth}
+                    onChange={(date) => setDateOfBirth(date)}
+                    placeholder="Select date of birth"
+                    className="h-12"
+                  />
+                </div>
 
-              <Button
-                className="w-full bg-primary hover:bg-[#d6682a] text-white font-bold text-lg py-6 rounded-lg hover:shadow-lg transition-all uppercase tracking-wide"
-                size="lg"
-              >
-                BOOK NOW
-              </Button>
+                <div className="space-y-2">
+                  <Label htmlFor="kundli-time" className="text-gray-700 font-medium text-sm">
+                    Time of birth
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="kundli-time"
+                      type="time"
+                      value={timeOfBirth}
+                      onChange={(e) => setTimeOfBirth(e.target.value)}
+                      className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
+                    />
+                  </div>
+                </div>
+
+                <div ref={placeInputContainerRef} className="relative space-y-2">
+                  <Label htmlFor="kundli-place" className="text-gray-700 font-medium text-sm">
+                    Place of birth
+                  </Label>
+                  <Input
+                    id="kundli-place"
+                    type="text"
+                    placeholder="Search city or place of birth"
+                    value={placeOfBirth}
+                    onChange={(e) => setPlaceOfBirth(e.target.value)}
+                    className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
+                    autoComplete="off"
+                  />
+                  {placeSearchLoading && placeOfBirth.trim() && isAuthenticated && (
+                    <p className="text-sm text-gray-500">Searching…</p>
+                  )}
+                  {placeSuggestions.length > 0 && (
+                    <ul className="absolute z-20 mt-0.5 w-full rounded-lg border border-gray-200 bg-white py-1 shadow-lg max-h-56 overflow-auto">
+                      {placeSuggestions.map((s, i) => (
+                        <li key={i}>
+                          <button
+                            type="button"
+                            onClick={() => onSelectPlace(s)}
+                            className="w-full text-left px-3 py-2.5 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                          >
+                            {s.formattedAddress}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-primary hover:bg-[#d6682a] text-white font-bold text-lg py-6 rounded-lg hover:shadow-lg transition-all uppercase tracking-wide"
+                  size="lg"
+                >
+                  Get free kundli
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </div>

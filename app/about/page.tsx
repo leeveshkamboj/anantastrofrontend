@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Sparkles, Users, Shield, Heart, Star, Zap } from "lucide-react"
+import { Star as StarIcon, Users, Shield, Heart, Star, Zap } from "lucide-react"
 import Link from "next/link"
 
 export default function AboutPage() {
@@ -20,7 +20,7 @@ export default function AboutPage() {
     {
       icon: Star,
       title: "Excellence",
-      description: "We combine traditional wisdom with modern AI technology to deliver exceptional insights and reports.",
+      description: "We combine traditional wisdom with modern technology to deliver exceptional insights and reports.",
     },
     {
       icon: Users,
@@ -36,9 +36,9 @@ export default function AboutPage() {
       description: "Our team consists of verified astrologers with decades of combined experience in Vedic, Western, and modern astrological practices.",
     },
     {
-      name: "AI Specialists",
+      name: "Technology Team",
       role: "Technology & Innovation",
-      description: "Our AI team works tirelessly to develop cutting-edge algorithms that enhance traditional astrological interpretations.",
+      description: "Our team works tirelessly to develop tools that enhance traditional astrological interpretations.",
     },
     {
       name: "Customer Support",
@@ -71,7 +71,7 @@ export default function AboutPage() {
                 At AnantAstro, we believe that everyone deserves access to accurate, personalized astrological guidance. Our mission is to make the ancient wisdom of astrology accessible to all through innovative technology and expert consultations.
               </p>
               <p className="text-lg text-gray-600 mb-4 leading-relaxed">
-                We combine traditional Vedic and Western astrological practices with cutting-edge AI technology to provide comprehensive insights into your personality, relationships, career, and life path.
+                We combine traditional Vedic and Western astrological practices with modern technology to provide comprehensive insights into your personality, relationships, career, and life path.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
                 Whether you&apos;re seeking clarity on major life decisions, understanding your relationships better, or exploring your spiritual journey, AnantAstro is here to guide you every step of the way.
@@ -79,7 +79,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-br from-primary-light via-primary to-primary-dark flex items-center justify-center">
-                <Sparkles className="h-32 w-32 text-white opacity-50" />
+                <StarIcon className="h-32 w-32 text-white opacity-50" />
               </div>
             </div>
           </div>
@@ -162,12 +162,12 @@ export default function AboutPage() {
                   <div className="w-12 h-12 rounded-lg bg-primary-dark flex items-center justify-center">
                     <Zap className="h-6 w-6 text-white" />
                   </div>
-                  <CardTitle className="text-2xl">AI-Powered Insights</CardTitle>
+                  <CardTitle className="text-2xl">Personalized Insights</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 text-lg">
-                  Our advanced AI algorithms analyze thousands of astrological patterns to provide you with personalized, accurate insights that traditional methods alone cannot match.
+                  We analyze astrological patterns to provide you with personalized, accurate insights based on traditional methods and expert interpretation.
                 </p>
               </CardContent>
             </Card>
@@ -225,7 +225,7 @@ export default function AboutPage() {
 
       {/* CTA Section */}
       <section className="py-20 px-4 md:px-8 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="container mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Begin Your Journey?
           </h2>

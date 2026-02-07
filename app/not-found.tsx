@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Home, ArrowLeft, Sparkles } from 'lucide-react';
+import { Home, ArrowRight } from 'lucide-react';
 import { CelestialBackground } from '@/components/CelestialBackground';
 
 export default function NotFound() {
@@ -39,7 +39,7 @@ export default function NotFound() {
                 className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-lg"
               >
                 <Link href="/services/ai-reports" className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5" />
+                  <ArrowRight className="h-5 w-5" />
                   Explore Services
                 </Link>
               </Button>

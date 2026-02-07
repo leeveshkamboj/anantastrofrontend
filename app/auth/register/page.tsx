@@ -4,15 +4,16 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '@/store/slices/authSlice';
+import { selectKundliFormData, clearKundliFormData } from '@/store/slices/kundliFormSlice';
 import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { DatePicker } from '@/components/ui/date-picker';
 import { useAuth } from '@/store/hooks/useAuth';
+import type { RegisterRequest } from '@/store/api/authApi';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { config } from '@/lib/config';
 import { toast } from 'sonner';
@@ -24,6 +25,8 @@ const registerSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   phone: z.string().optional(),
   dateOfBirth: z.string().optional(),
+  timeOfBirth: z.string().optional(),
+  placeOfBirth: z.string().optional(),
 });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -31,8 +34,8 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export default function RegisterPage() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const kundliForm = useSelector(selectKundliFormData);
   const { register: registerUser, isLoading, error, clearError } = useAuth();
-  const [dateOfBirth, setDateOfBirth] = React.useState<string | undefined>();
 
   const {
     register: registerField,
@@ -41,24 +44,34 @@ export default function RegisterPage() {
     setValue,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: kundliForm.name || '',
+      dateOfBirth: kundliForm.dateOfBirth || '',
+      timeOfBirth: kundliForm.timeOfBirth || '',
+      placeOfBirth: kundliForm.placeOfBirth || '',
+    },
   });
 
   React.useEffect(() => {
-    if (dateOfBirth) {
-      setValue('dateOfBirth', dateOfBirth);
-    }
-  }, [dateOfBirth, setValue]);
+    if (kundliForm.name) setValue('name', kundliForm.name);
+    if (kundliForm.dateOfBirth) setValue('dateOfBirth', kundliForm.dateOfBirth);
+    if (kundliForm.timeOfBirth) setValue('timeOfBirth', kundliForm.timeOfBirth);
+    if (kundliForm.placeOfBirth) setValue('placeOfBirth', kundliForm.placeOfBirth);
+  }, [kundliForm.name, kundliForm.dateOfBirth, kundliForm.timeOfBirth, kundliForm.placeOfBirth, setValue]);
 
   const onSubmit = async (data: RegisterFormData) => {
     clearError();
     try {
-      const result = await registerUser({
+      const payload: RegisterRequest = {
         email: data.email,
         password: data.password,
         name: data.name,
         phone: data.phone,
         dateOfBirth: data.dateOfBirth,
-      });
+        timeOfBirth: data.timeOfBirth,
+        placeOfBirth: data.placeOfBirth,
+      };
+      const result = await registerUser(payload);
       // Ensure state is updated - the onQueryStarted should have already done this,
       // but we'll also dispatch here to be safe
       if (result?.data) {
@@ -68,7 +81,12 @@ export default function RegisterPage() {
         }));
       }
       toast.success('Registration successful! Welcome to AnantAstro.');
-      router.push('/');
+      if (kundliForm.name?.trim()) {
+        router.push('/kundli/generate');
+      } else {
+        dispatch(clearKundliFormData());
+        router.push('/');
+      }
     } catch (err) {
       const errorMessage = error || (err as { data?: { message?: string } })?.data?.message || 'Registration failed. Please try again.';
       toast.error(errorMessage);
@@ -147,18 +165,10 @@ export default function RegisterPage() {
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="dateOfBirth">Date of Birth (Optional)</Label>
-              <DatePicker
-                value={dateOfBirth}
-                onChange={setDateOfBirth}
-                placeholder="Select your date of birth"
-                error={!!errors.dateOfBirth}
-              />
-              {errors.dateOfBirth && (
-                <p className="text-sm text-red-600">{errors.dateOfBirth.message}</p>
-              )}
-            </div>
+            {/* Hidden: dateOfBirth, timeOfBirth, placeOfBirth (prefilled from hero kundli form, still submitted) */}
+            <input type="hidden" {...registerField('dateOfBirth')} />
+            <input type="hidden" {...registerField('timeOfBirth')} />
+            <input type="hidden" {...registerField('placeOfBirth')} />
 
             <Button
               type="submit"

@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '@/store/slices/authSlice';
+import { selectKundliFormData } from '@/store/slices/kundliFormSlice';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -52,6 +53,12 @@ export default function LoginPage() {
         if (result.data.user.role === 'admin') {
           toast.success('Login successful! Welcome back.');
           router.push('/admin');
+          return;
+        }
+        // Redirect to kundli generation if user came from hero form
+        if (kundliForm.name?.trim()) {
+          toast.success('Login successful! Welcome back.');
+          router.push('/kundli/generate');
           return;
         }
       }

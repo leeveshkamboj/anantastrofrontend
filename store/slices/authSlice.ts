@@ -32,6 +32,13 @@ const authSlice = createSlice({
       state.error = null;
       setToken(action.payload.token);
     },
+    /** Sets only the token (e.g. after OAuth). Use before refetching profile so API requests include the Bearer token. */
+    setAuthToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+      state.isAuthenticated = true;
+      state.error = null;
+      setToken(action.payload);
+    },
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
@@ -59,7 +66,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, setUser, logout, setLoading, setError, clearError } =
+export const { setCredentials, setAuthToken, setUser, logout, setLoading, setError, clearError } =
   authSlice.actions;
 
 // Selectors

@@ -7,6 +7,8 @@ export interface RegisterRequest {
   name: string;
   phone?: string;
   dateOfBirth?: string;
+  timeOfBirth?: string;
+  placeOfBirth?: string;
 }
 
 export interface LoginRequest {
@@ -64,6 +66,24 @@ export interface LogoutResponse {
   data: {
     message: string;
   };
+}
+
+export interface UpdateProfileRequest {
+  name?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  profileImage?: string;
+  currency?: string;
+  timezone?: string;
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface SetPasswordRequest {
+  newPassword: string;
 }
 
 export const authApi = baseApi.injectEndpoints({
@@ -152,6 +172,38 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+    updateProfile: builder.mutation<UserResponse, UpdateProfileRequest>({
+      query: (body) => ({
+        url: '/auth/profile',
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Auth', 'User'],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data?.isSuccess && data?.data) {
+            dispatch(setUser(data.data));
+          }
+        } catch {
+          // Error handled by component
+        }
+      },
+    }),
+    changePassword: builder.mutation<{ isSuccess: boolean; data: { message: string } }, ChangePasswordRequest>({
+      query: (body) => ({
+        url: '/auth/change-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    setPassword: builder.mutation<{ isSuccess: boolean; data: { message: string } }, SetPasswordRequest>({
+      query: (body) => ({
+        url: '/auth/set-password',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -160,5 +212,8 @@ export const {
   useLoginMutation,
   useGetProfileQuery,
   useLogoutMutation,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+  useSetPasswordMutation,
 } = authApi;
 

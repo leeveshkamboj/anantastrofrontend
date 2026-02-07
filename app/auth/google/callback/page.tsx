@@ -2,16 +2,18 @@
 
 import { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '@/store/hooks/useAuth';
 import { setToken } from '@/lib/auth';
-import { setCredentials } from '@/store/slices/authSlice';
+import { setCredentials, setAuthToken } from '@/store/slices/authSlice';
+import { selectKundliFormData } from '@/store/slices/kundliFormSlice';
 import { toast } from 'sonner';
 
 function GoogleCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
+  const kundliForm = useSelector(selectKundliFormData);
   const { refetchProfile } = useAuth();
 
   useEffect(() => {
@@ -27,6 +29,8 @@ function GoogleCallbackContent() {
 
       if (token) {
         setToken(token);
+        // Put token in Redux so baseApi sends it with the profile request
+        dispatch(setAuthToken(token));
         // Fetch user profile to update auth state
         try {
           const profileResult = await refetchProfile();
@@ -38,13 +42,16 @@ function GoogleCallbackContent() {
               token: token,
             }));
           }
-          
+
           toast.success('Successfully signed in with Google!');
-          
+
           // Redirect admin users to admin dashboard
           const userData = profileResult?.data?.data;
           if (userData?.role === 'admin') {
             router.push('/admin');
+          } else if (kundliForm.name?.trim()) {
+            // Came from hero kundli form: go to kundli generation page
+            router.push('/kundli/generate');
           } else {
             router.push('/');
           }
@@ -62,7 +69,8 @@ function GoogleCallbackContent() {
     };
 
     handleCallback();
-  }, [searchParams, router, refetchProfile, dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount with token from URL
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

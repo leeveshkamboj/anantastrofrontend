@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AnantAstro - Astrological Consultations & AI Reports",
-  description: "Get accurate kundli generation, personalized horoscopes, AI-powered reports, and expert astrological consultations with AnantAstro",
+  title: "AnantAstro - Astrological Consultations & Reports",
+  description: "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with AnantAstro",
 };
 
 export default function RootLayout({

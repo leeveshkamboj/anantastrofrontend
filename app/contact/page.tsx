@@ -215,7 +215,7 @@ export default function ContactPage() {
 
       {/* FAQ Section */}
       <section className="py-20 px-4 md:px-8" style={{ background: '#fcbb18' }}>
-        <div className="max-w-4xl mx-auto">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
             <p className="text-lg text-gray-600">
@@ -226,8 +226,8 @@ export default function ContactPage() {
           <div className="space-y-6">
             {[
               {
-                question: "How accurate are the AI-generated reports?",
-                answer: "Our AI reports combine traditional astrological wisdom with advanced algorithms, providing highly accurate insights. However, for critical life decisions, we recommend consulting with our expert astrologers.",
+                question: "How accurate are the reports?",
+                answer: "Our reports combine traditional astrological wisdom with detailed analysis, providing highly accurate insights. For critical life decisions, we recommend consulting with our expert astrologers.",
               },
               {
                 question: "How do I book a consultation?",

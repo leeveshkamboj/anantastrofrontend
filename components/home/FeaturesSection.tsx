@@ -1,13 +1,13 @@
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Sparkles, Star, Heart, Zap } from "lucide-react"
+import { BookOpen, Star, Heart, Zap } from "lucide-react"
 
 const features = [
   {
-    icon: Sparkles,
-    title: "Kundli Generation",
-    description: "Generate your complete birth chart with accurate planetary positions and houses.",
+    icon: BookOpen,
+    title: "Kundli",
+    description: "Your complete birth chart with accurate planetary positions and houses.",
   },
   {
     icon: Star,
@@ -21,8 +21,8 @@ const features = [
   },
   {
     icon: Zap,
-    title: "AI Reports",
-    description: "AI-powered insights on career, love, personality, and life predictions.",
+    title: "Reports",
+    description: "Personalized insights on career, love, personality, and life predictions.",
   },
 ]
 
@@ -33,7 +33,7 @@ export function FeaturesSection() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Core Services</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Comprehensive astrological services powered by AI and traditional wisdom
+            Comprehensive astrological services powered by traditional wisdom
           </p>
         </div>
 
