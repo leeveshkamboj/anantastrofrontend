@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetMyKundlisQuery, useCreateKundliMutation, useUpdateKundliMutation, useCreateKundliGenerationMutation, useLazyGetGeocodeQuery, useLazyGetGeocodeSuggestionsQuery } from '@/store/api/kundliApi';
@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export default function KundliGeneratePage() {
+function KundliGenerateContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -718,5 +718,17 @@ export default function KundliGeneratePage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function KundliGeneratePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-pulse text-gray-500">Loading…</div>
+      </div>
+    }>
+      <KundliGenerateContent />
+    </Suspense>
   );
 }

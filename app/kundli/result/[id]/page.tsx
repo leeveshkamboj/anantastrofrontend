@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useGetKundliGenerationQuery, kundliApi } from '@/store/api/kundliApi';
-import type { KundliGenerationStatus } from '@/store/api/kundliApi';
+import type { KundliGenerationStatus, KundliGenerationResponse } from '@/store/api/kundliApi';
 import type { RootState } from '@/store/store';
 import { useAuth } from '@/store/hooks/useAuth';
 import { Card, CardContent } from '@/components/ui/card';
@@ -165,7 +165,7 @@ function BirthChartSection({
       )}
 
       {/* Panchang Details */}
-      {chartData?.avakhada && typeof chartData.avakhada === 'object' && (
+      {chartData?.avakhada && typeof chartData.avakhada === 'object' ? (
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 mt-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Panchang Details</h3>
           <div className="overflow-x-auto">
@@ -189,10 +189,10 @@ function BirthChartSection({
             </table>
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Avakhada Details */}
-      {chartData?.avakhada && typeof chartData.avakhada === 'object' && (
+      {chartData?.avakhada && typeof chartData.avakhada === 'object' ? (
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 mt-4">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">Avakhada Details</h3>
           <div className="overflow-x-auto">
@@ -227,7 +227,7 @@ function BirthChartSection({
             </table>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -278,10 +278,12 @@ export default function KundliResultPage() {
   );
   const stopPolling = cachedStatus === 'COMPLETED' || cachedStatus === 'FAILED';
 
-  const { data, isLoading, isError, refetch } = useGetKundliGenerationQuery(id, {
+  const result = useGetKundliGenerationQuery(id, {
     skip: !id,
     pollingInterval: id && !stopPolling ? 2500 : 0,
   });
+  const { isLoading, isError, refetch } = result;
+  const data = result.data as KundliGenerationResponse | undefined;
 
   useEffect(() => {
     if (!isAuthenticated) {
