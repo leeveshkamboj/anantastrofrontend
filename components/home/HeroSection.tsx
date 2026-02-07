@@ -182,9 +182,25 @@ export function HeroSection() {
   const handleKundliSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isAuthenticated && name.trim()) {
+      const kundlis = kundlisData?.data ?? []
+      const first = kundlis[0]
+      const nameTrim = name.trim()
+      const dob = dateOfBirth ?? ''
+      const time = timeOfBirth.trim()
+      const place = (placeOfBirth ?? '').trim()
+      const unchanged =
+        first &&
+        (first.name ?? '').trim() === nameTrim &&
+        (first.dateOfBirth ?? '') === dob &&
+        (first.timeOfBirth ?? '').trim() === time &&
+        (first.placeOfBirth ?? '').trim() === place
+      if (unchanged) {
+        router.push(`/kundli/generate?profileId=${first.id}&from=hero`)
+        return
+      }
       try {
         const result = await createKundli({
-          name: name.trim(),
+          name: nameTrim,
           dateOfBirth: dateOfBirth || undefined,
           timeOfBirth: timeOfBirth || undefined,
           placeOfBirth: placeOfBirth || undefined,
