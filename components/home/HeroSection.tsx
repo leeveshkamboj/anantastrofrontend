@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar, Clock } from "lucide-react"
 import Link from "next/link"
 import { setKundliFormData } from "@/store/slices/kundliFormSlice"
-import { useCreateKundliMutation, useLazyGetGeocodeSuggestionsQuery } from "@/store/api/kundliApi"
+import { useCreateKundliMutation, useLazyGetGeocodeSuggestionsQuery, useGetMyKundlisQuery } from "@/store/api/kundliApi"
 import type { PlaceSuggestion } from "@/store/api/kundliApi"
 import { selectIsAuthenticated } from "@/store/slices/authSlice"
 import { DatePicker } from "@/components/ui/date-picker"
@@ -73,6 +73,7 @@ export function HeroSection() {
   const router = useRouter()
   const dispatch = useDispatch()
   const isAuthenticated = useSelector(selectIsAuthenticated)
+  const { data: kundlisData } = useGetMyKundlisQuery(undefined, { skip: !isAuthenticated })
   const [createKundli] = useCreateKundliMutation()
   const [getGeocodeSuggestions] = useLazyGetGeocodeSuggestionsQuery()
   const [name, setName] = useState("")
@@ -84,6 +85,8 @@ export function HeroSection() {
   const [placeSearchLoading, setPlaceSearchLoading] = useState(false)
   const placeInputContainerRef = useRef<HTMLDivElement>(null)
   const skipSuggestionsRef = useRef(false)
+  const hasPrefilledFromProfileRef = useRef(false)
+  const prefilledPlaceRef = useRef<string | null>(null)
 
   const [debouncedPlaceSearch, setDebouncedPlaceSearch] = useState("")
   useEffect(() => {
@@ -92,6 +95,23 @@ export function HeroSection() {
     }, 400)
     return () => clearTimeout(t)
   }, [placeOfBirth])
+
+  // Auto-fill hero form from first profile when user is authenticated and has profiles
+  useEffect(() => {
+    if (!isAuthenticated || hasPrefilledFromProfileRef.current) return
+    const kundlis = kundlisData?.data ?? []
+    const first = kundlis[0]
+    if (!first) return
+    hasPrefilledFromProfileRef.current = true
+    if (first.name?.trim()) setName(first.name.trim())
+    if (first.dateOfBirth) setDateOfBirth(first.dateOfBirth)
+    if (first.timeOfBirth) setTimeOfBirth(first.timeOfBirth)
+    if (first.placeOfBirth) {
+      const place = first.placeOfBirth.trim()
+      prefilledPlaceRef.current = place
+      setPlaceOfBirth(place)
+    }
+  }, [isAuthenticated, kundlisData?.data])
 
   useEffect(() => {
     if (skipSuggestionsRef.current) {
@@ -107,6 +127,12 @@ export function HeroSection() {
     }
     const query = debouncedPlaceSearch
     if (!query) {
+      setPlaceSuggestions([])
+      setPlaceSearchLoading(false)
+      return
+    }
+    // Don't open suggestions when place was auto-filled from first profile (we already have the place)
+    if (prefilledPlaceRef.current && query.trim() === prefilledPlaceRef.current) {
       setPlaceSuggestions([])
       setPlaceSearchLoading(false)
       return
@@ -142,6 +168,7 @@ export function HeroSection() {
   const onSelectPlace = (suggestion: PlaceSuggestion) => {
     setPlaceSuggestions([])
     skipSuggestionsRef.current = true
+    prefilledPlaceRef.current = null
     setPlaceOfBirth(suggestion.formattedAddress)
     setSelectedPlace(suggestion)
   }
