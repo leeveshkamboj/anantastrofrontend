@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { PlanetIcon } from './PlanetIcon';
 import { ZodiacIcon } from './ZodiacIcon';
 
@@ -76,10 +77,27 @@ interface KundliChartProps {
   className?: string;
 }
 
-const cellSize = 112;
-const gridGap = 6;
+const GRID_GAP = 6;
+const CELL_SIZE_DESKTOP = 112;
+const CELL_SIZE_MOBILE = 72;
+const MOBILE_BREAKPOINT = 640;
+
+function useChartCellSize() {
+  const [cellSize, setCellSize] = useState(CELL_SIZE_DESKTOP);
+  useEffect(() => {
+    const update = () =>
+      setCellSize(window.innerWidth < MOBILE_BREAKPOINT ? CELL_SIZE_MOBILE : CELL_SIZE_DESKTOP);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  return cellSize;
+}
 
 export function KundliChart({ chartData, useSidereal = true, className = '' }: KundliChartProps) {
+  const cellSize = useChartCellSize();
+  const gridGap = GRID_GAP;
+
   if (!chartData?.planets?.length) return null;
 
   const planets = chartData.planets;
@@ -107,15 +125,15 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
   });
 
   return (
-    <div className={className}>
-      <div className="relative inline-block overflow-hidden rounded-2xl bg-gradient-to-b from-amber-50 to-amber-100/80 shadow-lg ring-2 ring-amber-800/30 ring-offset-2 ring-offset-amber-50">
+    <div className={`w-full max-w-full overflow-x-auto flex justify-center ${className}`}>
+      <div className="relative inline-block overflow-hidden rounded-2xl bg-gradient-to-b from-amber-50 to-amber-100/80 shadow-lg ring-2 ring-amber-800/30 ring-offset-2 ring-offset-amber-50 min-w-0">
         {/* Outer double-line effect */}
         <div className="absolute inset-0 rounded-2xl border-2 border-amber-700/40 pointer-events-none" />
         <div className="absolute inset-1.5 rounded-xl border border-amber-600/30 pointer-events-none" />
 
         {/* Header */}
-        <div className="relative px-6 pt-5 pb-3 text-center border-b-2 border-amber-700/40 bg-gradient-to-r from-amber-200/60 via-amber-100/80 to-amber-200/60">
-          <h3 className="text-lg font-bold tracking-wide text-amber-950 drop-shadow-sm">
+        <div className={`relative text-center border-b-2 border-amber-700/40 bg-gradient-to-r from-amber-200/60 via-amber-100/80 to-amber-200/60 ${cellSize <= CELL_SIZE_MOBILE ? 'px-3 pt-3 pb-2' : 'px-6 pt-5 pb-3'}`}>
+          <h3 className={cellSize <= CELL_SIZE_MOBILE ? 'text-base font-bold' : 'text-lg font-bold tracking-wide text-amber-950 drop-shadow-sm'}>
             Janam Kundli
           </h3>
           <p className="text-xs mt-1 text-amber-800/90 font-medium">
@@ -124,7 +142,7 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
         </div>
 
         {/* Chart grid */}
-        <div className="p-5">
+        <div className={cellSize <= CELL_SIZE_MOBILE ? 'p-2 sm:p-5' : 'p-5'}>
           <div
             className="grid justify-items-stretch mx-auto bg-amber-900/10 rounded-lg overflow-hidden border-2 border-amber-800/50"
             style={{
@@ -150,8 +168,8 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
                     className="flex flex-col items-center justify-center border-2 border-amber-600 bg-gradient-to-br from-amber-200 to-amber-300/90 shadow-inner"
                     style={{ width: cellSize, height: cellSize, minWidth: cellSize, minHeight: cellSize }}
                   >
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-900">Lagna</span>
-                    <LagnaIcon className="w-9 h-9 mt-2 text-yellow-500" stroke="currentColor" />
+                    <span className={`font-bold uppercase tracking-wider text-amber-900 ${cellSize <= CELL_SIZE_MOBILE ? 'text-[10px]' : 'text-xs'}`}>Lagna</span>
+                    <LagnaIcon className={cellSize <= CELL_SIZE_MOBILE ? 'w-6 h-6 mt-1 text-yellow-500' : 'w-9 h-9 mt-2 text-yellow-500'} stroke="currentColor" />
                   </div>
                 );
               }
@@ -172,26 +190,26 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
                   }}
                 >
                   {/* House header: number + rashi */}
-                  <div className="flex items-center justify-center gap-2 w-full py-2 border-b border-amber-700/30 bg-amber-100/70">
-                    <span className="flex items-center justify-center w-6 h-6 rounded bg-amber-800 text-amber-50 text-xs font-bold">
+                  <div className={`flex items-center justify-center gap-2 w-full border-b border-amber-700/30 bg-amber-100/70 ${cellSize <= CELL_SIZE_MOBILE ? 'py-1 gap-1' : 'py-2'}`}>
+                    <span className={`flex items-center justify-center rounded bg-amber-800 text-amber-50 font-bold ${cellSize <= CELL_SIZE_MOBILE ? 'w-4 h-4 text-[10px]' : 'w-6 h-6 text-xs'}`}>
                       {houseNum}
                     </span>
-                    <ZodiacIcon sign={sign} className="w-5 h-5 text-yellow-500 shrink-0" stroke="currentColor" />
-                    <span className="text-[11px] font-semibold text-amber-900 truncate max-w-16" title={sign}>
+                    <ZodiacIcon sign={sign} className={`text-yellow-500 shrink-0 ${cellSize <= CELL_SIZE_MOBILE ? 'w-3.5 h-3.5' : 'w-5 h-5'}`} stroke="currentColor" />
+                    <span className={`font-semibold text-amber-900 truncate ${cellSize <= CELL_SIZE_MOBILE ? 'text-[9px] max-w-10' : 'text-[11px] max-w-16'}`} title={sign}>
                       {sign.slice(0, 3)}
                     </span>
                   </div>
                   {/* Planets in house */}
-                  <div className="flex-1 flex flex-col items-center justify-center py-2 gap-1 min-h-0">
+                  <div className={`flex-1 flex flex-col items-center justify-center min-h-0 ${cellSize <= CELL_SIZE_MOBILE ? 'py-1 gap-0.5' : 'py-2 gap-1'}`}>
                     {list.length === 0 ? (
                       <span className="text-[10px] text-amber-600/50">—</span>
                     ) : (
-                      list.slice(0, 5).map((pl) => (
+                      list.slice(0, cellSize <= CELL_SIZE_MOBILE ? 3 : 5).map((pl) => (
                         <span
                           key={pl.name}
-                          className="inline-flex items-center gap-2 text-xs text-amber-900 leading-tight"
+                          className={`inline-flex items-center gap-2 text-amber-900 leading-tight ${cellSize <= CELL_SIZE_MOBILE ? 'gap-1 text-[10px]' : 'text-xs'}`}
                         >
-                          <PlanetIcon name={pl.name} className="w-4 h-4 shrink-0 text-yellow-500" stroke="currentColor" />
+                          <PlanetIcon name={pl.name} className={`shrink-0 text-yellow-500 ${cellSize <= CELL_SIZE_MOBILE ? 'w-3 h-3' : 'w-4 h-4'}`} stroke="currentColor" />
                           <span className="font-medium tabular-nums">{pl.degree.toFixed(2)}°</span>
                         </span>
                       ))
@@ -204,11 +222,11 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
         </div>
 
         {/* Legend */}
-        <div className="px-6 pb-6 pt-3 border-t-2 border-amber-700/30 bg-amber-50/50">
+        <div className={`border-t-2 border-amber-700/30 bg-amber-50/50 ${cellSize <= CELL_SIZE_MOBILE ? 'px-3 pb-3 pt-2' : 'px-6 pb-6 pt-3'}`}>
           <p className="text-xs font-semibold text-amber-800/80 uppercase tracking-wider text-center mb-3">
             Grahas (Planets)
           </p>
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-amber-900/90">
+          <div className={`flex flex-wrap justify-center text-amber-900/90 ${cellSize <= CELL_SIZE_MOBILE ? 'gap-x-4 gap-y-1.5 text-xs' : 'gap-x-8 gap-y-2 text-sm'}`}>
             {Object.entries(GRAHA_LABELS).map(([name, label]) => (
               <span key={name} className="inline-flex items-center gap-2.5">
                 <PlanetIcon name={name} className="w-5 h-5 text-yellow-500 shrink-0" stroke="currentColor" />

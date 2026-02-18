@@ -106,12 +106,12 @@ function BirthChartSection({
         </div>
       </div>
       {chartType === 'grid' && (
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full max-w-full overflow-x-auto">
           <KundliChart chartData={chartData} useSidereal />
         </div>
       )}
       {chartType === 'radix' && (
-        <div className="flex justify-center [&_svg]:max-w-full [&_svg]:h-auto">
+        <div className="flex justify-center w-full max-w-full min-w-0 [&_svg]:max-w-full [&_svg]:h-auto">
           <AstroChartRadix
             chartData={chartData}
             useSidereal

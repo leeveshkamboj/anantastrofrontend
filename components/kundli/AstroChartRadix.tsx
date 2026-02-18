@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { KundliChartData, PlanetPosition } from './KundliChart';
 
 /** Site theme colors – matches globals.css (primary, primary-light, primary-dark) and KundliChart amber palette */
@@ -57,14 +57,37 @@ interface AstroChartRadixProps {
   className?: string;
 }
 
+const DEFAULT_SIZE = 520;
+const MIN_SIZE = 240;
+
 export function AstroChartRadix({
   chartData,
   useSidereal = true,
-  size = 520,
+  size = DEFAULT_SIZE,
   className = '',
 }: AstroChartRadixProps) {
   const id = useId().replace(/:/g, '');
   const chartElRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerSize, setContainerSize] = useState<number>(() =>
+    typeof window !== 'undefined' ? Math.min(size, Math.max(MIN_SIZE, window.innerWidth - 32)) : size,
+  );
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const ro = new ResizeObserver((entries) => {
+      const { width } = entries[0]?.contentRect ?? { width: 0 };
+      if (width > 0) {
+        const s = Math.min(size, Math.max(MIN_SIZE, Math.floor(width)));
+        setContainerSize(s);
+      }
+    });
+    ro.observe(container);
+    return () => ro.disconnect();
+  }, [size]);
+
+  const effectiveSize = Math.min(size, Math.max(MIN_SIZE, containerSize));
 
   useEffect(() => {
     if (!chartData?.planets?.length) return;
@@ -75,18 +98,18 @@ export function AstroChartRadix({
       const { Chart } = require('@astrodraw/astrochart') as { Chart: new (el: string, w: number, h: number, s?: object) => { radix: (data: { planets: Record<string, number[]>; cusps: number[] }) => void } };
       const astroData = toAstroData(chartData, useSidereal);
       el.innerHTML = '';
-      const chart = new Chart(id, size, size, THEME_SETTINGS);
+      const chart = new Chart(id, effectiveSize, effectiveSize, THEME_SETTINGS);
       chart.radix(astroData);
     } catch (e) {
       console.error('AstroChart radix error', e);
     }
-  }, [chartData, useSidereal, size, id]);
+  }, [chartData, useSidereal, effectiveSize, id]);
 
   if (!chartData?.planets?.length) return null;
 
   return (
-    <div className={className} aria-hidden>
-      <div ref={chartElRef} id={id} style={{ width: size, height: size }} />
+    <div ref={containerRef} className={`w-full max-w-full flex justify-center ${className}`} aria-hidden style={{ maxWidth: size }}>
+      <div ref={chartElRef} id={id} style={{ width: effectiveSize, height: effectiveSize }} />
     </div>
   );
 }
