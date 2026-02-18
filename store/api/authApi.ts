@@ -39,6 +39,18 @@ export interface AuthResponse {
   data: AuthData;
 }
 
+export interface RegisterResponse {
+  isSuccess: boolean;
+  data:
+    | AuthData
+    | { requiresEmailVerification: true; message: string };
+}
+
+export interface ResendVerificationResponse {
+  isSuccess: boolean;
+  data: { message: string; alreadyVerified?: boolean };
+}
+
 export interface User {
   id: number;
   email: string;
@@ -52,6 +64,7 @@ export interface User {
   role: 'user' | 'admin' | 'astrologer';
   currency?: string;
   timezone?: string;
+  emailVerified?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -88,11 +101,42 @@ export interface SetPasswordRequest {
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<AuthResponse, RegisterRequest>({
+    register: builder.mutation<RegisterResponse, RegisterRequest>({
       query: (credentials) => ({
         url: '/auth/register',
         method: 'POST',
         body: credentials,
+      }),
+      invalidatesTags: ['Auth', 'User'],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.isSuccess && data.data && 'access_token' in data.data) {
+            dispatch(
+              setCredentials({
+                user: data.data.user,
+                token: data.data.access_token,
+              })
+            );
+            dispatch(authApi.endpoints.getProfile.initiate(undefined, { forceRefetch: true }));
+          }
+        } catch {
+          // Error handling is done by the mutation hook
+        }
+      },
+    }),
+    resendVerification: builder.mutation<ResendVerificationResponse, { email: string }>({
+      query: (body) => ({
+        url: '/auth/resend-verification',
+        method: 'POST',
+        body,
+      }),
+    }),
+    verifyEmail: builder.mutation<AuthResponse, { token: string }>({
+      query: (body) => ({
+        url: '/auth/verify-email',
+        method: 'POST',
+        body,
       }),
       invalidatesTags: ['Auth', 'User'],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -105,11 +149,10 @@ export const authApi = baseApi.injectEndpoints({
                 token: data.data.access_token,
               })
             );
-            // Trigger profile refetch to ensure state is fully updated
             dispatch(authApi.endpoints.getProfile.initiate(undefined, { forceRefetch: true }));
           }
         } catch {
-          // Error handling is done by the mutation hook
+          // Error handling in component
         }
       },
     }),
@@ -215,5 +258,7 @@ export const {
   useUpdateProfileMutation,
   useChangePasswordMutation,
   useSetPasswordMutation,
+  useResendVerificationMutation,
+  useVerifyEmailMutation,
 } = authApi;
 

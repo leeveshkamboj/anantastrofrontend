@@ -13,7 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/store/hooks/useAuth';
-import type { RegisterRequest } from '@/store/api/authApi';
+import { useResendVerificationMutation } from '@/store/api/authApi';
+import type { RegisterRequest, AuthData } from '@/store/api/authApi';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { config } from '@/lib/config';
 import { toast } from 'sonner';
@@ -36,6 +37,8 @@ export default function RegisterPage() {
   const dispatch = useDispatch();
   const kundliForm = useSelector(selectKundliFormData);
   const { register: registerUser, isLoading, error, clearError } = useAuth();
+  const [resendVerification, { isLoading: isResending }] = useResendVerificationMutation();
+  const [pendingVerifyEmail, setPendingVerifyEmail] = React.useState<string | null>(null);
 
   const {
     register: registerField,
@@ -72,12 +75,16 @@ export default function RegisterPage() {
         placeOfBirth: data.placeOfBirth,
       };
       const result = await registerUser(payload);
-      // Ensure state is updated - the onQueryStarted should have already done this,
-      // but we'll also dispatch here to be safe
-      if (result?.data) {
+      const responseData = result?.data as { requiresEmailVerification?: boolean; message?: string; user?: unknown; access_token?: string };
+      if (responseData?.requiresEmailVerification) {
+        setPendingVerifyEmail(payload.email);
+        toast.success('Check your email to verify your account before signing in.');
+        return;
+      }
+      if (result?.data && 'access_token' in responseData) {
         dispatch(setCredentials({
-          user: result.data.user,
-          token: result.data.access_token,
+          user: (responseData as AuthData).user,
+          token: (responseData as AuthData).access_token,
         }));
       }
       toast.success('Registration successful! Welcome to AnantAstro.');
@@ -90,6 +97,21 @@ export default function RegisterPage() {
     } catch (err) {
       const errorMessage = error || (err as { data?: { message?: string } })?.data?.message || 'Registration failed. Please try again.';
       toast.error(errorMessage);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!pendingVerifyEmail) return;
+    try {
+      const result = await resendVerification({ email: pendingVerifyEmail }).unwrap();
+      if (result.data.alreadyVerified) {
+        setPendingVerifyEmail(null);
+        toast.success('This email is already verified. You can sign in.');
+        return;
+      }
+      toast.success('Verification email sent. Please check your inbox.');
+    } catch {
+      toast.error('Failed to resend. Please try again later.');
     }
   };
 
@@ -108,6 +130,22 @@ export default function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {pendingVerifyEmail ? (
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600 text-center">
+                We sent a verification link to <strong>{pendingVerifyEmail}</strong>. Click the link in that email to verify your account, then sign in.
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={handleResendVerification}
+                disabled={isResending}
+              >
+                {isResending ? 'Sending...' : 'Resend verification email'}
+              </Button>
+            </div>
+          ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
@@ -178,7 +216,9 @@ export default function RegisterPage() {
               {isLoading ? 'Creating account...' : 'Sign Up'}
             </Button>
           </form>
+          )}
 
+          {!pendingVerifyEmail && (
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -216,6 +256,7 @@ export default function RegisterPage() {
               Continue with Google
             </Button>
           </div>
+          )}
 
           <div className="mt-6 text-center text-sm">
             <span className="text-gray-600">Already have an account? </span>

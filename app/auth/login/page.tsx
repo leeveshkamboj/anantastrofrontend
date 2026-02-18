@@ -12,10 +12,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/store/hooks/useAuth';
+import { useResendVerificationMutation } from '@/store/api/authApi';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { config } from '@/lib/config';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import * as React from 'react';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -29,6 +31,8 @@ export default function LoginPage() {
   const dispatch = useDispatch();
   const kundliForm = useSelector(selectKundliFormData);
   const { login, isLoading, error, clearError } = useAuth();
+  const [resendVerification, { isLoading: isResending }] = useResendVerificationMutation();
+  const [emailNotVerified, setEmailNotVerified] = React.useState<string | null>(null);
 
   const {
     register,
@@ -40,23 +44,20 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     clearError();
+    setEmailNotVerified(null);
     try {
       const result = await login(data.email, data.password);
-      // The onQueryStarted in authApi should have already set credentials
-      // But we ensure it's set here as well for immediate state update
       if (result?.data) {
         dispatch(setCredentials({
           user: result.data.user,
           token: result.data.access_token,
         }));
-        
-        // Redirect admin users to admin dashboard
+
         if (result.data.user.role === 'admin') {
           toast.success('Login successful! Welcome back.');
           router.push('/admin');
           return;
         }
-        // Redirect to kundli generation if user came from hero form
         if (kundliForm.name?.trim()) {
           toast.success('Login successful! Welcome back.');
           router.push('/kundli/generate');
@@ -65,9 +66,30 @@ export default function LoginPage() {
       }
       toast.success('Login successful! Welcome back.');
       router.push('/');
-    } catch (err) {
-      const errorMessage = error || (err as { data?: { message?: string } })?.data?.message || 'Login failed. Please try again.';
+    } catch (err: unknown) {
+      const errBody = (err as { status?: number; data?: { message?: string; code?: string } })?.data;
+      if (errBody?.code === 'EMAIL_NOT_VERIFIED') {
+        setEmailNotVerified(data.email);
+        toast.error('Please verify your email before signing in. Check your inbox.');
+        return;
+      }
+      const errorMessage = error || errBody?.message || 'Login failed. Please try again.';
       toast.error(errorMessage);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!emailNotVerified) return;
+    try {
+      const result = await resendVerification({ email: emailNotVerified }).unwrap();
+      if (result.data.alreadyVerified) {
+        setEmailNotVerified(null);
+        toast.success('This email is already verified. Try signing in again.');
+        return;
+      }
+      toast.success('Verification email sent. Please check your inbox.');
+    } catch {
+      toast.error('Failed to resend. Please try again later.');
     }
   };
 
@@ -122,6 +144,22 @@ export default function LoginPage() {
             >
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
+
+            {emailNotVerified && (
+              <div className="mt-4 p-3 rounded-md bg-amber-50 border border-amber-200">
+                <p className="text-sm text-amber-800 mb-2">Verify your email to sign in. Didn’t get the email?</p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={handleResendVerification}
+                  disabled={isResending}
+                >
+                  {isResending ? 'Sending...' : 'Resend verification email'}
+                </Button>
+              </div>
+            )}
           </form>
 
           <div className="mt-6">
