@@ -57,7 +57,8 @@ export interface CreateKundliGenerationRequest {
 export type KundliGenerationStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
 
 export interface KundliGeneration {
-  id: string;
+  id: number;
+  uuid: string;
   userId: number;
   dob: string;
   time: string;
@@ -69,18 +70,30 @@ export interface KundliGeneration {
   interpretation: string | null;
   status: KundliGenerationStatus;
   errorMessage: string | null;
+  shareToken: string | null;
+  shareEnabled: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
+export interface ShareResponse {
+  isSuccess: boolean;
+  data: { shareToken: string | null; shareEnabled: boolean };
+}
+
 export interface CreateKundliGenerationResponse {
   isSuccess: boolean;
-  data: { id: string; status: string };
+  data: { id: number; uuid: string; status: string };
 }
 
 export interface KundliGenerationResponse {
   isSuccess: boolean;
   data: KundliGeneration;
+}
+
+export interface KundliGenerationsListResponse {
+  isSuccess: boolean;
+  data: KundliGeneration[];
 }
 
 /** Backend geocode (Google Maps); returns lat/lng for place string */
@@ -130,9 +143,36 @@ export const kundliApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['KundliGeneration'],
     }),
+    getMyKundliGenerations: builder.query<
+      KundliGenerationsListResponse,
+      { status?: 'COMPLETED' | 'PENDING' | 'PROCESSING' | 'FAILED' } | void
+    >({
+      query: (params) => ({
+        url: '/kundli',
+        params: params && typeof params === 'object' && params.status ? { status: params.status } : undefined,
+      }),
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map((g) => ({ type: 'KundliGeneration' as const, id: g.uuid })),
+              { type: 'KundliGeneration', id: 'LIST' },
+            ]
+          : [{ type: 'KundliGeneration', id: 'LIST' }],
+    }),
     getKundliGeneration: builder.query<KundliGenerationResponse, string>({
-      query: (id) => `/kundli/${id}`,
-      providesTags: (_result, _err, id) => [{ type: 'KundliGeneration', id }],
+      query: (uuid) => `/kundli/${uuid}`,
+      providesTags: (_result, _err, uuid) => [{ type: 'KundliGeneration', id: uuid }],
+    }),
+    getKundliByShareToken: builder.query<KundliGenerationResponse, string>({
+      query: (token) => `/kundli/share/${token}`,
+    }),
+    updateKundliShare: builder.mutation<ShareResponse, { uuid: string; enabled: boolean }>({
+      query: ({ uuid, enabled }) => ({
+        url: `/kundli/${uuid}/share`,
+        method: 'PATCH',
+        body: { enabled },
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [{ type: 'KundliGeneration', id: uuid }],
     }),
     getGeocode: builder.query<GeocodeResponse, string>({
       query: (place) => ({ url: '/geocode', params: { place } }),
@@ -150,8 +190,11 @@ export const {
   useCreateKundliMutation,
   useUpdateKundliMutation,
   useGetMyKundlisQuery,
+  useGetMyKundliGenerationsQuery,
   useCreateKundliGenerationMutation,
   useGetKundliGenerationQuery,
+  useGetKundliByShareTokenQuery,
+  useUpdateKundliShareMutation,
   useLazyGetGeocodeQuery,
   useLazyGetGeocodeSuggestionsQuery,
 } = kundliApi;

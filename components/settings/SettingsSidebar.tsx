@@ -28,7 +28,7 @@ export function SettingsSidebar({ activeTab, onTabChange }: SettingsSidebarProps
               type="button"
               onClick={() => onTabChange(tab.id)}
               className={cn(
-                'w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200',
+                'cursor-pointer w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200',
                 activeTab === tab.id
                   ? 'bg-primary text-white font-medium'
                   : 'text-gray-700 hover:bg-primary/10 hover:text-gray-900'

@@ -302,8 +302,8 @@ function KundliGenerateContent() {
         ...(name?.trim() && { name: name.trim() }),
         ...(trimmedPlace && { placeOfBirth: trimmedPlace }),
       }).unwrap();
-      const id = res?.data?.id;
-      if (id) router.push(`/kundli/result/${id}`);
+      const uuid = res?.data?.uuid;
+      if (uuid) router.push(`/kundli/result/${uuid}`);
       else toast.error('Something went wrong. Please try again.');
     } catch {
       toast.error('Failed to start kundli generation. Please try again.');
@@ -419,7 +419,7 @@ function KundliGenerateContent() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {howItWorksSteps.map(({ step, title, desc }) => (
               <Card key={step} className="border-2 border-gray-100 bg-white shadow-sm">
-                <CardContent className="pt-6 pb-6">
+                <CardContent>
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white font-bold text-lg mb-4">
                     {step}
                   </div>
@@ -690,7 +690,7 @@ function KundliGenerateContent() {
           <div className="max-w-3xl mx-auto space-y-6">
             {faqs.map(({ q, a }, i) => (
               <Card key={i} className="border border-gray-200 bg-white">
-                <CardContent className="pt-6 pb-6">
+                <CardContent>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{q}</h3>
                   <p className="text-gray-600 leading-relaxed">{a}</p>
                 </CardContent>
