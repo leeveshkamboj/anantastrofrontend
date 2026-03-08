@@ -2,8 +2,8 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { useGetKundliGenerationQuery, useUpdateKundliShareMutation, kundliApi } from '@/store/api/kundliApi';
-import type { KundliGenerationStatus, KundliGenerationResponse } from '@/store/api/kundliApi';
+import { useGetMatchmakingReportQuery, useUpdateMatchmakingShareMutation, kundliApi } from '@/store/api/kundliApi';
+import type { MatchmakingReportStatus, MatchmakingReportResponse } from '@/store/api/kundliApi';
 import type { RootState } from '@/store/store';
 import { useAuth } from '@/store/hooks/useAuth';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,43 +15,43 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { BookOpen, ArrowLeft, Loader2, AlertCircle, Share2, Link2, Facebook, Linkedin, Copy, Check } from 'lucide-react';
+import { Heart, ArrowLeft, Loader2, AlertCircle, User, Calendar, Clock, MapPin, Share2, Link2, Facebook, Linkedin, Copy, Check } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
-import { KundliResultContent } from '../KundliResultContent';
+import { MatchmakingResult, MatchmakingPartnerKundlis } from '@/components/matchmaking';
 
-export default function KundliResultPage() {
+export default function MatchmakingResultPage() {
   const params = useParams();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const id = typeof params?.id === 'string' ? params.id : '';
 
   const cachedStatus = useSelector((state: RootState) =>
-    id ? kundliApi.endpoints.getKundliGeneration.select(id)(state)?.data?.data?.status : undefined,
+    id ? kundliApi.endpoints.getMatchmakingReport.select(id)(state)?.data?.data?.status : undefined,
   );
   const stopPolling = cachedStatus === 'COMPLETED' || cachedStatus === 'FAILED';
 
-  const result = useGetKundliGenerationQuery(id, {
+  const result = useGetMatchmakingReportQuery(id, {
     skip: !id,
     pollingInterval: id && !stopPolling ? 2500 : 0,
   });
   const { isLoading, isError, refetch } = result;
-  const data = result.data as KundliGenerationResponse | undefined;
+  const data = result.data as MatchmakingReportResponse | undefined;
+  const report = data?.data;
 
-  const [updateShare, { data: shareResult, isLoading: shareLoading }] = useUpdateKundliShareMutation();
+  const [updateShare, { data: shareResult, isLoading: shareLoading }] = useUpdateMatchmakingShareMutation();
   const [copied, setCopied] = useState(false);
-
-  const genOrUndefined = data?.data;
-  const shareUrlForCopy =
-    typeof window !== 'undefined' && (genOrUndefined?.shareToken ?? shareResult?.data?.shareToken)
-      ? `${window.location.origin}/kundli/share/${genOrUndefined?.shareToken ?? shareResult?.data?.shareToken ?? ''}`
-      : '';
+  const shareToken = report?.shareToken ?? shareResult?.data?.shareToken ?? null;
+  const shareEnabled = report?.shareEnabled ?? shareResult?.data?.shareEnabled ?? false;
+  const shareUrl = typeof window !== 'undefined' && shareToken
+    ? `${window.location.origin}/services/matchmaking/share/${shareToken}`
+    : '';
   const copyLink = useCallback(() => {
-    if (!shareUrlForCopy) return;
-    navigator.clipboard.writeText(shareUrlForCopy).then(() => {
+    if (!shareUrl) return;
+    navigator.clipboard.writeText(shareUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
-  }, [shareUrlForCopy]);
+  }, [shareUrl]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -70,10 +70,10 @@ export default function KundliResultPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="pt-8 pb-8 text-center">
-            <p className="text-gray-600">Invalid kundli link.</p>
-            <Button className="mt-4" variant="outline" onClick={() => router.push('/kundli/generate')}>
+            <p className="text-gray-600">Invalid matchmaking link.</p>
+            <Button className="mt-4" variant="outline" onClick={() => router.push('/services/matchmaking')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Kundli
+              Back to Matchmaking
             </Button>
           </CardContent>
         </Card>
@@ -81,27 +81,27 @@ export default function KundliResultPage() {
     );
   }
 
-  if (isLoading && !data?.data) {
+  if (isLoading && !report) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-gray-600">Loading your kundli…</p>
+          <p className="text-gray-600">Loading your report…</p>
         </div>
       </div>
     );
   }
 
-  if (isError || !data?.data) {
+  if (isError || !report) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="pt-8 pb-8 text-center">
             <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <p className="text-gray-600">Could not load this kundli. It may not exist or you may not have access.</p>
-            <Button className="mt-4" variant="outline" onClick={() => router.push('/kundli/generate')}>
+            <p className="text-gray-600">Could not load this report. It may not exist or you may not have access.</p>
+            <Button className="mt-4" variant="outline" onClick={() => router.push('/services/matchmaking')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Kundli
+              Back to Matchmaking
             </Button>
           </CardContent>
         </Card>
@@ -109,8 +109,7 @@ export default function KundliResultPage() {
     );
   }
 
-  const gen = data.data;
-  const status = gen.status as KundliGenerationStatus;
+  const status = report.status as MatchmakingReportStatus;
 
   if (status === 'PENDING' || status === 'PROCESSING') {
     return (
@@ -119,10 +118,10 @@ export default function KundliResultPage() {
           <CardContent className="pt-8 pb-8 text-center">
             <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              {status === 'PENDING' ? 'Your kundli is in the queue' : 'Generating your kundli…'}
+              {status === 'PENDING' ? 'Your report is in the queue' : 'Computing Gun Milan…'}
             </h2>
             <p className="text-gray-600 text-sm">
-              We’re calculating your chart. This usually takes a few seconds. The page will update automatically.
+              We’re calculating compatibility. This usually takes a few seconds. The page will update automatically.
             </p>
           </CardContent>
         </Card>
@@ -136,11 +135,11 @@ export default function KundliResultPage() {
         <Card className="max-w-md w-full">
           <CardContent className="pt-8 pb-8 text-center">
             <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Generation failed</h2>
-            <p className="text-gray-600 text-sm mb-4">{gen.errorMessage || 'Something went wrong. Please try again.'}</p>
-            <Button variant="outline" onClick={() => router.push('/kundli/generate')}>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Report failed</h2>
+            <p className="text-gray-600 text-sm mb-4">{report.errorMessage || 'Something went wrong. Please try again.'}</p>
+            <Button variant="outline" onClick={() => router.push('/services/matchmaking')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Kundli
+              Back to Matchmaking
             </Button>
           </CardContent>
         </Card>
@@ -148,9 +147,21 @@ export default function KundliResultPage() {
     );
   }
 
-  const shareToken = gen.shareToken ?? shareResult?.data?.shareToken ?? null;
-  const shareEnabled = gen.shareEnabled ?? shareResult?.data?.shareEnabled ?? false;
-  const shareUrl = shareUrlForCopy;
+  if (!report.result) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="pt-8 pb-8 text-center">
+            <p className="text-gray-600">No result data available.</p>
+            <Button className="mt-4" variant="outline" onClick={() => router.push('/services/matchmaking')}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Matchmaking
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -158,20 +169,18 @@ export default function KundliResultPage() {
         <Button
           variant="ghost"
           className="mb-6 -ml-2"
-          onClick={() => router.push('/kundli/generate')}
+          onClick={() => router.push('/services/matchmaking')}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Kundli
+          Back to Matchmaking
         </Button>
 
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-3">
-            <BookOpen className="h-10 w-10 text-primary" />
+            <Heart className="h-10 w-10 text-primary" />
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Your Kundli</h1>
-              <p className="text-gray-600 text-sm">
-                DOB: {gen.dob} • Time: {gen.time}
-              </p>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Gun Milan Report</h1>
+              <p className="text-gray-600 text-sm">Ashtakoot compatibility result</p>
             </div>
           </div>
           <DropdownMenu>
@@ -222,7 +231,7 @@ export default function KundliResultPage() {
                   <DropdownMenuItem
                     onClick={() => updateShare({ uuid: id, enabled: false })}
                     disabled={shareLoading}
-                    variant="destructive"
+                    className="text-red-600"
                   >
                     Disable link
                   </DropdownMenuItem>
@@ -232,7 +241,61 @@ export default function KundliResultPage() {
           </DropdownMenu>
         </div>
 
-        <KundliResultContent gen={gen} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card className="border border-gray-200">
+            <CardContent className="pt-6 pb-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">{report.partner1Name || 'Partner 1'}</h3>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+                <Calendar className="h-4 w-4 shrink-0" />
+                <span>{report.partner1Dob || '—'}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                <Clock className="h-4 w-4 shrink-0" />
+                <span>{report.partner1Time || '—'}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                <MapPin className="h-4 w-4 shrink-0" />
+                <span>{report.partner1PlaceOfBirth || '—'}</span>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="border border-gray-200">
+            <CardContent className="pt-6 pb-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">{report.partner2Name || 'Partner 2'}</h3>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+                <Calendar className="h-4 w-4 shrink-0" />
+                <span>{report.partner2Dob || '—'}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                <Clock className="h-4 w-4 shrink-0" />
+                <span>{report.partner2Time || '—'}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                <MapPin className="h-4 w-4 shrink-0" />
+                <span>{report.partner2PlaceOfBirth || '—'}</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <MatchmakingPartnerKundlis
+          partner1Name={report.partner1Name || 'Partner 1'}
+          partner2Name={report.partner2Name || 'Partner 2'}
+          partner1ChartData={report.partner1ChartData ?? null}
+          partner2ChartData={report.partner2ChartData ?? null}
+        />
+
+        <MatchmakingResult result={report.result} />
       </div>
     </div>
   );

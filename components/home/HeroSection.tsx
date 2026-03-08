@@ -195,7 +195,7 @@ export function HeroSection() {
         (first.timeOfBirth ?? '').trim() === time &&
         (first.placeOfBirth ?? '').trim() === place
       if (unchanged) {
-        router.push(`/kundli/generate?profileId=${first.id}&from=hero`)
+        router.push(`/services/kundli/generate?profileId=${first.id}&from=hero`)
         return
       }
       try {
@@ -207,12 +207,12 @@ export function HeroSection() {
           ...(selectedPlace && selectedPlace.placeId && (selectedPlace.formattedAddress ?? '').trim() === (placeOfBirth ?? '').trim() && { placeId: selectedPlace.placeId }),
         }).unwrap()
         if (result?.data?.id) {
-          router.push(`/kundli/generate?profileId=${result.data.id}&from=hero`)
+          router.push(`/services/kundli/generate?profileId=${result.data.id}&from=hero`)
         } else {
-          router.push("/kundli/generate?from=hero")
+          router.push("/services/kundli/generate?from=hero")
         }
       } catch {
-        router.push("/kundli/generate?from=hero")
+        router.push("/services/kundli/generate?from=hero")
       }
     } else {
       dispatch(

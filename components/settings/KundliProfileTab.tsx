@@ -47,6 +47,15 @@ export function KundliProfileTab() {
                     {k.dateOfBirth && `DOB: ${k.dateOfBirth}`}
                     {k.timeOfBirth && ` • Time: ${k.timeOfBirth}`}
                     {k.placeOfBirth && ` • ${k.placeOfBirth}`}
+                    {k.timezoneOffsetHours != null && !Number.isNaN(Number(k.timezoneOffsetHours)) && (() => {
+                      const h = Number(k.timezoneOffsetHours);
+                      const sign = h >= 0 ? '+' : '-';
+                      const abs = Math.abs(h);
+                      const hrs = Math.floor(abs);
+                      const mins = Math.round((abs - hrs) * 60);
+                      const tzStr = mins ? `GMT${sign}${hrs}:${mins.toString().padStart(2, '0')}` : `GMT${sign}${hrs}:00`;
+                      return <span> • {tzStr}</span>;
+                    })()}
                   </p>
                 </div>
               </li>

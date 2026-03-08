@@ -76,7 +76,7 @@ export function Navbar() {
                   <NavigationMenuContent className="bg-white border border-gray-200 shadow-lg rounded-md">
                     <div className="grid w-[500px] gap-3 p-4 md:grid-cols-2 bg-white rounded-md">
                       <Link
-                        href="/kundli/generate"
+                        href="/services/kundli/generate"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
                         <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Kundli Generation</div>
@@ -252,7 +252,7 @@ export function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
                 <DropdownMenuItem asChild>
-                  <Link href="/kundli/generate">Kundli Generation</Link>
+                  <Link href="/services/kundli/generate">Kundli Generation</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/services/horoscope">Horoscope</Link>

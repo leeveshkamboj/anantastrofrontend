@@ -89,7 +89,7 @@ export default function RegisterPage() {
       }
       toast.success('Registration successful! Welcome to AnantAstro.');
       if (kundliForm.name?.trim()) {
-        router.push('/kundli/generate');
+        router.push('/services/kundli/generate');
       } else {
         dispatch(clearKundliFormData());
         router.push('/');

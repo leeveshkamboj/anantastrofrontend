@@ -1,0 +1,13 @@
+export { MatchmakingHero } from './MatchmakingHero';
+export { WhatIsGunMilan } from './WhatIsGunMilan';
+export { MatchmakingHowItWorks } from './MatchmakingHowItWorks';
+export { MatchmakingWhyDetailsMatter } from './MatchmakingWhyDetailsMatter';
+export { MatchmakingWhatYouGet } from './MatchmakingWhatYouGet';
+export { MatchmakingFaq } from './MatchmakingFaq';
+export { MatchmakingFinalCta } from './MatchmakingFinalCta';
+export { MatchmakingResult } from './MatchmakingResult';
+export { MatchmakingPartnerKundlis } from './MatchmakingPartnerKundlis';
+export { MatchmakingFormSection } from './MatchmakingFormSection';
+export type { MatchmakingFormSectionProps } from './MatchmakingFormSection';
+export type { PartnerForm } from './types';
+export { initialPartner } from './types';

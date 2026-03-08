@@ -60,7 +60,7 @@ export default function LoginPage() {
         }
         if (kundliForm.name?.trim()) {
           toast.success('Login successful! Welcome back.');
-          router.push('/kundli/generate');
+          router.push('/services/kundli/generate');
           return;
         }
       }

@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { KundliChart, AstroChartRadix } from '@/components/kundli';
+import { KundliChart, AstroChartRadix, NorthIndianDiamondChart } from '@/components/kundli';
 import { Label } from '@/components/ui/label';
-import type { KundliGeneration } from '@/store/api/kundliApi';
+import type { KundliGeneration, KpChartData } from '@/store/api/kundliApi';
 
 const INTERPRETATION_SECTIONS = [
   { key: 'description', title: 'Description' },
@@ -18,13 +18,14 @@ const INTERPRETATION_SECTIONS = [
 const KUNDLI_TABS = [
   { id: 'basic', label: 'Basic' },
   { id: 'kundli', label: 'Kundli' },
+  { id: 'kp', label: 'KP' },
   { id: 'report', label: 'Report' },
   { id: 'remedies', label: 'Remedies' },
 ] as const;
 
 type KundliTabId = (typeof KUNDLI_TABS)[number]['id'];
 
-type ChartType = 'grid' | 'radix';
+type ChartType = 'north-indian' | 'south-indian' | 'radix';
 
 interface PlanetRow {
   name: string;
@@ -61,7 +62,7 @@ function BirthChartSection({
 }: {
   chartData: Record<string, unknown> | null;
 }) {
-  const [chartType, setChartType] = useState<ChartType>('grid');
+  const [chartType, setChartType] = useState<ChartType>('north-indian');
 
   const planets = (chartData?.planets as RawPlanet[] | undefined) ?? [];
   const useSidereal = true;
@@ -100,12 +101,28 @@ function BirthChartSection({
             onChange={(e) => setChartType(e.target.value as ChartType)}
             className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500"
           >
-            <option value="grid">Grid (North Indian)</option>
-            <option value="radix">Radix (wheel)</option>
+            <option value="north-indian">North Indian (Diamond)</option>
+            <option value="south-indian">South Indian (Grid)</option>
+            <option value="radix">Radix (Wheel)</option>
           </select>
         </div>
       </div>
-      {chartType === 'grid' && (
+      {chartType === 'north-indian' && (
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 w-full max-w-full overflow-x-auto">
+          <div className="flex justify-center shrink-0">
+            <NorthIndianDiamondChart chartData={chartData} title="Lagna (D-1)" />
+          </div>
+          {chartData?.navamsa && typeof chartData.navamsa === 'object' && Array.isArray((chartData.navamsa as { planets?: unknown }).planets) ? (
+            <div className="flex justify-center shrink-0">
+              <NorthIndianDiamondChart
+                chartData={chartData.navamsa as Record<string, unknown>}
+                title="Navamsa (D-9)"
+              />
+            </div>
+          ) : null}
+        </div>
+      )}
+      {chartType === 'south-indian' && (
         <div className="flex justify-center w-full max-w-full overflow-x-auto">
           <KundliChart chartData={chartData} useSidereal />
         </div>
@@ -276,6 +293,33 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
                     <dd className="text-gray-900">{gen.placeOfBirth}</dd>
                   </>
                 )}
+                {((gen.timezoneOffsetHours != null && !Number.isNaN(Number(gen.timezoneOffsetHours))) || (chartData && typeof (chartData as { timezoneOffsetHours?: number }).timezoneOffsetHours === 'number')) && (
+                  <>
+                    <dt className="font-medium text-gray-500">Timezone</dt>
+                    <dd className="text-gray-900">
+                      {(() => {
+                        const tz = gen.timezoneOffsetHours != null && !Number.isNaN(Number(gen.timezoneOffsetHours))
+                          ? Number(gen.timezoneOffsetHours)
+                          : (chartData as { timezoneOffsetHours?: number })?.timezoneOffsetHours;
+                        if (tz == null || Number.isNaN(tz)) return '—';
+                        const h = Number(tz);
+                        const sign = h >= 0 ? '+' : '-';
+                        const abs = Math.abs(h);
+                        const hrs = Math.floor(abs);
+                        const mins = Math.round((abs - hrs) * 60);
+                        return mins ? `GMT${sign}${hrs}:${mins.toString().padStart(2, '0')}` : `GMT${sign}${hrs}:00`;
+                      })()}
+                    </dd>
+                  </>
+                )}
+                {gen.latitude != null && gen.longitude != null && (
+                  <>
+                    <dt className="font-medium text-gray-500">Coordinates used</dt>
+                    <dd className="text-gray-900 tabular-nums">
+                      {Number(gen.latitude).toFixed(4)}°N, {Number(gen.longitude).toFixed(4)}°E
+                    </dd>
+                  </>
+                )}
               </dl>
             </CardContent>
           </Card>
@@ -414,6 +458,111 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
             <Card>
               <CardContent className="pt-8 pb-8 text-center text-gray-600">
                 No chart data available yet.
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'kp' && (
+        <div className="space-y-6">
+          <h2 className="text-lg font-semibold text-gray-900">Bhav Chalit Chart (KP)</h2>
+          {(gen.kpChartData as KpChartData | null)?.rulingPlanets?.length ? (
+            <>
+              <Card>
+                <CardContent>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Ruling Planets</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left border-collapse min-w-[320px]">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="py-2 pr-2 font-semibold text-gray-900">—</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sign Lord</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Star Lord</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sub Lord</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(gen.kpChartData as KpChartData).rulingPlanets!.map((row) => (
+                          <tr key={row.point} className="border-b border-gray-100">
+                            <td className="py-2 pr-2 font-medium text-gray-900">{row.point}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.signLord}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.starLord}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.subLord}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Planets</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left border-collapse min-w-[520px]">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Planets</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Cusp</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sign</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sign Lord</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Star Lord</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sub Lord</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(gen.kpChartData as KpChartData).planets?.map((row) => (
+                          <tr key={row.planet} className="border-b border-gray-100">
+                            <td className="py-2 pr-2 font-medium text-gray-900">{row.planet}</td>
+                            <td className="py-2 pr-2 text-gray-700 tabular-nums">{row.cusp}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.sign}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.signLord}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.starLord}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.subLord}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">Cusps</h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left border-collapse min-w-[520px]">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Cusp</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Degree</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sign</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sign Lord</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Star Lord</th>
+                          <th className="py-2 pr-2 font-semibold text-gray-900">Sub Lord</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(gen.kpChartData as KpChartData).cusps?.map((row) => (
+                          <tr key={row.cusp} className="border-b border-gray-100">
+                            <td className="py-2 pr-2 font-medium text-gray-900 tabular-nums">{row.cusp}</td>
+                            <td className="py-2 pr-2 text-gray-700 tabular-nums">{row.degree.toFixed(2)}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.sign}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.signLord}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.starLord}</td>
+                            <td className="py-2 pr-2 text-gray-700">{row.subLord}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : (
+            <Card>
+              <CardContent className="pt-8 pb-8 text-center text-gray-600">
+                No KP chart data available. Generate a new kundli to get Bhav Chalit (KP) data.
               </CardContent>
             </Card>
           )}

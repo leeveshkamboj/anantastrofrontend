@@ -51,7 +51,7 @@ function GoogleCallbackContent() {
             router.push('/admin');
           } else if (kundliForm.name?.trim()) {
             // Came from hero kundli form: go to kundli generation page
-            router.push('/kundli/generate');
+            router.push('/services/kundli/generate');
           } else {
             router.push('/');
           }

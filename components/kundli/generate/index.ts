@@ -1,0 +1,11 @@
+export { KundliGenerateHero } from './KundliGenerateHero';
+export { WhatIsKundli } from './WhatIsKundli';
+export { HowItWorks } from './HowItWorks';
+export { WhyDetailsMatter } from './WhyDetailsMatter';
+export { WhatYouGet } from './WhatYouGet';
+export { KundliFaq } from './KundliFaq';
+export { KundliFinalCta } from './KundliFinalCta';
+export { BirthDetailsForm } from './BirthDetailsForm';
+export type { BirthDetailsFormProps } from './BirthDetailsForm';
+export { GetKundliSection } from './GetKundliSection';
+export type { GetKundliSectionProps } from './GetKundliSection';

@@ -61,7 +61,7 @@ export function Footer() {
             <h3 className="text-lg font-semibold ">Services</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/kundli/generate" className=" hover:text-primary transition-colors">
+                <Link href="/services/kundli/generate" className=" hover:text-primary transition-colors">
                   Kundli Generation
                 </Link>
               </li>

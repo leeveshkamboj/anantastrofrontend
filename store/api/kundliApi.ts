@@ -9,6 +9,7 @@ export interface Kundli {
   placeOfBirth: string | null;
   latitude: number | null;
   longitude: number | null;
+  timezoneOffsetHours: number | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -56,6 +57,13 @@ export interface CreateKundliGenerationRequest {
 
 export type KundliGenerationStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
 
+/** KP (Krishnamurti Paddhati) Bhav Chalit chart data from backend */
+export interface KpChartData {
+  rulingPlanets?: { point: string; signLord: string; starLord: string; subLord: string }[];
+  planets?: { planet: string; cusp: number; sign: string; signLord: string; starLord: string; subLord: string }[];
+  cusps?: { cusp: number; degree: number; sign: string; signLord: string; starLord: string; subLord: string }[];
+}
+
 export interface KundliGeneration {
   id: number;
   uuid: string;
@@ -67,6 +75,8 @@ export interface KundliGeneration {
   name: string | null;
   placeOfBirth: string | null;
   chartData: Record<string, unknown> | null;
+  kpChartData: KpChartData | null;
+  timezoneOffsetHours: number | null;
   interpretation: string | null;
   status: KundliGenerationStatus;
   errorMessage: string | null;
@@ -100,6 +110,100 @@ export interface KundliGenerationsListResponse {
 export interface GeocodeResponse {
   isSuccess: boolean;
   data: { lat: number; lng: number; formattedAddress?: string } | null;
+}
+
+/** Backend timezone from lat/lng (Google Time Zone API); offset in hours e.g. 5.5 for IST */
+export interface GeocodeTimezoneResponse {
+  isSuccess: boolean;
+  data: { timezoneOffsetHours: number | null };
+}
+
+/** Partner birth details for matchmaking */
+export interface MatchmakingPartnerRequest {
+  dob: string;
+  time: string;
+  latitude: number;
+  longitude: number;
+  timezoneOffsetHours?: number;
+  name?: string;
+  placeOfBirth?: string;
+}
+
+export interface MatchmakingKootaResult {
+  name: string;
+  maxPoints: number;
+  points: number;
+  description: string;
+  maleValue?: string;
+  femaleValue?: string;
+  areaOfLife?: string;
+  meaning?: string;
+}
+
+export interface MatchmakingResult {
+  totalPoints: number;
+  maxPoints: number;
+  percentage: number;
+  interpretation: string;
+  kootas: MatchmakingKootaResult[];
+  partner1Summary: { name?: string; nakshatra: string; rashi: string; varna: string; gan: string; nadi: string };
+  partner2Summary: { name?: string; nakshatra: string; rashi: string; varna: string; gan: string; nadi: string };
+}
+
+export interface MatchmakingRequest {
+  partner1: MatchmakingPartnerRequest;
+  partner2: MatchmakingPartnerRequest;
+}
+
+export interface MatchmakingResponse {
+  isSuccess: boolean;
+  data: MatchmakingResult;
+}
+
+export type MatchmakingReportStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+
+export interface MatchmakingReport {
+  id: number;
+  uuid: string;
+  userId: number;
+  partner1Name: string | null;
+  partner1Dob: string;
+  partner1Time: string;
+  partner1Latitude: string | number;
+  partner1Longitude: string | number;
+  partner1TimezoneOffsetHours: number | null;
+  partner1PlaceOfBirth: string | null;
+  partner2Name: string | null;
+  partner2Dob: string;
+  partner2Time: string;
+  partner2Latitude: string | number;
+  partner2Longitude: string | number;
+  partner2TimezoneOffsetHours: number | null;
+  partner2PlaceOfBirth: string | null;
+  result: MatchmakingResult | null;
+  partner1ChartData: Record<string, unknown> | null;
+  partner2ChartData: Record<string, unknown> | null;
+  status: MatchmakingReportStatus;
+  errorMessage: string | null;
+  shareToken: string | null;
+  shareEnabled: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateMatchmakingReportResponse {
+  isSuccess: boolean;
+  data: { id: number; uuid: string; status: string };
+}
+
+export interface MatchmakingReportResponse {
+  isSuccess: boolean;
+  data: MatchmakingReport;
+}
+
+export interface MatchmakingReportsListResponse {
+  isSuccess: boolean;
+  data: MatchmakingReport[];
 }
 
 /** Autocomplete suggestion; send placeId in profile create/update so backend resolves lat/lng */
@@ -183,6 +287,48 @@ export const kundliApi = baseApi.injectEndpoints({
         params: { place, ...(limit != null && { limit: String(limit) }) },
       }),
     }),
+    getGeocodeTimezone: builder.query<GeocodeTimezoneResponse, { lat: number; lng: number }>({
+      query: ({ lat, lng }) => ({ url: '/geocode/timezone', params: { lat: String(lat), lng: String(lng) } }),
+    }),
+    createMatchmakingReport: builder.mutation<CreateMatchmakingReportResponse, MatchmakingRequest>({
+      query: (body) => ({
+        url: '/matchmaking',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['MatchmakingReport'],
+    }),
+    getMatchmakingReport: builder.query<MatchmakingReportResponse, string>({
+      query: (uuid) => `/matchmaking/${uuid}`,
+      providesTags: (_result, _err, uuid) => [{ type: 'MatchmakingReport', id: uuid }],
+    }),
+    getMatchmakingByShareToken: builder.query<MatchmakingReportResponse, string>({
+      query: (token) => `/matchmaking/share/${token}`,
+    }),
+    updateMatchmakingShare: builder.mutation<ShareResponse, { uuid: string; enabled: boolean }>({
+      query: ({ uuid, enabled }) => ({
+        url: `/matchmaking/${uuid}/share`,
+        method: 'PATCH',
+        body: { enabled },
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [{ type: 'MatchmakingReport', id: uuid }],
+    }),
+    getMyMatchmakingReports: builder.query<
+      MatchmakingReportsListResponse,
+      { status?: MatchmakingReportStatus } | void
+    >({
+      query: (params) => ({
+        url: '/matchmaking',
+        params: params && typeof params === 'object' && params.status ? { status: params.status } : undefined,
+      }),
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map((r) => ({ type: 'MatchmakingReport' as const, id: r.uuid })),
+              { type: 'MatchmakingReport', id: 'LIST' },
+            ]
+          : [{ type: 'MatchmakingReport', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -197,4 +343,10 @@ export const {
   useUpdateKundliShareMutation,
   useLazyGetGeocodeQuery,
   useLazyGetGeocodeSuggestionsQuery,
+  useLazyGetGeocodeTimezoneQuery,
+  useCreateMatchmakingReportMutation,
+  useGetMatchmakingReportQuery,
+  useGetMatchmakingByShareTokenQuery,
+  useUpdateMatchmakingShareMutation,
+  useGetMyMatchmakingReportsQuery,
 } = kundliApi;
