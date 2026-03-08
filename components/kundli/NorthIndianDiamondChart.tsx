@@ -106,9 +106,9 @@ function polygonCentroid(verts: number[][]): { x: number; y: number } {
 }
 
 /** Houses 3 and 4: centroid can sit on cell edge. Use visual center (bbox center) so text stays inside. */
-function effectiveCenter(houseNum: number, pathIdx: number, verts: number[][], c: { x: number; y: number }): { x: number; y: number } {
+function effectiveCenter(houseNum: number, pathIdx: number, verts: number[][][], c: { x: number; y: number }): { x: number; y: number } {
   if (houseNum !== 3 && houseNum !== 4) return c;
-  const vs = verts[pathIdx];
+  const vs: [number, number][] = verts[pathIdx] as [number, number][];
   const xs = vs.map(([x]) => x);
   const ys = vs.map(([, y]) => y);
   const minX = Math.min(...xs);

@@ -43,15 +43,15 @@ export function MatchmakingPartnerKundlis({
                   className="max-w-full"
                 />
                 {partner1ChartData?.navamsa &&
-                  typeof partner1ChartData.navamsa === 'object' &&
-                  Array.isArray((partner1ChartData.navamsa as { planets?: unknown }).planets) &&
-                  (partner1ChartData.navamsa as { planets: unknown[] }).planets.length > 0 && (
-                    <NorthIndianDiamondChart
-                      chartData={partner1ChartData.navamsa as Record<string, unknown>}
-                      title="Navamsa (D-9)"
-                      className="max-w-full"
-                    />
-                  )}
+                typeof partner1ChartData.navamsa === 'object' &&
+                Array.isArray((partner1ChartData.navamsa as { planets?: unknown }).planets) &&
+                (partner1ChartData.navamsa as { planets: unknown[] }).planets.length > 0 ? (
+                  <NorthIndianDiamondChart
+                    chartData={partner1ChartData.navamsa as Record<string, unknown>}
+                    title="Navamsa (D-9)"
+                    className="max-w-full"
+                  />
+                ) : null}
               </div>
             ) : (
               <p className="text-sm text-gray-500 text-center">No chart data</p>
@@ -67,15 +67,15 @@ export function MatchmakingPartnerKundlis({
                   className="max-w-full"
                 />
                 {partner2ChartData?.navamsa &&
-                  typeof partner2ChartData.navamsa === 'object' &&
-                  Array.isArray((partner2ChartData.navamsa as { planets?: unknown }).planets) &&
-                  (partner2ChartData.navamsa as { planets: unknown[] }).planets.length > 0 && (
-                    <NorthIndianDiamondChart
-                      chartData={partner2ChartData.navamsa as Record<string, unknown>}
-                      title="Navamsa (D-9)"
-                      className="max-w-full"
-                    />
-                  )}
+                typeof partner2ChartData.navamsa === 'object' &&
+                Array.isArray((partner2ChartData.navamsa as { planets?: unknown }).planets) &&
+                (partner2ChartData.navamsa as { planets: unknown[] }).planets.length > 0 ? (
+                  <NorthIndianDiamondChart
+                    chartData={partner2ChartData.navamsa as Record<string, unknown>}
+                    title="Navamsa (D-9)"
+                    className="max-w-full"
+                  />
+                ) : null}
               </div>
             ) : (
               <p className="text-sm text-gray-500 text-center">No chart data</p>
