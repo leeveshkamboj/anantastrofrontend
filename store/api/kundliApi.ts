@@ -206,6 +206,67 @@ export interface MatchmakingReportsListResponse {
   data: MatchmakingReport[];
 }
 
+/** Horoscope: create request (birth details + period) */
+export interface CreateHoroscopeRequest {
+  dob: string;
+  time: string;
+  latitude: number;
+  longitude: number;
+  timezoneOffsetHours?: number;
+  name?: string;
+  placeOfBirth?: string;
+  period: 'daily' | 'weekly' | 'monthly';
+}
+
+export type HoroscopeReportStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+
+/** Structured horoscope result from AI (overview, career, health, relationships, finance, remedies) */
+export interface HoroscopeResult {
+  overview?: string;
+  career?: string;
+  health?: string;
+  relationships?: string;
+  finance?: string;
+  remedies?: string;
+}
+
+export interface HoroscopeReport {
+  id: number;
+  uuid: string;
+  userId: number;
+  name: string | null;
+  dob: string;
+  time: string;
+  latitude: string | number;
+  longitude: string | number;
+  timezoneOffsetHours: number | null;
+  placeOfBirth: string | null;
+  period: 'daily' | 'weekly' | 'monthly';
+  chartData: Record<string, unknown> | null;
+  result: HoroscopeResult | Record<string, unknown> | null;
+  status: HoroscopeReportStatus;
+  errorMessage: string | null;
+  shareToken: string | null;
+  shareEnabled: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateHoroscopeReportResponse {
+  isSuccess: boolean;
+  data: { id: number; uuid: string; status: string };
+}
+
+export interface HoroscopeReportResponse {
+  isSuccess: boolean;
+  data: HoroscopeReport;
+}
+
+export interface HoroscopeReportsListResponse {
+  isSuccess: boolean;
+  data: HoroscopeReport[];
+}
+
 /** Autocomplete suggestion; send placeId in profile create/update so backend resolves lat/lng */
 export interface PlaceSuggestion {
   placeId: string;
@@ -329,6 +390,45 @@ export const kundliApi = baseApi.injectEndpoints({
             ]
           : [{ type: 'MatchmakingReport', id: 'LIST' }],
     }),
+    createHoroscopeReport: builder.mutation<CreateHoroscopeReportResponse, CreateHoroscopeRequest>({
+      query: (body) => ({
+        url: '/horoscope',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['HoroscopeReport'],
+    }),
+    getHoroscopeReport: builder.query<HoroscopeReportResponse, string>({
+      query: (uuid) => `/horoscope/${uuid}`,
+      providesTags: (_result, _err, uuid) => [{ type: 'HoroscopeReport', id: uuid }],
+    }),
+    getHoroscopeByShareToken: builder.query<HoroscopeReportResponse, string>({
+      query: (token) => `/horoscope/share/${token}`,
+    }),
+    updateHoroscopeShare: builder.mutation<ShareResponse, { uuid: string; enabled: boolean }>({
+      query: ({ uuid, enabled }) => ({
+        url: `/horoscope/${uuid}/share`,
+        method: 'PATCH',
+        body: { enabled },
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [{ type: 'HoroscopeReport', id: uuid }],
+    }),
+    getMyHoroscopeReports: builder.query<
+      HoroscopeReportsListResponse,
+      { status?: HoroscopeReportStatus } | void
+    >({
+      query: (params) => ({
+        url: '/horoscope',
+        params: params && typeof params === 'object' && params.status ? { status: params.status } : undefined,
+      }),
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map((r) => ({ type: 'HoroscopeReport' as const, id: r.uuid })),
+              { type: 'HoroscopeReport', id: 'LIST' },
+            ]
+          : [{ type: 'HoroscopeReport', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -349,4 +449,9 @@ export const {
   useGetMatchmakingByShareTokenQuery,
   useUpdateMatchmakingShareMutation,
   useGetMyMatchmakingReportsQuery,
+  useCreateHoroscopeReportMutation,
+  useGetHoroscopeReportQuery,
+  useGetHoroscopeByShareTokenQuery,
+  useUpdateHoroscopeShareMutation,
+  useGetMyHoroscopeReportsQuery,
 } = kundliApi;

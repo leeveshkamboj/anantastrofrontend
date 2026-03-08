@@ -245,8 +245,12 @@ function KundliGenerateContent() {
         ...(trimmedPlace && { placeOfBirth: trimmedPlace }),
       }).unwrap();
       const uuid = res?.data?.uuid;
-      if (uuid) router.push(`/services/kundli/result/${uuid}`);
-      else toast.error('Something went wrong. Please try again.');
+      if (uuid) {
+        toast.success('Kundli generation started. We’ll email you when it’s ready.');
+        router.push(`/services/kundli/result/${uuid}`);
+      } else {
+        toast.error('Something went wrong. Please try again.');
+      }
     } catch {
       toast.error('Failed to start kundli generation. Please try again.');
     }

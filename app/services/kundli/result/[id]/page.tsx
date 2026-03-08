@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { BookOpen, ArrowLeft, Loader2, AlertCircle, Share2, Link2, Facebook, Linkedin, Copy, Check } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
+import { toast } from 'sonner';
 import { KundliResultContent } from '../KundliResultContent';
 
 export default function KundliResultPage() {
@@ -49,6 +50,7 @@ export default function KundliResultPage() {
     if (!shareUrlForCopy) return;
     navigator.clipboard.writeText(shareUrlForCopy).then(() => {
       setCopied(true);
+      toast.success('Share link copied to clipboard.');
       setTimeout(() => setCopied(false), 2000);
     });
   }, [shareUrlForCopy]);

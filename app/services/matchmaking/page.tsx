@@ -286,6 +286,7 @@ export default function MatchmakingPage() {
       const res = await createMatchmakingReport({ partner1: payload1, partner2: payload2 }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {
+        toast.success('Matchmaking report started. We’ll email you when it’s ready.');
         router.push(`/services/matchmaking/result/${uuid}`);
       } else {
         toast.error('Something went wrong. Please try again.');

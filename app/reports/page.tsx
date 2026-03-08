@@ -3,11 +3,15 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useGetMyKundliGenerationsQuery, useGetMyMatchmakingReportsQuery } from '@/store/api/kundliApi';
+import {
+  useGetMyKundliGenerationsQuery,
+  useGetMyMatchmakingReportsQuery,
+  useGetMyHoroscopeReportsQuery,
+} from '@/store/api/kundliApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, ArrowRight, Loader2, BookOpen, Heart } from 'lucide-react';
+import { FileText, ArrowRight, Loader2, BookOpen, Heart, Sparkles } from 'lucide-react';
 
 export default function ReportsPage() {
   const router = useRouter();
@@ -17,6 +21,10 @@ export default function ReportsPage() {
     { skip: !isAuthenticated },
   );
   const { data: matchmakingData, isLoading: loadingMatchmaking } = useGetMyMatchmakingReportsQuery(
+    { status: 'COMPLETED' },
+    { skip: !isAuthenticated },
+  );
+  const { data: horoscopeData, isLoading: loadingHoroscope } = useGetMyHoroscopeReportsQuery(
     { status: 'COMPLETED' },
     { skip: !isAuthenticated },
   );
@@ -33,8 +41,10 @@ export default function ReportsPage() {
 
   const kundliReports = kundliData?.data ?? [];
   const matchmakingReports = matchmakingData?.data ?? [];
-  const isLoading = loadingKundli || loadingMatchmaking;
-  const hasAny = kundliReports.length > 0 || matchmakingReports.length > 0;
+  const horoscopeReports = horoscopeData?.data ?? [];
+  const isLoading = loadingKundli || loadingMatchmaking || loadingHoroscope;
+  const hasAny =
+    kundliReports.length > 0 || matchmakingReports.length > 0 || horoscopeReports.length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -45,7 +55,7 @@ export default function ReportsPage() {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900">My Reports</h1>
               <p className="text-gray-600 text-sm mt-0.5">
-                Your completed kundli and Gun Milan (matchmaking) reports
+                Your completed kundli, horoscope, and Gun Milan (matchmaking) reports
               </p>
             </div>
           </div>
@@ -54,6 +64,12 @@ export default function ReportsPage() {
               <Link href="/services/kundli/generate" className="gap-2">
                 <BookOpen className="h-4 w-4" />
                 New Kundli
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/services/horoscope" className="gap-2">
+                <Sparkles className="h-4 w-4" />
+                Horoscope
               </Link>
             </Button>
             <Button asChild variant="outline">
@@ -75,13 +91,19 @@ export default function ReportsPage() {
               <FileText className="h-14 w-14 text-gray-300 mx-auto mb-4" />
               <h2 className="text-lg font-semibold text-gray-900 mb-2">No reports yet</h2>
               <p className="text-gray-600 text-sm mb-6 max-w-sm mx-auto">
-                Generate a kundli for your birth chart or a Gun Milan report for compatibility. Your completed reports will appear here.
+                Generate a kundli, a horoscope (daily/weekly/monthly), or a Gun Milan report. Your completed reports will appear here.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <Button asChild>
                   <Link href="/services/kundli/generate" className="gap-2">
                     <BookOpen className="h-4 w-4" />
                     Create Kundli Report
+                  </Link>
+                </Button>
+                <Button asChild variant="outline">
+                  <Link href="/services/horoscope" className="gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Get Horoscope
                   </Link>
                 </Button>
                 <Button asChild variant="outline">
@@ -128,6 +150,56 @@ export default function ReportsPage() {
                                   <span aria-hidden>·</span>
                                   <dt className="sr-only">Time</dt>
                                   <dd>{report.time}</dd>
+                                </div>
+                                {report.placeOfBirth && (
+                                  <div>
+                                    <dt className="sr-only">Place</dt>
+                                    <dd className="truncate">{report.placeOfBirth}</dd>
+                                  </div>
+                                )}
+                              </dl>
+                            </div>
+                            <ArrowRight className="h-5 w-5 text-gray-400 shrink-0 group-hover:text-primary transition-colors" />
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {/* Horoscope Reports */}
+            <section>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-primary" />
+                Horoscope Reports
+              </h2>
+              {horoscopeReports.length === 0 ? (
+                <Card>
+                  <CardContent className="py-8 text-center text-gray-600 text-sm">
+                    No horoscope reports yet.{' '}
+                    <Link href="/services/horoscope" className="text-primary font-medium hover:underline">
+                      Get one
+                    </Link>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {horoscopeReports.map((report) => (
+                    <Link key={report.uuid} href={`/services/horoscope/result/${report.uuid}`}>
+                      <Card className="group transition-shadow hover:shadow-md cursor-pointer h-full">
+                        <CardContent className="pt-5 pb-5">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <h3 className="font-semibold text-gray-900 truncate">
+                                {report.name || 'Horoscope Report'}
+                              </h3>
+                              <dl className="mt-2 space-y-1 text-sm text-gray-600">
+                                <div className="flex flex-wrap gap-x-2 capitalize">
+                                  <dd>{report.period}</dd>
+                                  <span aria-hidden>·</span>
+                                  <dd>{report.dob}</dd>
                                 </div>
                                 {report.placeOfBirth && (
                                   <div>

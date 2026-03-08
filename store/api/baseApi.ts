@@ -23,7 +23,7 @@ export const baseApi = createApi({
       return response.status < 300 || response.status === 201;
     },
   }),
-  tagTypes: ['User', 'Auth', 'AstrologerRequests', 'Admin', 'AstrologerProfile', 'AstrologerProfiles', 'Languages', 'ExpertiseTags', 'Notifications', 'Currencies', 'Timezones', 'Kundlis', 'KundliGeneration', 'MatchmakingReport'],
+  tagTypes: ['User', 'Auth', 'AstrologerRequests', 'Admin', 'AstrologerProfile', 'AstrologerProfiles', 'Languages', 'ExpertiseTags', 'Notifications', 'Currencies', 'Timezones', 'Kundlis', 'KundliGeneration', 'MatchmakingReport', 'HoroscopeReport'],
   endpoints: () => ({}), // No endpoints here - they will be injected by feature APIs
 });
 
