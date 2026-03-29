@@ -18,6 +18,7 @@ import type { RegisterRequest, AuthData } from '@/store/api/authApi';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { config } from '@/lib/config';
 import { toast } from 'sonner';
+import { parseFetchBaseError } from '@/lib/api-errors';
 import Link from 'next/link';
 
 const registerSchema = z.object({
@@ -95,7 +96,19 @@ export default function RegisterPage() {
         router.push('/');
       }
     } catch (err) {
-      const errorMessage = error || (err as { data?: { message?: string } })?.data?.message || 'Registration failed. Please try again.';
+      const fe = parseFetchBaseError(err);
+      if (fe.status === 409 || fe.code === 'DUPLICATE_CHART_DETAILS') {
+        toast.error(
+          fe.message ??
+            'Looks like you have already generated a chart with these details. Please log in to continue.',
+        );
+        return;
+      }
+      const errorMessage =
+        fe.message ||
+        error ||
+        (err as { data?: { message?: string } })?.data?.message ||
+        'Registration failed. Please try again.';
       toast.error(errorMessage);
     }
   };

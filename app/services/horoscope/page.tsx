@@ -12,6 +12,8 @@ import {
 import type { PlaceSuggestion, Kundli } from '@/store/api/kundliApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import { toast } from 'sonner';
+import { parseFetchBaseError } from '@/lib/api-errors';
+import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -324,6 +326,19 @@ export default function HoroscopePage() {
         toast.error('Something went wrong. Please try again.');
       }
     } catch (err) {
+      const fe = parseFetchBaseError(err);
+      if (fe.status === 402 || fe.code === 'INSUFFICIENT_COINS') {
+        toast.error(fe.message ?? 'Not enough coins. Purchase a pack to continue.');
+        router.push('/pricing');
+        return;
+      }
+      if (fe.status === 409 || fe.code === 'DUPLICATE_CHART_DETAILS') {
+        toast.error(
+          fe.message ??
+            'Looks like you have already generated a chart with these details. Please log in to continue.',
+        );
+        return;
+      }
       const message = err instanceof Error ? err.message : 'Failed to start horoscope report.';
       toast.error(message);
     }
@@ -356,6 +371,7 @@ export default function HoroscopePage() {
           <p className="text-lg text-gray-600 text-center mb-10">
             Enter birth details or choose a saved profile below.
           </p>
+          <ServiceCostBanner serviceKey="horoscope" className="mb-8" />
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Loading profiles (no profiles yet) */}

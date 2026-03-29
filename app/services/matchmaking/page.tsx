@@ -12,6 +12,8 @@ import {
 import type { PlaceSuggestion } from '@/store/api/kundliApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import { toast } from 'sonner';
+import { parseFetchBaseError } from '@/lib/api-errors';
+import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import {
   MatchmakingHero,
   WhatIsGunMilan,
@@ -292,6 +294,19 @@ export default function MatchmakingPage() {
         toast.error('Something went wrong. Please try again.');
       }
     } catch (err) {
+      const fe = parseFetchBaseError(err);
+      if (fe.status === 402 || fe.code === 'INSUFFICIENT_COINS') {
+        toast.error(fe.message ?? 'Not enough coins. Purchase a pack to continue.');
+        router.push('/pricing');
+        return;
+      }
+      if (fe.status === 409 || fe.code === 'DUPLICATE_CHART_DETAILS') {
+        toast.error(
+          fe.message ??
+            'Looks like you have already generated a chart with these details. Please log in to continue.',
+        );
+        return;
+      }
       const message = err instanceof Error ? err.message : 'Failed to start matchmaking.';
       toast.error(message);
     }
@@ -305,6 +320,9 @@ export default function MatchmakingPage() {
       <WhatIsGunMilan />
       <MatchmakingHowItWorks />
       <MatchmakingWhyDetailsMatter />
+      <div className="max-w-3xl mx-auto px-4 -mt-4 mb-6">
+        <ServiceCostBanner serviceKey="matchmaking" />
+      </div>
       <MatchmakingFormSection
         matchStep={matchStep}
         setMatchStep={setMatchStep}

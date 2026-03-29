@@ -14,6 +14,7 @@ import {
   clearError,
 } from '../slices/authSlice';
 import { useLoginMutation, useRegisterMutation, useGetProfileQuery, useLogoutMutation } from '../api/authApi';
+import { parseFetchBaseError } from '@/lib/api-errors';
 
 /**
  * Custom hook for authentication operations and state
@@ -70,7 +71,8 @@ export const useAuth = () => {
       const result = await registerMutation(userData).unwrap();
       return result;
     } catch (err) {
-      const errorMessage = (err as { data?: { message?: string } })?.data?.message || 'Registration failed';
+      const fe = parseFetchBaseError(err);
+      const errorMessage = fe.message || 'Registration failed';
       dispatch(setError(errorMessage));
       throw err;
     } finally {

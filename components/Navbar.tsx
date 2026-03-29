@@ -16,7 +16,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Menu, User, LogIn, LogOut, LayoutDashboard, FileText, Settings, Shield } from "lucide-react"
+import { Menu, User, LogIn, LogOut, LayoutDashboard, FileText, Settings, Shield, Wallet } from "lucide-react"
+import { CoinNavPill } from "@/components/coins/CoinNavPill"
 import Link from "next/link"
 import { useState } from "react"
 import { useAuth } from "@/store/hooks/useAuth"
@@ -159,6 +160,8 @@ export function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
 
+            {isAuthenticated && <CoinNavPill className="hidden sm:inline-flex" />}
+
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -212,6 +215,12 @@ export function Navbar() {
                           <Link href="/reports" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                             <FileText className="mr-2 h-4 w-4 text-primary-dark" />
                             My Reports
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/wallet" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
+                            <Wallet className="mr-2 h-4 w-4 text-primary-dark" />
+                            Wallet & coins
                           </Link>
                         </DropdownMenuItem>
                       </>
@@ -298,6 +307,9 @@ export function Navbar() {
                         </DropdownMenuItem>
                       </>
                     )}
+                    <DropdownMenuItem asChild>
+                      <Link href="/wallet" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Wallet</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                       Logout
                     </DropdownMenuItem>

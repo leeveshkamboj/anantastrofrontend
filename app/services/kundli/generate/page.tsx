@@ -17,6 +17,8 @@ import { useAuth } from '@/store/hooks/useAuth';
 import { selectKundliFormData, clearKundliFormData } from '@/store/slices/kundliFormSlice';
 import { geocodePlace } from '@/lib/geocode';
 import { toast } from 'sonner';
+import { parseFetchBaseError } from '@/lib/api-errors';
+import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import {
   KundliGenerateHero,
   WhatIsKundli,
@@ -251,7 +253,20 @@ function KundliGenerateContent() {
       } else {
         toast.error('Something went wrong. Please try again.');
       }
-    } catch {
+    } catch (e) {
+      const err = parseFetchBaseError(e);
+      if (err.status === 402 || err.code === 'INSUFFICIENT_COINS') {
+        toast.error(err.message ?? 'Not enough coins. Purchase a pack to continue.');
+        router.push('/pricing');
+        return;
+      }
+      if (err.status === 409 || err.code === 'DUPLICATE_CHART_DETAILS') {
+        toast.error(
+          err.message ??
+            'Looks like you have already generated a chart with these details. Please log in to continue.',
+        );
+        return;
+      }
       toast.error('Failed to start kundli generation. Please try again.');
     }
   };
@@ -374,6 +389,7 @@ function KundliGenerateContent() {
             <p className="text-lg text-gray-600 text-center mb-10">
               Enter birth details or choose a saved profile below.
             </p>
+            <ServiceCostBanner serviceKey="kundli" className="mb-8" />
             <GetKundliSection
               hasProfiles={hasProfiles}
               isLoading={isLoading}

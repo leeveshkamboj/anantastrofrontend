@@ -306,7 +306,7 @@ export const kundliApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['KundliGeneration'],
+      invalidatesTags: ['KundliGeneration', 'Coins'],
     }),
     getMyKundliGenerations: builder.query<
       KundliGenerationsListResponse,
@@ -357,7 +357,7 @@ export const kundliApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['MatchmakingReport'],
+      invalidatesTags: ['MatchmakingReport', 'Coins'],
     }),
     getMatchmakingReport: builder.query<MatchmakingReportResponse, string>({
       query: (uuid) => `/matchmaking/${uuid}`,
@@ -396,7 +396,7 @@ export const kundliApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['HoroscopeReport'],
+      invalidatesTags: ['HoroscopeReport', 'Coins'],
     }),
     getHoroscopeReport: builder.query<HoroscopeReportResponse, string>({
       query: (uuid) => `/horoscope/${uuid}`,

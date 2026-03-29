@@ -11,6 +11,7 @@ import {
   Users,
   FileCheck,
   LogOut,
+  Coins,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -34,6 +35,11 @@ const menuItems = [
     title: 'Astrologer Requests',
     href: '/admin/astrologer-requests',
     icon: FileCheck,
+  },
+  {
+    title: 'Coins & pricing',
+    href: '/admin/coins',
+    icon: Coins,
   },
 ];
 
