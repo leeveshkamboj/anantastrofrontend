@@ -35,12 +35,18 @@ function formatInr(paise: number | undefined) {
   );
 }
 
-function paymentStatusVariant(status: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+function paymentStatusBadgeClass(status: string): string {
   const s = status.toUpperCase();
-  if (s === 'PAID') return 'default';
-  if (s === 'PENDING') return 'outline';
-  if (s === 'FAILED') return 'destructive';
-  return 'secondary';
+  if (s === 'PAID') {
+    return 'border-transparent bg-emerald-600 text-white shadow-sm hover:bg-emerald-600';
+  }
+  if (s === 'PENDING') {
+    return 'border-amber-300/80 bg-amber-50 text-amber-950 shadow-sm hover:bg-amber-50';
+  }
+  if (s === 'FAILED') {
+    return 'border-transparent bg-rose-600 text-white shadow-sm hover:bg-rose-600';
+  }
+  return 'border-slate-200 bg-slate-100 text-slate-800 hover:bg-slate-100';
 }
 
 function humanizeReference(ref: string | null | undefined): string {
@@ -55,7 +61,8 @@ function humanizeReference(ref: string | null | undefined): string {
   return map[ref] ?? ref.replace(/_/g, ' ');
 }
 
-function humanizeCoinType(type: string): string {
+function humanizeCoinType(type: string | null | undefined): string {
+  if (type == null || type === '') return 'Unknown';
   const map: Record<string, string> = {
     PURCHASE: 'Purchase',
     SIGNUP_BONUS: 'Signup bonus',
@@ -208,7 +215,7 @@ export default function WalletPage() {
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 md:flex-col md:items-end">
-                      <Badge variant={paymentStatusVariant(p.status)} className="capitalize">
+                      <Badge variant="outline" className={cn('capitalize font-semibold', paymentStatusBadgeClass(p.status))}>
                         {p.status.toLowerCase()}
                       </Badge>
                       <time

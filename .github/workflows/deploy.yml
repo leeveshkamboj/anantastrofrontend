@@ -51,15 +51,16 @@ jobs:
 
             cd ~
 
+
+            echo "🛑 Stopping frontend container..."
+            docker compose down || true
+
             echo "🔨 Building frontend..."
             docker compose build frontend
 
-            echo "🛑 Stopping frontend container..."
-            docker compose stop frontend || true
-            docker compose rm -f frontend || true
 
             echo "🚀 Starting frontend..."
-            docker compose up -d frontend
+            docker compose up -d
 
             echo "⏳ Waiting for frontend to stabilize..."
             sleep 15
