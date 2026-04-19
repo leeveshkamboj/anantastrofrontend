@@ -84,6 +84,7 @@ export const chatApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (_r, _e, arg) => [
         { type: 'Chat', id: `messages-${arg.sessionUuid}` },
+        { type: 'Chat', id: `session-${arg.sessionUuid}` },
         'Chat',
         'Coins',
       ],

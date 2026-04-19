@@ -30,15 +30,15 @@ export default function ChatSessionPage() {
   const sessionEndedRef = useRef(false);
   const autoEndCleanupArmedRef = useRef(false);
   const messagesViewportRef = useRef<HTMLDivElement | null>(null);
-  const { data, refetch, isLoading } = useGetChatMessagesQuery(
+  const { data, refetch: refetchMessages, isLoading } = useGetChatMessagesQuery(
     { sessionUuid },
     { skip: !sessionUuid },
   );
-  const { data: sessionData } = useGetChatSessionDetailsQuery(
+  const { data: sessionData, refetch: refetchSession } = useGetChatSessionDetailsQuery(
     { sessionUuid },
     { skip: !sessionUuid },
   );
-  const { data: walletData } = useGetMyWalletQuery();
+  const { data: walletData, refetch: refetchWallet } = useGetMyWalletQuery();
   const [sendMessage, { isLoading: sending }] = useSendChatMessageMutation();
   const [endSession, { isLoading: ending }] = useEndChatSessionMutation();
 
@@ -47,16 +47,20 @@ export default function ChatSessionPage() {
     const wsBase = process.env.NEXT_PUBLIC_API_URL || window.location.origin;
     const socket = io(`${wsBase}/chat`, { auth: { token } });
     socket.emit('chat:join', { sessionId: sessionUuid });
-    socket.on('chat:message', () => {
-      refetch();
-    });
+    const syncFromServer = () => {
+      void refetchMessages();
+      void refetchSession();
+      void refetchWallet();
+    };
+    socket.on('chat:message', syncFromServer);
+    socket.on('chat:session-ended', syncFromServer);
     socket.on('chat:typing', (payload: { isTyping?: boolean }) => {
       setIsAstrologerTyping(Boolean(payload?.isTyping));
     });
     return () => {
       socket.disconnect();
     };
-  }, [sessionUuid, token, refetch]);
+  }, [sessionUuid, token, refetchMessages, refetchSession, refetchWallet]);
 
   const submit = async () => {
     const message = text.trim();
@@ -85,6 +89,8 @@ export default function ChatSessionPage() {
       ? astrologer.avatarUrl
       : `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(astrologer?.slug || astroName)}`;
   const coinsPerMinute = astrologer?.coinsPerMinute ?? 0;
+  const lowCoinsForNextMinute =
+    session?.status === 'active' && coinsPerMinute > 0 && balance < coinsPerMinute;
   const specialtyText = astrologer?.specialties?.length
     ? astrologer.specialties.slice(0, 3).join(' • ')
     : 'Personalized astrological guidance';
@@ -199,6 +205,12 @@ export default function ChatSessionPage() {
           </div>
         </CardHeader>
         <CardContent className="space-y-3 p-2.5 sm:p-3 md:space-y-4 md:p-5">
+          {lowCoinsForNextMinute && (
+            <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950">
+              Your wallet doesn&apos;t cover the next minute at this rate. Add coins soon — the chat will end
+              automatically when billing can&apos;t debit your balance.
+            </p>
+          )}
           <div
             ref={messagesViewportRef}
             className="h-[58vh] overflow-y-auto rounded-2xl border bg-linear-to-b from-slate-50 to-white p-2.5 sm:h-[60vh] sm:p-3 md:h-[64vh] md:p-4"
