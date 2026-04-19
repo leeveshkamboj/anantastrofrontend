@@ -8,7 +8,7 @@ import { CelestialBackground } from '@/components/CelestialBackground';
 
 export default function NotFound() {
   return (
-    <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12">
+    <CelestialBackground className="flex items-cente justify-center min-h-screen px-4 py-12">
       <div className="w-full max-w-2xl mx-auto">
         <Card className="shadow-2xl border-0 bg-white">
           <CardHeader className="text-center">

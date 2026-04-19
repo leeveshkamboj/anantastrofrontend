@@ -13,6 +13,7 @@ import {
   LogOut,
   Coins,
   Package,
+  MessageCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -36,6 +37,11 @@ const menuItems = [
     title: 'Astrologer Requests',
     href: '/admin/astrologer-requests',
     icon: FileCheck,
+  },
+  {
+    title: 'AI Chat Astrologers',
+    href: '/admin/ai-astrologers',
+    icon: MessageCircle,
   },
   {
     title: 'Coins overview',

@@ -1,13 +1,35 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useGetMyWalletQuery } from '@/store/api/coinsApi';
 import { CoinGlyph } from './CoinGlyph';
 import { cn } from '@/lib/utils';
+import { io } from 'socket.io-client';
+import { useSelector } from 'react-redux';
+import { selectToken } from '@/store/slices/authSlice';
 
 export function CoinNavPill({ className }: { className?: string }) {
-  const { data, isFetching } = useGetMyWalletQuery();
+  const token = useSelector(selectToken);
+  const { data, isFetching, refetch } = useGetMyWalletQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
   const balance = data?.data?.balance;
+
+  useEffect(() => {
+    if (!token) return;
+    const wsBase = process.env.NEXT_PUBLIC_API_URL || window.location.origin;
+    const socket = io(`${wsBase}/realtime`, { auth: { token } });
+    const onBalanceUpdate = () => {
+      void refetch();
+    };
+    socket.on('wallet:balanceUpdated', onBalanceUpdate);
+    return () => {
+      socket.off('wallet:balanceUpdated', onBalanceUpdate);
+      socket.disconnect();
+    };
+  }, [token, refetch]);
 
   return (
     <Link

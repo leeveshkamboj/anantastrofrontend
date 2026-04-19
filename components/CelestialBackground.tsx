@@ -61,7 +61,7 @@ interface CelestialBackgroundProps {
 
 export function CelestialBackground({ children, className = '' }: CelestialBackgroundProps) {
   return (
-    <div className={`celestial-header relative min-h-screen ${className}`}>
+    <div className={`celestial-header relative ${className}`}>
       {/* Zodiac symbols decorative background */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <div className="relative w-full h-full">

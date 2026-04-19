@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from './api/baseApi';
 import './api/coinsApi';
+import './api/chatApi';
 import authReducer from './slices/authSlice';
 import kundliFormReducer from './slices/kundliFormSlice';
 

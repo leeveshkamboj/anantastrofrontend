@@ -114,29 +114,29 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-[60vh] bg-linear-to-b from-violet-50/70 via-white to-amber-50/20 py-10 md:py-16 px-4">
-      <div className="container mx-auto max-w-5xl space-y-12 md:space-y-14">
+    <div className="min-h-[60vh] bg-linear-to-b from-violet-50/70 via-white to-amber-50/20 px-3 py-8 md:px-4 md:py-16">
+      <div className="container mx-auto max-w-5xl space-y-10 md:space-y-14">
         {/* Hero */}
         <div className="relative text-center">
           <div className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(100%,28rem)] -translate-x-1/2 rounded-full bg-violet-200/30 blur-3xl" />
-          <div className="relative space-y-4">
+          <div className="relative space-y-3 md:space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border border-violet-200/80 bg-white/90 px-3 py-1 text-xs font-medium text-violet-800 shadow-sm backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5 text-amber-500" aria-hidden />
               Simple, transparent packs
             </div>
-            <div className="flex flex-col items-center gap-3">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-violet-100 to-amber-50 shadow-inner ring-1 ring-violet-200/60">
+            <div className="flex flex-col items-center gap-2.5 md:gap-3">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-violet-100 to-amber-50 shadow-inner ring-1 ring-violet-200/60 md:h-14 md:w-14">
                 <CoinGlyph className="h-9 w-9 text-amber-600" />
               </span>
-              <h1 className="text-3xl font-serif font-bold tracking-tight text-gray-900 md:text-4xl lg:text-[2.5rem]">
+              <h1 className="text-2xl font-serif font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl lg:text-[2.5rem]">
                 Coin packs
               </h1>
             </div>
-            <p className="mx-auto max-w-xl text-sm text-muted-foreground md:text-base">
+            <p className="mx-auto max-w-xl px-1 text-sm leading-relaxed text-muted-foreground md:px-0 md:text-base">
               One balance for every report. Buy a pack, pay securely with Razorpay, and spend coins on kundli,
               horoscope, and matchmaking — no subscriptions required.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 pt-1 text-xs text-muted-foreground md:gap-x-6">
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck className="h-4 w-4 text-emerald-600" />
                 Razorpay checkout
@@ -152,7 +152,7 @@ export default function PricingPage() {
         </div>
 
         {/* What coins unlock */}
-        <div className="rounded-2xl border border-violet-100/80 bg-white/70 p-5 shadow-sm shadow-violet-950/5 backdrop-blur-sm md:p-6">
+        <div className="rounded-2xl border border-violet-100/80 bg-white/70 p-4 shadow-sm shadow-violet-950/5 backdrop-blur-sm md:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3 text-left">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
@@ -214,7 +214,7 @@ export default function PricingPage() {
         {!isLoading && plans.length > 0 && (
           <div
             className={cn(
-              'grid gap-6',
+              'grid gap-4 sm:gap-6',
               plans.length === 1 ? 'max-w-md mx-auto' : 'sm:grid-cols-2',
               plans.length >= 3 && 'lg:grid-cols-3',
             )}
@@ -231,20 +231,20 @@ export default function PricingPage() {
                   )}
                 >
                   {isBestValue && (
-                    <div className="absolute right-4 top-4 z-10">
-                      <Badge className="border-0 bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-sm">
+                    <div className="absolute right-3 top-3 z-10 sm:right-4 sm:top-4">
+                      <Badge className="border-0 bg-linear-to-r from-violet-600 to-indigo-600 text-[10px] text-white shadow-sm sm:text-xs">
                         Best value
                       </Badge>
                     </div>
                   )}
                   <CardHeader
                     className={cn(
-                      'space-y-1 border-b border-violet-100/80 pb-4',
+                      'space-y-1 border-b border-violet-100/80 pb-4 pt-5',
                       'bg-linear-to-br from-violet-50/90 via-white to-amber-50/40',
                     )}
                   >
-                    <div className={cn('flex items-start justify-between gap-2', isBestValue && 'pr-24 sm:pr-28')}>
-                      <CardTitle className="text-xl font-serif leading-tight">{p.name}</CardTitle>
+                    <div className={cn('flex items-start justify-between gap-2', isBestValue && 'pr-16 sm:pr-28')}>
+                      <CardTitle className="text-lg font-serif leading-tight sm:text-xl">{p.name}</CardTitle>
                     </div>
                     {p.discountLabel && (
                       <Badge variant="secondary" className="mt-2 w-fit border-amber-200/80 bg-amber-50 text-amber-900">
@@ -253,9 +253,9 @@ export default function PricingPage() {
                     )}
                     <CardDescription className="text-xs sm:text-sm">One-time purchase · credited after payment</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex flex-1 flex-col gap-5 pt-6">
+                  <CardContent className="flex flex-1 flex-col gap-4 pt-5 sm:gap-5 sm:pt-6">
                     <div>
-                      <p className="text-3xl font-bold tabular-nums tracking-tight text-gray-900 md:text-4xl">
+                      <p className="text-2xl font-bold tabular-nums tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
                         {formatInr(p.pricePaise)}
                       </p>
                       {p.originalPricePaise != null && p.originalPricePaise > p.pricePaise && (
@@ -277,7 +277,7 @@ export default function PricingPage() {
                       </p>
                     </div>
                   </CardContent>
-                  <CardFooter className="mt-auto flex flex-col gap-3 border-t border-violet-100/80 bg-muted/20 pt-6">
+                  <CardFooter className="mt-auto flex flex-col gap-3 border-t border-violet-100/80 bg-muted/20 pt-5 sm:pt-6">
                     <Button
                       size="lg"
                       className="w-full cursor-pointer shadow-md shadow-violet-500/15"
@@ -311,11 +311,11 @@ export default function PricingPage() {
         {/* Footer links */}
         <div className="rounded-2xl border border-violet-100/60 bg-white/60 px-4 py-6 text-center text-sm text-muted-foreground backdrop-blur-sm">
           <p className="font-medium text-gray-800">Already purchased?</p>
-          <p className="mt-1">
+          <p className="mt-2 flex flex-col items-center gap-1 sm:mt-1 sm:block">
             <Link href="/wallet" className="font-semibold text-violet-700 underline-offset-4 hover:underline">
               View wallet & payment history
             </Link>
-            <span className="mx-2 text-violet-200">·</span>
+            <span className="hidden sm:inline mx-2 text-violet-200">·</span>
             <Link
               href="/services/kundli/generate"
               className="font-semibold text-violet-700 underline-offset-4 hover:underline"

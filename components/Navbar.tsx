@@ -16,7 +16,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Menu, User, LogIn, LogOut, LayoutDashboard, FileText, Settings, Shield, Wallet } from "lucide-react"
+import { Menu, User, LogIn, LogOut, LayoutDashboard, FileText, Settings, Shield, Wallet, MessageCircle } from "lucide-react"
 import { CoinNavPill } from "@/components/coins/CoinNavPill"
 import Link from "next/link"
 import { useState } from "react"
@@ -223,6 +223,12 @@ export function Navbar() {
                             Wallet & coins
                           </Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/conversations" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
+                            <MessageCircle className="mr-2 h-4 w-4 text-primary-dark" />
+                            Conversations
+                          </Link>
+                        </DropdownMenuItem>
                       </>
                     )}
                     <DropdownMenuSeparator />
@@ -309,6 +315,9 @@ export function Navbar() {
                     )}
                     <DropdownMenuItem asChild>
                       <Link href="/wallet" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Wallet</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/conversations" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Conversations</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                       Logout

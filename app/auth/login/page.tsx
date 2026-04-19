@@ -98,7 +98,7 @@ export default function LoginPage() {
   };
 
   return (
-    <CelestialBackground className="flex items-center justify-center px-4 py-12 overflow-hidden">
+    <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
       <div className="w-full max-w-lg mx-auto">
         <Card className="w-full shadow-2xl border-0 bg-white">
         <CardHeader>
