@@ -25,6 +25,8 @@ ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-}
 
 # Build the application
+ARG NEXT_BUILD_NODE_OPTIONS=--max-old-space-size=2048
+ENV NODE_OPTIONS="${NEXT_BUILD_NODE_OPTIONS}"
 RUN npm run build
 
 # Stage 3: Runner
