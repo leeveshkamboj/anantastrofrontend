@@ -35,8 +35,8 @@ function formatInr(paise: number | undefined) {
   );
 }
 
-function paymentStatusBadgeClass(status: string): string {
-  const s = status.toUpperCase();
+function paymentStatusBadgeClass(status: string | null | undefined): string {
+  const s = (status ?? '').toUpperCase();
   if (s === 'PAID') {
     return 'border-transparent bg-emerald-600 text-white shadow-sm hover:bg-emerald-600';
   }
@@ -216,7 +216,7 @@ export default function WalletPage() {
                     </div>
                     <div className="flex flex-wrap items-center gap-2 md:flex-col md:items-end">
                       <Badge variant="outline" className={cn('capitalize font-semibold', paymentStatusBadgeClass(p.status))}>
-                        {p.status.toLowerCase()}
+                        {(p.status ?? 'unknown').toLowerCase()}
                       </Badge>
                       <time
                         className="text-xs text-muted-foreground tabular-nums"

@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useGetServiceCoinCostsQuery, useGetMyWalletQuery } from '@/store/api/coinsApi';
+import { useGetMyWalletQuery } from '@/store/api/coinsApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import type { ServiceKey } from '@/store/api/coinsApi';
+import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { CoinGlyph } from './CoinGlyph';
 import { cn } from '@/lib/utils';
 
@@ -21,10 +22,9 @@ export function ServiceCostBanner({
   className?: string;
 }) {
   const { isAuthenticated } = useAuth();
-  const { data: costsData } = useGetServiceCoinCostsQuery();
+  const { coinCost: cost } = useServiceRunPrice(serviceKey);
   const { data: walletData } = useGetMyWalletQuery(undefined, { skip: !isAuthenticated });
 
-  const cost = costsData?.data?.find((c) => c.serviceKey === serviceKey)?.coinCost ?? null;
   const balance = walletData?.data?.balance;
 
   if (cost == null) return null;
@@ -47,7 +47,7 @@ export function ServiceCostBanner({
         </span>
       </div>
       {isAuthenticated && balance != null && (
-        <span className="text-violet-800/90">
+        <span className={cn(!low && 'text-violet-800/90', low && 'text-amber-900/80')}>
           Your balance:{' '}
           <span className="font-semibold tabular-nums">{balance}</span> coins
         </span>

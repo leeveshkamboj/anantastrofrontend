@@ -32,6 +32,23 @@ function formatInr(paise: number | undefined) {
   );
 }
 
+/** Per-coin amounts are often small; whole rupees would round many packs to the same ₹1. */
+function formatInrPerCoin(paise: number) {
+  if (!Number.isFinite(paise) || paise < 0) return '—';
+  const rupees = paise / 100;
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: rupees < 100 ? 2 : 0,
+  }).format(rupees);
+}
+
+function effectiveCostPerCoinPaise(pricePaise: number, coinQuantity: number) {
+  if (!Number.isFinite(pricePaise) || !Number.isFinite(coinQuantity) || coinQuantity < 1) return null;
+  return Math.round(pricePaise / coinQuantity);
+}
+
 const perks = ['Kundli & chart generation', 'Horoscope reports', 'Matchmaking compatibility'];
 
 export default function PricingPage() {
@@ -43,10 +60,25 @@ export default function PricingPage() {
 
   const plans = data?.data ?? [];
 
-  const bestValuePlanId = useMemo(() => {
-    if (plans.length === 0) return null;
-    return plans.reduce((best, p) => (p.costPerCoinPaise < best.costPerCoinPaise ? p : best), plans[0]).id;
+  const { perCoinByPlanId, minCostPerCoinPaise } = useMemo(() => {
+    const map = new Map<number, number>();
+    const cpps: number[] = [];
+    for (const p of plans) {
+      const cpp = effectiveCostPerCoinPaise(p.pricePaise, p.coinQuantity);
+      if (cpp != null) {
+        map.set(p.id, cpp);
+        cpps.push(cpp);
+      }
+    }
+    const min = cpps.length ? Math.min(...cpps) : null;
+    return { perCoinByPlanId: map, minCostPerCoinPaise: min };
   }, [plans]);
+
+  const isBestValuePlan = (planId: number) => {
+    if (plans.length < 2 || minCostPerCoinPaise == null) return false;
+    const cpp = perCoinByPlanId.get(planId);
+    return cpp != null && cpp === minCostPerCoinPaise;
+  };
 
   const handleBuy = async (planId: number) => {
     if (!isAuthenticated) {
@@ -188,7 +220,8 @@ export default function PricingPage() {
             )}
           >
             {plans.map((p) => {
-              const isBestValue = bestValuePlanId === p.id && plans.length > 1;
+              const perCoinPaise = effectiveCostPerCoinPaise(p.pricePaise, p.coinQuantity);
+              const isBestValue = isBestValuePlan(p.id);
               return (
                 <Card
                   key={p.id}
@@ -234,7 +267,13 @@ export default function PricingPage() {
                         {p.coinQuantity} <span className="font-normal text-violet-800/90">coins</span>
                       </p>
                       <p className="mt-1 text-xs text-muted-foreground tabular-nums">
-                        ≈ {formatInr(p.costPerCoinPaise)} per coin
+                        {perCoinPaise != null ? (
+                          <>
+                            ≈ {formatInrPerCoin(perCoinPaise)} <span className="text-violet-800/80">per coin</span>
+                          </>
+                        ) : (
+                          <span>— per coin</span>
+                        )}
                       </p>
                     </div>
                   </CardContent>

@@ -27,7 +27,7 @@ export function KundliProfileTab() {
             <BookOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
             <p>No kundli profiles yet.</p>
             <p className="text-sm mt-1">
-              Fill the form on the home page to get your first free kundli, or add one when you use
+              Fill the form on the home page to generate a kundli, or add one when you use
               our services.
             </p>
             <Button asChild variant="outline" className="mt-4">

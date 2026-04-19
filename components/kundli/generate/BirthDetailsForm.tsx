@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 import { BookOpen, ArrowLeft } from 'lucide-react';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
 
 export interface BirthDetailsFormProps {
   title: string;
@@ -25,6 +26,8 @@ export interface BirthDetailsFormProps {
   onSelectPlace: (suggestion: PlaceSuggestion) => void;
   placeInputRef: RefObject<HTMLDivElement | null>;
   submitLabel: string;
+  /** Shown under the submit label, e.g. coin + INR for one generation */
+  priceLine?: string | null;
   onSubmit: (e: React.FormEvent) => void;
   isSubmitting?: boolean;
   backLabel?: string;
@@ -50,6 +53,7 @@ export function BirthDetailsForm({
   onSelectPlace,
   placeInputRef,
   submitLabel,
+  priceLine,
   onSubmit,
   isSubmitting = false,
   backLabel,
@@ -126,11 +130,21 @@ export function BirthDetailsForm({
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-primary hover:bg-primary/90 text-lg py-6"
-            size="lg"
+            className="w-full bg-primary hover:bg-primary/90 text-base py-2.5 h-auto"
           >
-            <BookOpen className="h-5 w-5 mr-2" />
-            {isSubmitting ? 'Saving...' : submitLabel}
+            <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+              <BookOpen className="h-4 w-4 mr-2 shrink-0" />
+              {isSubmitting ? 'Saving...' : submitLabel}
+              {!isSubmitting && priceLine && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-white whitespace-nowrap">
+                <CoinGlyph className="h-4 w-4 shrink-0" />
+                {priceLine}
+                  </span>
+                </>
+              )}
+            </span>
           </Button>
           {backLabel && onBack && (
             <Button

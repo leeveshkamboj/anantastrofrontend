@@ -14,6 +14,8 @@ import { useAuth } from '@/store/hooks/useAuth';
 import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
+import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -57,6 +59,7 @@ function ManualBirthForm({
   setSuggestions,
   isSubmitting,
   submitLabel,
+  priceLine,
 }: {
   form: BirthForm;
   setForm: React.Dispatch<React.SetStateAction<BirthForm>>;
@@ -66,6 +69,7 @@ function ManualBirthForm({
   setSuggestions: (s: PlaceSuggestion[]) => void;
   isSubmitting: boolean;
   submitLabel: string;
+  priceLine?: string | null;
 }) {
   return (
     <div className="space-y-4">
@@ -151,8 +155,24 @@ function ManualBirthForm({
           )}
         </div>
       </div>
-      <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-        {submitLabel}
+      <Button
+        type="submit"
+        className="w-full h-auto min-h-14 py-6"
+        size="lg"
+        disabled={isSubmitting}
+      >
+        <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+          <span>{submitLabel}</span>
+        {!isSubmitting && priceLine && (
+            <>
+              <span aria-hidden>·</span>
+              <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white whitespace-nowrap">
+                <CoinGlyph className="h-4 w-4 shrink-0" />
+                {priceLine}
+              </span>
+            </>
+        )}
+        </span>
       </Button>
     </div>
   );
@@ -161,6 +181,7 @@ function ManualBirthForm({
 export default function HoroscopePage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  const { compactLabel: horoscopePriceLine } = useServiceRunPrice('horoscope');
   const { data: kundlisData, isLoading: loadingKundlis } = useGetMyKundlisQuery(undefined, {
     skip: !isAuthenticated,
   });
@@ -402,6 +423,7 @@ export default function HoroscopePage() {
                     setSuggestions={setSuggestions}
                     isSubmitting={isSubmitting}
                     submitLabel="Get my horoscope"
+                    priceLine={horoscopePriceLine}
                   />
                 </CardContent>
               </Card>
@@ -436,6 +458,7 @@ export default function HoroscopePage() {
                     setSuggestions={setSuggestions}
                     isSubmitting={isSubmitting}
                     submitLabel={isSubmitting ? 'Creating report…' : 'Get my horoscope'}
+                    priceLine={horoscopePriceLine}
                   />
                 </CardContent>
               </Card>
@@ -515,11 +538,19 @@ export default function HoroscopePage() {
                     <Button
                       type="submit"
                       disabled={!selectedProfileId || isSubmitting}
-                      className="w-full bg-primary hover:bg-primary/90 text-lg py-6"
+                      className="w-full bg-primary hover:bg-primary/90 text-lg py-6 h-auto min-h-14 flex-col gap-1"
                       size="lg"
                     >
-                      <Sparkles className="h-5 w-5 mr-2" />
-                      {isSubmitting ? 'Creating report…' : 'Get my horoscope'}
+                      <span className="inline-flex items-center">
+                        <Sparkles className="h-5 w-5 mr-2" />
+                        {isSubmitting ? 'Creating report…' : 'Get my horoscope'}
+                      </span>
+                      {!isSubmitting && horoscopePriceLine && (
+                        <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-amber-900/85">
+                          <CoinGlyph className="h-4 w-4 shrink-0" />
+                          {horoscopePriceLine}
+                        </span>
+                      )}
                     </Button>
                     {!selectedProfileId && (
                       <p className="text-sm text-gray-500 mt-2 text-center">

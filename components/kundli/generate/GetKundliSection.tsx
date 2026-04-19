@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { BookOpen, Plus, User } from 'lucide-react';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { cn } from '@/lib/utils';
 import { BirthDetailsForm } from './BirthDetailsForm';
 
@@ -36,6 +37,10 @@ export interface GetKundliSectionProps {
   isUpdating: boolean;
   onGetKundli: () => void;
   isStartingGeneration: boolean;
+  /** Shown under the main CTA, e.g. "12 coins · ₹12" */
+  generatePriceLine?: string | null;
+  /** Same line on profile creation / someone-else forms when generation will charge coins */
+  runPriceLine?: string | null;
   kundliFormPrefill: { name?: string; dateOfBirth?: string; timeOfBirth?: string; placeOfBirth?: string };
   onBackSomeoneElse?: () => void;
 }
@@ -65,6 +70,8 @@ export function GetKundliSection({
   isUpdating,
   onGetKundli,
   isStartingGeneration,
+  generatePriceLine,
+  runPriceLine,
   kundliFormPrefill,
   onBackSomeoneElse,
 }: GetKundliSectionProps) {
@@ -85,7 +92,8 @@ export function GetKundliSection({
         placeSearchLoading={placeSearchLoading}
         onSelectPlace={onSelectPlace}
         placeInputRef={placeInputRef}
-        submitLabel="Get Free Kundli"
+        submitLabel="Get Kundli"
+        priceLine={runPriceLine}
         onSubmit={onAddProfile}
         isSubmitting={isCreating}
       />
@@ -109,7 +117,8 @@ export function GetKundliSection({
         placeSearchLoading={placeSearchLoading}
         onSelectPlace={onSelectPlace}
         placeInputRef={placeInputRef}
-        submitLabel={isCreating || isUpdating ? 'Saving...' : 'Get free kundli'}
+        submitLabel={isCreating || isUpdating ? 'Saving...' : 'Get kundli'}
+        priceLine={runPriceLine}
         onSubmit={onAddProfile}
         isSubmitting={isCreating || isUpdating}
         nameId="someone-name"
@@ -178,11 +187,21 @@ export function GetKundliSection({
           <Button
             onClick={onGetKundli}
             disabled={!selectedId || isStartingGeneration}
-            className="w-full bg-primary hover:bg-primary/90 text-lg py-6"
-            size="lg"
+            className="w-full bg-primary hover:bg-primary/90 text-base py-2.5 h-auto"
           >
-            <BookOpen className="h-5 w-5 mr-2" />
-            {isStartingGeneration ? 'Starting…' : 'Get Kundli'}
+            <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+              <BookOpen className="h-4 w-4 mr-2 shrink-0" />
+              {isStartingGeneration ? 'Starting…' : 'Get Kundli'}
+              {!isStartingGeneration && generatePriceLine && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-white whitespace-nowrap">
+                    <CoinGlyph className="h-4 w-4 shrink-0" />
+                    {generatePriceLine}
+                  </span>
+                </>
+              )}
+            </span>
           </Button>
           {!selectedId && (
             <p className="text-sm text-gray-500 mt-2 text-center">Select a profile above or get kundli for someone else to continue.</p>

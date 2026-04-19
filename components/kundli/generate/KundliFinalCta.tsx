@@ -8,7 +8,7 @@ export function KundliFinalCta() {
         <Star className="h-12 w-12 text-primary mx-auto mb-4" />
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Ready to explore your chart?</h2>
         <p className="text-gray-600 mb-6">
-          Scroll up to enter birth details or select a profile and get your kundli. Your first kundli is free.
+          Scroll up to enter birth details or select a profile and get your kundli. Kundli generation uses coins based on current pricing.
         </p>
         <Button
           asChild

@@ -14,6 +14,8 @@ import { useCreateKundliMutation, useLazyGetGeocodeSuggestionsQuery, useGetMyKun
 import type { PlaceSuggestion } from "@/store/api/kundliApi"
 import { selectIsAuthenticated } from "@/store/slices/authSlice"
 import { DatePicker } from "@/components/ui/date-picker"
+import { useServiceRunPrice } from "@/hooks/useServiceRunPrice"
+import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { 
   TbZodiacAries, 
   TbZodiacTaurus, 
@@ -89,6 +91,7 @@ export function HeroSection() {
   const prefilledPlaceRef = useRef<string | null>(null)
 
   const [debouncedPlaceSearch, setDebouncedPlaceSearch] = useState("")
+  const { compactLabel: kundliPriceLine } = useServiceRunPrice("kundli")
   useEffect(() => {
     const t = setTimeout(() => {
       setDebouncedPlaceSearch(placeOfBirth?.trim() ?? "")
@@ -308,11 +311,11 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column - Get your first kundli free form */}
+          {/* Right Column - Kundli generation form */}
           <Card className="rounded-3xl shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-gray-900">
-                Get your first kundli free
+                Get your kundli
               </CardTitle>
               <CardDescription>
                 Enter your birth details to get started
@@ -399,7 +402,16 @@ export function HeroSection() {
                   className="w-full bg-primary hover:bg-[#d6682a] text-white font-bold text-lg py-6 rounded-lg hover:shadow-lg transition-all uppercase tracking-wide"
                   size="lg"
                 >
-                  Get free kundli
+                  <span className="inline-flex items-center gap-1.5">
+                    <span>Get kundli</span>
+                    {kundliPriceLine && (
+                      <>
+                        <span aria-hidden>·</span>
+                        <CoinGlyph className="h-4 w-4" />
+                        <span>{kundliPriceLine}</span>
+                      </>
+                    )}
+                  </span>
                 </Button>
               </form>
             </CardContent>

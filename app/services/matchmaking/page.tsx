@@ -14,6 +14,7 @@ import { useAuth } from '@/store/hooks/useAuth';
 import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
+import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import {
   MatchmakingHero,
   WhatIsGunMilan,
@@ -30,6 +31,7 @@ import type { PartnerForm } from '@/components/matchmaking';
 export default function MatchmakingPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  const { compactLabel: matchmakingPriceLine } = useServiceRunPrice('matchmaking');
   const { data: kundlisData, isLoading: loadingKundlis } = useGetMyKundlisQuery(undefined, { skip: !isAuthenticated });
   const [createMatchmakingReport, { isLoading: isComputing }] = useCreateMatchmakingReportMutation();
   const [getGeocode] = useLazyGetGeocodeQuery();
@@ -348,6 +350,7 @@ export default function MatchmakingPage() {
         validatePartner2={validatePartner2}
         onSubmit={handleSubmit}
         isComputing={isComputing}
+        submitPriceLine={matchmakingPriceLine}
       />
       <MatchmakingWhatYouGet />
       <MatchmakingFaq />

@@ -19,6 +19,7 @@ import { geocodePlace } from '@/lib/geocode';
 import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
+import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import {
   KundliGenerateHero,
   WhatIsKundli,
@@ -66,6 +67,8 @@ function KundliGenerateContent() {
   const [selectedPlace, setSelectedPlace] = useState<PlaceSuggestion | null>(null);
   const placeInputContainerRef = useRef<HTMLDivElement>(null);
   const skipSuggestionsRef = useRef(false);
+
+  const { compactLabel: kundliPriceLine } = useServiceRunPrice('kundli');
 
   const [debouncedPlaceSearch, setDebouncedPlaceSearch] = useState('');
   useEffect(() => {
@@ -415,6 +418,8 @@ function KundliGenerateContent() {
               isUpdating={isUpdating}
               onGetKundli={handleGetKundli}
               isStartingGeneration={isStartingGeneration}
+              generatePriceLine={kundliPriceLine}
+              runPriceLine={kundliPriceLine}
               kundliFormPrefill={{
                 name: kundliForm.name || '',
                 dateOfBirth: kundliForm.dateOfBirth || undefined,

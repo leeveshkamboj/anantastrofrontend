@@ -41,6 +41,13 @@ export const coinsApi = baseApi.injectEndpoints({
       query: () => '/coins/service-costs',
       providesTags: ['Coins'],
     }),
+    getPublicCoinPricingReference: builder.query<
+      { isSuccess: boolean; data: { defaultInrPerCoinPaise: number } },
+      void
+    >({
+      query: () => '/coins/pricing-reference',
+      providesTags: ['Coins'],
+    }),
     getCoinPlansPublic: builder.query<{ isSuccess: boolean; data: CoinPlanPublic[] }, void>({
       query: () => '/coins/plans',
       providesTags: ['CoinPlans'],
@@ -196,6 +203,7 @@ export const coinsApi = baseApi.injectEndpoints({
 
 export const {
   useGetServiceCoinCostsQuery,
+  useGetPublicCoinPricingReferenceQuery,
   useGetCoinPlansPublicQuery,
   useGetMyWalletQuery,
   useGetMyCoinTransactionsQuery,

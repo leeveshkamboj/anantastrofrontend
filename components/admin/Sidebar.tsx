@@ -12,6 +12,7 @@ import {
   FileCheck,
   LogOut,
   Coins,
+  Package,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -37,9 +38,14 @@ const menuItems = [
     icon: FileCheck,
   },
   {
-    title: 'Coins & pricing',
+    title: 'Coins overview',
     href: '/admin/coins',
     icon: Coins,
+  },
+  {
+    title: 'Coin packs',
+    href: '/admin/coins/plans',
+    icon: Package,
   },
 ];
 

@@ -1,39 +1,70 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   useGetAdminCoinSettingsQuery,
   usePatchAdminCoinSettingsMutation,
   useGetAdminServiceCoinCostsQuery,
   usePutAdminServiceCoinCostMutation,
-  useGetAdminCoinPlansQuery,
-  useCreateAdminCoinPlanMutation,
-  usePatchAdminCoinPlanMutation,
-  useDeleteAdminCoinPlanMutation,
 } from '@/store/api/coinsApi';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
+import { formatInrFromPaise } from '@/hooks/useServiceRunPrice';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
+import { cn } from '@/lib/utils';
+import { BookOpen, Coins, Gift, HeartHandshake, Loader2, Sparkles, Wallet } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+
+const SERVICE_META: Record<
+  string,
+  { label: string; description: string; icon: LucideIcon; ring: string; iconBg: string }
+> = {
+  kundli: {
+    label: 'Kundli generation',
+    description: 'Birth chart generation flow',
+    icon: BookOpen,
+    ring: 'ring-violet-200/80',
+    iconBg: 'bg-violet-100 text-violet-700',
+  },
+  matchmaking: {
+    label: 'Matchmaking',
+    description: 'Gun Milan / compatibility report',
+    icon: HeartHandshake,
+    ring: 'ring-rose-200/80',
+    iconBg: 'bg-rose-100 text-rose-700',
+  },
+  horoscope: {
+    label: 'Horoscope',
+    description: 'Daily / weekly / monthly reports',
+    icon: Sparkles,
+    ring: 'ring-amber-200/80',
+    iconBg: 'bg-amber-100 text-amber-800',
+  },
+};
 
 export default function AdminCoinsPage() {
-  const { data: settingsRes, refetch: refetchSettings } = useGetAdminCoinSettingsQuery();
-  const { data: costsRes, refetch: refetchCosts } = useGetAdminServiceCoinCostsQuery();
-  const { data: plansRes, refetch: refetchPlans } = useGetAdminCoinPlansQuery();
+  const { data: settingsRes, isLoading: loadingSettings, refetch: refetchSettings } = useGetAdminCoinSettingsQuery();
+  const { data: costsRes, isLoading: loadingCosts, refetch: refetchCosts } = useGetAdminServiceCoinCostsQuery();
   const [patchSettings] = usePatchAdminCoinSettingsMutation();
   const [putCost] = usePutAdminServiceCoinCostMutation();
-  const [createPlan] = useCreateAdminCoinPlanMutation();
-  const [patchPlan] = usePatchAdminCoinPlanMutation();
-  const [deletePlan] = useDeleteAdminCoinPlanMutation();
 
   const [signupBonus, setSignupBonus] = useState('');
   const [defaultPaise, setDefaultPaise] = useState('');
-  const [newPlan, setNewPlan] = useState({ name: '', coinQuantity: '', pricePaise: '', sortOrder: '0' });
 
   const settings = settingsRes?.data;
   const costs = costsRes?.data ?? [];
-  const plans = plansRes?.data ?? [];
+  const pageLoading = loadingSettings || loadingCosts;
+
+  const defaultPaiseNum = settings?.defaultInrPerCoinPaise;
+
+  const totalDebitCoins = useMemo(
+    () => costs.reduce((sum, c) => sum + (c.coinCost ?? 0), 0),
+    [costs],
+  );
 
   const saveSettings = async () => {
     try {
@@ -53,213 +84,283 @@ export default function AdminCoinsPage() {
   const saveCost = async (serviceKey: string, coinCost: number) => {
     try {
       await putCost({ serviceKey, coinCost }).unwrap();
-      toast.success(`Updated ${serviceKey}`);
+      toast.success(`Updated ${SERVICE_META[serviceKey]?.label ?? serviceKey}`);
       refetchCosts();
     } catch {
       toast.error('Failed to update cost');
     }
   };
 
-  const addPlan = async () => {
-    try {
-      await createPlan({
-        name: newPlan.name,
-        coinQuantity: parseInt(newPlan.coinQuantity, 10),
-        pricePaise: parseInt(newPlan.pricePaise, 10),
-        sortOrder: parseInt(newPlan.sortOrder, 10) || 0,
-      }).unwrap();
-      toast.success('Plan created');
-      setNewPlan({ name: '', coinQuantity: '', pricePaise: '', sortOrder: '0' });
-      refetchPlans();
-    } catch {
-      toast.error('Failed to create plan');
-    }
-  };
+  if (pageLoading) {
+    return (
+      <div className="mx-auto max-w-6xl pb-12">
+        <div className="flex min-h-[45vh] flex-col items-center justify-center gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-violet-600" />
+          <p className="text-sm font-medium text-muted-foreground">Loading coin overview…</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
-      <h1 className="text-2xl font-bold text-gray-900">Coin management</h1>
+    <div className="mx-auto max-w-6xl space-y-8 pb-12">
+      {/* Hero */}
+      <div className="relative overflow-hidden rounded-3xl border border-violet-200/70 bg-gradient-to-br from-violet-100/90 via-white to-amber-50/80 px-6 py-10 shadow-lg shadow-violet-950/10 sm:px-10">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-400/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 left-1/4 h-48 w-48 rounded-full bg-amber-300/25 blur-3xl" />
+        <div className="relative flex items-start gap-4">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/90 shadow-md shadow-violet-950/10 ring-1 ring-violet-200/80">
+            <CoinGlyph className="h-9 w-9 text-amber-600" />
+          </span>
+          <div>
+            <h1 className="font-serif text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Coin overview</h1>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-gray-600 sm:text-base">
+              Wallet defaults power signup grants and public ₹ hints. Per-service costs control how many coins each
+              report run spends.
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Platform settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-gray-600">
-            Signup bonus: <strong>{settings?.signupBonusCoins}</strong> · Default ₹/coin (paise):{' '}
-            <strong>{settings?.defaultInrPerCoinPaise}</strong> (100 = ₹1)
+      {/* KPI strip */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-2xl border border-violet-100/90 bg-white/90 p-5 shadow-sm shadow-violet-950/5 backdrop-blur-sm">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+              <Gift className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Signup bonus</p>
+              <p className="text-2xl font-semibold tabular-nums text-gray-900">{settings?.signupBonusCoins ?? '—'}</p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">Coins granted to eligible new accounts</p>
+        </div>
+        <div className="rounded-2xl border border-emerald-100/90 bg-white/90 p-5 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+              <Coins className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Reference ₹ / coin</p>
+              <p className="text-2xl font-semibold tabular-nums text-gray-900">
+                {defaultPaiseNum != null ? formatInrFromPaise(defaultPaiseNum) : '—'}
+              </p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            {defaultPaiseNum != null ? `${defaultPaiseNum} paise · used for UI estimates` : '—'}
           </p>
-          <div className="grid sm:grid-cols-2 gap-4">
+        </div>
+        <div className="rounded-2xl border border-amber-100/90 bg-white/90 p-5 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
+              <Wallet className="h-5 w-5" />
+            </span>
             <div>
-              <Label>New signup bonus (coins)</Label>
-              <Input value={signupBonus} onChange={(e) => setSignupBonus(e.target.value)} placeholder="e.g. 50" />
-            </div>
-            <div>
-              <Label>New default INR per coin (paise)</Label>
-              <Input value={defaultPaise} onChange={(e) => setDefaultPaise(e.target.value)} placeholder="e.g. 100" />
-            </div>
-          </div>
-          <Button type="button" onClick={saveSettings} className="cursor-pointer">
-            Save settings
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Service coin costs</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {costs.map((c) => (
-            <CostRow key={c.serviceKey} serviceKey={c.serviceKey} initial={c.coinCost} onSave={saveCost} />
-          ))}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Pricing plans</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3">
-            <div>
-              <Label>Name</Label>
-              <Input value={newPlan.name} onChange={(e) => setNewPlan((p) => ({ ...p, name: e.target.value }))} />
-            </div>
-            <div>
-              <Label>Coins</Label>
-              <Input
-                value={newPlan.coinQuantity}
-                onChange={(e) => setNewPlan((p) => ({ ...p, coinQuantity: e.target.value }))}
-              />
-            </div>
-            <div>
-              <Label>Price (paise)</Label>
-              <Input
-                value={newPlan.pricePaise}
-                onChange={(e) => setNewPlan((p) => ({ ...p, pricePaise: e.target.value }))}
-              />
-            </div>
-            <div>
-              <Label>Sort</Label>
-              <Input
-                value={newPlan.sortOrder}
-                onChange={(e) => setNewPlan((p) => ({ ...p, sortOrder: e.target.value }))}
-              />
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Services priced</p>
+              <p className="text-2xl font-semibold tabular-nums text-gray-900">{costs.length}</p>
             </div>
           </div>
-          <Button type="button" onClick={addPlan} className="cursor-pointer">
-            Add plan
-          </Button>
+          <p className="mt-3 text-xs text-muted-foreground">Kundli, matchmaking, horoscope</p>
+        </div>
+        <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+              <Sparkles className="h-5 w-5" />
+            </span>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Sum of debits</p>
+              <p className="text-2xl font-semibold tabular-nums text-gray-900">{totalDebitCoins}</p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">Total coins if one run each (reference)</p>
+        </div>
+      </div>
 
-          <div className="space-y-3 border-t pt-4">
-            {plans.map((p) => (
-              <div
-                key={p.id}
-                className="flex flex-wrap items-end gap-3 border-b border-gray-100 pb-3 text-sm"
-              >
-                <PlanEditRow
-                  plan={p}
-                  onSave={async (body) => {
-                    try {
-                      await patchPlan({ id: p.id, body }).unwrap();
-                      toast.success('Plan updated');
-                      refetchPlans();
-                    } catch {
-                      toast.error('Update failed');
-                    }
-                  }}
-                  onDelete={async () => {
-                    if (!confirm('Delete this plan?')) return;
-                    try {
-                      await deletePlan(p.id).unwrap();
-                      toast.success('Deleted');
-                      refetchPlans();
-                    } catch {
-                      toast.error('Delete failed');
-                    }
-                  }}
+      {/* Platform settings */}
+      <div className="overflow-hidden rounded-3xl border border-violet-100/90 bg-white shadow-md shadow-violet-950/5">
+        <div className="border-b border-violet-100/80 bg-gradient-to-r from-violet-50/80 via-white to-amber-50/40 px-6 py-5 sm:px-8">
+          <h2 className="font-serif text-xl font-semibold text-gray-900">Platform settings</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Changes apply to new signups and to how we convert coins to rupees in product copy (100 paise = ₹1 per coin
+            at reference rate).
+          </p>
+        </div>
+        <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_minmax(0,1.1fr)] lg:gap-12">
+          <div className="space-y-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Live values</p>
+            <div className="rounded-2xl border border-violet-100 bg-gradient-to-br from-violet-50/60 to-white p-5">
+              <dl className="space-y-4">
+                <div className="flex items-center justify-between gap-4 border-b border-violet-100/80 pb-4">
+                  <dt className="text-sm text-muted-foreground">Signup bonus</dt>
+                  <dd className="font-semibold tabular-nums text-gray-900">
+                    {settings?.signupBonusCoins ?? '—'}{' '}
+                    <span className="font-normal text-muted-foreground">coins</span>
+                  </dd>
+                </div>
+                <div className="flex flex-1 items-start justify-between gap-4">
+                  <dt className="text-sm text-muted-foreground">Default INR per coin</dt>
+                  <dd className="text-right">
+                    <span className="block font-semibold tabular-nums text-gray-900">
+                      {defaultPaiseNum != null ? formatInrFromPaise(defaultPaiseNum) : '—'}
+                    </span>
+                    {defaultPaiseNum != null && (
+                      <span className="text-xs text-muted-foreground">{defaultPaiseNum} paise</span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Update</p>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="signup-bonus">New signup bonus (coins)</Label>
+                <Input
+                  id="signup-bonus"
+                  value={signupBonus}
+                  onChange={(e) => setSignupBonus(e.target.value)}
+                  placeholder="Leave blank to keep current"
+                  className="h-11 rounded-xl border-violet-200/80 bg-white"
                 />
               </div>
-            ))}
+              <div className="space-y-2">
+                <Label htmlFor="default-paise">New default INR per coin (paise)</Label>
+                <Input
+                  id="default-paise"
+                  value={defaultPaise}
+                  onChange={(e) => setDefaultPaise(e.target.value)}
+                  placeholder="e.g. 100 (= ₹1 per coin)"
+                  className="h-11 rounded-xl border-violet-200/80 bg-white"
+                />
+              </div>
+              <Button
+                type="button"
+                onClick={saveSettings}
+                className="mt-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-6 shadow-md shadow-violet-900/15 hover:from-violet-700 hover:to-indigo-700"
+              >
+                Save settings
+              </Button>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+
+      {/* Service costs */}
+      <div>
+        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="font-serif text-xl font-semibold text-gray-900">Service coin costs</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Coins debited per successful run. Approximate INR uses the reference rate above.
+            </p>
+          </div>
+          {defaultPaiseNum != null && (
+            <Badge variant="secondary" className="w-fit border-violet-200 bg-violet-50 text-violet-900">
+              Est. ₹ = coins × {formatInrFromPaise(defaultPaiseNum)} / coin
+            </Badge>
+          )}
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {costs.map((c) => (
+            <ServiceCostCard
+              key={c.serviceKey}
+              serviceKey={c.serviceKey}
+              initial={c.coinCost}
+              defaultInrPerCoinPaise={defaultPaiseNum}
+              onSave={saveCost}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
-function CostRow({
+function ServiceCostCard({
   serviceKey,
   initial,
+  defaultInrPerCoinPaise,
   onSave,
 }: {
   serviceKey: string;
   initial: number;
+  defaultInrPerCoinPaise: number | undefined;
   onSave: (k: string, v: number) => void;
 }) {
   const [v, setV] = useState(String(initial));
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <span className="font-mono text-sm w-32">{serviceKey}</span>
-      <Input className="w-24" value={v} onChange={(e) => setV(e.target.value)} />
-      <Button type="button" size="sm" variant="secondary" className="cursor-pointer" onClick={() => onSave(serviceKey, parseInt(v, 10) || 0)}>
-        Save
-      </Button>
-    </div>
-  );
-}
+  useEffect(() => {
+    setV(String(initial));
+  }, [initial]);
 
-function PlanEditRow({
-  plan,
-  onSave,
-  onDelete,
-}: {
-  plan: {
-    id: number;
-    name: string;
-    coinQuantity: number;
-    pricePaise: number;
-    isActive: boolean;
-    sortOrder: number;
-    discountLabel: string | null;
-  };
-  onSave: (body: Record<string, unknown>) => void;
-  onDelete: () => void;
-}) {
-  const [name, setName] = useState(plan.name);
-  const [qty, setQty] = useState(String(plan.coinQuantity));
-  const [price, setPrice] = useState(String(plan.pricePaise));
-  const [sort, setSort] = useState(String(plan.sortOrder));
-  const [active, setActive] = useState(plan.isActive);
+  const meta = SERVICE_META[serviceKey];
+  const Icon = meta?.icon ?? Sparkles;
+  const coinVal = parseInt(v, 10);
+  const estimatedPaise =
+    defaultInrPerCoinPaise != null && Number.isFinite(coinVal) && coinVal >= 1
+      ? coinVal * defaultInrPerCoinPaise
+      : null;
+
   return (
-    <>
-      <Input className="w-40" value={name} onChange={(e) => setName(e.target.value)} />
-      <Input className="w-20" value={qty} onChange={(e) => setQty(e.target.value)} />
-      <Input className="w-24" value={price} onChange={(e) => setPrice(e.target.value)} />
-      <Input className="w-16" value={sort} onChange={(e) => setSort(e.target.value)} />
-      <label className="flex items-center gap-1 text-xs">
-        <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
-        active
-      </label>
-      <Button
-        size="sm"
-        className="cursor-pointer"
-        onClick={() =>
-          onSave({
-            name,
-            coinQuantity: parseInt(qty, 10),
-            pricePaise: parseInt(price, 10),
-            sortOrder: parseInt(sort, 10),
-            isActive: active,
-          })
-        }
-      >
-        Save
-      </Button>
-      <Button size="sm" variant="destructive" className="cursor-pointer" onClick={onDelete}>
-        Delete
-      </Button>
-    </>
+    <Card
+      className={cn(
+        'overflow-hidden border-violet-100/90 shadow-md shadow-violet-950/5 transition-shadow hover:shadow-lg',
+        meta?.ring && `ring-1 ${meta.ring}`,
+      )}
+    >
+      <CardContent className="p-0">
+        <div className="flex items-start gap-3 border-b border-violet-100/80 bg-gradient-to-br from-violet-50/95 via-white to-amber-50/30 px-5 py-4">
+          <span
+            className={cn(
+              'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
+              meta?.iconBg ?? 'bg-violet-100 text-violet-700',
+            )}
+          >
+            <Icon className="h-5 w-5" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h3 className="font-semibold leading-tight text-gray-900">{meta?.label ?? serviceKey}</h3>
+            <p className="mt-0.5 text-xs text-muted-foreground">{meta?.description ?? 'Service key'}</p>
+            <code className="mt-2 inline-block rounded-md bg-white/80 px-2 py-0.5 text-[11px] text-muted-foreground ring-1 ring-violet-100">
+              {serviceKey}
+            </code>
+          </div>
+        </div>
+        <div className="space-y-4 px-5 py-5">
+          <div className="space-y-2">
+            <Label htmlFor={`cost-${serviceKey}`} className="text-xs uppercase tracking-wide text-muted-foreground">
+              Coins per run
+            </Label>
+            <Input
+              id={`cost-${serviceKey}`}
+              value={v}
+              onChange={(e) => setV(e.target.value)}
+              inputMode="numeric"
+              min={1}
+              className="h-12 rounded-xl border-violet-200/80 text-lg font-semibold tabular-nums"
+            />
+          </div>
+          {estimatedPaise != null && (
+            <p className="text-sm text-muted-foreground">
+              ≈ <span className="font-medium text-gray-900">{formatInrFromPaise(estimatedPaise)}</span> per run at
+              reference rate
+            </p>
+          )}
+          <Button
+            type="button"
+            size="sm"
+            className="w-full cursor-pointer rounded-xl"
+            onClick={() => {
+              const n = parseInt(v, 10);
+              onSave(serviceKey, Number.isFinite(n) && n >= 1 ? n : 1);
+            }}
+          >
+            Save
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

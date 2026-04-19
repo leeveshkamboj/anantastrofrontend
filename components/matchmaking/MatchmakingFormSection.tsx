@@ -15,6 +15,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { toast } from 'sonner';
 import { Heart, User, Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
 
 export interface MatchmakingFormSectionProps {
   matchStep: 1 | 2 | 3;
@@ -41,6 +42,8 @@ export interface MatchmakingFormSectionProps {
   validatePartner2: () => { valid: boolean; message?: string };
   onSubmit: (e: React.FormEvent) => void;
   isComputing: boolean;
+  /** Shown on the final CTA, e.g. "12 coins · ₹12" */
+  submitPriceLine?: string | null;
   result?: MatchmakingResultType | null;
 }
 
@@ -69,6 +72,7 @@ export function MatchmakingFormSection({
   validatePartner2,
   onSubmit,
   isComputing,
+  submitPriceLine,
   result,
 }: MatchmakingFormSectionProps) {
   return (
@@ -347,9 +351,25 @@ export function MatchmakingFormSection({
                 </div>
                 <div className="border-t border-gray-100 bg-gray-50/50 px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <p className="text-sm text-gray-500">We&apos;ll run Ashtakoot (36 gunas) matching.</p>
-                  <Button type="submit" disabled={isComputing} className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-base font-semibold px-8 py-6 rounded-xl shadow-sm inline-flex items-center gap-2" size="lg">
-                    {isComputing ? 'Calculating…' : 'See compatibility'}
-                    <ArrowRight className="h-5 w-5" />
+                  <Button
+                    type="submit"
+                    disabled={isComputing}
+                    className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-base font-semibold px-8 py-6 rounded-xl shadow-sm h-auto min-h-[3.25rem] sm:min-w-[14rem]"
+                    size="lg"
+                  >
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                      {isComputing ? 'Calculating…' : 'See compatibility'}
+                      {!isComputing && submitPriceLine && (
+                        <>
+                          <span aria-hidden>·</span>
+                          <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white whitespace-nowrap">
+                            <CoinGlyph className="h-4 w-4 shrink-0" />
+                            {submitPriceLine}
+                          </span>
+                        </>
+                      )}
+                       <ArrowRight className="h-5 w-5 shrink-0" />
+                    </span>
                   </Button>
                 </div>
               </Card>
