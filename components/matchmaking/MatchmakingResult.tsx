@@ -7,6 +7,18 @@ interface MatchmakingResultProps {
 }
 
 export function MatchmakingResult({ result }: MatchmakingResultProps) {
+  const topKoota = result.kootas.reduce((best, k) => {
+    const ratio = k.maxPoints > 0 ? k.points / k.maxPoints : 0;
+    const bestRatio = best.maxPoints > 0 ? best.points / best.maxPoints : 0;
+    return ratio > bestRatio ? k : best;
+  }, result.kootas[0]);
+
+  const weakKoota = result.kootas.reduce((worst, k) => {
+    const ratio = k.maxPoints > 0 ? k.points / k.maxPoints : 0;
+    const worstRatio = worst.maxPoints > 0 ? worst.points / worst.maxPoints : 0;
+    return ratio < worstRatio ? k : worst;
+  }, result.kootas[0]);
+
   return (
     <Card className="mt-12 border-2 border-primary/20">
       <CardContent className="pt-8 pb-8">
@@ -22,6 +34,22 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
           </div>
           <p className="text-lg text-gray-600 mt-2">{result.percentage}% match</p>
           <p className="text-center text-gray-700 mt-4 max-w-xl">{result.interpretation}</p>
+        </div>
+        <div className="mb-8 rounded-xl border border-violet-200 bg-violet-50/70 p-4">
+          <h4 className="font-semibold text-violet-900 mb-2">Gun Milan Highlights</h4>
+          <p className="text-sm text-violet-900">
+            <strong>Total score:</strong> {result.totalPoints}/{result.maxPoints} ({result.percentage}%)
+          </p>
+          {topKoota && (
+            <p className="text-sm text-violet-900 mt-1">
+              <strong>Strongest koota:</strong> {topKoota.name} ({topKoota.points}/{topKoota.maxPoints})
+            </p>
+          )}
+          {weakKoota && (
+            <p className="text-sm text-violet-900 mt-1">
+              <strong>Needs attention:</strong> {weakKoota.name} ({weakKoota.points}/{weakKoota.maxPoints})
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -55,8 +83,11 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
               </tr>
             </thead>
             <tbody>
-              {result.kootas.map((k) => (
-                <tr key={k.name} className="border-b border-gray-100 hover:bg-gray-50/50">
+              {result.kootas.map((k) => {
+                const ratio = k.maxPoints > 0 ? k.points / k.maxPoints : 0;
+                const rowHighlight = ratio === 1 ? 'bg-green-50/40' : ratio === 0 ? 'bg-red-50/40' : '';
+                return (
+                <tr key={k.name} className={cn('border-b border-gray-100 hover:bg-gray-50/50', rowHighlight)}>
                   <td className="p-3 font-medium text-gray-900">{k.name}</td>
                   <td className="p-3 text-gray-700">{k.maleValue ?? '—'}</td>
                   <td className="p-3 text-gray-700">{k.femaleValue ?? '—'}</td>
@@ -70,7 +101,7 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
                   <td className="p-3 text-gray-600">{k.description}</td>
                   <td className="p-3 text-gray-500">{k.meaning ?? '—'}</td>
                 </tr>
-              ))}
+              )})}
               <tr className="bg-gray-50 font-medium border-t-2 border-gray-200">
                 <td className="p-3 text-gray-900">Total</td>
                 <td className="p-3" />

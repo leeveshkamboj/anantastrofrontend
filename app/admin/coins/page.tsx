@@ -44,6 +44,20 @@ const SERVICE_META: Record<
     ring: 'ring-amber-200/80',
     iconBg: 'bg-amber-100 text-amber-800',
   },
+  horoscope_detailed: {
+    label: 'Horoscope (detailed)',
+    description: 'Long-form horoscope report',
+    icon: Sparkles,
+    ring: 'ring-fuchsia-200/80',
+    iconBg: 'bg-fuchsia-100 text-fuchsia-800',
+  },
+  kundli_horoscope_addon: {
+    label: 'Kundli horoscope add-on',
+    description: 'Paid horoscope tab unlock for kundli',
+    icon: BookOpen,
+    ring: 'ring-indigo-200/80',
+    iconBg: 'bg-indigo-100 text-indigo-800',
+  },
 };
 
 export default function AdminCoinsPage() {
@@ -162,7 +176,9 @@ export default function AdminCoinsPage() {
               <p className="text-2xl font-semibold tabular-nums text-gray-900">{costs.length}</p>
             </div>
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">Kundli, matchmaking, horoscope</p>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Kundli, matchmaking, horoscope, detailed horoscope, kundli add-on
+          </p>
         </div>
         <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm">
           <div className="flex items-center gap-3">

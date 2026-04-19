@@ -101,6 +101,21 @@ export interface KundliGenerationResponse {
   data: KundliGeneration;
 }
 
+export type KundliHoroscopeAddonStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+
+export interface KundliHoroscopeAddonData {
+  status: KundliHoroscopeAddonStatus;
+  content: string | null;
+  errorMessage: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface KundliHoroscopeAddonResponse {
+  isSuccess: boolean;
+  data: KundliHoroscopeAddonData | null;
+}
+
 export interface KundliGenerationsListResponse {
   isSuccess: boolean;
   data: KundliGeneration[];
@@ -216,6 +231,7 @@ export interface CreateHoroscopeRequest {
   name?: string;
   placeOfBirth?: string;
   period: 'daily' | 'weekly' | 'monthly';
+  detailLevel?: 'summary' | 'detailed';
 }
 
 export type HoroscopeReportStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
@@ -242,6 +258,7 @@ export interface HoroscopeReport {
   timezoneOffsetHours: number | null;
   placeOfBirth: string | null;
   period: 'daily' | 'weekly' | 'monthly';
+  detailLevel: 'summary' | 'detailed';
   chartData: Record<string, unknown> | null;
   result: HoroscopeResult | Record<string, unknown> | null;
   status: HoroscopeReportStatus;
@@ -327,6 +344,17 @@ export const kundliApi = baseApi.injectEndpoints({
     getKundliGeneration: builder.query<KundliGenerationResponse, string>({
       query: (uuid) => `/kundli/${uuid}`,
       providesTags: (_result, _err, uuid) => [{ type: 'KundliGeneration', id: uuid }],
+    }),
+    unlockKundliHoroscopeAddon: builder.mutation<KundliHoroscopeAddonResponse, string>({
+      query: (uuid) => ({
+        url: `/kundli/${uuid}/horoscope-addon/unlock`,
+        method: 'POST',
+      }),
+      invalidatesTags: (_result, _err, uuid) => [{ type: 'KundliGeneration', id: uuid }, 'Coins'],
+    }),
+    getKundliHoroscopeAddon: builder.query<KundliHoroscopeAddonResponse, string>({
+      query: (uuid) => `/kundli/${uuid}/horoscope-addon`,
+      providesTags: (_result, _err, uuid) => [{ type: 'KundliGeneration', id: `addon-${uuid}` }],
     }),
     getKundliByShareToken: builder.query<KundliGenerationResponse, string>({
       query: (token) => `/kundli/share/${token}`,
@@ -439,6 +467,8 @@ export const {
   useGetMyKundliGenerationsQuery,
   useCreateKundliGenerationMutation,
   useGetKundliGenerationQuery,
+  useUnlockKundliHoroscopeAddonMutation,
+  useGetKundliHoroscopeAddonQuery,
   useGetKundliByShareTokenQuery,
   useUpdateKundliShareMutation,
   useLazyGetGeocodeQuery,

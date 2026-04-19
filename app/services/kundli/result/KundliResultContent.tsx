@@ -1,10 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { KundliChart, AstroChartRadix, NorthIndianDiamondChart } from '@/components/kundli';
 import { Label } from '@/components/ui/label';
-import type { KundliGeneration, KpChartData } from '@/store/api/kundliApi';
+import {
+  useGetKundliHoroscopeAddonQuery,
+  useUnlockKundliHoroscopeAddonMutation,
+  type KundliGeneration,
+  type KpChartData,
+} from '@/store/api/kundliApi';
+import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
+import { Button } from '@/components/ui/button';
 
 const INTERPRETATION_SECTIONS = [
   { key: 'description', title: 'Description' },
@@ -20,12 +28,23 @@ const KUNDLI_TABS = [
   { id: 'kundli', label: 'Kundli' },
   { id: 'kp', label: 'KP' },
   { id: 'report', label: 'Report' },
+  { id: 'horoscope', label: 'Horoscope' },
   { id: 'remedies', label: 'Remedies' },
 ] as const;
 
 type KundliTabId = (typeof KUNDLI_TABS)[number]['id'];
 
 type ChartType = 'north-indian' | 'south-indian' | 'radix';
+
+function renderBoldMarkdown(text: string): ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.filter(Boolean).map((part, idx) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={idx}>{part.slice(2, -2)}</strong>;
+    }
+    return <span key={idx}>{part}</span>;
+  });
+}
 
 interface PlanetRow {
   name: string;
@@ -210,7 +229,7 @@ function InterpretationBlock({ content }: { content: string }) {
         {INTERPRETATION_SECTIONS.filter((s) => data![s.key]).map(({ key, title }) => (
           <div key={key}>
             <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{title}</h3>
-            <p className="text-gray-700 text-sm leading-relaxed">{data![key]}</p>
+            <p className="text-gray-700 text-sm leading-relaxed">{renderBoldMarkdown(data![key])}</p>
           </div>
         ))}
       </div>
@@ -230,6 +249,24 @@ export interface KundliResultContentProps {
 
 export function KundliResultContent({ gen }: KundliResultContentProps) {
   const [activeTab, setActiveTab] = useState<KundliTabId>('basic');
+  const [shouldPollAddon, setShouldPollAddon] = useState(false);
+  const { compactLabel: addonPrice } = useServiceRunPrice('kundli_horoscope_addon');
+  const {
+    data: addonData,
+    isFetching: addonLoading,
+  } = useGetKundliHoroscopeAddonQuery(gen.uuid, {
+    pollingInterval: activeTab === 'horoscope' && shouldPollAddon ? 2500 : 0,
+  });
+  const [unlockAddon, { isLoading: unlockingAddon }] = useUnlockKundliHoroscopeAddonMutation();
+
+  useEffect(() => {
+    const status = addonData?.data?.status;
+    if (status === 'PENDING' || status === 'PROCESSING') {
+      setShouldPollAddon(true);
+      return;
+    }
+    setShouldPollAddon(false);
+  }, [addonData?.data?.status]);
 
   const chartData = gen.chartData as Record<string, unknown> | null;
   const interpretation = gen.interpretation ?? '';
@@ -588,6 +625,57 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
         </>
       )}
 
+      {activeTab === 'horoscope' && (() => {
+        const addon = addonData?.data;
+        const status = addon?.status ?? null;
+        const isReady = status === 'COMPLETED' && !!addon?.content;
+        const isWorking = status === 'PENDING' || status === 'PROCESSING';
+
+        return (
+          <Card>
+            <CardContent>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Horoscope Add-on</h2>
+              {isReady ? (
+                <InterpretationBlock content={addon!.content!} />
+              ) : isWorking || addonLoading ? (
+                <p className="text-sm text-gray-600">Generating horoscope add-on… this page updates automatically.</p>
+              ) : (
+                <div className="space-y-3">
+                  <p className="text-sm text-gray-600">
+                    Unlock this tab to generate a detailed horoscope add-on for this kundli.
+                  </p>
+                  {status === 'FAILED' && addon?.errorMessage && (
+                    <p className="text-sm text-red-600">{addon.errorMessage}</p>
+                  )}
+                  <Button
+                    type="button"
+                    disabled={unlockingAddon}
+                    onClick={() => {
+                      setShouldPollAddon(true);
+                      unlockAddon(gen.uuid);
+                    }}
+                    className="h-auto"
+                  >
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                      {unlockingAddon ? 'Unlocking…' : 'Unlock Horoscope'}
+                      {addonPrice && (
+                        <>
+                          <span aria-hidden>·</span>
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                            <CoinGlyph className="h-4 w-4 shrink-0" />
+                            {addonPrice}
+                          </span>
+                        </>
+                      )}
+                    </span>
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        );
+      })()}
+
       {activeTab === 'remedies' && (() => {
         let remediesText = '';
         try {
@@ -603,7 +691,7 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
             <CardContent>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Remedies</h2>
               {remediesText ? (
-                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">{remediesText}</p>
+                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">{renderBoldMarkdown(remediesText)}</p>
               ) : (
                 <p className="text-gray-600 text-sm">No remedies available yet.</p>
               )}

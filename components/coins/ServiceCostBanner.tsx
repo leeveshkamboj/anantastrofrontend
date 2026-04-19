@@ -12,6 +12,8 @@ const LABELS: Record<ServiceKey, string> = {
   kundli: 'Kundli generation',
   matchmaking: 'Matchmaking report',
   horoscope: 'Horoscope report',
+  horoscope_detailed: 'Detailed horoscope report',
+  kundli_horoscope_addon: 'Kundli horoscope add-on',
 };
 
 export function ServiceCostBanner({

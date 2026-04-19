@@ -39,7 +39,7 @@ import {
   Check,
   Sparkles,
 } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, type ReactNode } from 'react';
 import { toast } from 'sonner';
 
 const SECTIONS: { key: keyof HoroscopeResult; title: string }[] = [
@@ -52,6 +52,16 @@ const SECTIONS: { key: keyof HoroscopeResult; title: string }[] = [
 ];
 
 function ReportContent({ result }: { result: HoroscopeResult | Record<string, unknown> | null }) {
+  const renderBoldMarkdown = (text: string): ReactNode[] => {
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.filter(Boolean).map((part, idx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={idx}>{part.slice(2, -2)}</strong>;
+      }
+      return <span key={idx}>{part}</span>;
+    });
+  };
+
   if (!result || typeof result !== 'object') return null;
   const r = result as Record<string, string | undefined>;
   return (
@@ -63,7 +73,7 @@ function ReportContent({ result }: { result: HoroscopeResult | Record<string, un
           <Card key={key} className="border border-gray-200">
             <CardContent>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">{title}</h3>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{text}</p>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap text-justify">{renderBoldMarkdown(text)}</p>
             </CardContent>
           </Card>
         );
@@ -253,7 +263,9 @@ export default function HoroscopeResultPage() {
             <Sparkles className="h-10 w-10 text-primary" />
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Horoscope Report</h1>
-              <p className="text-gray-600 text-sm capitalize">{report.period} prediction</p>
+              <p className="text-gray-600 text-sm capitalize">
+                {report.period} prediction • {report.detailLevel === 'detailed' ? 'Detailed' : 'Summary'}
+              </p>
             </div>
           </div>
           <DropdownMenu>

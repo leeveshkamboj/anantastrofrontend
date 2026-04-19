@@ -25,6 +25,7 @@ import { User, Sparkles, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Period = 'daily' | 'weekly' | 'monthly';
+type DetailLevel = 'summary' | 'detailed';
 
 interface BirthForm {
   name: string;
@@ -55,6 +56,8 @@ function ManualBirthForm({
   setForm,
   period,
   setPeriod,
+  detailLevel,
+  setDetailLevel,
   suggestions,
   setSuggestions,
   isSubmitting,
@@ -65,6 +68,8 @@ function ManualBirthForm({
   setForm: React.Dispatch<React.SetStateAction<BirthForm>>;
   period: Period;
   setPeriod: (p: Period) => void;
+  detailLevel: DetailLevel;
+  setDetailLevel: (v: DetailLevel) => void;
   suggestions: PlaceSuggestion[];
   setSuggestions: (s: PlaceSuggestion[]) => void;
   isSubmitting: boolean;
@@ -94,6 +99,18 @@ function ManualBirthForm({
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
+          </select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="horoscope-detail-level-manual">Type</Label>
+          <select
+            id="horoscope-detail-level-manual"
+            value={detailLevel}
+            onChange={(e) => setDetailLevel(e.target.value as DetailLevel)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <option value="summary">Summary</option>
+            <option value="detailed">Detailed</option>
           </select>
         </div>
       </div>
@@ -157,12 +174,12 @@ function ManualBirthForm({
       </div>
       <Button
         type="submit"
-        className="w-full h-auto min-h-14 py-6"
+        className="w-full h-auto min-h-11 py-3"
         size="lg"
         disabled={isSubmitting}
       >
-        <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
-          <span>{submitLabel}</span>
+        <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-white text-sm font-medium">
+          <span className="text-white">{submitLabel}</span>
         {!isSubmitting && priceLine && (
             <>
               <span aria-hidden>·</span>
@@ -181,7 +198,8 @@ function ManualBirthForm({
 export default function HoroscopePage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  const { compactLabel: horoscopePriceLine } = useServiceRunPrice('horoscope');
+  const { compactLabel: summaryPriceLine } = useServiceRunPrice('horoscope');
+  const { compactLabel: detailedPriceLine } = useServiceRunPrice('horoscope_detailed');
   const { data: kundlisData, isLoading: loadingKundlis } = useGetMyKundlisQuery(undefined, {
     skip: !isAuthenticated,
   });
@@ -196,6 +214,7 @@ export default function HoroscopePage() {
   const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
   const [showManualForm, setShowManualForm] = useState(false);
   const [period, setPeriod] = useState<Period>('weekly');
+  const [detailLevel, setDetailLevel] = useState<DetailLevel>('summary');
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [placeLoading, setPlaceLoading] = useState(false);
   const [debouncedPlace, setDebouncedPlace] = useState('');
@@ -338,6 +357,7 @@ export default function HoroscopePage() {
         name,
         placeOfBirth: (profile?.placeOfBirth ?? form.placeOfBirth?.trim()) || undefined,
         period,
+        detailLevel,
       }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {
@@ -392,7 +412,7 @@ export default function HoroscopePage() {
           <p className="text-lg text-gray-600 text-center mb-10">
             Enter birth details or choose a saved profile below.
           </p>
-          <ServiceCostBanner serviceKey="horoscope" className="mb-8" />
+          <ServiceCostBanner serviceKey={detailLevel === 'detailed' ? 'horoscope_detailed' : 'horoscope'} className="mb-8" />
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Loading profiles (no profiles yet) */}
@@ -419,11 +439,13 @@ export default function HoroscopePage() {
                     setForm={setForm}
                     period={period}
                     setPeriod={setPeriod}
+                    detailLevel={detailLevel}
+                    setDetailLevel={setDetailLevel}
                     suggestions={suggestions}
                     setSuggestions={setSuggestions}
                     isSubmitting={isSubmitting}
                     submitLabel="Get my horoscope"
-                    priceLine={horoscopePriceLine}
+                    priceLine={detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
                   />
                 </CardContent>
               </Card>
@@ -454,11 +476,13 @@ export default function HoroscopePage() {
                     setForm={setForm}
                     period={period}
                     setPeriod={setPeriod}
+                    detailLevel={detailLevel}
+                    setDetailLevel={setDetailLevel}
                     suggestions={suggestions}
                     setSuggestions={setSuggestions}
                     isSubmitting={isSubmitting}
                     submitLabel={isSubmitting ? 'Creating report…' : 'Get my horoscope'}
-                    priceLine={horoscopePriceLine}
+                    priceLine={detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
                   />
                 </CardContent>
               </Card>
@@ -535,22 +559,37 @@ export default function HoroscopePage() {
                         <option value="monthly">Monthly</option>
                       </select>
                     </div>
+                    <div className="space-y-2 mb-4">
+                      <Label htmlFor="horoscope-detail-level">Horoscope type</Label>
+                      <select
+                        id="horoscope-detail-level"
+                        value={detailLevel}
+                        onChange={(e) => setDetailLevel(e.target.value as DetailLevel)}
+                        className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        <option value="summary">Summary</option>
+                        <option value="detailed">Detailed</option>
+                      </select>
+                    </div>
                     <Button
                       type="submit"
                       disabled={!selectedProfileId || isSubmitting}
-                      className="w-full bg-primary hover:bg-primary/90 text-lg py-6 h-auto min-h-14 flex-col gap-1"
+                      className="w-full bg-primary hover:bg-primary/90 h-auto min-h-11 py-3"
                       size="lg"
                     >
-                      <span className="inline-flex items-center">
+                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-white text-sm font-medium">
                         <Sparkles className="h-5 w-5 mr-2" />
-                        {isSubmitting ? 'Creating report…' : 'Get my horoscope'}
+                        <span className="text-white">{isSubmitting ? 'Creating report…' : 'Get my horoscope'}</span>
+                        {!isSubmitting && (detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine) && (
+                          <>
+                            <span aria-hidden>·</span>
+                            <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white whitespace-nowrap">
+                              <CoinGlyph className="h-4 w-4 shrink-0" />
+                              {detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
+                            </span>
+                          </>
+                        )}
                       </span>
-                      {!isSubmitting && horoscopePriceLine && (
-                        <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-amber-900/85">
-                          <CoinGlyph className="h-4 w-4 shrink-0" />
-                          {horoscopePriceLine}
-                        </span>
-                      )}
                     </Button>
                     {!selectedProfileId && (
                       <p className="text-sm text-gray-500 mt-2 text-center">
