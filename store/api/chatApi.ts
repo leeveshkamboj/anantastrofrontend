@@ -8,12 +8,19 @@ export type ChatAstrologer = {
   displayName: string;
   slug: string;
   persona: string | null;
+  gender?: string | null;
+  locationCity?: string | null;
+  locationState?: string | null;
+  locationCountry?: string | null;
   specialties: string[] | null;
   systemPrompt: string;
   coinsPerMinute: number;
   avatarUrl: string | null;
   maxResponseDelayMs: number;
   isActive: boolean;
+  activeStartHour?: number;
+  activeEndHour?: number;
+  isOnlineNow?: boolean;
   user?: { id: number; name: string; email: string; profileImage?: string | null };
 };
 

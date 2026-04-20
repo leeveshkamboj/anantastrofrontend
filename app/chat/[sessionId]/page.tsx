@@ -17,7 +17,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
-import { PhoneOff } from 'lucide-react';
+import { MapPin, PhoneOff } from 'lucide-react';
+import NotFound from '@/app/not-found';
 
 export default function ChatSessionPage() {
   const params = useParams<{ sessionId: string }>();
@@ -34,13 +35,19 @@ export default function ChatSessionPage() {
     { sessionUuid },
     { skip: !sessionUuid },
   );
-  const { data: sessionData, refetch: refetchSession } = useGetChatSessionDetailsQuery(
+  const { data: sessionData, error: sessionError, refetch: refetchSession } = useGetChatSessionDetailsQuery(
     { sessionUuid },
     { skip: !sessionUuid },
   );
   const { data: walletData, refetch: refetchWallet } = useGetMyWalletQuery();
   const [sendMessage, { isLoading: sending }] = useSendChatMessageMutation();
   const [endSession, { isLoading: ending }] = useEndChatSessionMutation();
+
+  useEffect(() => {
+    if (token) return;
+    const next = `/chat/${encodeURIComponent(sessionUuid)}`;
+    router.replace(`/auth/login?next=${encodeURIComponent(next)}`);
+  }, [token, router, sessionUuid]);
 
   useEffect(() => {
     if (!sessionUuid || !token) return;
@@ -76,7 +83,9 @@ export default function ChatSessionPage() {
   const closeSession = async () => {
     sessionEndedRef.current = true;
     await endSession({ sessionUuid }).unwrap();
-    router.push('/astrologers');
+    setIsAstrologerTyping(false);
+    await refetchSession();
+    await refetchMessages();
   };
 
   const messages = data?.data || [];
@@ -94,6 +103,9 @@ export default function ChatSessionPage() {
   const specialtyText = astrologer?.specialties?.length
     ? astrologer.specialties.slice(0, 3).join(' • ')
     : 'Personalized astrological guidance';
+  const locationText = [astrologer?.locationCity, astrologer?.locationState, astrologer?.locationCountry]
+    .filter(Boolean)
+    .join(', ');
   const elapsedSeconds = session?.startedAt
     ? Math.max(
         0,
@@ -113,6 +125,9 @@ export default function ChatSessionPage() {
   const elapsedLabel = `${String(Math.floor(elapsedSeconds / 60)).padStart(2, '0')}:${String(elapsedSeconds % 60).padStart(2, '0')}`;
   const nextBillLabel = `${String(Math.floor(nextBillCountdown / 60)).padStart(2, '0')}:${String(nextBillCountdown % 60).padStart(2, '0')}`;
   const isSessionClosed = session?.status === 'ended';
+  const isSessionNotFound =
+    (sessionError as { status?: number; originalStatus?: number } | undefined)?.status === 404 ||
+    (sessionError as { status?: number; originalStatus?: number } | undefined)?.originalStatus === 404;
 
   useEffect(() => {
     const last = messages[messages.length - 1];
@@ -154,6 +169,52 @@ export default function ChatSessionPage() {
     };
   }, [sessionUuid, token]);
 
+  if (isSessionNotFound) {
+    return <NotFound />;
+  }
+
+  if (isLoading || !session) {
+    return (
+      <div className="container mx-auto max-w-5xl px-2 py-2 sm:px-4 sm:py-4 md:py-6">
+        <Card className="overflow-hidden border-0 bg-white/90 shadow-xl backdrop-blur supports-backdrop-filter:bg-white/70">
+          <CardHeader className="border-b bg-linear-to-r from-violet-50 via-fuchsia-50 to-indigo-50">
+            <div className="animate-pulse space-y-3">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="h-12 w-12 rounded-full bg-gray-200" />
+                  <div className="space-y-2">
+                    <div className="h-4 w-36 rounded bg-gray-200" />
+                    <div className="h-3 w-52 rounded bg-gray-200" />
+                  </div>
+                </div>
+                <div className="h-9 w-24 rounded-md bg-gray-200" />
+              </div>
+              <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
+                <div className="h-6 w-28 rounded-full bg-gray-200" />
+                <div className="h-6 w-32 rounded-full bg-gray-200" />
+                <div className="h-6 w-24 rounded-full bg-gray-200" />
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3 p-2.5 sm:p-3 md:space-y-4 md:p-5">
+            <div className="h-[58vh] overflow-y-auto rounded-2xl border bg-linear-to-b from-slate-50 to-white p-2.5 sm:h-[60vh] sm:p-3 md:h-[64vh] md:p-4">
+              <div className="space-y-3 animate-pulse">
+                <div className="mr-auto h-10 w-[72%] rounded-2xl border bg-white/80" />
+                <div className="ml-auto h-12 w-[64%] rounded-2xl bg-violet-200/60" />
+                <div className="mr-auto h-11 w-[58%] rounded-2xl border bg-white/80" />
+                <div className="ml-auto h-10 w-[70%] rounded-2xl bg-violet-200/60" />
+              </div>
+            </div>
+            <div className="sticky bottom-0 flex items-center gap-2 rounded-xl border bg-white p-2 shadow-sm">
+              <div className="h-10 flex-1 rounded-md bg-gray-200 animate-pulse" />
+              <div className="h-10 w-20 rounded-md bg-gray-200 animate-pulse" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto max-w-5xl px-2 py-2 sm:px-4 sm:py-4 md:py-6">
       <Card className="overflow-hidden border-0 bg-white/90 shadow-xl backdrop-blur supports-backdrop-filter:bg-white/70">
@@ -168,16 +229,22 @@ export default function ChatSessionPage() {
                   height={50}
                   className="rounded-full border-2 border-white shadow"
                 />
-                <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500" />
+                <span
+                  className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white ${
+                    astrologer?.isOnlineNow ? 'bg-emerald-500' : 'bg-red-500'
+                  }`}
+                />
               </div>
               <div className="min-w-0">
                 <CardTitle className="truncate text-base text-slate-900 sm:text-lg">{astroName}</CardTitle>
                 <p className="mt-0.5 text-xs text-slate-500">{specialtyText}</p>
+                {locationText ? (
+                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-slate-600">
+                    <MapPin className="h-3.5 w-3.5" />
+                    {locationText}
+                  </p>
+                ) : null}
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-                  <span className="inline-flex items-center gap-1 rounded-full border bg-white px-2.5 py-1 font-medium text-emerald-700">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                    Online
-                  </span>
                   <span className="inline-flex items-center gap-1 rounded-full border bg-white px-2.5 py-1 text-slate-700">
                     <CoinGlyph className="h-3.5 w-3.5" />
                     {coinsPerMinute}/min
@@ -221,7 +288,12 @@ export default function ChatSessionPage() {
               </p>
             )}
             {isLoading ? (
-              <p className="rounded-xl border border-dashed bg-white px-3 py-2 text-sm text-slate-500">Loading messages...</p>
+              <div className="space-y-3 animate-pulse">
+                <div className="mr-auto h-10 w-[72%] rounded-2xl border bg-white/80" />
+                <div className="ml-auto h-12 w-[64%] rounded-2xl bg-violet-200/60" />
+                <div className="mr-auto h-11 w-[58%] rounded-2xl border bg-white/80" />
+                <div className="ml-auto h-10 w-[70%] rounded-2xl bg-violet-200/60" />
+              </div>
             ) : messages.length === 0 ? (
               <p className="rounded-xl border border-dashed bg-white px-3 py-2 text-sm text-slate-500">
                 Conversation start karo - astrologer aapki details ke basis pe guide karega.
@@ -283,17 +355,17 @@ export default function ChatSessionPage() {
               onChange={(e) => setText(e.target.value)}
               placeholder={isSessionClosed ? 'This chat is closed' : 'Type your message...'}
               className="h-10 border-0 text-sm shadow-none focus-visible:ring-0 sm:h-11"
-              disabled={isSessionClosed}
+              disabled={isSessionClosed || isLoading}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') submit();
               }}
             />
             <Button
               onClick={submit}
-              disabled={sending || !text.trim() || isSessionClosed}
+              disabled={sending || !text.trim() || isSessionClosed || isLoading}
               className="h-10 px-3 text-sm bg-linear-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-700 hover:to-indigo-700 sm:h-11 sm:px-4"
             >
-              {isSessionClosed ? 'Closed' : sending ? 'Sending...' : 'Send'}
+              {isSessionClosed ? 'Closed' : isLoading ? 'Loading...' : sending ? 'Sending...' : 'Send'}
             </Button>
           </div>
           <p className="text-center text-xs text-gray-500">

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
 import { useGetChatAstrologersQuery, useStartChatSessionMutation } from '@/store/api/chatApi';
 import { useGetMyWalletQuery } from '@/store/api/coinsApi';
 import {
@@ -25,12 +26,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { ArrowUpRight, Plus, Sparkles, User } from 'lucide-react';
+import { ArrowUpRight, MapPin, Plus, Sparkles, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { CelestialBackground } from '@/components/CelestialBackground';
+import { selectToken } from '@/store/slices/authSlice';
 
 export default function AstrologersPage() {
   const router = useRouter();
+  const token = useSelector(selectToken);
   const { data, isLoading } = useGetChatAstrologersQuery();
   const { data: walletData } = useGetMyWalletQuery();
   const { data: kundlisData, refetch: refetchKundlis } = useGetMyKundlisQuery();
@@ -134,6 +137,10 @@ export default function AstrologersPage() {
   };
 
   const openStartChatDialog = (astrologerId: number) => {
+    if (!token) {
+      router.push(`/auth/login?next=${encodeURIComponent('/astrologers')}`);
+      return;
+    }
     setActiveAstrologerId(astrologerId);
     setShowSomeoneElseForm(false);
     setShowProfileDialog(true);
@@ -201,23 +208,33 @@ export default function AstrologersPage() {
                 <div className="absolute inset-x-0 top-0 h-16 bg-linear-to-r from-orange-100/80 via-amber-100/70 to-orange-50/80" />
                 <CardHeader className="relative pb-2 pt-14">
                   <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
-                    <Image
-                      src={getAvatarUrl(item)}
-                      alt={item.displayName}
-                      width={96}
-                      height={96}
-                      className="h-24 w-24 rounded-full border-4 border-white shadow-lg ring-2 ring-orange-100 bg-white"
-                    />
+                    <div className="relative">
+                      <Image
+                        src={getAvatarUrl(item)}
+                        alt={item.displayName}
+                        width={96}
+                        height={96}
+                        className="h-24 w-24 rounded-full border-4 border-white shadow-lg bg-white"
+                      />
+                      <span
+                        className={`absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-white ${
+                          item.isOnlineNow ? 'bg-emerald-500' : 'bg-red-500'
+                        }`}
+                        title={item.isOnlineNow ? 'Online now' : 'Offline'}
+                      />
+                    </div>
                   </div>
                   <div className="text-center">
                     <CardTitle className="text-lg text-[#2f1d12] truncate">{item.displayName}</CardTitle>
                     <p className="text-sm text-[#7b4c34] mt-0.5 truncate">
                       {item.persona || 'Astrology Consultant'}
                     </p>
-                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                      Online now
-                    </div>
+                    {item.locationCity || item.locationState || item.locationCountry ? (
+                      <p className="mt-2 flex items-center justify-center gap-1 text-xs text-[#7b4c34]">
+                        <MapPin className="h-3.5 w-3.5" />
+                        {[item.locationCity, item.locationState, item.locationCountry].filter(Boolean).join(', ')}
+                      </p>
+                    ) : null}
                   </div>
                 </CardHeader>
                 <CardContent className="flex h-full flex-col space-y-3">
@@ -248,10 +265,10 @@ export default function AstrologersPage() {
                   <Button
                     className="mt-auto w-full h-11 bg-linear-to-r from-primary to-[#d6682a] text-white shadow-sm transition-all group-hover:shadow-md"
                     onClick={() => openStartChatDialog(item.id)}
-                    disabled={starting}
+                    disabled={starting || item.isOnlineNow === false}
                   >
                     <span className="inline-flex items-center gap-1.5">
-                      Start Chat
+                      {item.isOnlineNow === false ? 'Currently Offline' : 'Start Chat'}
                       <ArrowUpRight className="h-4 w-4" />
                     </span>
                   </Button>
