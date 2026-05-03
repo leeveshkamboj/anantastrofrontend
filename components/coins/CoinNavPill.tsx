@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from "@/i18n/navigation";
 import { useGetMyWalletQuery } from '@/store/api/coinsApi';
 import { CoinGlyph } from './CoinGlyph';
 import { cn } from '@/lib/utils';

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Card, CardContent } from '@/components/ui/card';
 import { NorthIndianDiamondChart } from '@/components/kundli';
 
@@ -21,6 +22,8 @@ export function MatchmakingPartnerKundlis({
   partner1ChartData,
   partner2ChartData,
 }: MatchmakingPartnerKundlisProps) {
+  const t = useTranslations('results.matchmaking.chartsSection');
+  const tp = useTranslations('results.matchmaking');
   const has1 = hasPlanets(partner1ChartData);
   const has2 = hasPlanets(partner2ChartData);
   if (!has1 && !has2) return null;
@@ -28,18 +31,16 @@ export function MatchmakingPartnerKundlis({
   return (
     <Card className="mb-8 border border-gray-200">
       <CardContent className="pt-6 pb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Partner Kundlis</h2>
-        <p className="text-sm text-gray-600 text-center mb-6 max-w-2xl mx-auto">
-          Birth charts (Lagna D-1) for both partners, as used in the Gun Milan compatibility analysis.
-        </p>
+        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t('title')}</h2>
+        <p className="text-sm text-gray-600 text-center mb-6 max-w-2xl mx-auto">{t('intro')}</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 text-center">{partner1Name || 'Partner 1'}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 text-center">{partner1Name || tp('partner1')}</h3>
             {has1 ? (
               <div className="flex flex-col items-center gap-6">
                 <NorthIndianDiamondChart
                   chartData={partner1ChartData as Record<string, unknown>}
-                  title="Lagna (D-1)"
+                  title={t('lagnaD1')}
                   className="max-w-full"
                 />
                 {partner1ChartData?.navamsa &&
@@ -48,22 +49,22 @@ export function MatchmakingPartnerKundlis({
                 (partner1ChartData.navamsa as { planets: unknown[] }).planets.length > 0 ? (
                   <NorthIndianDiamondChart
                     chartData={partner1ChartData.navamsa as Record<string, unknown>}
-                    title="Navamsa (D-9)"
+                    title={t('navamsaD9')}
                     className="max-w-full"
                   />
                 ) : null}
               </div>
             ) : (
-              <p className="text-sm text-gray-500 text-center">No chart data</p>
+              <p className="text-sm text-gray-500 text-center">{t('noChartData')}</p>
             )}
           </div>
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 text-center">{partner2Name || 'Partner 2'}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 text-center">{partner2Name || tp('partner2')}</h3>
             {has2 ? (
               <div className="flex flex-col items-center gap-6">
                 <NorthIndianDiamondChart
                   chartData={partner2ChartData as Record<string, unknown>}
-                  title="Lagna (D-1)"
+                  title={t('lagnaD1')}
                   className="max-w-full"
                 />
                 {partner2ChartData?.navamsa &&
@@ -72,13 +73,13 @@ export function MatchmakingPartnerKundlis({
                 (partner2ChartData.navamsa as { planets: unknown[] }).planets.length > 0 ? (
                   <NorthIndianDiamondChart
                     chartData={partner2ChartData.navamsa as Record<string, unknown>}
-                    title="Navamsa (D-9)"
+                    title={t('navamsaD9')}
                     className="max-w-full"
                   />
                 ) : null}
               </div>
             ) : (
-              <p className="text-sm text-gray-500 text-center">No chart data</p>
+              <p className="text-sm text-gray-500 text-center">{t('noChartData')}</p>
             )}
           </div>
         </div>

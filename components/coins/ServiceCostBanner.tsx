@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from "@/i18n/navigation";
 import { useGetMyWalletQuery } from '@/store/api/coinsApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import type { ServiceKey } from '@/store/api/coinsApi';

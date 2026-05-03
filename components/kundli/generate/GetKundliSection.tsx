@@ -1,6 +1,7 @@
 'use client';
 
 import { RefObject } from 'react';
+import { useTranslations } from 'next-intl';
 import type { PlaceSuggestion } from '@/store/api/kundliApi';
 import type { Kundli } from '@/store/api/kundliApi';
 import { Card, CardContent } from '@/components/ui/card';
@@ -75,11 +76,13 @@ export function GetKundliSection({
   kundliFormPrefill,
   onBackSomeoneElse,
 }: GetKundliSectionProps) {
+  const t = useTranslations('services.kundli.getSection');
+  const tCommon = useTranslations('services.common');
   if (!hasProfiles && !isLoading) {
     return (
       <BirthDetailsForm
-        title="Create your first kundli profile"
-        subtitle="Enter birth details below. You can add more profiles later."
+        title={t('firstProfileTitle')}
+        subtitle={t('firstProfileSubtitle')}
         name={name}
         onNameChange={onNameChange}
         dateOfBirth={dateOfBirth}
@@ -92,7 +95,7 @@ export function GetKundliSection({
         placeSearchLoading={placeSearchLoading}
         onSelectPlace={onSelectPlace}
         placeInputRef={placeInputRef}
-        submitLabel="Get Kundli"
+        submitLabel={t('submitGetKundli')}
         priceLine={runPriceLine}
         onSubmit={onAddProfile}
         isSubmitting={isCreating}
@@ -103,8 +106,8 @@ export function GetKundliSection({
   if (hasProfiles && showSomeoneElseForm) {
     return (
       <BirthDetailsForm
-        title="Get kundli for someone else"
-        subtitle="Enter their birth details to create a new profile and get their kundli."
+        title={t('someoneElseTitle')}
+        subtitle={t('someoneElseSubtitle')}
         name={name}
         onNameChange={onNameChange}
         dateOfBirth={dateOfBirth}
@@ -117,14 +120,14 @@ export function GetKundliSection({
         placeSearchLoading={placeSearchLoading}
         onSelectPlace={onSelectPlace}
         placeInputRef={placeInputRef}
-        submitLabel={isCreating || isUpdating ? 'Saving...' : 'Get kundli'}
+        submitLabel={isCreating || isUpdating ? t('submitSaving') : t('submitGetKundliLower')}
         priceLine={runPriceLine}
         onSubmit={onAddProfile}
         isSubmitting={isCreating || isUpdating}
         nameId="someone-name"
         timeId="someone-time"
         placeId="someone-place"
-        backLabel="Back to profiles"
+        backLabel={t('backToProfiles')}
         onBack={onBackSomeoneElse}
       />
     );
@@ -133,10 +136,10 @@ export function GetKundliSection({
   return (
     <Card className="border-0 shadow-xl bg-white">
       <CardContent className="pt-8 pb-8 space-y-6">
-        <h3 className="text-xl font-semibold text-gray-900">Select a profile</h3>
-        <p className="text-gray-600 -mt-2">Choose a saved profile or add someone else, then get your kundli.</p>
+        <h3 className="text-xl font-semibold text-gray-900">{t('selectTitle')}</h3>
+        <p className="text-gray-600 -mt-2">{t('selectSubtitle')}</p>
         {isLoading ? (
-          <p className="text-gray-500 text-sm">Loading profiles...</p>
+          <p className="text-gray-500 text-sm">{tCommon('loadingProfiles')}</p>
         ) : (
           <ul className="space-y-2">
             {kundlis.map((k) => (
@@ -155,7 +158,7 @@ export function GetKundliSection({
                   <div>
                     <p className="font-medium text-gray-900">{k.name}</p>
                     <p className="text-sm text-gray-500">
-                      {k.dateOfBirth && `DOB: ${k.dateOfBirth}`}
+                      {k.dateOfBirth && `${tCommon('dobPrefix')} ${k.dateOfBirth}`}
                       {k.timeOfBirth && ` • ${k.timeOfBirth}`}
                       {k.placeOfBirth && ` • ${k.placeOfBirth}`}
                     </p>
@@ -166,7 +169,7 @@ export function GetKundliSection({
           </ul>
         )}
         <div className="flex items-center justify-between pt-2">
-          <Label className="text-base font-medium">Get kundli for someone else</Label>
+          <Label className="text-base font-medium">{t('someoneElseLabel')}</Label>
           <Button
             type="button"
             variant="outline"
@@ -180,7 +183,7 @@ export function GetKundliSection({
             }}
           >
             <Plus className="h-4 w-4 mr-1" />
-            Someone else
+            {t('someoneElseButton')}
           </Button>
         </div>
         <div className="pt-4 border-t border-gray-200">
@@ -191,7 +194,7 @@ export function GetKundliSection({
           >
             <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
               <BookOpen className="h-4 w-4 mr-2 shrink-0" />
-              {isStartingGeneration ? 'Starting…' : 'Get Kundli'}
+              {isStartingGeneration ? t('ctaStarting') : t('ctaGetKundli')}
               {!isStartingGeneration && generatePriceLine && (
                 <>
                   <span aria-hidden>·</span>
@@ -204,7 +207,7 @@ export function GetKundliSection({
             </span>
           </Button>
           {!selectedId && (
-            <p className="text-sm text-gray-500 mt-2 text-center">Select a profile above or get kundli for someone else to continue.</p>
+            <p className="text-sm text-gray-500 mt-2 text-center">{t('hintSelect')}</p>
           )}
         </div>
       </CardContent>

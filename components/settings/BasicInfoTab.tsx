@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/store/api/authApi';
 import { useUploadFileMutation } from '@/store/api/astrologerApi';
@@ -13,6 +14,8 @@ import { toast } from 'sonner';
 import { User, Camera } from 'lucide-react';
 
 export function BasicInfoTab() {
+  const tb = useTranslations('settingsBasic');
+  const ts = useTranslations('settingsToasts');
   const { data: profileData } = useGetProfileQuery();
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
   const [uploadFile, { isLoading: isUploadingImage }] = useUploadFileMutation();
@@ -43,7 +46,7 @@ export function BasicInfoTab() {
         dateOfBirth: dateOfBirth || undefined,
         profileImage: profileImageUrl || undefined,
       }).unwrap();
-      toast.success('Profile updated successfully');
+      toast.success(ts('profileUpdated'));
     } catch (err: unknown) {
       const message =
         err &&
@@ -51,7 +54,7 @@ export function BasicInfoTab() {
         'data' in err &&
         typeof (err as { data?: { message?: string } }).data?.message === 'string'
           ? (err as { data: { message: string } }).data.message
-          : 'Failed to update profile';
+          : ts('profileUpdateFailed');
       toast.error(message);
     }
   };
@@ -60,21 +63,21 @@ export function BasicInfoTab() {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      toast.error('Please upload an image file (JPEG, PNG)');
+      toast.error(ts('imageType'));
       return;
     }
     try {
-      toast.loading('Uploading image...', { id: 'upload-image' });
+      toast.loading(ts('uploadLoading'), { id: 'upload-image' });
       const result = await uploadFile({ file, type: 'profile_pic' }).unwrap();
       if (result?.isSuccess && result?.data?.url) {
         setProfileImageUrl(result.data.url);
         await updateProfile({ profileImage: result.data.url }).unwrap();
-        toast.success('Photo updated', { id: 'upload-image' });
+        toast.success(ts('photoUpdated'), { id: 'upload-image' });
       } else {
-        toast.error('Upload failed', { id: 'upload-image' });
+        toast.error(ts('uploadFailed'), { id: 'upload-image' });
       }
     } catch {
-      toast.error('Failed to upload image', { id: 'upload-image' });
+      toast.error(ts('uploadImageFailed'), { id: 'upload-image' });
     }
     e.target.value = '';
   };
@@ -84,9 +87,9 @@ export function BasicInfoTab() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <User className="h-5 w-5" />
-          Basic Info
+          {tb('title')}
         </CardTitle>
-        <CardDescription>Update your name, phone, date of birth, and profile photo</CardDescription>
+        <CardDescription>{tb('description')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex flex-col sm:flex-row items-start gap-6">
@@ -107,7 +110,7 @@ export function BasicInfoTab() {
               {profileImageUrl ? (
                 <Image
                   src={profileImageUrl}
-                  alt="Profile"
+                  alt={tb('profileAlt')}
                   fill
                   className="object-cover"
                   sizes="96px"
@@ -121,48 +124,48 @@ export function BasicInfoTab() {
             </button>
             {isUploadingImage && (
               <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/30 text-white text-xs">
-                Uploading...
+                {tb('uploadingOverlay')}
               </span>
             )}
           </div>
           <form onSubmit={handleSaveDetails} className="flex-1 space-y-4 w-full">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{tb('name')}</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
+                placeholder={tb('namePlaceholder')}
                 className="bg-gray-50"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{tb('email')}</Label>
               <Input
                 id="email"
                 value={profile?.email ?? ''}
                 disabled
                 className="bg-gray-100 text-gray-500"
               />
-              <p className="text-xs text-gray-500">Email cannot be changed</p>
+              <p className="text-xs text-gray-500">{tb('emailLocked')}</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone (optional)</Label>
+              <Label htmlFor="phone">{tb('phone')}</Label>
               <Input
                 id="phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Your phone number"
+                placeholder={tb('phonePlaceholder')}
                 className="bg-gray-50"
               />
             </div>
             <div className="space-y-2">
-              <Label>Date of birth (optional)</Label>
+              <Label>{tb('dob')}</Label>
               <DatePicker
                 value={dateOfBirth}
                 onChange={setDateOfBirth}
-                placeholder="Select date of birth"
+                placeholder={tb('dobPlaceholder')}
               />
             </div>
             <Button
@@ -170,7 +173,7 @@ export function BasicInfoTab() {
               className="w-full sm:w-auto bg-primary hover:bg-primary/90"
               disabled={isUpdating}
             >
-              {isUpdating ? 'Saving...' : 'Save details'}
+              {isUpdating ? tb('saving') : tb('save')}
             </Button>
           </form>
         </div>

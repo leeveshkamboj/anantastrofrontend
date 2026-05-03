@@ -2,8 +2,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, Shield, Zap } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 export function FeaturesGridSection() {
+  const t = useTranslations("home.featuresGrid")
+
   return (
     <section className="py-20 px-4 md:px-8" style={{ background: '#fcbb18' }}>
       <div className="max-w-7xl mx-auto">
@@ -13,12 +16,10 @@ export function FeaturesGridSection() {
               <div className="w-12 h-12 rounded-lg bg-primary-dark flex items-center justify-center mb-4">
                 <Users className="h-6 w-6 text-white" />
               </div>
-              <CardTitle>Expert Astrologers</CardTitle>
+              <CardTitle>{t("expertTitle")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">
-                Connect with verified and experienced astrologers for personalized consultations and guidance.
-              </CardDescription>
+              <CardDescription className="text-base">{t("expertDesc")}</CardDescription>
             </CardContent>
           </Card>
 
@@ -27,12 +28,10 @@ export function FeaturesGridSection() {
               <div className="w-12 h-12 rounded-lg bg-primary-dark flex items-center justify-center mb-4">
                 <Shield className="h-6 w-6 text-white" />
               </div>
-              <CardTitle>Secure & Private</CardTitle>
+              <CardTitle>{t("secureTitle")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">
-                Your data is encrypted and secure. We prioritize your privacy and confidentiality.
-              </CardDescription>
+              <CardDescription className="text-base">{t("secureDesc")}</CardDescription>
             </CardContent>
           </Card>
 
@@ -41,12 +40,10 @@ export function FeaturesGridSection() {
               <div className="w-12 h-12 rounded-lg bg-primary-dark flex items-center justify-center mb-4">
                 <Zap className="h-6 w-6 text-white" />
               </div>
-              <CardTitle>Instant Reports</CardTitle>
+              <CardTitle>{t("instantTitle")}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">
-                Get personalized reports instantly. No waiting, no delays - just instant insights.
-              </CardDescription>
+              <CardDescription className="text-base">{t("instantDesc")}</CardDescription>
             </CardContent>
           </Card>
         </div>
@@ -54,4 +51,3 @@ export function FeaturesGridSection() {
     </section>
   )
 }
-

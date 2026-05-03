@@ -1,14 +1,15 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { User, Lock, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export type ProfileTab = 'basic' | 'kundli' | 'password';
 
-const TABS: { id: ProfileTab; label: string; icon: typeof User }[] = [
-  { id: 'basic', label: 'Basic Info', icon: User },
-  { id: 'kundli', label: 'Kundli Profile', icon: BookOpen },
-  { id: 'password', label: 'Manage Password', icon: Lock },
+const TABS: { id: ProfileTab; labelKey: 'basic' | 'kundli' | 'password'; icon: typeof User }[] = [
+  { id: 'basic', labelKey: 'basic', icon: User },
+  { id: 'kundli', labelKey: 'kundli', icon: BookOpen },
+  { id: 'password', labelKey: 'password', icon: Lock },
 ];
 
 type SettingsSidebarProps = {
@@ -17,6 +18,7 @@ type SettingsSidebarProps = {
 };
 
 export function SettingsSidebar({ activeTab, onTabChange }: SettingsSidebarProps) {
+  const t = useTranslations('settingsSidebar');
   return (
     <aside className="w-full md:w-64 shrink-0">
       <nav className="bg-white/95 border-0 shadow-xl rounded-xl p-2 space-y-1">
@@ -35,7 +37,7 @@ export function SettingsSidebar({ activeTab, onTabChange }: SettingsSidebarProps
               )}
             >
               <Icon className="h-5 w-5 shrink-0" />
-              {tab.label}
+              {t(tab.labelKey)}
             </button>
           );
         })}

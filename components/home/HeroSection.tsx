@@ -1,14 +1,14 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter } from "@/i18n/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Calendar, Clock } from "lucide-react"
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import { setKundliFormData } from "@/store/slices/kundliFormSlice"
 import { useCreateKundliMutation, useLazyGetGeocodeSuggestionsQuery, useGetMyKundlisQuery } from "@/store/api/kundliApi"
 import type { PlaceSuggestion } from "@/store/api/kundliApi"
@@ -30,6 +30,7 @@ import {
   TbZodiacAquarius,
   TbZodiacPisces
 } from "react-icons/tb"
+import { useTranslations } from "next-intl"
 
 const zodiacSigns = [
   { Icon: TbZodiacAries, rotation: -12 },
@@ -72,6 +73,7 @@ const scatterPositions = [
 ]
 
 export function HeroSection() {
+  const t = useTranslations("home.hero")
   const router = useRouter()
   const dispatch = useDispatch()
   const isAuthenticated = useSelector(selectIsAuthenticated)
@@ -287,10 +289,10 @@ export function HeroSection() {
           {/* Left Column - Hero Content */}
           <div className="text-center lg:text-left space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight">
-              Discover Your Destiny with AnantAstro
+              {t("title")}
             </h1>
             <p className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0">
-              Get accurate kundli generation, personalized horoscopes, AI-powered reports, and expert astrological consultations all in one place.
+              {t("subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button
@@ -298,7 +300,7 @@ export function HeroSection() {
                 className="bg-primary hover:bg-[#d6682a] text-white font-bold text-lg py-6 px-8 rounded-lg hover:shadow-lg transition-all cursor-pointer"
                 size="lg"
               >
-                <Link href="/auth/register">Get Started Free</Link>
+                <Link href="/auth/register">{t("getStartedFree")}</Link>
               </Button>
               <Button
                 asChild
@@ -306,7 +308,7 @@ export function HeroSection() {
                 className="text-lg py-6 px-8 !border-[#794235] text-[#794235] hover:bg-[#794235] hover:text-white hover:!border-[#794235] cursor-pointer transition-all"
                 size="lg"
               >
-                <Link href="/services">Explore Services</Link>
+                <Link href="/pricing">{t("exploreServices")}</Link>
               </Button>
             </div>
           </div>
@@ -315,22 +317,20 @@ export function HeroSection() {
           <Card className="rounded-3xl shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-gray-900">
-                Get your kundli
+                {t("cardTitle")}
               </CardTitle>
-              <CardDescription>
-                Enter your birth details to get started
-              </CardDescription>
+              <CardDescription>{t("cardDescription")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleKundliSubmit} className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="kundli-name" className="text-gray-700 font-medium text-sm">
-                    Name
+                    {t("name")}
                   </Label>
                   <Input
                     id="kundli-name"
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder={t("namePlaceholder")}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
@@ -339,19 +339,19 @@ export function HeroSection() {
 
                 <div className="space-y-2">
                   <Label htmlFor="kundli-dob" className="text-gray-700 font-medium text-sm">
-                    Date of birth
+                    {t("dateOfBirth")}
                   </Label>
                   <DatePicker
                     value={dateOfBirth}
                     onChange={(date) => setDateOfBirth(date)}
-                    placeholder="Select date of birth"
+                    placeholder={t("dateOfBirthPlaceholder")}
                     className="h-12"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="kundli-time" className="text-gray-700 font-medium text-sm">
-                    Time of birth
+                    {t("timeOfBirth")}
                   </Label>
                   <div className="relative">
                     <Input
@@ -366,19 +366,19 @@ export function HeroSection() {
 
                 <div ref={placeInputContainerRef} className="relative space-y-2">
                   <Label htmlFor="kundli-place" className="text-gray-700 font-medium text-sm">
-                    Place of birth
+                    {t("placeOfBirth")}
                   </Label>
                   <Input
                     id="kundli-place"
                     type="text"
-                    placeholder="Search city or place of birth"
+                    placeholder={t("placePlaceholder")}
                     value={placeOfBirth}
                     onChange={(e) => setPlaceOfBirth(e.target.value)}
                     className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
                     autoComplete="off"
                   />
                   {placeSearchLoading && placeOfBirth.trim() && isAuthenticated && (
-                    <p className="text-sm text-gray-500">Searching…</p>
+                    <p className="text-sm text-gray-500">{t("searching")}</p>
                   )}
                   {placeSuggestions.length > 0 && (
                     <ul className="absolute z-20 mt-0.5 w-full rounded-lg border border-gray-200 bg-white py-1 shadow-lg max-h-56 overflow-auto">
@@ -403,7 +403,7 @@ export function HeroSection() {
                   size="lg"
                 >
                   <span className="inline-flex items-center gap-1.5">
-                    <span>Get kundli</span>
+                    <span>{t("getKundli")}</span>
                     {kundliPriceLine && (
                       <>
                         <span aria-hidden>·</span>

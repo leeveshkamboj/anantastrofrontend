@@ -1,6 +1,7 @@
 'use client';
 
 import { RefObject } from 'react';
+import { useTranslations } from 'next-intl';
 import type { PlaceSuggestion } from '@/store/api/kundliApi';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -62,6 +63,7 @@ export function BirthDetailsForm({
   timeId = 'time',
   placeId = 'place',
 }: BirthDetailsFormProps) {
+  const tl = useTranslations('services.kundli.birthForm');
   return (
     <Card className="border-0 shadow-xl bg-white">
       <CardContent className="pt-8 pb-8">
@@ -69,27 +71,27 @@ export function BirthDetailsForm({
         {subtitle && <p className="text-gray-600 mb-6">{subtitle}</p>}
         <form onSubmit={onSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor={nameId}>Name</Label>
+            <Label htmlFor={nameId}>{tl('name')}</Label>
             <Input
               id={nameId}
               value={name}
               onChange={(e) => onNameChange(e.target.value)}
-              placeholder="Full name"
+              placeholder={tl('fullNamePlaceholder')}
               className="bg-gray-50"
               required
             />
           </div>
           <div className="space-y-2">
-            <Label>Date of birth</Label>
+            <Label>{tl('dateOfBirth')}</Label>
             <DatePicker
               value={dateOfBirth}
               onChange={onDateOfBirthChange}
-              placeholder="Select date"
+              placeholder={tl('selectDate')}
               className="bg-gray-50"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor={timeId}>Time of birth</Label>
+            <Label htmlFor={timeId}>{tl('timeOfBirth')}</Label>
             <Input
               id={timeId}
               type="time"
@@ -99,17 +101,17 @@ export function BirthDetailsForm({
             />
           </div>
           <div ref={placeInputRef} className="relative space-y-2">
-            <Label htmlFor={placeId}>Place of birth</Label>
+            <Label htmlFor={placeId}>{tl('placeOfBirth')}</Label>
             <Input
               id={placeId}
               value={placeOfBirth}
               onChange={(e) => onPlaceOfBirthChange(e.target.value)}
-              placeholder="Search city or place"
+              placeholder={tl('placePlaceholder')}
               className="bg-gray-50"
               autoComplete="off"
             />
             {placeSearchLoading && placeOfBirth.trim() && (
-              <p className="text-sm text-gray-500">Searching…</p>
+              <p className="text-sm text-gray-500">{tl('searching')}</p>
             )}
             {placeSuggestions.length > 0 && (
               <ul className="absolute z-10 mt-0.5 w-full rounded-lg border border-gray-200 bg-white py-1 shadow-lg max-h-56 overflow-auto">
@@ -134,7 +136,7 @@ export function BirthDetailsForm({
           >
             <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
               <BookOpen className="h-4 w-4 mr-2 shrink-0" />
-              {isSubmitting ? 'Saving...' : submitLabel}
+              {isSubmitting ? tl('saving') : submitLabel}
               {!isSubmitting && priceLine && (
                 <>
                   <span aria-hidden>·</span>

@@ -1,13 +1,19 @@
-import Link from "next/link"
+"use client"
+
+import { Link } from "@/i18n/navigation"
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { useTranslations } from "next-intl"
 
 export function Footer() {
+  const t = useTranslations("footer")
+  const tNav = useTranslations("nav")
+  const year = new Date().getFullYear()
+
   return (
     <footer className="footer-gradient text-[#794235]">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-primary-light to-cream flex items-center justify-center">
@@ -15,114 +21,109 @@ export function Footer() {
                   <span className="text-primary text-sm font-bold">A</span>
                 </div>
               </div>
-              <span className="text-xl font-serif font-bold ">AnantAstro</span>
+              <span className="text-xl font-serif font-bold ">{tNav("brand")}</span>
             </div>
-            <p className="text-sm leading-relaxed">
-              Your trusted companion for astrological insights, kundli generation, and personalized horoscope readings.
-            </p>
+            <p className="text-sm leading-relaxed">{t("tagline")}</p>
             <div className="flex gap-4">
-              <Link
+              <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className=" hover:text-primary transition-colors"
               >
                 <Facebook className="h-5 w-5" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className=" hover:text-primary transition-colors"
               >
                 <Twitter className="h-5 w-5" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className=" hover:text-primary transition-colors"
               >
                 <Instagram className="h-5 w-5" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className=" hover:text-primary transition-colors"
               >
                 <Youtube className="h-5 w-5" />
-              </Link>
+              </a>
             </div>
           </div>
 
-          {/* Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">Services</h3>
+            <h3 className="text-lg font-semibold ">{t("servicesHeading")}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/services/kundli/generate" className=" hover:text-primary transition-colors">
-                  Kundli Generation
+                  {t("kundliGeneration")}
                 </Link>
               </li>
               <li>
                 <Link href="/services/horoscope" className=" hover:text-primary transition-colors">
-                  Horoscope
+                  {t("horoscope")}
                 </Link>
               </li>
               <li>
                 <Link href="/services/matchmaking" className=" hover:text-primary transition-colors">
-                  Matchmaking
+                  {t("matchmaking")}
                 </Link>
               </li>
               <li>
                 <Link href="/services/ai-reports" className=" hover:text-primary transition-colors">
-                  Reports
+                  {t("reports")}
                 </Link>
               </li>
               <li>
                 <Link href="/services/consultation" className=" hover:text-primary transition-colors">
-                  Live Consultation
+                  {t("liveConsultation")}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">Quick Links</h3>
+            <h3 className="text-lg font-semibold ">{t("quickLinksHeading")}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/astrologers" className=" hover:text-primary transition-colors">
-                  Our Astrologers
+                  {t("ourAstrologers")}
                 </Link>
               </li>
               <li>
                 <Link href="/pricing" className=" hover:text-primary transition-colors">
-                  Pricing Plans
+                  {t("pricingPlans")}
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className=" hover:text-primary transition-colors">
-                  Dashboard
+                <Link href="/profile" className=" hover:text-primary transition-colors">
+                  {tNav("profile")}
                 </Link>
               </li>
               <li>
                 <Link href="/about" className=" hover:text-primary transition-colors">
-                  About Us
+                  {t("aboutUs")}
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className=" hover:text-primary transition-colors">
-                  Contact Us
+                  {t("contactUs")}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">Contact Us</h3>
+            <h3 className="text-lg font-semibold ">{t("contactHeading")}</h3>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <Mail className="h-5 w-5  mt-0.5 shrink-0" />
@@ -146,16 +147,16 @@ export function Footer() {
         <Separator className="my-8 bg-black/20" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm ">
-          <p>© {new Date().getFullYear()} AnantAstro. All rights reserved.</p>
+          <p>{t("copyright", { year })}</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-primary transition-colors">
-              Privacy Policy
+              {t("privacyPolicy")}
             </Link>
             <Link href="/terms" className="hover:text-primary transition-colors">
-              Terms of Service
+              {t("termsOfService")}
             </Link>
             <Link href="/refund" className="hover:text-primary transition-colors">
-              Refund Policy
+              {t("refundPolicy")}
             </Link>
           </div>
         </div>

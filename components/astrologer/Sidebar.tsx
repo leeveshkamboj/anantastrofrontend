@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { useDispatch } from 'react-redux';
 import { logout } from '@/store/slices/authSlice';
 import { useLogoutMutation } from '@/store/api/authApi';
-import { useRouter } from 'next/navigation';
+import { useRouter } from "@/i18n/navigation";
 import {
   LayoutDashboard,
   User,

@@ -16,17 +16,19 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Menu, User, LogIn, LogOut, LayoutDashboard, FileText, Settings, Shield, Wallet, MessageCircle } from "lucide-react"
+import { Menu, User, LogIn, LogOut, FileText, Shield, Wallet, MessageCircle } from "lucide-react"
 import { CoinNavPill } from "@/components/coins/CoinNavPill"
-import Link from "next/link"
+import { Link, useRouter } from "@/i18n/navigation"
 import { useState } from "react"
 import { useAuth } from "@/store/hooks/useAuth"
 import { useSelector } from "react-redux"
 import { selectIsAstrologer } from "@/store/slices/authSlice"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { useTranslations } from "next-intl"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
 
 export function Navbar() {
+  const t = useTranslations("nav")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, isAuthenticated, isAdmin, logout } = useAuth()
   const isAstrologer = useSelector(selectIsAstrologer)
@@ -62,7 +64,7 @@ export function Navbar() {
               </div>
             </div>
             <span className="text-xl md:text-2xl font-serif font-bold text-gray-900">
-              AnantAstro
+              {t("brand")}
             </span>
           </Link>
 
@@ -72,7 +74,7 @@ export function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="text-gray-700 hover:text-white hover:bg-primary cursor-pointer">
-                    Services
+                    {t("services")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="bg-white border border-gray-200 shadow-lg rounded-md">
                     <div className="grid w-[500px] gap-3 p-4 md:grid-cols-2 bg-white rounded-md">
@@ -80,36 +82,36 @@ export function Navbar() {
                         href="/services/kundli/generate"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
-                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Kundli Generation</div>
+                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">{t("menuKundliTitle")}</div>
                         <p className="line-clamp-2 text-sm leading-snug text-gray-600 group-hover:text-gray-700">
-                          Your complete birth chart
+                          {t("menuKundliDesc")}
                         </p>
                       </Link>
                       <Link
                         href="/services/horoscope"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
-                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Horoscope</div>
+                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">{t("menuHoroscopeTitle")}</div>
                         <p className="line-clamp-2 text-sm leading-snug text-gray-600 group-hover:text-gray-700">
-                          Daily, weekly, and monthly predictions
+                          {t("menuHoroscopeDesc")}
                         </p>
                       </Link>
                       <Link
                         href="/services/matchmaking"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
-                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Matchmaking</div>
+                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">{t("menuMatchmakingTitle")}</div>
                         <p className="line-clamp-2 text-sm leading-snug text-gray-600 group-hover:text-gray-700">
-                          Compatibility analysis for relationships
+                          {t("menuMatchmakingDesc")}
                         </p>
                       </Link>
                       <Link
                         href="/services/ai-reports"
                         className="group grid h-auto w-full items-center justify-start gap-1 rounded-md p-4 text-sm font-medium transition-colors hover:bg-primary-light hover:text-gray-900 focus:bg-primary-light focus:text-gray-900 cursor-pointer"
                       >
-                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">Reports</div>
+                        <div className="text-sm font-medium leading-none text-gray-900 group-hover:text-gray-900">{t("menuReportsTitle")}</div>
                         <p className="line-clamp-2 text-sm leading-snug text-gray-600 group-hover:text-gray-700">
-                          Career, love, and personality insights
+                          {t("menuReportsDesc")}
                         </p>
                       </Link>
                     </div>
@@ -119,7 +121,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link href="/astrologers" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
-                      Astrologers
+                      {t("astrologers")}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -128,7 +130,7 @@ export function Navbar() {
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <Link href="/astrologer/register" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
-                        Become an Astrologer
+                        {t("becomeAstrologer")}
                       </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
@@ -137,7 +139,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link href="/pricing" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
-                      Pricing
+                      {t("pricing")}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -145,7 +147,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link href="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
-                      About
+                      {t("about")}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -153,7 +155,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link href="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white focus:bg-primary focus:text-white focus:outline-none disabled:pointer-events-none disabled:opacity-50 text-gray-700 cursor-pointer">
-                      Contact
+                      {t("contact")}
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -161,6 +163,8 @@ export function Navbar() {
             </NavigationMenu>
 
             {isAuthenticated && <CoinNavPill className="hidden sm:inline-flex" />}
+
+            <LanguageSwitcher />
 
             {/* User Menu */}
             <DropdownMenu>
@@ -192,7 +196,7 @@ export function Navbar() {
                       {isAdmin && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-light text-primary-dark mt-1">
                           <Shield className="h-3 w-3 mr-1" />
-                          Admin
+                          {t("adminBadge")}
                         </span>
                       )}
                     </div>
@@ -200,7 +204,7 @@ export function Navbar() {
                       <DropdownMenuItem asChild>
                         <Link href="/admin" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                           <Shield className="mr-2 h-4 w-4 text-primary-dark" />
-                          Admin Panel
+                          {t("adminPanel")}
                         </Link>
                       </DropdownMenuItem>
                     ) : (
@@ -208,25 +212,25 @@ export function Navbar() {
                         <DropdownMenuItem asChild>
                           <Link href="/profile" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                             <User className="mr-2 h-4 w-4 text-primary-dark" />
-                            Profile
+                            {t("profile")}
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href="/reports" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                             <FileText className="mr-2 h-4 w-4 text-primary-dark" />
-                            My Reports
+                            {t("myReports")}
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href="/wallet" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                             <Wallet className="mr-2 h-4 w-4 text-primary-dark" />
-                            Wallet & coins
+                            {t("walletCoins")}
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                           <Link href="/conversations" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                             <MessageCircle className="mr-2 h-4 w-4 text-primary-dark" />
-                            Conversations
+                            {t("conversations")}
                           </Link>
                         </DropdownMenuItem>
                       </>
@@ -234,7 +238,7 @@ export function Navbar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout} className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                       <LogOut className="mr-2 h-4 w-4 text-primary-dark" />
-                      Logout
+                      {t("logout")}
                     </DropdownMenuItem>
                   </>
                 ) : (
@@ -242,13 +246,13 @@ export function Navbar() {
                     <DropdownMenuItem asChild>
                       <Link href="/auth/login" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                         <LogIn className="mr-2 h-4 w-4 text-primary-dark" />
-                        Login
+                        {t("login")}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/auth/register" className="flex items-center cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
                         <User className="mr-2 h-4 w-4 text-primary-dark" />
-                        Register
+                        {t("register")}
                       </Link>
                     </DropdownMenuItem>
                   </>
@@ -258,7 +262,8 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu */}
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-1">
+            <LanguageSwitcher />
             <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="hover:bg-primary hover:text-white cursor-pointer">
@@ -267,69 +272,69 @@ export function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
                 <DropdownMenuItem asChild>
-                  <Link href="/services/kundli/generate">Kundli Generation</Link>
+                  <Link href="/services/kundli/generate">{t("mobileKundli")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/services/horoscope">Horoscope</Link>
+                  <Link href="/services/horoscope">{t("mobileHoroscope")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/services/matchmaking">Matchmaking</Link>
+                  <Link href="/services/matchmaking">{t("mobileMatchmaking")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/services/ai-reports">Reports</Link>
+                  <Link href="/services/ai-reports">{t("mobileReports")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/astrologers">Astrologers</Link>
+                  <Link href="/astrologers">{t("astrologers")}</Link>
                 </DropdownMenuItem>
                 {!isAstrologer && (
                   <DropdownMenuItem asChild>
-                    <Link href="/astrologer/register">Become an Astrologer</Link>
+                    <Link href="/astrologer/register">{t("becomeAstrologer")}</Link>
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem asChild>
-                  <Link href="/pricing">Pricing</Link>
+                  <Link href="/pricing">{t("pricing")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/about">About</Link>
+                  <Link href="/about">{t("about")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/contact">Contact</Link>
+                  <Link href="/contact">{t("contact")}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 {isAuthenticated ? (
                   <>
                     {isAdmin ? (
                       <DropdownMenuItem asChild>
-                        <Link href="/admin" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Admin Panel</Link>
+                        <Link href="/admin" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("adminPanel")}</Link>
                       </DropdownMenuItem>
                     ) : (
                       <>
                         <DropdownMenuItem asChild>
-                          <Link href="/profile" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Profile</Link>
+                          <Link href="/profile" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("profile")}</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href="/reports" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">My Reports</Link>
+                          <Link href="/reports" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("myReports")}</Link>
                         </DropdownMenuItem>
                       </>
                     )}
                     <DropdownMenuItem asChild>
-                      <Link href="/wallet" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Wallet</Link>
+                      <Link href="/wallet" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("wallet")}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/conversations" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Conversations</Link>
+                      <Link href="/conversations" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("conversations")}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleLogout} className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">
-                      Logout
+                      {t("logout")}
                     </DropdownMenuItem>
                   </>
                 ) : (
                   <>
                     <DropdownMenuItem asChild>
-                      <Link href="/auth/login" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Login</Link>
+                      <Link href="/auth/login" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("login")}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/auth/register" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">Register</Link>
+                      <Link href="/auth/register" className="cursor-pointer hover:bg-primary-light hover:text-primary-dark transition-colors">{t("register")}</Link>
                     </DropdownMenuItem>
                   </>
                 )}

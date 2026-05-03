@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from "@/i18n/navigation";
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated, selectUserRole, selectToken } from '@/store/slices/authSlice';
 import { useGetProfileQuery } from '@/store/api/authApi';
