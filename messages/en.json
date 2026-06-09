@@ -568,6 +568,7 @@
         "personality": "Personality",
         "physical": "Physical",
         "health": "Health",
+        "career": "Career",
         "relationships": "Relationships",
         "remedies": "Remedies"
       },
