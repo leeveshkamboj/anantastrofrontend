@@ -2,13 +2,16 @@
 
 import { useParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
-import { useGetUserQuery } from '@/store/api/adminApi';
+import { useDispatch } from 'react-redux';
+import { useGetUserQuery, useLoginAsUserMutation } from '@/store/api/adminApi';
+import { setCredentials } from '@/store/slices/authSlice';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import Image from 'next/image';
-import { ArrowLeft, Edit } from 'lucide-react';
+import { ArrowLeft, Edit, LogIn } from 'lucide-react';
 
 function getRoleBadgeVariant(role: string) {
   switch (role) {
@@ -24,9 +27,31 @@ function getRoleBadgeVariant(role: string) {
 export default function UserViewPage() {
   const params = useParams();
   const router = useRouter();
+  const dispatch = useDispatch();
   const userId = parseInt(params.id as string);
   
   const { data, isLoading, error } = useGetUserQuery(userId);
+  const [loginAsUser, { isLoading: isLoggingInAs }] = useLoginAsUserMutation();
+
+  const handleLoginAs = async () => {
+    try {
+      const result = await loginAsUser(userId).unwrap();
+      if (result?.data) {
+        dispatch(setCredentials({
+          user: result.data.user,
+          token: result.data.access_token,
+        }));
+        toast.success(`Logged in as ${result.data.user.name}`);
+        if (result.data.user.role === 'astrologer') {
+          router.push('/astrologer');
+        } else {
+          router.push('/');
+        }
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || 'Failed to login as user');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -73,13 +98,26 @@ export default function UserViewPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>User Information</CardTitle>
-            <Button
-              onClick={() => router.push(`/admin/users/${user.id}/edit`)}
-              className="gap-2"
-            >
-              <Edit className="w-4 h-4" />
-              Edit User
-            </Button>
+            <div className="flex items-center gap-2">
+              {user.role !== 'admin' && (
+                <Button
+                  variant="outline"
+                  onClick={handleLoginAs}
+                  disabled={isLoggingInAs}
+                  className="gap-2"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Login as
+                </Button>
+              )}
+              <Button
+                onClick={() => router.push(`/admin/users/${user.id}/edit`)}
+                className="gap-2"
+              >
+                <Edit className="w-4 h-4" />
+                Edit User
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">

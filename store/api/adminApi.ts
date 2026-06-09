@@ -1,4 +1,5 @@
 import { baseApi } from './baseApi';
+import type { AuthData } from './authApi';
 
 export interface DashboardStats {
   totalUsers: number;
@@ -63,6 +64,11 @@ export interface DeleteUserResponse {
   };
 }
 
+export interface LoginAsResponse {
+  isSuccess: boolean;
+  data: AuthData;
+}
+
 export interface KundliCalculationMetadata {
   uuid: string;
   status: string;
@@ -113,6 +119,12 @@ export const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Admin', 'User'],
     }),
+    loginAsUser: builder.mutation<LoginAsResponse, number>({
+      query: (id) => ({
+        url: `/admin/users/${id}/login-as`,
+        method: 'POST',
+      }),
+    }),
     getKundliCalculationMetadata: builder.query<KundliCalculationMetadataResponse, string>({
       query: (uuid) => `/admin/kundli-generations/${uuid}/calculation-metadata`,
       providesTags: ['Admin'],
@@ -139,6 +151,7 @@ export const {
   useGetUserQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useLoginAsUserMutation,
   useGetKundliCalculationMetadataQuery,
   useLazyGetKundliCalculationMetadataQuery,
 } = adminApi;

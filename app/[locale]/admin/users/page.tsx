@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from "@/i18n/navigation";
-import { useGetAllUsersQuery, useDeleteUserMutation } from '@/store/api/adminApi';
+import { useDispatch } from 'react-redux';
+import { useGetAllUsersQuery, useDeleteUserMutation, useLoginAsUserMutation } from '@/store/api/adminApi';
+import { setCredentials } from '@/store/slices/authSlice';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Eye, Search, Filter, Edit, Trash2 } from 'lucide-react';
+import { Eye, Search, Filter, Edit, Trash2, LogIn } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import {
@@ -48,8 +50,10 @@ function getRoleBadgeVariant(role: string) {
 export default function AdminUsersPage() {
   const t = useTranslations('admin');
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data, isLoading, refetch } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
+  const [loginAsUser, { isLoading: isLoggingInAs }] = useLoginAsUserMutation();
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<string>('all');
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -69,6 +73,26 @@ export default function AdminUsersPage() {
   const users = data?.data || [];
 
   // Filter users
+  const handleLoginAs = async (userId: number) => {
+    try {
+      const result = await loginAsUser(userId).unwrap();
+      if (result?.data) {
+        dispatch(setCredentials({
+          user: result.data.user,
+          token: result.data.access_token,
+        }));
+        toast.success(`Logged in as ${result.data.user.name}`);
+        if (result.data.user.role === 'astrologer') {
+          router.push('/astrologer');
+        } else {
+          router.push('/');
+        }
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || 'Failed to login as user');
+    }
+  };
+
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -197,6 +221,18 @@ export default function AdminUsersPage() {
                               <Eye className="w-4 h-4" />
                               View
                             </Button>
+                            {user.role !== 'admin' && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1.5 hover:bg-green-50 hover:text-green-600"
+                                disabled={isLoggingInAs}
+                                onClick={() => handleLoginAs(user.id)}
+                              >
+                                <LogIn className="w-4 h-4" />
+                                Login as
+                              </Button>
+                            )}
                             <Button 
                               variant="ghost" 
                               size="sm" 
