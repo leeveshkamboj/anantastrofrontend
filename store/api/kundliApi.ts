@@ -182,6 +182,17 @@ export interface KundliGenerationsListResponse {
   data: KundliGeneration[];
 }
 
+export interface SimplifyKundliTextRequest {
+  text: string;
+  languageMode?: 'hinglish' | 'english';
+  sectionKey?: string;
+}
+
+export interface SimplifyKundliTextResponse {
+  isSuccess: boolean;
+  data: { simplifiedText: string };
+}
+
 /** Backend geocode (Google Maps); returns lat/lng for place string */
 export interface GeocodeResponse {
   isSuccess: boolean;
@@ -420,6 +431,26 @@ export const kundliApi = baseApi.injectEndpoints({
     getKundliByShareToken: builder.query<KundliGenerationResponse, string>({
       query: (token) => `/kundli/share/${token}`,
     }),
+    simplifyKundliText: builder.mutation<
+      SimplifyKundliTextResponse,
+      { uuid: string; body: SimplifyKundliTextRequest }
+    >({
+      query: ({ uuid, body }) => ({
+        url: `/kundli/${uuid}/simplify`,
+        method: 'POST',
+        body,
+      }),
+    }),
+    simplifyKundliTextByShare: builder.mutation<
+      SimplifyKundliTextResponse,
+      { shareToken: string; body: SimplifyKundliTextRequest }
+    >({
+      query: ({ shareToken, body }) => ({
+        url: `/kundli/share/${shareToken}/simplify`,
+        method: 'POST',
+        body,
+      }),
+    }),
     updateKundliShare: builder.mutation<ShareResponse, { uuid: string; enabled: boolean }>({
       query: ({ uuid, enabled }) => ({
         url: `/kundli/${uuid}/share`,
@@ -542,6 +573,8 @@ export const {
   useUnlockKundliHoroscopeAddonMutation,
   useGetKundliHoroscopeAddonQuery,
   useGetKundliByShareTokenQuery,
+  useSimplifyKundliTextMutation,
+  useSimplifyKundliTextByShareMutation,
   useUpdateKundliShareMutation,
   useLazyGetGeocodeQuery,
   useLazyGetGeocodeSuggestionsQuery,

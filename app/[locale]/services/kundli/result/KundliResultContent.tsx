@@ -3,7 +3,15 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Card, CardContent } from '@/components/ui/card';
-import { KundliChart, AstroChartRadix, NorthIndianDiamondChart, KundliDashaTab, KundliAshtakvargaTab } from '@/components/kundli';
+import {
+  KundliChart,
+  AstroChartRadix,
+  NorthIndianDiamondChart,
+  KundliDashaTab,
+  KundliAshtakvargaTab,
+  KundliDashboardTab,
+  YogHighlightStrip,
+} from '@/components/kundli';
 import { Label } from '@/components/ui/label';
 import {
   useGetKundliHoroscopeAddonQuery,
@@ -135,7 +143,17 @@ function parseAddonSections(content: string): Record<string, string> | null {
   }
 }
 
-const KUNDLI_TAB_IDS = ['basic', 'kundli', 'kp', 'dasha', 'ashtakvarga', 'report', 'horoscope', 'remedies'] as const;
+const KUNDLI_TAB_IDS = [
+  'dashboard',
+  'basic',
+  'kundli',
+  'kp',
+  'dasha',
+  'ashtakvarga',
+  'report',
+  'horoscope',
+  'remedies',
+] as const;
 
 type KundliTabId = (typeof KUNDLI_TAB_IDS)[number];
 
@@ -436,14 +454,16 @@ function InterpretationBlock({
 
 export interface KundliResultContentProps {
   gen: KundliGeneration;
+  /** Public share token — enables Explain Simply without JWT on share pages */
+  shareToken?: string | null;
 }
 
-export function KundliResultContent({ gen }: KundliResultContentProps) {
+export function KundliResultContent({ gen, shareToken = null }: KundliResultContentProps) {
   const tk = useTranslations('results.kundli');
   const astro = useAstroDisplay();
   const interpretTranslate = useTranslateSections();
   const addonTranslate = useTranslateSections();
-  const [activeTab, setActiveTab] = useState<KundliTabId>('basic');
+  const [activeTab, setActiveTab] = useState<KundliTabId>('dashboard');
   const [shouldPollAddon, setShouldPollAddon] = useState(false);
   const { compactLabel: addonPrice } = useServiceRunPrice('kundli_horoscope_addon');
   const {
@@ -551,6 +571,7 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
               `}
             >
               {{
+                dashboard: tk('tabs.dashboard'),
                 basic: tk('tabs.basic'),
                 kundli: tk('tabs.kundli'),
                 kp: tk('tabs.kp'),
@@ -564,6 +585,15 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
           ))}
         </nav>
       </div>
+
+      {activeTab === 'dashboard' && (
+        <KundliDashboardTab
+          gen={gen}
+          shareToken={shareToken}
+          interpretationLoading={gen.status !== 'COMPLETED' && !gen.interpretation}
+          onReadMore={() => setActiveTab('report')}
+        />
+      )}
 
       {activeTab === 'basic' && (
         <div className="space-y-6">
@@ -859,6 +889,9 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
           {interpretation ? (
             <Card>
               <CardContent>
+                <div className="mb-6 pb-4 border-b border-gray-100">
+                  <YogHighlightStrip chartData={chartData} />
+                </div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('reportHeading')}</h2>
                 <AiTranslateBar
                   visible={

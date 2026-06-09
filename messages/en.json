@@ -518,6 +518,11 @@
     "copyLink": "Copy link",
     "createShareableLink": "Create shareable link",
     "disableLink": "Disable link",
+    "shareWhatsApp": "WhatsApp",
+    "shareInstagram": "Instagram",
+    "shareKundliMessage": "View my kundli on AnantAstro: {url}",
+    "instagramShareCopied": "Link copied — paste it in Instagram to share.",
+    "instagramShareFailed": "Could not copy link. Try copy link instead.",
     "dobTimeLine": "DOB: {dob} • Time: {time}",
     "loading": "Loading…",
     "goHome": "Go to home"
@@ -541,6 +546,7 @@
       "generationFailed": "Generation failed",
       "yourKundli": "Your Kundli",
       "tabs": {
+        "dashboard": "Dashboard",
         "basic": "Basic",
         "kundli": "Kundli",
         "kp": "KP",
@@ -675,7 +681,44 @@
       "horoscopeAddonUnlockHint": "Unlock this tab to generate a detailed horoscope add-on for this kundli.",
       "unlockHoroscope": "Unlock horoscope",
       "unlockingHoroscope": "Unlocking…",
-      "noRemediesYet": "No remedies available yet."
+      "noRemediesYet": "No remedies available yet.",
+      "yogHighlights": {
+        "title": "Planetary yogas",
+        "rajYoga": "Raj Yoga",
+        "dhanaYoga": "Dhana Yoga",
+        "gajKesari": "Gaj Kesari Yoga",
+        "budhaditya": "Budhaditya Yoga",
+        "chandraMangal": "Chandra-Mangal Yoga",
+        "kemadruma": "Kemadruma Yoga",
+        "neechaBhanga": "Neecha Bhanga",
+        "viparitaRaja": "Viparita Raja Yoga",
+        "ruchaka": "Ruchaka Yoga",
+        "bhadra": "Bhadra Yoga",
+        "hamsa": "Hamsa Yoga",
+        "malavya": "Malavya Yoga",
+        "sasa": "Sasa Yoga",
+        "adhiYoga": "Adhi Yoga",
+        "present": "Present",
+        "notFormed": "Not formed",
+        "unavailable": "Unavailable"
+      },
+      "dashboard": {
+        "interpretationLoading": "Your report is still being prepared. Yoga highlights and dasha timing are already available below.",
+        "sectionLoading": "Generating summary…",
+        "sectionEmpty": "No summary yet for this area.",
+        "explainSimply": "Explain simply",
+        "explaining": "Simplifying…",
+        "showSimple": "Show simple",
+        "showOriginal": "Show original",
+        "readMore": "Read full report",
+        "sections": {
+          "career": "Career",
+          "marriage": "Marriage",
+          "wealth": "Wealth",
+          "health": "Health",
+          "mahadasha": "Mahadasha"
+        }
+      }
     },
     "horoscope": {
       "sectionOverview": "Overview",

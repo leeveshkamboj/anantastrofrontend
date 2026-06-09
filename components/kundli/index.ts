@@ -4,6 +4,8 @@ export { AstroChartRadix } from './AstroChartRadix';
 export { NorthIndianDiamondChart } from './NorthIndianDiamondChart';
 export { KundliDashaTab } from './KundliDashaTab';
 export { KundliAshtakvargaTab } from './KundliAshtakvargaTab';
+export { KundliDashboardTab } from './KundliDashboardTab';
+export { YogHighlightStrip } from './YogHighlightStrip';
 export {
   KundliGenerateHero,
   WhatIsKundli,

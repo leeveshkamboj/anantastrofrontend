@@ -7,6 +7,8 @@ import type { KundliGenerationResponse } from '@/store/api/kundliApi';
 import { Card, CardContent } from '@/components/ui/card';
 import { BookOpen, Loader2, AlertCircle } from 'lucide-react';
 import { KundliResultContent } from '../../result/KundliResultContent';
+import { SocialShareButtons } from '@/components/reports/SocialShareButtons';
+import { useEffect, useState } from 'react';
 
 export default function KundliSharePage() {
   const t = useTranslations('shareView.kundli');
@@ -19,6 +21,10 @@ export default function KundliSharePage() {
   });
   const data = result.data as KundliGenerationResponse | undefined;
   const { isLoading, isError } = result;
+  const [pageShareUrl, setPageShareUrl] = useState('');
+  useEffect(() => {
+    setPageShareUrl(window.location.href);
+  }, []);
 
   if (!token) {
     return (
@@ -62,17 +68,20 @@ export default function KundliSharePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto py-8 px-4">
-        <div className="flex items-center gap-3 mb-6">
-          <BookOpen className="h-10 w-10 text-primary" />
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('title')}</h1>
-            <p className="text-gray-600 text-sm">
-              {tc('dobTimeLine', { dob: gen.dob, time: gen.time })}
-            </p>
+        <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <BookOpen className="h-10 w-10 text-primary" />
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('title')}</h1>
+              <p className="text-gray-600 text-sm">
+                {tc('dobTimeLine', { dob: gen.dob, time: gen.time })}
+              </p>
+            </div>
           </div>
+          <SocialShareButtons shareUrl={pageShareUrl} />
         </div>
 
-        <KundliResultContent gen={gen} />
+        <KundliResultContent gen={gen} shareToken={token} />
       </div>
     </div>
   );

@@ -493,6 +493,11 @@
     "copyLink": "लिंक कॉपी करें",
     "createShareableLink": "शेयर लिंक बनाएँ",
     "disableLink": "लिंक बंद करें",
+    "shareWhatsApp": "WhatsApp",
+    "shareInstagram": "Instagram",
+    "shareKundliMessage": "मेरी कुंडली AnantAstro पर देखें: {url}",
+    "instagramShareCopied": "लिंक कॉपी हो गई — Instagram में पेस्ट करके शेयर करें।",
+    "instagramShareFailed": "लिंक कॉपी नहीं हो सकी। कॉपी लिंक आज़माएँ।",
     "dobTimeLine": "जन्म: {dob} • समय: {time}",
     "loading": "लोड हो रहा है…",
     "goHome": "होम पर जाएँ"
@@ -516,6 +521,7 @@
       "generationFailed": "निर्माण विफल",
       "yourKundli": "आपकी कुंडली",
       "tabs": {
+        "dashboard": "डैशबोर्ड",
         "basic": "बुनियादी",
         "kundli": "कुंडली",
         "kp": "केपी",
@@ -625,7 +631,44 @@
       "horoscopeAddonUnlockHint": "इस कुंडली के लिए विस्तृत राशिफल ऐड-ऑन बनाने हेतु इस टैब को अनलॉक करें।",
       "unlockHoroscope": "राशिफल अनलॉक करें",
       "unlockingHoroscope": "अनलॉक हो रहा है…",
-      "noRemediesYet": "अभी कोई उपाय उपलब्ध नहीं है।"
+      "noRemediesYet": "अभी कोई उपाय उपलब्ध नहीं है।",
+      "yogHighlights": {
+        "title": "ग्रह योग",
+        "rajYoga": "राज योग",
+        "dhanaYoga": "धन योग",
+        "gajKesari": "गज केसरी योग",
+        "budhaditya": "बुधादित्य योग",
+        "chandraMangal": "चंद्र-मंगल योग",
+        "kemadruma": "केमद्रुम योग",
+        "neechaBhanga": "नीच भंग",
+        "viparitaRaja": "विपरीत राज योग",
+        "ruchaka": "रुचक योग",
+        "bhadra": "भद्र योग",
+        "hamsa": "हंस योग",
+        "malavya": "मालव्य योग",
+        "sasa": "शश योग",
+        "adhiYoga": "अधि योग",
+        "present": "बना हुआ",
+        "notFormed": "नहीं बना",
+        "unavailable": "उपलब्ध नहीं"
+      },
+      "dashboard": {
+        "interpretationLoading": "आपकी रिपोर्ट तैयार हो रही है। योग और दशा की जानकारी नीचे दिख रही है।",
+        "sectionLoading": "सारांश तैयार हो रहा है…",
+        "sectionEmpty": "इस क्षेत्र के लिए अभी सारांश नहीं है।",
+        "explainSimply": "आसान भाषा में समझाएँ",
+        "explaining": "सरल कर रहे हैं…",
+        "showSimple": "सरल दिखाएँ",
+        "showOriginal": "मूल दिखाएँ",
+        "readMore": "पूरी रिपोर्ट पढ़ें",
+        "sections": {
+          "career": "करियर",
+          "marriage": "विवाह",
+          "wealth": "धन",
+          "health": "स्वास्थ्य",
+          "mahadasha": "महादशा"
+        }
+      }
     },
     "horoscope": {
       "sectionOverview": "अवलोकन",

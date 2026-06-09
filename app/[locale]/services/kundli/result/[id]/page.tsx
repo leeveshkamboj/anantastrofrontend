@@ -17,10 +17,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { BookOpen, ArrowLeft, Loader2, AlertCircle, Share2, Link2, Facebook, Linkedin, Copy, Check } from 'lucide-react';
+import { BookOpen, ArrowLeft, Loader2, AlertCircle, Share2, Link2, Facebook, Linkedin, Instagram, Copy, Check } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'sonner';
 import { KundliResultContent } from '../KundliResultContent';
+import { WhatsAppIcon } from '@/components/reports/WhatsAppIcon';
+import { SocialShareButtons } from '@/components/reports/SocialShareButtons';
+import { buildWhatsAppShareUrl, shareViaInstagram } from '@/lib/social-share';
 
 export default function KundliResultPage() {
   const t = useTranslations('results.kundli');
@@ -57,7 +60,17 @@ export default function KundliResultPage() {
       toast.success(tc('shareLinkCopied'));
       setTimeout(() => setCopied(false), 2000);
     });
-  }, [shareUrlForCopy]);
+  }, [shareUrlForCopy, tc]);
+
+  const shareOnInstagram = useCallback(async () => {
+    if (!shareUrlForCopy) return;
+    const result = await shareViaInstagram(shareUrlForCopy);
+    if (result === 'copied') {
+      toast.success(tc('instagramShareCopied'));
+    } else {
+      toast.error(tc('instagramShareFailed'));
+    }
+  }, [shareUrlForCopy, tc]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -180,7 +193,11 @@ export default function KundliResultPage() {
               </p>
             </div>
           </div>
-          <DropdownMenu>
+          <div className="flex flex-wrap items-center gap-2">
+            {shareEnabled && shareUrl ? (
+              <SocialShareButtons shareUrl={shareUrl} />
+            ) : null}
+            <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-2" disabled={shareLoading}>
                 {shareLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Share2 className="h-4 w-4" />}
@@ -201,6 +218,21 @@ export default function KundliResultPage() {
                   <DropdownMenuItem onClick={copyLink}>
                     {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
                     {copied ? tc('copied') : tc('copyLink')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <a
+                      href={buildWhatsAppShareUrl(tc('shareKundliMessage', { url: shareUrl }))}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2"
+                    >
+                      <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+                      {tc('shareWhatsApp')}
+                    </a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => void shareOnInstagram()}>
+                    <Instagram className="h-4 w-4 text-[#E4405F]" />
+                    {tc('shareInstagram')}
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <a
@@ -236,6 +268,7 @@ export default function KundliResultPage() {
               )}
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </div>
 
         <KundliResultContent gen={gen} />
