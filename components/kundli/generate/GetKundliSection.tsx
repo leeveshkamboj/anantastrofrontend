@@ -23,6 +23,8 @@ export interface GetKundliSectionProps {
   /** Form state for "first profile" or "someone else" */
   name: string;
   onNameChange: (value: string) => void;
+  gender: 'Male' | 'Female';
+  onGenderChange: (value: 'Male' | 'Female') => void;
   dateOfBirth: string | undefined;
   onDateOfBirthChange: (value: string | undefined) => void;
   timeOfBirth: string;
@@ -42,7 +44,7 @@ export interface GetKundliSectionProps {
   generatePriceLine?: string | null;
   /** Same line on profile creation / someone-else forms when generation will charge coins */
   runPriceLine?: string | null;
-  kundliFormPrefill: { name?: string; dateOfBirth?: string; timeOfBirth?: string; placeOfBirth?: string };
+  kundliFormPrefill: { name?: string; dateOfBirth?: string; timeOfBirth?: string; placeOfBirth?: string; gender?: 'Male' | 'Female' };
   onBackSomeoneElse?: () => void;
 }
 
@@ -56,6 +58,8 @@ export function GetKundliSection({
   onShowSomeoneElseForm,
   name,
   onNameChange,
+  gender,
+  onGenderChange,
   dateOfBirth,
   onDateOfBirthChange,
   timeOfBirth,
@@ -85,6 +89,8 @@ export function GetKundliSection({
         subtitle={t('firstProfileSubtitle')}
         name={name}
         onNameChange={onNameChange}
+        gender={gender}
+        onGenderChange={onGenderChange}
         dateOfBirth={dateOfBirth}
         onDateOfBirthChange={onDateOfBirthChange}
         timeOfBirth={timeOfBirth}
@@ -110,6 +116,8 @@ export function GetKundliSection({
         subtitle={t('someoneElseSubtitle')}
         name={name}
         onNameChange={onNameChange}
+        gender={gender}
+        onGenderChange={onGenderChange}
         dateOfBirth={dateOfBirth}
         onDateOfBirthChange={onDateOfBirthChange}
         timeOfBirth={timeOfBirth}
@@ -177,6 +185,7 @@ export function GetKundliSection({
             onClick={() => {
               onShowSomeoneElseForm(true);
               onNameChange(kundliFormPrefill.name || '');
+              onGenderChange(kundliFormPrefill.gender ?? 'Male');
               onDateOfBirthChange(kundliFormPrefill.dateOfBirth || undefined);
               onTimeOfBirthChange(kundliFormPrefill.timeOfBirth || '');
               onPlaceOfBirthChange(kundliFormPrefill.placeOfBirth || '');

@@ -532,6 +532,8 @@
         "basic": "அடிப்படை",
         "kundli": "குண்ட்லி",
         "kp": "கே.பி",
+        "dasha": "Dasha",
+        "ashtakvarga": "Ashtakvarga",
         "report": "அறிக்கை",
         "horoscope": "ஜாதகம்",
         "remedies": "பரிகாரங்கள்"
@@ -541,9 +543,16 @@
         "personality": "ஆளுமை",
         "physical": "உடல்",
         "health": "ஆரோக்கியம்",
-        "career": "தொழில்",
+        "career": "Career",
         "relationships": "உறவுகள்",
-        "remedies": "பரிகாரங்கள்"
+        "remedies": "பரிகாரங்கள்",
+        "mahadasha": "Mahadasha",
+        "yog": "Yog",
+        "marriage": "Marriage",
+        "wealth": "Wealth",
+        "reason": "Reason",
+        "domainSectionsHeading": "Life predictions",
+        "careerForecast": "Career prediction"
       },
       "addon": {
         "overview": "கண்ணோட்டம்",

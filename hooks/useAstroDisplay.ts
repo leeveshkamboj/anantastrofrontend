@@ -78,5 +78,9 @@ export function useAstroDisplay() {
     /** Planet row name (Sun, Moon, …). */
     planetName: (raw: string | undefined | null) =>
       raw == null || raw === '' ? '—' : pick(astro, 'planets', raw),
+    /** Yogini dasha lord (Mangala, pingala, …). */
+    yogini: (raw: string | undefined | null) => pick(astro, 'yogini', raw),
+    /** Yunja (Poorva / Madhya / Antya). */
+    yunja: (raw: string | undefined | null) => pick(astro, 'yunja', raw),
   };
 }

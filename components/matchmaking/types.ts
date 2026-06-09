@@ -2,6 +2,7 @@ import type { PlaceSuggestion } from '@/store/api/kundliApi';
 
 export interface PartnerForm {
   name: string;
+  gender: 'Male' | 'Female';
   dob: string;
   time: string;
   placeOfBirth: string;
@@ -14,6 +15,7 @@ export interface PartnerForm {
 
 export const initialPartner: PartnerForm = {
   name: '',
+  gender: 'Male',
   dob: '',
   time: '',
   placeOfBirth: '',
@@ -22,4 +24,9 @@ export const initialPartner: PartnerForm = {
   latitude: null,
   longitude: null,
   timezoneOffsetHours: null,
+};
+
+export const initialPartnerFemale: PartnerForm = {
+  ...initialPartner,
+  gender: 'Female',
 };

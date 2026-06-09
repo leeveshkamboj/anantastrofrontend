@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar, Clock } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { setKundliFormData } from "@/store/slices/kundliFormSlice"
+import { BirthGenderSelect, type BirthGender } from "@/components/kundli/BirthGenderSelect"
 import { useCreateKundliMutation, useLazyGetGeocodeSuggestionsQuery, useGetMyKundlisQuery } from "@/store/api/kundliApi"
 import type { PlaceSuggestion } from "@/store/api/kundliApi"
 import { selectIsAuthenticated } from "@/store/slices/authSlice"
@@ -81,6 +82,7 @@ export function HeroSection() {
   const [createKundli] = useCreateKundliMutation()
   const [getGeocodeSuggestions] = useLazyGetGeocodeSuggestionsQuery()
   const [name, setName] = useState("")
+  const [gender, setGender] = useState<BirthGender>("Male")
   const [dateOfBirth, setDateOfBirth] = useState<string | undefined>()
   const [timeOfBirth, setTimeOfBirth] = useState("")
   const [placeOfBirth, setPlaceOfBirth] = useState("")
@@ -109,6 +111,7 @@ export function HeroSection() {
     if (!first) return
     hasPrefilledFromProfileRef.current = true
     if (first.name?.trim()) setName(first.name.trim())
+    if (first.gender === 'Male' || first.gender === 'Female') setGender(first.gender)
     if (first.dateOfBirth) setDateOfBirth(first.dateOfBirth)
     if (first.timeOfBirth) setTimeOfBirth(first.timeOfBirth)
     if (first.placeOfBirth) {
@@ -196,6 +199,7 @@ export function HeroSection() {
       const unchanged =
         first &&
         (first.name ?? '').trim() === nameTrim &&
+        (first.gender ?? 'Male') === gender &&
         (first.dateOfBirth ?? '') === dob &&
         (first.timeOfBirth ?? '').trim() === time &&
         (first.placeOfBirth ?? '').trim() === place
@@ -206,6 +210,7 @@ export function HeroSection() {
       try {
         const result = await createKundli({
           name: nameTrim,
+          gender,
           dateOfBirth: dateOfBirth || undefined,
           timeOfBirth: timeOfBirth || undefined,
           placeOfBirth: placeOfBirth || undefined,
@@ -223,6 +228,7 @@ export function HeroSection() {
       dispatch(
         setKundliFormData({
           name,
+          gender,
           dateOfBirth: dateOfBirth ?? "",
           timeOfBirth,
           placeOfBirth,
@@ -336,6 +342,14 @@ export function HeroSection() {
                     className="bg-gray-50 border-gray-200 rounded-lg h-12 text-base"
                   />
                 </div>
+
+                <BirthGenderSelect
+                  id="kundli-gender"
+                  value={gender}
+                  onChange={setGender}
+                  translationNamespace="home.hero"
+                  labelClassName="text-gray-700 font-medium text-sm"
+                />
 
                 <div className="space-y-2">
                   <Label htmlFor="kundli-dob" className="text-gray-700 font-medium text-sm">

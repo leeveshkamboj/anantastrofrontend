@@ -63,6 +63,27 @@ export interface DeleteUserResponse {
   };
 }
 
+export interface KundliCalculationMetadata {
+  uuid: string;
+  status: string;
+  dob: string;
+  time: string;
+  latitude: string;
+  longitude: string;
+  placeOfBirth: string | null;
+  engineVersion: string | null;
+  timezoneId: string | null;
+  timezoneConfidence: 'verified' | 'legacy' | null;
+  timezoneOffsetHours: number | null;
+  calculationMetadata: Record<string, unknown> | null;
+  createdAt: string;
+}
+
+export interface KundliCalculationMetadataResponse {
+  isSuccess: boolean;
+  data: KundliCalculationMetadata;
+}
+
 export const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getDashboardStats: builder.query<DashboardStatsResponse, void>({
@@ -92,6 +113,10 @@ export const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Admin', 'User'],
     }),
+    getKundliCalculationMetadata: builder.query<KundliCalculationMetadataResponse, string>({
+      query: (uuid) => `/admin/kundli-generations/${uuid}/calculation-metadata`,
+      providesTags: ['Admin'],
+    }),
   }),
 });
 
@@ -114,4 +139,6 @@ export const {
   useGetUserQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useGetKundliCalculationMetadataQuery,
+  useLazyGetKundliCalculationMetadataQuery,
 } = adminApi;

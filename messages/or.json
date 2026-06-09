@@ -532,6 +532,8 @@
         "basic": "ମ Basic ଳିକ",
         "kundli": "କୁଣ୍ଡଲି |",
         "kp": "କେ.ପି.",
+        "dasha": "Dasha",
+        "ashtakvarga": "Ashtakvarga",
         "report": "ରିପୋର୍ଟ କରନ୍ତୁ |",
         "horoscope": "ରାଶିଫଳ",
         "remedies": "ପ୍ରତିକାର |"
@@ -541,9 +543,16 @@
         "personality": "ବ୍ୟକ୍ତିତ୍ୱ",
         "physical": "ଶାରୀରିକ",
         "health": "ସ୍ୱାସ୍ଥ୍ୟ",
-        "career": "ବୃତ୍ତି",
+        "career": "Career",
         "relationships": "ସମ୍ପର୍କ",
-        "remedies": "ପ୍ରତିକାର |"
+        "remedies": "ପ୍ରତିକାର |",
+        "mahadasha": "Mahadasha",
+        "yog": "Yog",
+        "marriage": "Marriage",
+        "wealth": "Wealth",
+        "reason": "Reason",
+        "domainSectionsHeading": "Life predictions",
+        "careerForecast": "Career prediction"
       },
       "addon": {
         "overview": "ସମୀକ୍ଷା",

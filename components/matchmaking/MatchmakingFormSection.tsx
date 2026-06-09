@@ -6,7 +6,8 @@ import type { PlaceSuggestion } from '@/store/api/kundliApi';
 import type { Kundli } from '@/store/api/kundliApi';
 import type { MatchmakingResult as MatchmakingResultType } from '@/store/api/kundliApi';
 import type { PartnerForm } from './types';
-import { initialPartner } from './types';
+import { initialPartner, initialPartnerFemale } from './types';
+import { BirthGenderSelect } from '@/components/kundli/BirthGenderSelect';
 import { Card, CardContent } from '@/components/ui/card';
 import { MatchmakingResult } from './MatchmakingResult';
 import { Button } from '@/components/ui/button';
@@ -158,6 +159,13 @@ export function MatchmakingFormSection({
                       <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider">{tf('name')}</Label>
                       <Input value={partner1.name} onChange={(e) => setPartner1((p) => ({ ...p, name: e.target.value }))} placeholder={tf('fullNamePlaceholder')} className="mt-1.5 rounded-xl border-gray-200 bg-white" />
                     </div>
+                    <BirthGenderSelect
+                      id="matchmaking-partner1-gender"
+                      value={partner1.gender}
+                      onChange={(gender) => setPartner1((p) => ({ ...p, gender }))}
+                      translationNamespace="services.matchmaking.form"
+                      labelClassName="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    />
                     <div>
                       <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider">{tf('dateOfBirth')}</Label>
                       <DatePicker value={partner1.dob || undefined} onChange={(v) => setPartner1((p) => ({ ...p, dob: v ?? '' }))} placeholder={tf('selectDate')} className="mt-1.5 rounded-xl border-gray-200 bg-white" />
@@ -235,7 +243,7 @@ export function MatchmakingFormSection({
                     <li>
                       <button
                         type="button"
-                        onClick={() => { setUseProfile2(null); setPartner2(initialPartner); }}
+                        onClick={() => { setUseProfile2(null); setPartner2(initialPartnerFemale); }}
                         className={cn(
                           'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
                           useProfile2 === null ? 'border-primary bg-primary/5' : 'border-dashed border-gray-300 bg-gray-50/50 hover:border-primary/50 hover:bg-primary/5'
@@ -260,6 +268,13 @@ export function MatchmakingFormSection({
                       <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider">{tf('name')}</Label>
                       <Input value={partner2.name} onChange={(e) => setPartner2((p) => ({ ...p, name: e.target.value }))} placeholder={tf('fullNamePlaceholder')} className="mt-1.5 rounded-xl border-gray-200 bg-white" />
                     </div>
+                    <BirthGenderSelect
+                      id="matchmaking-partner2-gender"
+                      value={partner2.gender}
+                      onChange={(gender) => setPartner2((p) => ({ ...p, gender }))}
+                      translationNamespace="services.matchmaking.form"
+                      labelClassName="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    />
                     <div>
                       <Label className="text-xs font-medium text-gray-500 uppercase tracking-wider">{tf('dateOfBirth')}</Label>
                       <DatePicker value={partner2.dob || undefined} onChange={(v) => setPartner2((p) => ({ ...p, dob: v ?? '' }))} placeholder={tf('selectDate')} className="mt-1.5 rounded-xl border-gray-200 bg-white" />

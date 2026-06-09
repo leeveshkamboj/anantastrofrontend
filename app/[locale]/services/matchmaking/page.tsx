@@ -26,6 +26,7 @@ import {
   MatchmakingFinalCta,
   MatchmakingFormSection,
   initialPartner,
+  initialPartnerFemale,
 } from '@/components/matchmaking';
 import type { PartnerForm } from '@/components/matchmaking';
 
@@ -43,7 +44,7 @@ export default function MatchmakingPage() {
 
   const kundlis = kundlisData?.data ?? [];
   const [partner1, setPartner1] = useState<PartnerForm>(initialPartner);
-  const [partner2, setPartner2] = useState<PartnerForm>(initialPartner);
+  const [partner2, setPartner2] = useState<PartnerForm>(initialPartnerFemale);
   const [useProfile1, setUseProfile1] = useState<number | null>(null);
   const [useProfile2, setUseProfile2] = useState<number | null>(null);
   const [matchStep, setMatchStep] = useState<1 | 2 | 3>(1);
@@ -73,6 +74,7 @@ export default function MatchmakingPage() {
     if (first?.id == null) return;
     setPartner1({
       name: first.name ?? '',
+      gender: first.gender === 'Female' ? 'Female' : 'Male',
       dob: first.dateOfBirth ?? '',
       time: first.timeOfBirth ?? '',
       placeOfBirth: first.placeOfBirth ?? '',
@@ -94,6 +96,7 @@ export default function MatchmakingPage() {
     if (second?.id == null) return;
     setPartner2({
       name: second.name ?? '',
+      gender: second.gender === 'Female' ? 'Female' : 'Male',
       dob: second.dateOfBirth ?? '',
       time: second.timeOfBirth ?? '',
       placeOfBirth: second.placeOfBirth ?? '',
@@ -192,6 +195,7 @@ export default function MatchmakingPage() {
     if (!profile) return;
     const form: PartnerForm = {
       name: profile.name ?? '',
+      gender: profile.gender === 'Female' ? 'Female' : 'Male',
       dob: profile.dateOfBirth ?? '',
       time: profile.timeOfBirth ?? '',
       placeOfBirth: profile.placeOfBirth ?? '',
@@ -231,7 +235,12 @@ export default function MatchmakingPage() {
       tz = p.timezoneOffsetHours;
     } else {
       try {
-        const tzRes = await getGeocodeTimezone({ lat, lng }).unwrap();
+        const tzRes = await getGeocodeTimezone({
+          lat,
+          lng,
+          dob: p.dob?.trim() || undefined,
+          time: p.time?.trim() || undefined,
+        }).unwrap();
         if (tzRes?.data?.timezoneOffsetHours != null) tz = tzRes.data.timezoneOffsetHours;
       } catch {
         // keep 5.5

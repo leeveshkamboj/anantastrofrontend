@@ -42,6 +42,8 @@ export function KundliProfileTab() {
                 <div>
                   <p className="font-medium text-gray-900">{k.name}</p>
                   <p className="text-sm text-gray-500">
+                    {k.gender && `${k.gender === 'Female' ? tk('genderFemale') : tk('genderMale')}`}
+                    {k.gender && (k.dateOfBirth || k.timeOfBirth || k.placeOfBirth) && ' • '}
                     {k.dateOfBirth && `${tk('dob')} ${k.dateOfBirth}`}
                     {k.timeOfBirth && ` • ${tk('time')} ${k.timeOfBirth}`}
                     {k.placeOfBirth && ` • ${k.placeOfBirth}`}

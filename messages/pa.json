@@ -532,6 +532,8 @@
         "basic": "ਮੂਲ",
         "kundli": "ਕੁੰਡਲੀ",
         "kp": "ਕੇ.ਪੀ",
+        "dasha": "Dasha",
+        "ashtakvarga": "Ashtakvarga",
         "report": "ਰਿਪੋਰਟ",
         "horoscope": "ਕੁੰਡਲੀ",
         "remedies": "ਉਪਾਅ"
@@ -541,9 +543,16 @@
         "personality": "ਸ਼ਖਸੀਅਤ",
         "physical": "ਸਰੀਰਕ",
         "health": "ਸਿਹਤ",
-        "career": "ਕੈਰੀਅਰ",
+        "career": "Career",
         "relationships": "ਰਿਸ਼ਤੇ",
-        "remedies": "ਉਪਾਅ"
+        "remedies": "ਉਪਾਅ",
+        "mahadasha": "Mahadasha",
+        "yog": "Yog",
+        "marriage": "Marriage",
+        "wealth": "Wealth",
+        "reason": "Reason",
+        "domainSectionsHeading": "Life predictions",
+        "careerForecast": "Career prediction"
       },
       "addon": {
         "overview": "ਸੰਖੇਪ ਜਾਣਕਾਰੀ",

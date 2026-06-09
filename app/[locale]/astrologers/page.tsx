@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
+import { BirthGenderSelect } from '@/components/kundli/BirthGenderSelect';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import {
   Dialog,
@@ -51,6 +52,7 @@ export default function AstrologersPage() {
   const skipSuggestionsRef = useRef(false);
   const [newKundli, setNewKundli] = useState({
     name: '',
+    gender: 'Male' as 'Male' | 'Female',
     dateOfBirth: '',
     timeOfBirth: '',
     placeOfBirth: '',
@@ -166,7 +168,7 @@ export default function AstrologersPage() {
       const res = await createKundli(body).unwrap();
       const id = Number(res.data.id);
       setSelectedKundliId(id);
-      setNewKundli({ name: '', dateOfBirth: '', timeOfBirth: '', placeOfBirth: '' });
+      setNewKundli({ name: '', gender: 'Male', dateOfBirth: '', timeOfBirth: '', placeOfBirth: '' });
       setSelectedPlace(null);
       setPlaceSuggestions([]);
       refetchKundlis();
@@ -367,6 +369,12 @@ export default function AstrologersPage() {
                     required
                   />
                 </div>
+                <BirthGenderSelect
+                  id="chat-kundli-gender"
+                  value={newKundli.gender}
+                  onChange={(gender) => setNewKundli((s) => ({ ...s, gender }))}
+                  translationNamespace="astrologersPage"
+                />
                 <div className="space-y-2">
                   <Label>{ta('labelDob')}</Label>
                   <DatePicker

@@ -10,4 +10,4 @@ export { MatchmakingPartnerKundlis } from './MatchmakingPartnerKundlis';
 export { MatchmakingFormSection } from './MatchmakingFormSection';
 export type { MatchmakingFormSectionProps } from './MatchmakingFormSection';
 export type { PartnerForm } from './types';
-export { initialPartner } from './types';
+export { initialPartner, initialPartnerFemale } from './types';

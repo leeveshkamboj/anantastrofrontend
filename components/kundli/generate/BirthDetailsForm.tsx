@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
+import { BirthGenderSelect, type BirthGender } from '@/components/kundli/BirthGenderSelect';
 import { BookOpen, ArrowLeft } from 'lucide-react';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 
@@ -16,6 +17,8 @@ export interface BirthDetailsFormProps {
   subtitle?: string;
   name: string;
   onNameChange: (value: string) => void;
+  gender: BirthGender;
+  onGenderChange: (value: BirthGender) => void;
   dateOfBirth: string | undefined;
   onDateOfBirthChange: (value: string | undefined) => void;
   timeOfBirth: string;
@@ -43,6 +46,8 @@ export function BirthDetailsForm({
   subtitle,
   name,
   onNameChange,
+  gender,
+  onGenderChange,
   dateOfBirth,
   onDateOfBirthChange,
   timeOfBirth,
@@ -81,6 +86,11 @@ export function BirthDetailsForm({
               required
             />
           </div>
+          <BirthGenderSelect
+            id={`${nameId}-gender`}
+            value={gender}
+            onChange={onGenderChange}
+          />
           <div className="space-y-2">
             <Label>{tl('dateOfBirth')}</Label>
             <DatePicker

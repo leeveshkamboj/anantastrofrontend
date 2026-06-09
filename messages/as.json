@@ -532,6 +532,8 @@
         "basic": "প্ৰাথমিক",
         "kundli": "কুণ্ডলী",
         "kp": "কে পি",
+        "dasha": "Dasha",
+        "ashtakvarga": "Ashtakvarga",
         "report": "অভিযোগ কৰা",
         "horoscope": "ৰাশিফল",
         "remedies": "প্ৰতিকাৰ"
@@ -541,9 +543,16 @@
         "personality": "ব্যক্তিত্ব",
         "physical": "শাৰীৰিক",
         "health": "স্বাস্থ্য",
-        "career": "কেৰিয়াৰ",
+        "career": "Career",
         "relationships": "সম্পৰ্ক",
-        "remedies": "প্ৰতিকাৰ"
+        "remedies": "প্ৰতিকাৰ",
+        "mahadasha": "Mahadasha",
+        "yog": "Yog",
+        "marriage": "Marriage",
+        "wealth": "Wealth",
+        "reason": "Reason",
+        "domainSectionsHeading": "Life predictions",
+        "careerForecast": "Career prediction"
       },
       "addon": {
         "overview": "অভাৰভিউ",

@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
+import { BirthGenderSelect, type BirthGender } from '@/components/kundli/BirthGenderSelect';
 import { User, Sparkles, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +31,7 @@ type DetailLevel = 'summary' | 'detailed';
 
 interface BirthForm {
   name: string;
+  gender: BirthGender;
   dob: string;
   time: string;
   placeOfBirth: string;
@@ -42,6 +44,7 @@ interface BirthForm {
 
 const initialForm: BirthForm = {
   name: '',
+  gender: 'Male',
   dob: '',
   time: '',
   placeOfBirth: '',
@@ -116,6 +119,12 @@ function ManualBirthForm({
           </select>
         </div>
       </div>
+      <BirthGenderSelect
+        id="horoscope-gender"
+        value={form.gender}
+        onChange={(gender) => setForm((f) => ({ ...f, gender }))}
+        translationNamespace="services.horoscope.manualForm"
+      />
       <div className="space-y-2">
         <Label>{t('dateOfBirth')}</Label>
         <DatePicker
@@ -307,7 +316,12 @@ export default function HoroscopePage() {
       tz = p.timezoneOffsetHours;
     } else {
       try {
-        const tzRes = await getGeocodeTimezone({ lat, lng }).unwrap();
+        const tzRes = await getGeocodeTimezone({
+          lat,
+          lng,
+          dob: p.dob?.trim() || undefined,
+          time: p.time?.trim() || undefined,
+        }).unwrap();
         if (tzRes?.data?.timezoneOffsetHours != null) tz = tzRes.data.timezoneOffsetHours;
       } catch {
         // keep 5.5

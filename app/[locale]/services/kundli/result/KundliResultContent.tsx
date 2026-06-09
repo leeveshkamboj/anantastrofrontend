@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { Card, CardContent } from '@/components/ui/card';
-import { KundliChart, AstroChartRadix, NorthIndianDiamondChart } from '@/components/kundli';
+import { KundliChart, AstroChartRadix, NorthIndianDiamondChart, KundliDashaTab, KundliAshtakvargaTab } from '@/components/kundli';
 import { Label } from '@/components/ui/label';
 import {
   useGetKundliHoroscopeAddonQuery,
@@ -26,6 +26,48 @@ const INTERPRETATION_KEYS = [
   'career',
   'relationships',
 ] as const;
+
+const DOMAIN_SECTION_KEYS = ['mahadasha', 'yog', 'career', 'marriage', 'wealth'] as const;
+
+/** i18n key for domain section title (career domain uses careerForecast to distinguish from legacy career). */
+const DOMAIN_TITLE_KEYS: Record<(typeof DOMAIN_SECTION_KEYS)[number], string> = {
+  mahadasha: 'mahadasha',
+  yog: 'yog',
+  career: 'careerForecast',
+  marriage: 'marriage',
+  wealth: 'wealth',
+};
+
+type DomainReportSection = { prediction?: string; reason?: string };
+
+function getDomainsObject(parsed: Record<string, unknown>): Record<string, unknown> | null {
+  const nested = parsed.domains;
+  if (typeof nested === 'object' && nested !== null) {
+    return nested as Record<string, unknown>;
+  }
+  // Reports generated before domains nesting: mahadasha at top level
+  const legacy = parsed.mahadasha;
+  if (typeof legacy === 'object' && legacy !== null && 'prediction' in legacy) {
+    const out: Record<string, unknown> = {};
+    for (const key of DOMAIN_SECTION_KEYS) {
+      const section = parsed[key];
+      if (typeof section === 'object' && section !== null) out[key] = section;
+    }
+    return Object.keys(out).length ? out : null;
+  }
+  return null;
+}
+
+function getDomainReportSection(
+  domains: Record<string, unknown>,
+  key: (typeof DOMAIN_SECTION_KEYS)[number],
+): DomainReportSection | null {
+  const section = domains[key];
+  if (typeof section !== 'object' || section === null) return null;
+  const row = section as DomainReportSection;
+  if (!row.prediction?.trim() && !row.reason?.trim()) return null;
+  return row;
+}
 
 const ADDON_KEYS = ['overview', 'career', 'relationships', 'health', 'finance', 'guidance'] as const;
 
@@ -53,12 +95,23 @@ function parseMainInterpretationSections(interpretation: string): Record<string,
   try {
     const parsed = JSON.parse(interpretation) as Record<string, unknown>;
     if (!parsed || typeof parsed !== 'object') return null;
-    if (!('description' in parsed || 'personality' in parsed || 'physical' in parsed)) return null;
+
     const out: Record<string, string> = {};
     for (const key of [...INTERPRETATION_KEYS, 'remedies']) {
       const v = parsed[key];
       if (typeof v === 'string' && v.trim()) out[key] = v;
     }
+
+    const domains = getDomainsObject(parsed);
+    if (domains) {
+      for (const key of DOMAIN_SECTION_KEYS) {
+        const section = getDomainReportSection(domains, key);
+        if (!section) continue;
+        if (section.prediction?.trim()) out[`domain_${key}_prediction`] = section.prediction;
+        if (section.reason?.trim()) out[`domain_${key}_reason`] = section.reason;
+      }
+    }
+
     return Object.keys(out).length ? out : null;
   } catch {
     return null;
@@ -82,7 +135,7 @@ function parseAddonSections(content: string): Record<string, string> | null {
   }
 }
 
-const KUNDLI_TAB_IDS = ['basic', 'kundli', 'kp', 'report', 'horoscope', 'remedies'] as const;
+const KUNDLI_TAB_IDS = ['basic', 'kundli', 'kp', 'dasha', 'ashtakvarga', 'report', 'horoscope', 'remedies'] as const;
 
 type KundliTabId = (typeof KUNDLI_TAB_IDS)[number];
 
@@ -273,7 +326,6 @@ function InterpretationBlock({
 }) {
   const tMain = useTranslations('results.kundli.interp');
   const tAddon = useTranslations('results.kundli.addon');
-  const keys = variant === 'main' ? INTERPRETATION_KEYS : ADDON_KEYS;
 
   let parsed: Record<string, unknown> | null = null;
   try {
@@ -282,7 +334,75 @@ function InterpretationBlock({
     parsed = null;
   }
 
-  if (parsed && typeof parsed === 'object') {
+  if (parsed && typeof parsed === 'object' && variant === 'main') {
+    const domains = getDomainsObject(parsed);
+    const hasLegacy = INTERPRETATION_KEYS.some((k) => {
+      const v = parsed![k];
+      return typeof v === 'string' && (v as string).trim();
+    });
+    const hasRemedies = typeof parsed.remedies === 'string' && parsed.remedies.trim();
+    const hasDomains = domains && DOMAIN_SECTION_KEYS.some(
+      (k) => getDomainReportSection(domains, k) != null,
+    );
+
+    if (hasLegacy || hasRemedies || hasDomains) {
+      return (
+        <div className="space-y-5">
+          {INTERPRETATION_KEYS.map((key) => {
+            const raw = parsed![key];
+            const base = typeof raw === 'string' ? raw : '';
+            const text = translatedByKey?.[key] ?? base;
+            if (!text?.trim()) return null;
+            return (
+              <div key={key}>
+                <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{tMain(key)}</h3>
+                <p className="text-gray-700 text-sm leading-relaxed">{renderBoldMarkdown(text)}</p>
+              </div>
+            );
+          })}
+          {hasDomains ? (
+            <>
+              <div className="border-t border-gray-200 pt-4 mt-2">
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">{tMain('domainSectionsHeading')}</h3>
+              </div>
+              {DOMAIN_SECTION_KEYS.map((key) => {
+                const section = getDomainReportSection(domains!, key);
+                if (!section) return null;
+                const prediction =
+                  translatedByKey?.[`domain_${key}_prediction`] ?? section.prediction ?? '';
+                const reason =
+                  translatedByKey?.[`domain_${key}_reason`] ?? section.reason ?? '';
+                if (!prediction.trim() && !reason.trim()) return null;
+                const titleKey = DOMAIN_TITLE_KEYS[key];
+                return (
+                  <div key={`domain-${key}`}>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{tMain(titleKey)}</h3>
+                    {prediction.trim() ? (
+                      <p className="text-gray-700 text-sm leading-relaxed mb-2">
+                        {renderBoldMarkdown(prediction)}
+                      </p>
+                    ) : null}
+                    {reason.trim() ? (
+                      <div>
+                        <p className="text-xs font-medium text-gray-500 mb-1">{tMain('reason')}</p>
+                        <p className="text-gray-700 text-sm leading-relaxed">
+                          {renderBoldMarkdown(reason)}
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </>
+          ) : null}
+        </div>
+      );
+    }
+  }
+
+  const keys = variant === 'addon' ? ADDON_KEYS : INTERPRETATION_KEYS;
+
+  if (parsed && typeof parsed === 'object' && variant === 'addon') {
     const hasContent = keys.some((k) => {
       const v = parsed![k];
       return typeof v === 'string' && (v as string).trim();
@@ -295,10 +415,9 @@ function InterpretationBlock({
             const base = typeof raw === 'string' ? raw : '';
             const text = translatedByKey?.[key] ?? base;
             if (!text?.trim()) return null;
-            const title = variant === 'main' ? tMain(key) : tAddon(key);
             return (
               <div key={key}>
-                <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{title}</h3>
+                <h3 className="text-sm font-semibold text-gray-900 mb-1.5">{tAddon(key)}</h3>
                 <p className="text-gray-700 text-sm leading-relaxed">{renderBoldMarkdown(text)}</p>
               </div>
             );
@@ -386,7 +505,7 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
       case 'tithi':
         return astro.tithi(v);
       case 'yunja':
-        return astro.nadi(v);
+        return astro.yunja(v);
       case 'tatva':
         return astro.tatva(v);
       case 'nameAlphabet':
@@ -435,6 +554,8 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
                 basic: tk('tabs.basic'),
                 kundli: tk('tabs.kundli'),
                 kp: tk('tabs.kp'),
+                dasha: tk('tabs.dasha'),
+                ashtakvarga: tk('tabs.ashtakvarga'),
                 report: tk('tabs.report'),
                 horoscope: tk('tabs.horoscope'),
                 remedies: tk('tabs.remedies'),
@@ -456,6 +577,10 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
                     <dd className="text-gray-900">{gen.name}</dd>
                   </>
                 )}
+                <dt className="font-medium text-gray-500">{tk('labelGender')}</dt>
+                <dd className="text-gray-900">
+                  {gen.gender === 'Female' ? tk('genderFemale') : tk('genderMale')}
+                </dd>
                 <dt className="font-medium text-gray-500">{tk('labelDob')}</dt>
                 <dd className="text-gray-900">{gen.dob}</dd>
                 <dt className="font-medium text-gray-500">{tk('labelTime')}</dt>
@@ -724,6 +849,10 @@ export function KundliResultContent({ gen }: KundliResultContentProps) {
           )}
         </div>
       )}
+
+      {activeTab === 'dasha' && <KundliDashaTab chartData={chartData} />}
+
+      {activeTab === 'ashtakvarga' && <KundliAshtakvargaTab chartData={chartData} />}
 
       {activeTab === 'report' && (
         <>

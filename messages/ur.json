@@ -532,6 +532,8 @@
         "basic": "بنیادی",
         "kundli": "کنڈلی",
         "kp": "کے پی",
+        "dasha": "Dasha",
+        "ashtakvarga": "Ashtakvarga",
         "report": "رپورٹ",
         "horoscope": "زائچہ",
         "remedies": "علاج"
@@ -541,9 +543,16 @@
         "personality": "شخصیت",
         "physical": "جسمانی",
         "health": "صحت",
-        "career": "کیریئر",
+        "career": "Career",
         "relationships": "رشتے",
-        "remedies": "علاج"
+        "remedies": "علاج",
+        "mahadasha": "Mahadasha",
+        "yog": "Yog",
+        "marriage": "Marriage",
+        "wealth": "Wealth",
+        "reason": "Reason",
+        "domainSectionsHeading": "Life predictions",
+        "careerForecast": "Career prediction"
       },
       "addon": {
         "overview": "جائزہ",

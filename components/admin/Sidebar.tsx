@@ -14,6 +14,7 @@ import {
   Coins,
   Package,
   MessageCircle,
+  Calculator,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -52,6 +53,11 @@ const menuItems = [
     title: 'Coin packs',
     href: '/admin/coins/plans',
     icon: Package,
+  },
+  {
+    title: 'Kundli Support',
+    href: '/admin/kundli-support',
+    icon: Calculator,
   },
 ];
 

@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Languages } from "lucide-react";
-import { routing } from "@/i18n/routing";
+import { selectorLocales } from "@/i18n/routing";
 
-type NavLangKey = `lang_${(typeof routing.locales)[number]}`;
+type NavLangKey = `lang_${(typeof selectorLocales)[number]}`;
 
 export function LanguageSwitcher() {
   const t = useTranslations("nav");
@@ -35,7 +35,7 @@ export function LanguageSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[10rem]">
-        {routing.locales.map((loc) => (
+        {selectorLocales.map((loc) => (
           <DropdownMenuItem
             key={loc}
             className={locale === loc ? "bg-primary-light" : ""}

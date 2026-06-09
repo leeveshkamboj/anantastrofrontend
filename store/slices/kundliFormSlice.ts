@@ -5,6 +5,7 @@ export interface KundliFormData {
   dateOfBirth: string;
   timeOfBirth: string;
   placeOfBirth: string;
+  gender: 'Male' | 'Female';
 }
 
 const initialState: KundliFormData = {
@@ -12,6 +13,7 @@ const initialState: KundliFormData = {
   dateOfBirth: '',
   timeOfBirth: '',
   placeOfBirth: '',
+  gender: 'Male',
 };
 
 const kundliFormSlice = createSlice({

@@ -20,3 +20,6 @@ export const routing = defineRouting({
   defaultLocale: "en",
   localePrefix: "as-needed",
 });
+
+/** Locales shown in the nav language switcher (expand when translations are ready). */
+export const selectorLocales = ["en", "hi"] as const satisfies readonly (typeof routing.locales)[number][];

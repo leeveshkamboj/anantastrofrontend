@@ -2,6 +2,8 @@ export { KundliChart } from './KundliChart';
 export type { KundliChartData, PlanetPosition } from './KundliChart';
 export { AstroChartRadix } from './AstroChartRadix';
 export { NorthIndianDiamondChart } from './NorthIndianDiamondChart';
+export { KundliDashaTab } from './KundliDashaTab';
+export { KundliAshtakvargaTab } from './KundliAshtakvargaTab';
 export {
   KundliGenerateHero,
   WhatIsKundli,

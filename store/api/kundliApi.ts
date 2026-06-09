@@ -10,6 +10,8 @@ export interface Kundli {
   latitude: number | null;
   longitude: number | null;
   timezoneOffsetHours: number | null;
+  timezoneId: string | null;
+  gender: 'Male' | 'Female' | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -22,6 +24,7 @@ export interface CreateKundliRequest {
   placeId?: string;
   latitude?: number;
   longitude?: number;
+  gender?: 'Male' | 'Female';
 }
 
 export interface UpdateKundliRequest {
@@ -32,6 +35,7 @@ export interface UpdateKundliRequest {
   placeId?: string;
   latitude?: number;
   longitude?: number;
+  gender?: 'Male' | 'Female';
 }
 
 export interface KundliResponse {
@@ -51,11 +55,64 @@ export interface CreateKundliGenerationRequest {
   latitude: number;
   longitude: number;
   timezoneOffsetHours?: number;
+  timezoneId?: string;
   name?: string;
   placeOfBirth?: string;
+  gender?: 'Male' | 'Female';
 }
 
 export type KundliGenerationStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
+
+/** Vimshottari dasha periods stored on chartData.vimshottariDasha */
+export interface DashaPeriodRow {
+  lord: string;
+  startDate: 'Birth' | string;
+  endDate: string;
+}
+
+export interface MahadashaWithAntardashas extends DashaPeriodRow {
+  antardashas: DashaPeriodRow[];
+}
+
+export interface VimshottariDashaData {
+  birthMahadasha: { lord: string; endDate: string };
+  birthAntardasha: { lord: string; endDate: string };
+  mahadashas: DashaPeriodRow[];
+  birthMahadashaAntardashas: DashaPeriodRow[];
+  allMahadashas?: MahadashaWithAntardashas[];
+}
+
+/** Yogini dasha stored on chartData.yoginiDasha */
+export interface YoginiDashaPeriod {
+  lord: string;
+  planet: string;
+  startDate: 'Birth' | string;
+  endDate: string;
+}
+
+export interface YoginiDashaData {
+  birthYogini: string;
+  birthYoginiPlanet: string;
+  dashas: YoginiDashaPeriod[];
+}
+
+export type AshtakvargaPlanet =
+  | 'Sun'
+  | 'Moon'
+  | 'Mars'
+  | 'Mercury'
+  | 'Jupiter'
+  | 'Venus'
+  | 'Saturn';
+
+export type AshtakvargaHouseScores = Record<string, number>;
+
+/** Ashtakvarga stored on chartData.ashtakvarga */
+export interface AshtakvargaData {
+  bav: Record<AshtakvargaPlanet, AshtakvargaHouseScores>;
+  asc: AshtakvargaHouseScores;
+  sav: AshtakvargaHouseScores;
+}
 
 /** KP (Krishnamurti Paddhati) Bhav Chalit chart data from backend */
 export interface KpChartData {
@@ -77,11 +134,15 @@ export interface KundliGeneration {
   chartData: Record<string, unknown> | null;
   kpChartData: KpChartData | null;
   timezoneOffsetHours: number | null;
+  timezoneId: string | null;
+  timezoneConfidence: 'verified' | 'legacy' | null;
+  engineVersion: string | null;
   interpretation: string | null;
   status: KundliGenerationStatus;
   errorMessage: string | null;
   shareToken: string | null;
   shareEnabled: boolean;
+  gender: 'Male' | 'Female' | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -127,10 +188,10 @@ export interface GeocodeResponse {
   data: { lat: number; lng: number; formattedAddress?: string } | null;
 }
 
-/** Backend timezone from lat/lng (Google Time Zone API); offset in hours e.g. 5.5 for IST */
+/** Backend timezone from lat/lng at birth date (Google Time Zone API) */
 export interface GeocodeTimezoneResponse {
   isSuccess: boolean;
-  data: { timezoneOffsetHours: number | null };
+  data: { timezoneOffsetHours: number | null; timezoneId: string | null };
 }
 
 /** Partner birth details for matchmaking */
@@ -376,8 +437,19 @@ export const kundliApi = baseApi.injectEndpoints({
         params: { place, ...(limit != null && { limit: String(limit) }) },
       }),
     }),
-    getGeocodeTimezone: builder.query<GeocodeTimezoneResponse, { lat: number; lng: number }>({
-      query: ({ lat, lng }) => ({ url: '/geocode/timezone', params: { lat: String(lat), lng: String(lng) } }),
+    getGeocodeTimezone: builder.query<
+      GeocodeTimezoneResponse,
+      { lat: number; lng: number; dob?: string; time?: string }
+    >({
+      query: ({ lat, lng, dob, time }) => ({
+        url: '/geocode/timezone',
+        params: {
+          lat: String(lat),
+          lng: String(lng),
+          ...(dob && { dob }),
+          ...(time && { time }),
+        },
+      }),
     }),
     createMatchmakingReport: builder.mutation<CreateMatchmakingReportResponse, MatchmakingRequest>({
       query: (body) => ({

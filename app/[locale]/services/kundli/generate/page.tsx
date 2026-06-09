@@ -63,6 +63,7 @@ function KundliGenerateContent() {
   const [showSomeoneElseForm, setShowSomeoneElseForm] = useState(false);
   const [editingProfileId, setEditingProfileId] = useState<number | null>(null);
   const [name, setName] = useState('');
+  const [gender, setGender] = useState<'Male' | 'Female'>('Male');
   const [dateOfBirth, setDateOfBirth] = useState<string | undefined>();
   const [timeOfBirth, setTimeOfBirth] = useState('');
   const [placeOfBirth, setPlaceOfBirth] = useState('');
@@ -155,10 +156,11 @@ function KundliGenerateContent() {
     if (!kundliForm.name?.trim()) return;
     if (showSomeoneElseForm) return;
     setName(kundliForm.name);
+    setGender(kundliForm.gender ?? 'Male');
     setDateOfBirth(kundliForm.dateOfBirth || undefined);
     setTimeOfBirth(kundliForm.timeOfBirth || '');
     setPlaceOfBirth(kundliForm.placeOfBirth || '');
-  }, [kundliForm.name, kundliForm.dateOfBirth, kundliForm.timeOfBirth, kundliForm.placeOfBirth, hasProfiles, showSomeoneElseForm]);
+  }, [kundliForm.name, kundliForm.gender, kundliForm.dateOfBirth, kundliForm.timeOfBirth, kundliForm.placeOfBirth, hasProfiles, showSomeoneElseForm]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -190,6 +192,8 @@ function KundliGenerateContent() {
     existingLatLng?: { latitude: number; longitude: number } | null,
     name?: string,
     profileTimezoneHours?: number | null,
+    profileTimezoneId?: string | null,
+    profileGender?: 'Male' | 'Female' | null,
   ) => {
     if (!dob || !time?.trim()) {
       toast.error(te('dateTimeRequired'));
@@ -232,15 +236,28 @@ function KundliGenerateContent() {
       }
     }
     let timezoneOffsetHours: number = 5.5;
-    if (profileTimezoneHours != null && !Number.isNaN(profileTimezoneHours)) {
+    let timezoneId: string | undefined;
+    if (profileTimezoneId?.trim()) {
+      timezoneId = profileTimezoneId.trim();
+      if (profileTimezoneHours != null && !Number.isNaN(profileTimezoneHours)) {
+        timezoneOffsetHours = profileTimezoneHours;
+      }
+    } else if (profileTimezoneHours != null && !Number.isNaN(profileTimezoneHours)) {
       timezoneOffsetHours = profileTimezoneHours;
-    } else {
+    }
+    if (!timezoneId) {
       try {
-        const tzRes = await getGeocodeTimezone({ lat, lng }).unwrap();
+        const tzRes = await getGeocodeTimezone({
+          lat,
+          lng,
+          dob,
+          time: time.trim(),
+        }).unwrap();
         const tz = tzRes?.data?.timezoneOffsetHours;
         if (tz != null && !Number.isNaN(tz)) timezoneOffsetHours = tz;
+        if (tzRes?.data?.timezoneId) timezoneId = tzRes.data.timezoneId;
       } catch {
-        // keep 5.5
+        // keep defaults; backend resolves timezoneId when Google API is configured
       }
     }
     try {
@@ -250,8 +267,10 @@ function KundliGenerateContent() {
         latitude: lat,
         longitude: lng,
         timezoneOffsetHours,
+        ...(timezoneId && { timezoneId }),
         ...(name?.trim() && { name: name.trim() }),
         ...(trimmedPlace && { placeOfBirth: trimmedPlace }),
+        ...(profileGender && { gender: profileGender }),
       }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {
@@ -292,6 +311,7 @@ function KundliGenerateContent() {
             dateOfBirth: dateOfBirth || undefined,
             timeOfBirth: timeOfBirth || undefined,
             placeOfBirth: placeOfBirth || undefined,
+            gender,
             ...(selectedPlace && (selectedPlace.formattedAddress ?? '').trim() === (placeOfBirth ?? '').trim() && selectedPlace.placeId && {
               placeId: selectedPlace.placeId,
             }),
@@ -315,6 +335,7 @@ function KundliGenerateContent() {
           dateOfBirth: dateOfBirth || undefined,
           timeOfBirth: timeOfBirth || undefined,
           placeOfBirth: placeOfBirth || undefined,
+          gender,
           ...(selectedPlace && (selectedPlace.formattedAddress ?? '').trim() === (placeOfBirth ?? '').trim() && selectedPlace.placeId && {
             placeId: selectedPlace.placeId,
           }),
@@ -334,7 +355,16 @@ function KundliGenerateContent() {
             const latLng = result.data.latitude != null && result.data.longitude != null
               ? { latitude: result.data.latitude, longitude: result.data.longitude }
               : undefined;
-            await startGenerationAndRedirect(dateOfBirth, timeOfBirth, placeOfBirth, latLng, name?.trim() || undefined, result.data.timezoneOffsetHours ?? undefined);
+            await startGenerationAndRedirect(
+              dateOfBirth,
+              timeOfBirth,
+              placeOfBirth,
+              latLng,
+              name?.trim() || undefined,
+              result.data.timezoneOffsetHours ?? undefined,
+              result.data.timezoneId ?? undefined,
+              gender,
+            );
             return;
           }
           toast.success(te('profileSavedNewSelected'));
@@ -363,16 +393,35 @@ function KundliGenerateContent() {
         profile.latitude != null && profile.longitude != null
           ? { latitude: profile.latitude, longitude: profile.longitude }
           : null;
-      await startGenerationAndRedirect(dob, time, place, latLng, profile.name?.trim() || undefined, profile.timezoneOffsetHours ?? undefined);
+      await startGenerationAndRedirect(
+        dob,
+        time,
+        place,
+        latLng,
+        profile.name?.trim() || undefined,
+        profile.timezoneOffsetHours ?? undefined,
+        profile.timezoneId ?? undefined,
+        profile.gender ?? 'Male',
+      );
       return;
     }
-    await startGenerationAndRedirect(dateOfBirth ?? '', timeOfBirth, placeOfBirth, undefined, name?.trim() || undefined);
+    await startGenerationAndRedirect(
+      dateOfBirth ?? '',
+      timeOfBirth,
+      placeOfBirth,
+      undefined,
+      name?.trim() || undefined,
+      undefined,
+      undefined,
+      gender,
+    );
   };
 
   const handleBackSomeoneElse = () => {
     setShowSomeoneElseForm(false);
     setEditingProfileId(null);
     setName('');
+    setGender('Male');
     setDateOfBirth(undefined);
     setTimeOfBirth('');
     setPlaceOfBirth('');
@@ -406,6 +455,8 @@ function KundliGenerateContent() {
               onShowSomeoneElseForm={setShowSomeoneElseForm}
               name={name}
               onNameChange={setName}
+              gender={gender}
+              onGenderChange={setGender}
               dateOfBirth={dateOfBirth}
               onDateOfBirthChange={setDateOfBirth}
               timeOfBirth={timeOfBirth}
@@ -428,6 +479,7 @@ function KundliGenerateContent() {
                 dateOfBirth: kundliForm.dateOfBirth || undefined,
                 timeOfBirth: kundliForm.timeOfBirth || '',
                 placeOfBirth: kundliForm.placeOfBirth || '',
+                gender: kundliForm.gender ?? 'Male',
               }}
               onBackSomeoneElse={handleBackSomeoneElse}
             />
