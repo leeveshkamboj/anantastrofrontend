@@ -39,6 +39,20 @@ yarn-error.log*
 .env.production.local
 .env.*
 !.env.example
+!.env.seed.example
+
+# screenshot tooling (generated assets + secrets)
+/screenshots/**/*.png
+/screenshots/.env.seed
+/storage/
+
+# stitch design mockups (keep markdown specs, ignore large PNGs)
+/stitch/**/screen.png
+
+# playwright
+/playwright-report/
+/test-results/
+/blob-report/
 
 # vercel
 .vercel

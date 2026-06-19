@@ -9,7 +9,11 @@
     "start": "next start",
     "lint": "eslint",
     "messages:indic": "node scripts/generate-indic-messages.mjs",
-    "messages:fix-icu": "node scripts/fix-icu-placeholders.mjs"
+    "messages:fix-icu": "node scripts/fix-icu-placeholders.mjs",
+    "screenshots": "tsx scripts/generate-screenshots.ts",
+    "screenshots:dry-run": "tsx scripts/generate-screenshots.ts --dry-run",
+    "screenshots:critical": "tsx scripts/generate-screenshots.ts --priority=critical --exclude-optional",
+    "screenshots:install": "playwright install chromium"
   },
   "dependencies": {
     "@astrodraw/astrochart": "^3.0.2",
@@ -44,6 +48,7 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -51,7 +56,9 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "google-translate-api-x": "^10.7.2",
+    "playwright": "^1.52.0",
     "tailwindcss": "^4",
+    "tsx": "^4.19.4",
     "typescript": "^5"
   }
 }
