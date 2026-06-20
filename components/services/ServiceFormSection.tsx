@@ -32,7 +32,7 @@ export function ServiceFormSection({
 }
 
 export const serviceFormCardClassName =
-  "overflow-hidden rounded-[1.75rem] border border-white/70 bg-white/95 shadow-[0_24px_64px_-16px_rgba(46,10,94,0.28)] backdrop-blur-md"
+  "overflow-hidden pt-0 rounded-[1.75rem] border border-white/70 bg-white/95 shadow-[0_24px_64px_-16px_rgba(46,10,94,0.28)] backdrop-blur-md"
 
 export const serviceProfileButtonClassName = (selected: boolean) =>
   selected

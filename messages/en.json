@@ -1065,7 +1065,10 @@
     "quickActionPricing": "Compare packs and top up when you need more coins."
   },
   "profile": {
-    "loading": "Loading profile…"
+    "loading": "Loading profile…",
+    "badge": "Account",
+    "subtitle": "Manage your personal details, saved kundli profiles, and password.",
+    "guestName": "Your profile"
   },
   "settingsSidebar": {
     "basic": "Basic Info",
@@ -1132,6 +1135,10 @@
   "reports": {
     "title": "My Reports",
     "subtitle": "Your completed kundli, horoscope, and Gun Milan (matchmaking) reports",
+    "badge": "Your library",
+    "libraryEyebrow": "Saved reports",
+    "libraryTitle": "Browse your reports",
+    "librarySubtitle": "Tap any report to open the full reading again.",
     "newKundli": "New Kundli",
     "horoscope": "Horoscope",
     "gunMilan": "Gun Milan",
@@ -1166,6 +1173,16 @@
   },
   "conversations": {
     "title": "Conversations",
+    "subtitle": "Pick up where you left off with AI astrologers.",
+    "badge": "Messages",
+    "listTitle": "Your sessions",
+    "listDescription": "Tap a conversation to continue or review your chat.",
+    "heroStatSessions": "Sessions",
+    "heroStatActive": "{n} active now",
+    "heroStatCoins": "{n} coins used",
+    "continueChat": "Continue chat",
+    "emptyHint": "Start a consultation from our astrologers page.",
+    "sessionCount": "{n, plural, one {# conversation} other {# conversations}}",
     "loading": "Loading conversations…",
     "empty": "No conversations yet.",
     "coinsDebited": "coins debited",
@@ -1174,6 +1191,7 @@
     "astrologerFallback": "Astrologer",
     "sessionNumber": "Session #{id}",
     "statusActive": "Active",
+    "statusPaused": "Paused",
     "statusEnded": "Ended"
   },
   "contact": {

@@ -4,7 +4,8 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useGetMyKundlisQuery } from '@/store/api/kundliApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { CosmicButton } from '@/components/ui/CosmicButton';
+import { serviceFormCardClassName } from '@/components/services';
 import { BookOpen } from 'lucide-react';
 
 export function KundliProfileTab() {
@@ -14,30 +15,34 @@ export function KundliProfileTab() {
   const kundlis = kundlisData?.data ?? [];
 
   return (
-    <Card className="border-0 shadow-xl bg-white/95">
+    <Card className={serviceFormCardClassName}>
+      <div
+        className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple"
+        aria-hidden="true"
+      />
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <BookOpen className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-lg font-extrabold">
+          <BookOpen className="h-5 w-5 text-astro-orange" />
           {tk('title')}
         </CardTitle>
         <CardDescription>{tk('description')}</CardDescription>
       </CardHeader>
       <CardContent>
         {kundlis.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <BookOpen className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-            <p>{tk('emptyTitle')}</p>
-            <p className="text-sm mt-1">{tk('emptyHint')}</p>
-            <Button asChild variant="outline" className="mt-4">
+          <div className="rounded-2xl border border-dashed border-astro-purple/20 bg-astro-purple/5 py-10 text-center text-gray-500">
+            <BookOpen className="mx-auto mb-3 h-12 w-12 text-astro-purple/25" />
+            <p className="font-semibold text-gray-800">{tk('emptyTitle')}</p>
+            <p className="mt-1 text-sm">{tk('emptyHint')}</p>
+            <CosmicButton asChild variant="outline" className="mt-4">
               <Link href="/">{tc('goHome')}</Link>
-            </Button>
+            </CosmicButton>
           </div>
         ) : (
           <ul className="space-y-3">
             {kundlis.map((k) => (
               <li
                 key={k.id}
-                className="flex flex-wrap items-center justify-between gap-2 p-4 rounded-lg border border-gray-200 bg-gray-50/50"
+                className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-transparent bg-gray-50 px-4 py-3.5 transition-colors hover:border-astro-purple/10 hover:bg-white"
               >
                 <div>
                   <p className="font-medium text-gray-900">{k.name}</p>

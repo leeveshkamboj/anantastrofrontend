@@ -14,8 +14,9 @@ type AstrologerAvatarProps = {
 };
 
 export function AstrologerAvatar({ astrologer, variant, size = 96, className }: AstrologerAvatarProps) {
-  const primarySrc =
-    variant === 'featured'
+  const primarySrc = astrologer.avatarUrl?.trim()
+    ? astrologer.avatarUrl.trim()
+    : variant === 'featured'
       ? getFeaturedAvatarUrl(astrologer)
       : getDirectoryAvatarUrl(astrologer);
   const fallbackSrc = getVectorAvatarUrl(astrologer);
@@ -30,7 +31,7 @@ export function AstrologerAvatar({ astrologer, variant, size = 96, className }: 
       unoptimized
       className={cn('rounded-full bg-white object-cover', className)}
       onError={() => {
-        if (src !== fallbackSrc) setSrc(fallbackSrc);
+        setSrc((current) => (current !== fallbackSrc ? fallbackSrc : current))
       }}
     />
   );

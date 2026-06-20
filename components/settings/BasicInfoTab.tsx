@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { useGetProfileQuery, useUpdateProfileMutation } from '@/store/api/authApi';
 import { useUploadFileMutation } from '@/store/api/astrologerApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { CosmicButton } from '@/components/ui/CosmicButton';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
+import { serviceFormCardClassName } from '@/components/services';
 import { toast } from 'sonner';
 import { User, Camera } from 'lucide-react';
 
@@ -83,10 +84,14 @@ export function BasicInfoTab() {
   };
 
   return (
-    <Card className="border-0 shadow-xl bg-white/95">
+    <Card className={serviceFormCardClassName}>
+      <div
+        className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple"
+        aria-hidden="true"
+      />
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <User className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-lg font-extrabold">
+          <User className="h-5 w-5 text-astro-orange" />
           {tb('title')}
         </CardTitle>
         <CardDescription>{tb('description')}</CardDescription>
@@ -168,13 +173,13 @@ export function BasicInfoTab() {
                 placeholder={tb('dobPlaceholder')}
               />
             </div>
-            <Button
+            <CosmicButton
               type="submit"
-              className="w-full sm:w-auto bg-primary hover:bg-primary/90"
+              className="w-full normal-case tracking-normal sm:w-auto"
               disabled={isUpdating}
             >
               {isUpdating ? tb('saving') : tb('save')}
-            </Button>
+            </CosmicButton>
           </form>
         </div>
       </CardContent>

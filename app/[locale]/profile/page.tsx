@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from '@/i18n/navigation';
 import { useGetProfileQuery } from '@/store/api/authApi';
 import { useAuth } from '@/store/hooks/useAuth';
-import { CelestialBackground } from '@/components/CelestialBackground';
+import { Container } from '@/components/layout/Container';
+import { ProfileHeroSection } from '@/components/profile';
 import {
   SettingsSidebar,
   BasicInfoTab,
@@ -13,6 +14,7 @@ import {
   ManagePasswordTab,
   type ProfileTab,
 } from '@/components/settings';
+import { Loader2 } from 'lucide-react';
 
 export default function ProfilePage() {
   const t = useTranslations('profile');
@@ -20,7 +22,8 @@ export default function ProfilePage() {
   const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState<ProfileTab>('basic');
 
-  const { isLoading } = useGetProfileQuery(undefined, { skip: !isAuthenticated });
+  const { data: profileData, isLoading } = useGetProfileQuery(undefined, { skip: !isAuthenticated });
+  const profile = profileData?.data;
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -35,23 +38,34 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <CelestialBackground className="flex items-center justify-center min-h-screen">
-        <div className="text-gray-600">{t('loading')}</div>
-      </CelestialBackground>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 text-gray-600">
+        <Loader2 className="mr-2 h-5 w-5 animate-spin text-astro-purple" />
+        {t('loading')}
+      </div>
     );
   }
 
   return (
-    <CelestialBackground className="min-h-screen">
-      <div className="flex flex-col md:flex-row gap-6 p-4 md:p-6 max-w-6xl mx-auto">
-        <SettingsSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+    <div className="bg-white text-gray-900">
+      <ProfileHeroSection
+        name={profile?.name}
+        email={profile?.email}
+        profileImage={profile?.profileImage}
+      />
 
-        <main className="flex-1 min-w-0">
-          {activeTab === 'basic' && <BasicInfoTab />}
-          {activeTab === 'kundli' && <KundliProfileTab />}
-          {activeTab === 'password' && <ManagePasswordTab />}
-        </main>
-      </div>
-    </CelestialBackground>
+      <section className="bg-gray-50/80 px-4 py-12 sm:px-6 lg:px-16 lg:py-16">
+        <Container>
+          <div className="flex flex-col gap-6 md:flex-row">
+            <SettingsSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+
+            <main className="min-w-0 flex-1">
+              {activeTab === 'basic' && <BasicInfoTab />}
+              {activeTab === 'kundli' && <KundliProfileTab />}
+              {activeTab === 'password' && <ManagePasswordTab />}
+            </main>
+          </div>
+        </Container>
+      </section>
+    </div>
   );
 }

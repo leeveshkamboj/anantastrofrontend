@@ -8,9 +8,10 @@ import {
 } from '@/store/api/authApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { CosmicButton } from '@/components/ui/CosmicButton';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { serviceFormCardClassName } from '@/components/services';
 import { toast } from 'sonner';
 import { Lock, KeyRound } from 'lucide-react';
 
@@ -83,10 +84,14 @@ export function ManagePasswordTab() {
   };
 
   return (
-    <Card className="border-0 shadow-xl bg-white/95">
+    <Card className={serviceFormCardClassName}>
+      <div
+        className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple"
+        aria-hidden="true"
+      />
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Lock className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-lg font-extrabold">
+          <Lock className="h-5 w-5 text-astro-orange" />
           {tp('title')}
         </CardTitle>
         <CardDescription>
@@ -119,10 +124,10 @@ export function ManagePasswordTab() {
                 className="bg-gray-50"
               />
             </div>
-            <Button type="submit" className="w-full sm:w-auto" disabled={isSettingPassword}>
-              <KeyRound className="h-4 w-4 mr-2" />
+            <CosmicButton type="submit" className="w-full normal-case tracking-normal sm:w-auto" disabled={isSettingPassword}>
+              <KeyRound className="mr-2 h-4 w-4" />
               {isSettingPassword ? tp('setting') : tp('setPassword')}
-            </Button>
+            </CosmicButton>
           </form>
         ) : (
           <form onSubmit={handleChangePassword} className="space-y-4 max-w-md">
@@ -163,10 +168,10 @@ export function ManagePasswordTab() {
                 className="bg-gray-50"
               />
             </div>
-            <Button type="submit" className="w-full sm:w-auto" disabled={isChangingPassword}>
-              <KeyRound className="h-4 w-4 mr-2" />
+            <CosmicButton type="submit" className="w-full normal-case tracking-normal sm:w-auto" disabled={isChangingPassword}>
+              <KeyRound className="mr-2 h-4 w-4" />
               {isChangingPassword ? tp('changing') : tp('changePassword')}
-            </Button>
+            </CosmicButton>
           </form>
         )}
       </CardContent>

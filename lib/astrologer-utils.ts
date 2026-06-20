@@ -24,7 +24,7 @@ export function getDisplayRating(slug: string): number {
 }
 
 export function getDirectoryAvatarUrl(item: Pick<ChatAstrologer, 'slug' | 'avatarUrl'>): string {
-  if (item.avatarUrl?.trim()) return item.avatarUrl;
+  if (item.avatarUrl?.trim()) return item.avatarUrl.trim();
   return `/images/astrologers/directory/${item.slug}.png`;
 }
 
@@ -34,7 +34,7 @@ export function getVectorAvatarUrl(item: Pick<ChatAstrologer, 'slug' | 'displayN
 }
 
 export function getFeaturedAvatarUrl(item: Pick<ChatAstrologer, 'slug' | 'avatarUrl'>): string {
-  if (item.avatarUrl?.trim()) return item.avatarUrl;
+  if (item.avatarUrl?.trim()) return item.avatarUrl.trim();
   return `/images/astrologers/featured/${item.slug}.jpg`;
 }
 
