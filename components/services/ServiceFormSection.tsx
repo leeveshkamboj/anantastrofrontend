@@ -1,6 +1,7 @@
 "use client"
 
 import { Container } from "@/components/layout/Container"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
 import { cn } from "@/lib/utils"
 
@@ -25,7 +26,7 @@ export function ServiceFormSection({
     <section id={id} className={cn("bg-gray-50/80 px-6 py-20 lg:px-24", className)}>
       <Container size={narrow ? "narrow" : "default"}>
         <ServiceSectionHeader title={title} subtitle={subtitle} />
-        {children}
+        <FadeIn preset="scaleIn">{children}</FadeIn>
       </Container>
     </section>
   )

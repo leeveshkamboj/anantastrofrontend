@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { ResultCard, CardContent } from '@/components/kundli/result';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
 import type { AshtakvargaData, AshtakvargaPlanet } from '@/store/api/kundliApi';
 
@@ -59,11 +60,13 @@ export function KundliAshtakvargaTab({ chartData }: { chartData: Record<string, 
 
   if (!data) {
     return (
-      <ResultCard>
-        <CardContent className="pt-8 pb-8 text-center text-gray-600">
-          {tk('ashtakvargaNoData')}
-        </CardContent>
-      </ResultCard>
+      <FadeIn preset="fadeIn" inView={false}>
+        <ResultCard>
+          <CardContent className="pt-8 pb-8 text-center text-gray-600">
+            {tk('ashtakvargaNoData')}
+          </CardContent>
+        </ResultCard>
+      </FadeIn>
     );
   }
 
@@ -84,7 +87,8 @@ export function KundliAshtakvargaTab({ chartData }: { chartData: Record<string, 
     ];
 
   return (
-    <div className="space-y-4">
+    <FadeIn preset="fadeIn" inView={false}>
+      <div className="space-y-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="text-lg font-semibold text-gray-900">{tk('ashtakvargaTitle')}</h2>
         <p className="text-sm text-gray-600">
@@ -130,6 +134,7 @@ export function KundliAshtakvargaTab({ chartData }: { chartData: Record<string, 
           <p className="mt-3 text-xs text-gray-500">{tk('ashtakvargaHouseHint')}</p>
         </CardContent>
       </ResultCard>
-    </div>
+      </div>
+    </FadeIn>
   );
 }

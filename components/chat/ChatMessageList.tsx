@@ -1,8 +1,11 @@
 "use client"
 
 import type { RefObject } from "react"
+import { motion } from "framer-motion"
 import { useTranslations } from "next-intl"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
+import { useMotion } from "@/components/motion/MotionProvider"
+import { getPresetForTier, getReducedPreset } from "@/lib/motion"
 import { cn } from "@/lib/utils"
 import type { ChatAstrologer, ChatMessage } from "@/store/api/chatApi"
 
@@ -75,8 +78,13 @@ function MessageBubble({
   astrologer?: ChatAstrologer
 }) {
   const t = useTranslations("chatSession")
+  const { reduced } = useMotion()
   const isUser = message.senderType === "user"
   const isSystem = message.senderType === "system"
+  const preset = isUser ? "slideInRight" : "slideInLeft"
+  const variants = reduced
+    ? getReducedPreset(preset)
+    : getPresetForTier(preset, "instrument")
 
   const body =
     message.text ||
@@ -87,17 +95,30 @@ function MessageBubble({
         : "")
 
   if (isSystem) {
+    const systemVariants = reduced
+      ? getReducedPreset("fadeIn")
+      : getPresetForTier("fadeIn", "instrument")
     return (
-      <div className="my-2 flex justify-center">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={systemVariants}
+        className="my-2 flex justify-center"
+      >
         <div className="max-w-[92%] rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-center text-sm text-amber-900">
           <p className="whitespace-pre-wrap leading-relaxed">{body}</p>
         </div>
-      </div>
+      </motion.div>
     )
   }
 
   return (
-    <div className={cn("my-2 flex items-end gap-2", isUser ? "justify-end" : "justify-start")}>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      className={cn("my-2 flex items-end gap-2", isUser ? "justify-end" : "justify-start")}
+    >
       {!isUser && astrologer ? (
         <AstrologerAvatar astrologer={astrologer} variant="directory" size={24} className="mb-1 shrink-0 border" />
       ) : null}
@@ -118,6 +139,6 @@ function MessageBubble({
           {new Date(message.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </time>
       </div>
-    </div>
+    </motion.div>
   )
 }

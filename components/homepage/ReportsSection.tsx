@@ -7,6 +7,7 @@ import { CosmicCard } from "@/components/ui/CosmicCard"
 import { Container } from "@/components/layout/Container"
 import { DecorativePlanets } from "@/components/layout/DecorativePlanets"
 import { SpriteIcon, type SpritePosition } from "@/components/homepage/SpriteIcon"
+import { AnimatedSection, HoverLift, Stagger, StaggerItem } from "@/components/motion"
 
 const SPRITE_SRC = "/images/homepage/reports/reports-sprite.jpg"
 
@@ -42,7 +43,7 @@ export function ReportsSection() {
   const tHome = useTranslations("home.homepage")
 
   return (
-    <section
+    <AnimatedSection
       className="relative overflow-hidden bg-white px-6 py-20 text-astro-purple lg:px-24"
       aria-labelledby="reports-heading"
     >
@@ -56,28 +57,32 @@ export function ReportsSection() {
           <p className="mx-auto max-w-2xl text-gray-600">{t("subtitle")}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {reports.map(({ key, position, sampleHref, getHref }) => (
-            <CosmicCard key={key} className="flex flex-col border border-gray-100 shadow-md">
-              <SpriteIcon
-                src={SPRITE_SRC}
-                alt={t(`${key}Title`)}
-                position={position}
-              />
-              <h3 className="mb-2 text-xl font-bold">{t(`${key}Title`)}</h3>
-              <p className="mb-6 text-xs text-gray-600">{t(`${key}Desc`)}</p>
-              <div className="mt-auto flex w-full gap-2">
-                <CosmicButton asChild variant="outline" size="pill">
-                  <Link href={sampleHref}>{tHome("viewSample")}</Link>
-                </CosmicButton>
-                <CosmicButton asChild variant="secondary" size="pill">
-                  <Link href={getHref}>{tHome("getReport")}</Link>
-                </CosmicButton>
-              </div>
-            </CosmicCard>
+            <StaggerItem key={key}>
+              <HoverLift className="h-full">
+                <CosmicCard className="flex h-full flex-col border border-gray-100 shadow-md">
+                  <SpriteIcon
+                    src={SPRITE_SRC}
+                    alt={t(`${key}Title`)}
+                    position={position}
+                  />
+                  <h3 className="mb-2 text-xl font-bold">{t(`${key}Title`)}</h3>
+                  <p className="mb-6 text-xs text-gray-600">{t(`${key}Desc`)}</p>
+                  <div className="mt-auto flex w-full gap-2">
+                    <CosmicButton asChild variant="outline" size="pill">
+                      <Link href={sampleHref}>{tHome("viewSample")}</Link>
+                    </CosmicButton>
+                    <CosmicButton asChild variant="secondary" size="pill">
+                      <Link href={getHref}>{tHome("getReport")}</Link>
+                    </CosmicButton>
+                  </div>
+                </CosmicCard>
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
-    </section>
+    </AnimatedSection>
   )
 }

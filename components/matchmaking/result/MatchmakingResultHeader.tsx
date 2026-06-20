@@ -31,6 +31,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { MatchmakingReport, MatchmakingResult as MatchmakingResultType } from '@/store/api/kundliApi';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { Stagger, StaggerItem } from '@/components/motion';
+import { useMotion } from '@/components/motion/MotionProvider';
+import { getChoreographyDelay } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 type MatchmakingResultHeaderProps = {
@@ -235,6 +239,7 @@ export function MatchmakingResultHeader({
   onEnableShare,
   onDisableShare,
 }: MatchmakingResultHeaderProps) {
+  const { reduced } = useMotion();
   const t = useTranslations('results.matchmaking');
   const ts = useTranslations('shareView.matchmaking');
   const tc = useTranslations('commonUi');
@@ -268,7 +273,8 @@ export function MatchmakingResultHeader({
           </Link>
 
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <FadeIn preset="fadeIn" inView={false} delay={getChoreographyDelay("content", reduced)}>
+              <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
                 size="sm"
@@ -289,6 +295,7 @@ export function MatchmakingResultHeader({
                 ) : null}
               </Button>
             </DropdownMenuTrigger>
+            </FadeIn>
             <DropdownMenuContent align="end" className="w-52">
               {isShareView ? (
                 <ShareMenuItems
@@ -322,6 +329,7 @@ export function MatchmakingResultHeader({
           </DropdownMenu>
         </div>
 
+        <FadeIn preset="fadeUp" inView={false}>
         <div className="space-y-6">
           <div className="text-center lg:text-left">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-astro-yellow/25 bg-astro-yellow/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.18em] text-astro-yellow">
@@ -355,7 +363,9 @@ export function MatchmakingResultHeader({
                   rashi={result.partner1Summary.rashi}
                   nakshatra={result.partner1Summary.nakshatra}
                 />
-                <ScoreHighlight result={result} />
+                <FadeIn preset="scaleIn" inView={false} delay={getChoreographyDelay("icon", reduced)}>
+                  <ScoreHighlight result={result} />
+                </FadeIn>
                 <PartnerHighlight
                   label={partner2Label}
                   rashi={result.partner2Summary.rashi}
@@ -365,21 +375,26 @@ export function MatchmakingResultHeader({
             </div>
           ) : null}
 
-          <div className="grid grid-cols-1 gap-5 border-t border-white/10 pt-5 sm:grid-cols-2 sm:gap-8">
-            <PartnerMetaColumn
-              label={partner1Label}
-              dob={report.partner1Dob}
-              time={report.partner1Time}
-              place={report.partner1PlaceOfBirth}
-            />
-            <PartnerMetaColumn
-              label={partner2Label}
-              dob={report.partner2Dob}
-              time={report.partner2Time}
-              place={report.partner2PlaceOfBirth}
-            />
-          </div>
+          <Stagger inView={false} className="grid grid-cols-1 gap-5 border-t border-white/10 pt-5 sm:grid-cols-2 sm:gap-8">
+            <StaggerItem>
+              <PartnerMetaColumn
+                label={partner1Label}
+                dob={report.partner1Dob}
+                time={report.partner1Time}
+                place={report.partner1PlaceOfBirth}
+              />
+            </StaggerItem>
+            <StaggerItem>
+              <PartnerMetaColumn
+                label={partner2Label}
+                dob={report.partner2Dob}
+                time={report.partner2Time}
+                place={report.partner2PlaceOfBirth}
+              />
+            </StaggerItem>
+          </Stagger>
         </div>
+        </FadeIn>
       </Container>
     </header>
   );

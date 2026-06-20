@@ -1,5 +1,6 @@
 "use client"
 
+import { LayoutGroup } from "framer-motion"
 import { Link, usePathname } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { useSelector } from "react-redux"
@@ -36,22 +37,24 @@ export function Navbar() {
           {t("brand")}
         </Link>
 
-        <nav
-          className="hidden h-10 items-center gap-6 lg:flex"
-          aria-label="Main navigation"
-        >
-          <NavServicesDropdown />
-          {navLinks.map(({ href, label }) => (
-            <NavDesktopLink
-              key={href}
-              href={href}
-              label={label}
-              active={isNavActive(href, pathname)}
-            />
-          ))}
-          <NavLanguageSwitcher />
-          {isAuthenticated && <CoinNavPill />}
-        </nav>
+        <LayoutGroup>
+          <nav
+            className="hidden h-10 items-center gap-6 lg:flex"
+            aria-label="Main navigation"
+          >
+            <NavServicesDropdown />
+            {navLinks.map(({ href, label }) => (
+              <NavDesktopLink
+                key={href}
+                href={href}
+                label={label}
+                active={isNavActive(href, pathname)}
+              />
+            ))}
+            <NavLanguageSwitcher />
+            {isAuthenticated && <CoinNavPill />}
+          </nav>
+        </LayoutGroup>
 
         <div className="flex items-center gap-2">
           <NavMobileMenu navLinks={navLinks} isAuthenticated={isAuthenticated} />

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Instagram } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { buildWhatsAppShareUrl, shareViaInstagram } from '@/lib/social-share';
 
@@ -39,23 +40,27 @@ export function SocialShareButtons({
   const whatsAppHref = buildWhatsAppShareUrl(tc(messageKey, { url: shareUrl }));
 
   return (
-    <div className={`flex flex-wrap items-center gap-2 ${className ?? ''}`}>
-      <Button asChild variant="outline" size={size} className="gap-2">
-        <a href={whatsAppHref} target="_blank" rel="noopener noreferrer">
-          <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
-          {tc('shareWhatsApp')}
-        </a>
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        size={size}
-        className="gap-2"
-        onClick={() => void shareOnInstagram()}
-      >
-        <Instagram className="h-4 w-4 text-[#E4405F]" />
-        {tc('shareInstagram')}
-      </Button>
-    </div>
+    <Stagger inView={false} className={`flex flex-wrap items-center gap-2 ${className ?? ''}`}>
+      <StaggerItem preset="fadeIn">
+        <Button asChild variant="outline" size={size} className="gap-2">
+          <a href={whatsAppHref} target="_blank" rel="noopener noreferrer">
+            <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+            {tc('shareWhatsApp')}
+          </a>
+        </Button>
+      </StaggerItem>
+      <StaggerItem preset="fadeIn">
+        <Button
+          type="button"
+          variant="outline"
+          size={size}
+          className="gap-2"
+          onClick={() => void shareOnInstagram()}
+        >
+          <Instagram className="h-4 w-4 text-[#E4405F]" />
+          {tc('shareInstagram')}
+        </Button>
+      </StaggerItem>
+    </Stagger>
   );
 }

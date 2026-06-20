@@ -5,6 +5,7 @@ import { ArrowUpRight, Sparkles } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { Container } from "@/components/layout/Container"
+import { FadeIn } from "@/components/motion/FadeIn"
 
 export function AstrologersCtaSection() {
   const t = useTranslations("astrologersPage")
@@ -21,7 +22,8 @@ export function AstrologersCtaSection() {
       />
 
       <Container className="relative">
-        <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/40 bg-white/75 px-8 py-12 text-center shadow-xl backdrop-blur-md md:px-12">
+        <FadeIn preset="fadeUp">
+          <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/40 bg-white/75 px-8 py-12 text-center shadow-xl backdrop-blur-md md:px-12">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-astro-orange/15 text-astro-orange">
             <Sparkles className="h-6 w-6" aria-hidden="true" />
           </div>
@@ -33,7 +35,8 @@ export function AstrologersCtaSection() {
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </CosmicButton>
-        </div>
+          </div>
+        </FadeIn>
       </Container>
     </section>
   )

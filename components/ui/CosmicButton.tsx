@@ -12,7 +12,7 @@ const variantMap: Record<CosmicVariant, VariantProps<typeof buttonVariants>["var
   "gradient-dark": "gradient-dark",
 }
 
-export interface CosmicButtonProps extends React.ComponentProps<typeof Button> {
+export interface CosmicButtonProps extends Omit<React.ComponentProps<typeof Button>, "variant"> {
   variant?: CosmicVariant
 }
 

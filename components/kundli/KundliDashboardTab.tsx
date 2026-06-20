@@ -3,6 +3,9 @@
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ResultCard, CardContent, CardHeader, CardTitle } from '@/components/kundli/result';
+import { HoverLift } from '@/components/motion/HoverLift';
+import { PulseSoft } from '@/components/motion/PulseSoft';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 import { Button } from '@/components/ui/button';
 import {
   excerptDashboardText,
@@ -103,12 +106,12 @@ export function KundliDashboardTab({
       </ResultCard>
 
       {interpretationLoading && (
-        <p className="rounded-2xl border border-astro-orange/20 bg-astro-orange/10 px-4 py-3 text-sm text-astro-purple">
+        <PulseSoft className="rounded-2xl border border-astro-orange/20 bg-astro-orange/10 px-4 py-3 text-sm text-astro-purple">
           {tk('interpretationLoading')}
-        </p>
+        </PulseSoft>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <Stagger inView={false} className="grid gap-4 sm:grid-cols-2">
         {sections.map((section) => {
           const chartOnlySection = section.key === 'mahadasha';
           const waitingForReport =
@@ -123,10 +126,9 @@ export function KundliDashboardTab({
           const SectionIcon = SECTION_ICONS[section.key];
 
           return (
-            <ResultCard
-              key={section.key}
-              className="flex flex-col transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-1 hover:ring-astro-orange/15"
-            >
+            <StaggerItem key={section.key}>
+              <HoverLift className="h-full">
+                <ResultCard className="flex h-full flex-col">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-base font-extrabold">
                   <SectionIcon className="h-4 w-4 shrink-0 text-astro-orange" aria-hidden />
@@ -138,7 +140,7 @@ export function KundliDashboardTab({
               </CardHeader>
               <CardContent className="flex flex-1 flex-col gap-3 pt-0">
                 {waitingForReport ? (
-                  <p className="text-sm text-gray-500 flex-1 animate-pulse">{tk('sectionLoading')}</p>
+                  <PulseSoft className="flex-1 text-sm text-gray-500">{tk('sectionLoading')}</PulseSoft>
                 ) : hasContent ? (
                   <p className="text-sm text-gray-700 leading-relaxed flex-1">
                     {displayText ? renderBoldMarkdown(displayText) : section.subtitle}
@@ -176,10 +178,12 @@ export function KundliDashboardTab({
                   )}
                 </div>
               </CardContent>
-            </ResultCard>
+                </ResultCard>
+              </HoverLift>
+            </StaggerItem>
           );
         })}
-      </div>
+      </Stagger>
     </div>
   );
 }

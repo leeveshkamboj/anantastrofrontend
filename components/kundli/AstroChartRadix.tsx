@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
+import { FadeIn } from '@/components/motion/FadeIn';
 import type { KundliChartData, PlanetPosition } from './KundliChart';
 
 /** Site theme colors – matches globals.css (primary, primary-light, primary-dark) and KundliChart amber palette */
@@ -109,7 +110,9 @@ export function AstroChartRadix({
 
   return (
     <div ref={containerRef} className={`w-full max-w-full flex justify-center ${className}`} aria-hidden style={{ maxWidth: size }}>
-      <div ref={chartElRef} id={id} style={{ width: effectiveSize, height: effectiveSize }} />
+      <FadeIn preset="scaleIn" inView={false}>
+        <div ref={chartElRef} id={id} style={{ width: effectiveSize, height: effectiveSize }} />
+      </FadeIn>
     </div>
   );
 }

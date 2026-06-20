@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { FadeIn } from '@/components/motion/FadeIn';
 import type { KundliChartData, PlanetPosition } from './KundliChart';
 
 /** Planet name to abbreviation (Su, Mo, Ma, Me, Ju, Ve, Sa, Ra, Ke, Ur, Ne, Pl, Asc). */
@@ -220,7 +221,7 @@ export function NorthIndianDiamondChart({ chartData, title = 'Lagna', className 
 
   return (
     <div className={`w-full max-w-full overflow-x-auto flex justify-center ${className}`}>
-      <div className="inline-block rounded-lg overflow-hidden border border-amber-800/40 shadow-md bg-[rgb(255,246,230)]">
+      <FadeIn preset="scaleIn" inView={false} className="inline-block rounded-lg overflow-hidden border border-amber-800/40 shadow-md bg-[rgb(255,246,230)]">
         <div className="text-center border-b border-amber-700/40 bg-amber-100/80 px-3 py-2">
           <h3 className="text-sm font-bold text-amber-950">{title}</h3>
         </div>
@@ -283,7 +284,7 @@ export function NorthIndianDiamondChart({ chartData, title = 'Lagna', className 
             );
           })}
         </svg>
-      </div>
+      </FadeIn>
     </div>
   );
 }

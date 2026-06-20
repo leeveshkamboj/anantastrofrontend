@@ -36,7 +36,9 @@ export async function waitForPageReady(page: Page): Promise<void> {
   await page.waitForLoadState('networkidle').catch(() => {});
   await page.locator('[data-loading="true"]').first().waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   await page.getByText('Loading…', { exact: false }).first().waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => {});
-  await page.waitForTimeout(400);
+  // Wait for MotionProvider to signal mount animations are ready (see components/motion/MotionProvider.tsx)
+  await page.locator('body[data-motion-ready="true"]').waitFor({ state: 'attached', timeout: 10_000 }).catch(() => {});
+  await page.waitForTimeout(500);
 }
 
 export async function takeScreenshot(

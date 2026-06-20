@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { AnimatedSection, HoverLift, Stagger, StaggerItem } from "@/components/motion"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 import { SpriteIcon, type SpritePosition } from "@/components/homepage/SpriteIcon"
@@ -20,7 +21,7 @@ export function ServicesSection() {
   const tHome = useTranslations("home.homepage")
 
   return (
-    <section
+    <AnimatedSection
       id="services"
       className="stars-bg bg-astro-purple px-6 py-20 text-white"
       aria-labelledby="services-heading"
@@ -33,19 +34,23 @@ export function ServicesSection() {
           <p className="mx-auto max-w-2xl text-gray-400">{t("subtitle")}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {services.map(({ key, href, position }) => (
-            <CosmicCard key={key} className="flex flex-col">
-              <SpriteIcon src={SPRITE_SRC} alt={t(key)} position={position} />
-              <h3 className="mb-2 text-xl font-bold">{t(key)}</h3>
-              <p className="mb-6 text-xs text-gray-600">{t(`${key}Desc`)}</p>
-              <CosmicButton asChild variant="secondary" size="sm" className="mt-auto">
-                <Link href={href}>{tHome("explore")}</Link>
-              </CosmicButton>
-            </CosmicCard>
+            <StaggerItem key={key}>
+              <HoverLift className="h-full">
+                <CosmicCard className="flex h-full flex-col">
+                  <SpriteIcon src={SPRITE_SRC} alt={t(key)} position={position} />
+                  <h3 className="mb-2 text-xl font-bold">{t(key)}</h3>
+                  <p className="mb-6 text-xs text-gray-600">{t(`${key}Desc`)}</p>
+                  <CosmicButton asChild variant="secondary" size="sm" className="mt-auto">
+                    <Link href={href}>{tHome("explore")}</Link>
+                  </CosmicButton>
+                </CosmicCard>
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </div>
-    </section>
+    </AnimatedSection>
   )
 }

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
 import { AstrologersSectionHeader } from "@/components/astrologers/AstrologersSectionHeader"
 import { DirectoryAstrologerCard } from "@/components/astrologers/DirectoryAstrologerCard"
+import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import type { ChatAstrologer } from "@/store/api/chatApi"
 
 type MainDirectorySectionProps = {
@@ -49,16 +50,17 @@ export function MainDirectorySection({
             <p className="text-lg font-semibold text-white">{t("noResults")}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {astrologers.map((astrologer) => (
-              <DirectoryAstrologerCard
-                key={astrologer.id}
-                astrologer={astrologer}
-                onStartConsultation={onStartConsultation}
-                starting={starting}
-              />
+              <StaggerItem key={astrologer.id}>
+                <DirectoryAstrologerCard
+                  astrologer={astrologer}
+                  onStartConsultation={onStartConsultation}
+                  starting={starting}
+                />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         )}
       </Container>
     </section>

@@ -4,6 +4,7 @@ import { Users } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
 import { DecorativePlanets } from "@/components/layout/DecorativePlanets"
+import { AnimatedSection, HoverLift, Stagger, StaggerItem } from "@/components/motion"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 
 const team = [
@@ -16,7 +17,7 @@ export function AboutTeamSection() {
   const t = useTranslations("about")
 
   return (
-    <section className="relative overflow-hidden bg-white px-6 py-20 lg:px-24">
+    <AnimatedSection className="relative overflow-hidden bg-white px-6 py-20 lg:px-24">
       <DecorativePlanets variant="about" />
       <Container className="relative z-10">
         <div className="mb-16 text-center">
@@ -24,19 +25,23 @@ export function AboutTeamSection() {
           <p className="mx-auto max-w-2xl text-gray-600">{t("teamSubtitle")}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {team.map(({ nameKey, roleKey, descKey }) => (
-            <CosmicCard key={nameKey} className="flex flex-col text-center">
-              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-astro-purple text-white">
-                <Users className="h-10 w-10" aria-hidden="true" />
-              </div>
-              <h3 className="mb-1 text-xl font-bold">{t(nameKey)}</h3>
-              <p className="mb-4 text-sm font-semibold text-astro-orange">{t(roleKey)}</p>
-              <p className="text-sm text-gray-600">{t(descKey)}</p>
-            </CosmicCard>
+            <StaggerItem key={nameKey}>
+              <HoverLift className="h-full">
+                <CosmicCard className="flex h-full flex-col text-center">
+                  <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-astro-purple text-white">
+                    <Users className="h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h3 className="mb-1 text-xl font-bold">{t(nameKey)}</h3>
+                  <p className="mb-4 text-sm font-semibold text-astro-orange">{t(roleKey)}</p>
+                  <p className="text-sm text-gray-600">{t(descKey)}</p>
+                </CosmicCard>
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
-    </section>
+    </AnimatedSection>
   )
 }

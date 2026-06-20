@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Container } from "@/components/layout/Container"
+import { FadeIn } from "@/components/motion/FadeIn"
 import type { AstrologerFilters } from "@/lib/astrologer-utils"
 
 type AstrologerFilterBarProps = {
@@ -36,7 +37,8 @@ export function AstrologerFilterBar({
   return (
     <div className="relative z-20 -mt-12 px-4 pb-4 lg:-mt-16">
       <Container>
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/80 bg-white/95 shadow-[0_20px_60px_-12px_rgba(46,10,94,0.25)] backdrop-blur-md">
+        <FadeIn preset="fadeIn" inView={false}>
+          <div className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/80 bg-white/95 shadow-[0_20px_60px_-12px_rgba(46,10,94,0.25)] backdrop-blur-md">
           <div className="flex items-center justify-between gap-3 border-b border-gray-100 bg-linear-to-r from-orange-50/80 via-white to-purple-50/60 px-5 py-3.5">
             <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
               <SlidersHorizontal className="h-4 w-4 text-astro-orange" aria-hidden="true" />
@@ -98,7 +100,8 @@ export function AstrologerFilterBar({
               ]}
             />
           </div>
-        </div>
+          </div>
+        </FadeIn>
       </Container>
     </div>
   )

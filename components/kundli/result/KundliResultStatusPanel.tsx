@@ -1,6 +1,9 @@
 'use client';
 
 import { Container } from '@/components/layout/Container';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { useMotion } from '@/components/motion/MotionProvider';
+import { getChoreographyDelay } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 type KundliResultStatusPanelProps = {
@@ -21,6 +24,7 @@ export function KundliResultStatusPanel({
   className,
   variant = 'status',
 }: KundliResultStatusPanelProps) {
+  const { reduced } = useMotion();
   const isLoading = variant === 'loading';
 
   return (
@@ -32,7 +36,9 @@ export function KundliResultStatusPanel({
       )}
     >
       <Container size="narrow" className="w-full text-center">
-        <div
+        <FadeIn
+          preset="scaleIn"
+          inView={false}
           className={cn(
             'mx-auto max-w-md overflow-hidden rounded-4xl',
             isLoading
@@ -42,23 +48,33 @@ export function KundliResultStatusPanel({
         >
           <div className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple" aria-hidden="true" />
           <div className="space-y-4 p-10">
-            <div className="flex justify-center">{icon}</div>
+            <FadeIn preset="scaleIn" inView={false} delay={getChoreographyDelay("icon", reduced)} className="flex justify-center">
+              {icon}
+            </FadeIn>
             {title ? (
-              <h2 className={cn('text-2xl font-extrabold', isLoading ? 'text-gray-900' : undefined)}>
-                {title}
-              </h2>
+              <FadeIn preset="fadeUp" inView={false} delay={getChoreographyDelay("title", reduced)}>
+                <h2 className={cn('text-2xl font-extrabold', isLoading ? 'text-gray-900' : undefined)}>
+                  {title}
+                </h2>
+              </FadeIn>
             ) : null}
-            <p
-              className={cn(
-                'text-sm leading-relaxed',
-                isLoading ? 'text-gray-600' : 'text-purple-100/80',
-              )}
-            >
-              {message}
-            </p>
-            {action ? <div className="flex justify-center pt-2">{action}</div> : null}
+            <FadeIn preset="fadeUp" inView={false} delay={getChoreographyDelay("content", reduced)}>
+              <p
+                className={cn(
+                  'text-sm leading-relaxed',
+                  isLoading ? 'text-gray-600' : 'text-purple-100/80',
+                )}
+              >
+                {message}
+              </p>
+            </FadeIn>
+            {action ? (
+              <FadeIn preset="fadeUp" inView={false} delay={getChoreographyDelay("action", reduced)} className="flex justify-center pt-2">
+                {action}
+              </FadeIn>
+            ) : null}
           </div>
-        </div>
+        </FadeIn>
       </Container>
     </div>
   );

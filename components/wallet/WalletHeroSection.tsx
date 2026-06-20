@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl"
 import { CelestialBackground } from "@/components/CelestialBackground"
 import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { Container } from "@/components/layout/Container"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { cn } from "@/lib/utils"
 import {
@@ -46,6 +47,7 @@ export function WalletHeroSection({
   return (
     <CelestialBackground className="px-4 pb-9 pt-8 sm:px-6 lg:px-16 lg:pb-20 lg:pt-10">
       <Container>
+        <FadeIn preset="fadeUp" inView={false}>
         <div className="celestial-surface-light mx-auto max-w-7xl overflow-hidden rounded-[1.75rem] border border-white/70 bg-white/95 text-gray-900 shadow-[0_24px_64px_-16px_rgba(46,10,94,0.28)] backdrop-blur-md sm:rounded-[2rem]">
           <div
             className="h-1.5 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple"
@@ -147,6 +149,7 @@ export function WalletHeroSection({
             </div>
           </div>
         </div>
+        </FadeIn>
       </Container>
     </CelestialBackground>
   )

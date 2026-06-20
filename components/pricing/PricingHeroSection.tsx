@@ -5,13 +5,14 @@ import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { CelestialBackground } from "@/components/CelestialBackground"
 import { CoinGlyph } from "@/components/coins/CoinGlyph"
+import { FadeIn } from "@/components/motion/FadeIn"
 
 export function PricingHeroSection() {
   const t = useTranslations("pricing")
 
   return (
     <CelestialBackground className="px-6 pb-16 pt-12 lg:px-24">
-      <div className="mx-auto max-w-3xl text-center">
+      <FadeIn preset="fadeUp" className="mx-auto max-w-3xl text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-astro-dark/10 bg-white/80 px-4 py-1.5 text-xs font-semibold backdrop-blur-sm">
           <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
           {t("badge")}
@@ -38,7 +39,7 @@ export function PricingHeroSection() {
             </Link>
           </span>
         </div>
-      </div>
+      </FadeIn>
     </CelestialBackground>
   )
 }

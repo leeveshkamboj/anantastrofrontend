@@ -5,6 +5,8 @@ import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
 import { DecorativePlanets } from "@/components/layout/DecorativePlanets"
+import { HoverLift } from "@/components/motion/HoverLift"
+import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 import { cn } from "@/lib/utils"
@@ -184,7 +186,7 @@ export function PricingPlansSection({
         )}
 
         {!isLoading && plans.length > 0 && (
-          <div
+          <Stagger
             className={cn(
               "grid gap-6",
               plans.length === 1 ? "mx-auto max-w-md" : "sm:grid-cols-2",
@@ -192,16 +194,19 @@ export function PricingPlansSection({
             )}
           >
             {plans.map((plan) => (
-              <PlanCard
-                key={plan.id}
-                plan={plan}
-                isBestValue={isBestValuePlan(plan.id)}
-                isAuthenticated={isAuthenticated}
-                isCheckoutLoading={isCreatingOrder && checkoutPlanId === plan.id}
-                onBuy={onBuy}
-              />
+              <StaggerItem key={plan.id}>
+                <HoverLift className="h-full">
+                  <PlanCard
+                    plan={plan}
+                    isBestValue={isBestValuePlan(plan.id)}
+                    isAuthenticated={isAuthenticated}
+                    isCheckoutLoading={isCreatingOrder && checkoutPlanId === plan.id}
+                    onBuy={onBuy}
+                  />
+                </HoverLift>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         )}
       </Container>
     </section>

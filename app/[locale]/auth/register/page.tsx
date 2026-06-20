@@ -16,6 +16,8 @@ import { useAuth } from '@/store/hooks/useAuth';
 import { useResendVerificationMutation } from '@/store/api/authApi';
 import type { RegisterRequest, AuthData } from '@/store/api/authApi';
 import { CelestialBackground } from '@/components/CelestialBackground';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { MotionProvider } from '@/components/motion/MotionProvider';
 import { config } from '@/lib/config';
 import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
@@ -144,8 +146,10 @@ export default function RegisterPage() {
   };
 
   return (
+    <MotionProvider tier="auth">
     <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
       <div className="w-full max-w-lg mx-auto">
+        <FadeIn preset="scaleIn" inView={false}>
         <Card className="w-full shadow-2xl border-0 bg-white">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">{t('register.title')}</CardTitle>
@@ -289,7 +293,9 @@ export default function RegisterPage() {
           </div>
         </CardContent>
         </Card>
+        </FadeIn>
       </div>
     </CelestialBackground>
+    </MotionProvider>
   );
 }

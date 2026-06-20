@@ -4,6 +4,7 @@ import { AlertTriangle } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { LOW_BALANCE_THRESHOLD } from "@/components/wallet/wallet-utils"
 
@@ -22,6 +23,7 @@ export function WalletLowBalanceBanner({ balance, isLoading }: WalletLowBalanceB
   return (
     <section className="bg-white px-4 pb-2 sm:px-6 lg:px-16">
       <Container>
+        <FadeIn preset="fadeDown" inView={false}>
         <div className="flex flex-col gap-4 rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
           <div className="flex items-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-800">
@@ -36,6 +38,7 @@ export function WalletLowBalanceBanner({ balance, isLoading }: WalletLowBalanceB
             <Link href="/pricing">{t("addCoins")}</Link>
           </CosmicButton>
         </div>
+        </FadeIn>
       </Container>
     </section>
   )

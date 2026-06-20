@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Badge } from '@/components/ui/badge';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 import {
   getYogHighlights,
   INAUSPICIOUS_YOG_HIGHLIGHT_KEYS,
@@ -58,28 +59,29 @@ export function YogHighlightStrip({
   return (
     <div className="space-y-2">
       <h2 className="text-sm font-semibold text-gray-900">{tk('title')}</h2>
-      <div className="flex flex-wrap gap-2" role="list" aria-label={tk('title')}>
+      <Stagger inView={false} className="flex flex-wrap gap-2" role="list" aria-label={tk('title')}>
         {rows.map(({ key, status }) => (
-          <Badge
-            key={key}
-            variant="outline"
-            role="listitem"
-            className={`px-3 py-1.5 text-sm font-medium ${statusClasses(colourStatus(key, status))}`}
-          >
-            <span className="font-semibold">{tk(YOG_I18N_KEYS[key])}</span>
-            <span className="mx-1.5 text-gray-400" aria-hidden>
-              ·
-            </span>
-            <span>
-              {status === 'present'
-                ? tk('present')
-                : status === 'absent'
-                  ? tk('notFormed')
-                  : tk('unavailable')}
-            </span>
-          </Badge>
+          <StaggerItem key={key} preset="scaleIn">
+            <Badge
+              variant="outline"
+              role="listitem"
+              className={`px-3 py-1.5 text-sm font-medium ${statusClasses(colourStatus(key, status))}`}
+            >
+              <span className="font-semibold">{tk(YOG_I18N_KEYS[key])}</span>
+              <span className="mx-1.5 text-gray-400" aria-hidden>
+                ·
+              </span>
+              <span>
+                {status === 'present'
+                  ? tk('present')
+                  : status === 'absent'
+                    ? tk('notFormed')
+                    : tk('unavailable')}
+              </span>
+            </Badge>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
     </div>
   );
 }

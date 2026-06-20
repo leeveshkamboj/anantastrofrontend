@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
 import { DecorativePlanets } from "@/components/layout/DecorativePlanets"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
 import { cn } from "@/lib/utils"
 
@@ -57,8 +58,8 @@ export function WalletQuickActionsSection() {
 
         <div className="grid gap-4 sm:grid-cols-3">
           {ACTIONS.map(({ key, href, icon: Icon, accent }) => (
+            <FadeIn key={key} preset="fadeIn" inView={false}>
             <Link
-              key={key}
               href={href}
               className="group overflow-hidden rounded-[1.5rem] border border-gray-100 bg-gray-50/80 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-astro-orange/20 hover:bg-white hover:shadow-md"
             >
@@ -79,6 +80,7 @@ export function WalletQuickActionsSection() {
               <p className="mt-4 text-base font-extrabold text-gray-900">{labels[key]}</p>
               <p className="mt-1 text-sm leading-relaxed text-gray-500">{descriptions[key]}</p>
             </Link>
+            </FadeIn>
           ))}
         </div>
       </Container>

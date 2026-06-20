@@ -17,6 +17,9 @@ import {
 } from '@/components/services';
 import { CosmicButton } from '@/components/ui/CosmicButton';
 import { BirthDetailsForm } from './BirthDetailsForm';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { HoverLift } from '@/components/motion/HoverLift';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 
 export interface GetKundliSectionProps {
   hasProfiles: boolean;
@@ -148,45 +151,50 @@ export function GetKundliSection({
   }
 
   return (
-    <Card className={serviceFormCardClassName}>
-      <CardContent className="space-y-6 p-8">
-        <h3 className="text-xl font-extrabold text-gray-900">{t('selectTitle')}</h3>
-        <p className="-mt-2 text-gray-600">{t('selectSubtitle')}</p>
-        {isLoading ? (
-          <p className="text-gray-500 text-sm">{tCommon('loadingProfiles')}</p>
-        ) : (
-          <ul className="space-y-2">
-            {kundlis.map((k) => (
-              <li key={k.id}>
-                <button
-                  type="button"
-                  onClick={() => onSelectProfile(k.id)}
-                  className={cn(
-                    'flex w-full items-center gap-3 rounded-2xl p-4 text-left transition-all',
-                    serviceProfileButtonClassName(selectedId === k.id),
-                  )}
-                >
-                  <div
-                    className={cn(
-                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
-                      serviceProfileIconClassName(selectedId === k.id),
-                    )}
-                  >
-                    <User className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{k.name}</p>
-                    <p className="text-sm text-gray-500">
-                      {k.dateOfBirth && `${tCommon('dobPrefix')} ${k.dateOfBirth}`}
-                      {k.timeOfBirth && ` • ${k.timeOfBirth}`}
-                      {k.placeOfBirth && ` • ${k.placeOfBirth}`}
-                    </p>
-                  </div>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+    <FadeIn preset="scaleIn" inView>
+      <Card className={serviceFormCardClassName}>
+        <CardContent className="space-y-6 p-8">
+          <h3 className="text-xl font-extrabold text-gray-900">{t('selectTitle')}</h3>
+          <p className="-mt-2 text-gray-600">{t('selectSubtitle')}</p>
+          {isLoading ? (
+            <p className="text-gray-500 text-sm">{tCommon('loadingProfiles')}</p>
+          ) : (
+            <Stagger>
+              <ul className="space-y-2">
+                {kundlis.map((k) => (
+                  <StaggerItem key={k.id}>
+                    <HoverLift>
+                      <button
+                        type="button"
+                        onClick={() => onSelectProfile(k.id)}
+                        className={cn(
+                          'flex w-full items-center gap-3 rounded-2xl p-4 text-left transition-all',
+                          serviceProfileButtonClassName(selectedId === k.id),
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+                            serviceProfileIconClassName(selectedId === k.id),
+                          )}
+                        >
+                          <User className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">{k.name}</p>
+                          <p className="text-sm text-gray-500">
+                            {k.dateOfBirth && `${tCommon('dobPrefix')} ${k.dateOfBirth}`}
+                            {k.timeOfBirth && ` • ${k.timeOfBirth}`}
+                            {k.placeOfBirth && ` • ${k.placeOfBirth}`}
+                          </p>
+                        </div>
+                      </button>
+                    </HoverLift>
+                  </StaggerItem>
+                ))}
+              </ul>
+            </Stagger>
+          )}
         <div className="flex items-center justify-between pt-2">
           <Label className="text-base font-medium">{t('someoneElseLabel')}</Label>
           <Button
@@ -233,5 +241,6 @@ export function GetKundliSection({
         </div>
       </CardContent>
     </Card>
+    </FadeIn>
   );
 }

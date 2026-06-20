@@ -6,11 +6,65 @@ import { useEffect, useRef, useState } from 'react';
 import { useVerifyEmailMutation } from '@/store/api/authApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CelestialBackground } from '@/components/CelestialBackground';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { MotionProvider } from '@/components/motion/MotionProvider';
+import { useMotion } from '@/components/motion/MotionProvider';
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from 'next-intl';
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent({
+  isSuccess,
+  isError,
+  done,
+}: {
+  isSuccess: boolean;
+  isError: boolean;
+  done: boolean;
+}) {
   const t = useTranslations('auth');
+  const { reduced } = useMotion();
+
+  return (
+    <Card className="w-full shadow-2xl border-0 bg-white">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-center">
+          {isSuccess || done ? t('verifyFlow.titleVerified') : t('verifyFlow.titleVerifying')}
+        </CardTitle>
+        <FadeIn preset="fadeUp" inView={false} delay={reduced ? 0 : 0.1}>
+          <CardDescription className="text-center">
+            {isSuccess || done
+              ? t('verifyFlow.redirecting')
+              : t('verifyFlow.waitMessage')}
+          </CardDescription>
+        </FadeIn>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center gap-4">
+        {!isError && (
+          <FadeIn preset="scaleIn" inView={false} delay={reduced ? 0 : 0.05}>
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+              <span>{t('verifyFlow.spinner')}</span>
+            </div>
+          </FadeIn>
+        )}
+        {isError && (
+          <>
+            <FadeIn preset="fadeUp" inView={false} delay={reduced ? 0 : 0.1}>
+              <p className="text-sm text-red-600 text-center">
+                {t('verifyFlow.failedMessage')}
+              </p>
+            </FadeIn>
+            <Link href="/auth/login" className="text-sm text-primary hover:underline">
+              {t('verifyFlow.goToSignIn')}
+            </Link>
+          </>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get('token');
@@ -38,39 +92,14 @@ export default function VerifyEmailPage() {
   }, [token, router, verifyEmail]);
 
   return (
-    <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
-      <div className="w-full max-w-lg mx-auto">
-        <Card className="w-full shadow-2xl border-0 bg-white">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">
-              {isSuccess || done ? t('verifyFlow.titleVerified') : t('verifyFlow.titleVerifying')}
-            </CardTitle>
-            <CardDescription className="text-center">
-              {isSuccess || done
-                ? t('verifyFlow.redirecting')
-                : t('verifyFlow.waitMessage')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center gap-4">
-            {!isError && (
-              <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                <span>{t('verifyFlow.spinner')}</span>
-              </div>
-            )}
-            {isError && (
-              <>
-                <p className="text-sm text-red-600 text-center">
-                  {t('verifyFlow.failedMessage')}
-                </p>
-                <Link href="/auth/login" className="text-sm text-primary hover:underline">
-                  {t('verifyFlow.goToSignIn')}
-                </Link>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </CelestialBackground>
+    <MotionProvider tier="auth">
+      <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
+        <div className="w-full max-w-lg mx-auto">
+          <FadeIn preset="scaleIn" inView={false}>
+            <VerifyEmailContent isSuccess={isSuccess} isError={isError} done={done} />
+          </FadeIn>
+        </div>
+      </CelestialBackground>
+    </MotionProvider>
   );
 }

@@ -13,6 +13,7 @@ import { BookOpen, ArrowLeft } from 'lucide-react';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { serviceFormCardClassName } from '@/components/services';
 import { CosmicButton } from '@/components/ui/CosmicButton';
+import { FadeIn } from '@/components/motion/FadeIn';
 
 export interface BirthDetailsFormProps {
   title: string;
@@ -72,7 +73,8 @@ export function BirthDetailsForm({
 }: BirthDetailsFormProps) {
   const tl = useTranslations('services.kundli.birthForm');
   return (
-    <Card className={serviceFormCardClassName}>
+    <FadeIn preset="scaleIn" inView>
+      <Card className={serviceFormCardClassName}>
       <CardContent className="p-8">
         <h3 className="mb-2 text-xl font-extrabold text-gray-900">{title}</h3>
         {subtitle && <p className="mb-6 text-gray-600">{subtitle}</p>}
@@ -175,5 +177,6 @@ export function BirthDetailsForm({
         </form>
       </CardContent>
     </Card>
+    </FadeIn>
   );
 }

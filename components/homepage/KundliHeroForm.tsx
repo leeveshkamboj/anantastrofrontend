@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { motion } from "framer-motion"
 import { useRouter } from "@/i18n/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslations } from "next-intl"
@@ -11,6 +12,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { BirthGenderSelect, type BirthGender } from "@/components/kundli/BirthGenderSelect"
+import { FadeIn } from "@/components/motion/FadeIn"
+import { Stagger, StaggerItem } from "@/components/motion/Stagger"
+import { getChoreographyDelay, getPresetForTier, getReducedPreset } from "@/lib/motion"
+import { useMotion } from "@/components/motion/MotionProvider"
 import {
   useCreateKundliMutation,
   useGetMyKundlisQuery,
@@ -23,6 +28,8 @@ import { useServiceRunPrice } from "@/hooks/useServiceRunPrice"
 
 export function KundliHeroForm() {
   const t = useTranslations("home.hero")
+  const { reduced, tier } = useMotion()
+  const scaleIn = reduced ? getReducedPreset("scaleIn") : getPresetForTier("scaleIn", tier)
   const router = useRouter()
   const dispatch = useDispatch()
   const isAuthenticated = useSelector(selectIsAuthenticated)
@@ -194,110 +201,127 @@ export function KundliHeroForm() {
   }
 
   return (
-    <CosmicCard
-      variant="glass"
-      padding="md"
-      className="celestial-surface-light mx-16 w-full items-stretch text-left text-gray-900"
+    <motion.div
+      className="mx-16 w-full"
+      initial="hidden"
+      animate="visible"
+      variants={scaleIn}
     >
-      <h2 className="mb-1 text-center text-2xl font-bold text-gray-900">{t("cardTitle")}</h2>
-      <p className="mb-6 text-center text-sm text-gray-600">{t("cardDescription")}</p>
+      <CosmicCard
+        variant="glass"
+        padding="md"
+        className="celestial-surface-light w-full items-stretch text-left text-gray-900"
+      >
+        <FadeIn preset="fadeUp" delay={getChoreographyDelay("title", reduced)}>
+          <h2 className="mb-1 text-center text-2xl font-bold text-gray-900">{t("cardTitle")}</h2>
+        </FadeIn>
+        <FadeIn preset="fadeUp" delay={getChoreographyDelay("subtitle", reduced)}>
+          <p className="mb-6 text-center text-sm text-gray-600">{t("cardDescription")}</p>
+        </FadeIn>
 
-      <form className="w-full space-y-5" aria-label={t("cardTitle")} onSubmit={handleSubmit}>
-        <div className="space-y-2">
-          <Label htmlFor="kundli-name" className="text-sm font-medium text-gray-700">
-            {t("name")}
-          </Label>
-          <Input
-            id="kundli-name"
-            name="name"
-            type="text"
-            placeholder={t("namePlaceholder")}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
+        <Stagger inView={false}>
+          <form className="w-full space-y-5" aria-label={t("cardTitle")} onSubmit={handleSubmit}>
+            <StaggerItem className="space-y-2">
+              <Label htmlFor="kundli-name" className="text-sm font-medium text-gray-700">
+                {t("name")}
+              </Label>
+              <Input
+                id="kundli-name"
+                name="name"
+                type="text"
+                placeholder={t("namePlaceholder")}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </StaggerItem>
 
-        <BirthGenderSelect
-          id="kundli-gender"
-          value={gender}
-          onChange={setGender}
-          translationNamespace="home.hero"
-          labelClassName="text-sm font-medium text-gray-700"
-          selectClassName="h-11 w-full rounded-full border border-gray-300 bg-transparent px-4 py-3 text-sm focus-visible:border-astro-orange focus-visible:ring-1 focus-visible:ring-astro-orange"
-        />
+            <StaggerItem>
+              <BirthGenderSelect
+                id="kundli-gender"
+                value={gender}
+                onChange={setGender}
+                translationNamespace="home.hero"
+                labelClassName="text-sm font-medium text-gray-700"
+                selectClassName="h-11 w-full rounded-full border border-gray-300 bg-transparent px-4 py-3 text-sm focus-visible:border-astro-orange focus-visible:ring-1 focus-visible:ring-astro-orange"
+              />
+            </StaggerItem>
 
-        <div className="space-y-2">
-          <Label htmlFor="kundli-dob" className="text-sm font-medium text-gray-700">
-            {t("dateOfBirth")}
-          </Label>
-          <DatePicker
-            value={dateOfBirth}
-            onChange={setDateOfBirth}
-            placeholder={t("dateOfBirthPlaceholder")}
-            className="h-11 w-full justify-start rounded-full border-gray-300 px-4 font-normal"
-          />
-        </div>
+            <StaggerItem className="space-y-2">
+              <Label htmlFor="kundli-dob" className="text-sm font-medium text-gray-700">
+                {t("dateOfBirth")}
+              </Label>
+              <DatePicker
+                value={dateOfBirth}
+                onChange={setDateOfBirth}
+                placeholder={t("dateOfBirthPlaceholder")}
+                className="h-11 w-full justify-start rounded-full border-gray-300 px-4 font-normal"
+              />
+            </StaggerItem>
 
-        <div className="space-y-2">
-          <Label htmlFor="kundli-time" className="text-sm font-medium text-gray-700">
-            {t("timeOfBirth")}
-          </Label>
-          <Input
-            id="kundli-time"
-            name="timeOfBirth"
-            type="time"
-            value={timeOfBirth}
-            onChange={(e) => setTimeOfBirth(e.target.value)}
-          />
-        </div>
+            <StaggerItem className="space-y-2">
+              <Label htmlFor="kundli-time" className="text-sm font-medium text-gray-700">
+                {t("timeOfBirth")}
+              </Label>
+              <Input
+                id="kundli-time"
+                name="timeOfBirth"
+                type="time"
+                value={timeOfBirth}
+                onChange={(e) => setTimeOfBirth(e.target.value)}
+              />
+            </StaggerItem>
 
-        <div ref={placeInputContainerRef} className="relative space-y-2">
-          <Label htmlFor="kundli-place" className="text-sm font-medium text-gray-700">
-            {t("placeOfBirth")}
-          </Label>
-          <Input
-            id="kundli-place"
-            name="placeOfBirth"
-            type="text"
-            placeholder={t("placePlaceholder")}
-            value={placeOfBirth}
-            onChange={(e) => setPlaceOfBirth(e.target.value)}
-            autoComplete="off"
-          />
-          {placeSearchLoading && placeOfBirth.trim() && isAuthenticated && (
-            <p className="text-sm text-gray-500">{t("searching")}</p>
-          )}
-          {placeSuggestions.length > 0 && (
-            <ul className="absolute z-20 mt-0.5 max-h-56 w-full overflow-auto rounded-2xl border border-gray-200 bg-white py-1 shadow-lg">
-              {placeSuggestions.map((s, i) => (
-                <li key={i}>
-                  <button
-                    type="button"
-                    onClick={() => onSelectPlace(s)}
-                    className="w-full px-4 py-2.5 text-left text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
-                  >
-                    {s.formattedAddress}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+            <StaggerItem ref={placeInputContainerRef} className="relative space-y-2">
+              <Label htmlFor="kundli-place" className="text-sm font-medium text-gray-700">
+                {t("placeOfBirth")}
+              </Label>
+              <Input
+                id="kundli-place"
+                name="placeOfBirth"
+                type="text"
+                placeholder={t("placePlaceholder")}
+                value={placeOfBirth}
+                onChange={(e) => setPlaceOfBirth(e.target.value)}
+                autoComplete="off"
+              />
+              {placeSearchLoading && placeOfBirth.trim() && isAuthenticated && (
+                <p className="text-sm text-gray-500">{t("searching")}</p>
+              )}
+              {placeSuggestions.length > 0 && (
+                <ul className="absolute z-20 mt-0.5 max-h-56 w-full overflow-auto rounded-2xl border border-gray-200 bg-white py-1 shadow-lg">
+                  {placeSuggestions.map((s, i) => (
+                    <li key={i}>
+                      <button
+                        type="button"
+                        onClick={() => onSelectPlace(s)}
+                        className="w-full px-4 py-2.5 text-left text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                      >
+                        {s.formattedAddress}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </StaggerItem>
 
-        <CosmicButton type="submit" variant="primary" size="lg" className="text-white">
-          <span className="inline-flex items-center gap-1.5">
-            <span>{t("getKundli")}</span>
-            {kundliPriceLine && (
-              <>
-                <span aria-hidden>·</span>
-                <CoinGlyph className="h-4 w-4" />
-                <span>{kundliPriceLine}</span>
-              </>
-            )}
-          </span>
-        </CosmicButton>
-      </form>
-    </CosmicCard>
+            <StaggerItem>
+              <CosmicButton type="submit" variant="primary" size="lg" className="text-white">
+                <span className="inline-flex items-center gap-1.5">
+                  <span>{t("getKundli")}</span>
+                  {kundliPriceLine && (
+                    <>
+                      <span aria-hidden>·</span>
+                      <CoinGlyph className="h-4 w-4" />
+                      <span>{kundliPriceLine}</span>
+                    </>
+                  )}
+                </span>
+              </CosmicButton>
+            </StaggerItem>
+          </form>
+        </Stagger>
+      </CosmicCard>
+    </motion.div>
   )
 }

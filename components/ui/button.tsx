@@ -63,3 +63,4 @@ function Button({
 }
 
 export { Button, buttonVariants }
+export { MotionButton } from "./motion-button"

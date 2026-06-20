@@ -5,6 +5,8 @@ import { Container } from "@/components/layout/Container"
 import { DecorativePlanets } from "@/components/layout/DecorativePlanets"
 import { AstrologersSectionHeader } from "@/components/astrologers/AstrologersSectionHeader"
 import { FeaturedAstrologerCard } from "@/components/astrologers/FeaturedAstrologerCard"
+import { HoverLift } from "@/components/motion/HoverLift"
+import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import type { ChatAstrologer } from "@/store/api/chatApi"
 
 type FeaturedAstrologersSectionProps = {
@@ -32,16 +34,19 @@ export function FeaturedAstrologersSection({
           subtitle={t("featuredSubtitle")}
         />
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <Stagger className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
           {astrologers.map((astrologer) => (
-            <FeaturedAstrologerCard
-              key={astrologer.id}
-              astrologer={astrologer}
-              onStartConsultation={onStartConsultation}
-              starting={starting}
-            />
+            <StaggerItem key={astrologer.id}>
+              <HoverLift className="h-full">
+                <FeaturedAstrologerCard
+                  astrologer={astrologer}
+                  onStartConsultation={onStartConsultation}
+                  starting={starting}
+                />
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   )

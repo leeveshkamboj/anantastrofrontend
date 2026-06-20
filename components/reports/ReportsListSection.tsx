@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
+import { Stagger, StaggerItem } from "@/components/motion"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { cn } from "@/lib/utils"
@@ -174,7 +175,8 @@ export function ReportsListSection({
             </div>
           </div>
         ) : (
-          <div className="space-y-8">
+          <Stagger inView={false} className="space-y-8">
+            <StaggerItem>
             <ReportsSectionCard
               icon={BookOpen}
               iconClassName="bg-astro-purple/10 text-astro-purple"
@@ -208,7 +210,9 @@ export function ReportsListSection({
                 ))
               )}
             </ReportsSectionCard>
+            </StaggerItem>
 
+            <StaggerItem>
             <ReportsSectionCard
               icon={Sparkles}
               iconClassName="bg-astro-orange/10 text-astro-orange"
@@ -242,7 +246,9 @@ export function ReportsListSection({
                 ))
               )}
             </ReportsSectionCard>
+            </StaggerItem>
 
+            <StaggerItem>
             <ReportsSectionCard
               icon={Heart}
               iconClassName="bg-rose-500/10 text-rose-700"
@@ -279,7 +285,8 @@ export function ReportsListSection({
                 ))
               )}
             </ReportsSectionCard>
-          </div>
+            </StaggerItem>
+          </Stagger>
         )}
       </Container>
     </section>

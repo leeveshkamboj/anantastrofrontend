@@ -7,6 +7,7 @@ import { ReduxProvider } from "@/store/Provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ProfileChecker } from "@/components/ProfileChecker";
 import { ConditionalLayout } from "@/components/ConditionalLayout";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { routing } from "@/i18n/routing";
 
 const geistSans = Geist({
@@ -57,9 +58,11 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ReduxProvider>
-            <ProfileChecker />
-            <ConditionalLayout>{children}</ConditionalLayout>
-            <Toaster />
+            <MotionProvider>
+              <ProfileChecker />
+              <ConditionalLayout>{children}</ConditionalLayout>
+              <Toaster />
+            </MotionProvider>
           </ReduxProvider>
         </NextIntlClientProvider>
       </body>

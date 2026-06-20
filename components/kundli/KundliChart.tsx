@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { PlanetIcon } from './PlanetIcon';
 import { ZodiacIcon } from './ZodiacIcon';
 
@@ -126,7 +127,7 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
 
   return (
     <div className={`w-full max-w-full overflow-x-auto flex justify-center ${className}`}>
-      <div className="relative inline-block overflow-hidden rounded-2xl bg-gradient-to-b from-amber-50 to-amber-100/80 shadow-lg ring-2 ring-amber-800/30 ring-offset-2 ring-offset-amber-50 min-w-0">
+      <FadeIn preset="scaleIn" inView={false} className="relative inline-block overflow-hidden rounded-2xl bg-gradient-to-b from-amber-50 to-amber-100/80 shadow-lg ring-2 ring-amber-800/30 ring-offset-2 ring-offset-amber-50 min-w-0">
         {/* Outer double-line effect */}
         <div className="absolute inset-0 rounded-2xl border-2 border-amber-700/40 pointer-events-none" />
         <div className="absolute inset-1.5 rounded-xl border border-amber-600/30 pointer-events-none" />
@@ -235,7 +236,7 @@ export function KundliChart({ chartData, useSidereal = true, className = '' }: K
             ))}
           </div>
         </div>
-      </div>
+      </FadeIn>
     </div>
   );
 }

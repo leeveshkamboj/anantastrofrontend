@@ -1,5 +1,8 @@
+"use client"
+
 import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
+import { NavLinkIndicator } from "@/components/layout/NavLinkIndicator"
 
 interface NavDesktopLinkProps {
   href: string
@@ -19,12 +22,7 @@ export function NavDesktopLink({ href, label, active }: NavDesktopLinkProps) {
       aria-current={active ? "page" : undefined}
     >
       {label}
-      {active ? (
-        <span
-          className="absolute bottom-1 left-0 right-0 h-0.5 rounded-full bg-black"
-          aria-hidden="true"
-        />
-      ) : null}
+      {active ? <NavLinkIndicator /> : null}
     </Link>
   )
 }

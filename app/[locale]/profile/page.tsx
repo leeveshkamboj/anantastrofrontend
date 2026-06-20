@@ -14,6 +14,7 @@ import {
   ManagePasswordTab,
   type ProfileTab,
 } from '@/components/settings';
+import { AnimatePresenceTabs } from '@/components/motion';
 import { Loader2 } from 'lucide-react';
 
 export default function ProfilePage() {
@@ -59,9 +60,11 @@ export default function ProfilePage() {
             <SettingsSidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
             <main className="min-w-0 flex-1">
-              {activeTab === 'basic' && <BasicInfoTab />}
-              {activeTab === 'kundli' && <KundliProfileTab />}
-              {activeTab === 'password' && <ManagePasswordTab />}
+              <AnimatePresenceTabs activeKey={activeTab}>
+                {activeTab === 'basic' && <BasicInfoTab />}
+                {activeTab === 'kundli' && <KundliProfileTab />}
+                {activeTab === 'password' && <ManagePasswordTab />}
+              </AnimatePresenceTabs>
             </main>
           </div>
         </Container>

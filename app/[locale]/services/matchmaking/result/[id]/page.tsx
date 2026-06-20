@@ -15,6 +15,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'sonner';
 import { MatchmakingResult, MatchmakingPartnerKundlis } from '@/components/matchmaking';
 import { MatchmakingResultHeader } from '@/components/matchmaking/result';
+import { Stagger, StaggerItem } from '@/components/motion';
 import { KundliResultStatusPanel } from '@/components/kundli/result';
 import { Container } from '@/components/layout/Container';
 import { shareViaInstagram } from '@/lib/social-share';
@@ -176,13 +177,19 @@ export default function MatchmakingResultPage() {
 
       <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
         <Container className="relative z-10 space-y-6">
-          <MatchmakingPartnerKundlis
-            partner1Name={report.partner1Name || t('partner1')}
-            partner2Name={report.partner2Name || t('partner2')}
-            partner1ChartData={report.partner1ChartData ?? null}
-            partner2ChartData={report.partner2ChartData ?? null}
-          />
-          <MatchmakingResult result={report.result} />
+          <Stagger inView={false} className="space-y-6">
+            <StaggerItem>
+              <MatchmakingPartnerKundlis
+                partner1Name={report.partner1Name || t('partner1')}
+                partner2Name={report.partner2Name || t('partner2')}
+                partner1ChartData={report.partner1ChartData ?? null}
+                partner2ChartData={report.partner2ChartData ?? null}
+              />
+            </StaggerItem>
+            <StaggerItem>
+              <MatchmakingResult result={report.result} />
+            </StaggerItem>
+          </Stagger>
         </Container>
       </section>
     </div>

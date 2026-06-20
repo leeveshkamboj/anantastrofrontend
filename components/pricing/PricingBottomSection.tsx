@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 
 export function PricingBottomSection() {
@@ -9,7 +10,7 @@ export function PricingBottomSection() {
 
   return (
     <section className="bg-footer-gradient px-6 py-12 lg:px-24">
-      <div className="mx-auto max-w-3xl">
+      <FadeIn preset="fadeUp" className="mx-auto max-w-3xl">
         <CosmicCard variant="glass" padding="md" className="items-stretch text-center">
           <p className="font-bold text-gray-900">{t("alreadyPurchased")}</p>
           <p className="mt-3 flex flex-col items-center gap-2 text-sm text-gray-700 sm:flex-row sm:justify-center sm:gap-4">
@@ -28,7 +29,7 @@ export function PricingBottomSection() {
           </p>
           <p className="mt-4 text-xs text-gray-600">{t("footerSecure")}</p>
         </CosmicCard>
-      </div>
+      </FadeIn>
     </section>
   )
 }

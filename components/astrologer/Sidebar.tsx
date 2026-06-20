@@ -3,9 +3,12 @@
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "@/i18n/navigation";
 import { useDispatch } from 'react-redux';
+import { motion } from 'framer-motion';
 import { logout } from '@/store/slices/authSlice';
 import { useLogoutMutation } from '@/store/api/authApi';
 import { useRouter } from "@/i18n/navigation";
+import { useMotion } from '@/components/motion/MotionProvider';
+import { getTransition } from '@/lib/motion';
 import {
   LayoutDashboard,
   User,
@@ -44,6 +47,7 @@ export function AstrologerSidebar() {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const router = useRouter();
+  const { reduced } = useMotion();
   const [logoutMutation] = useLogoutMutation();
   const { data: profileData } = useGetMyProfileQuery();
 
@@ -76,14 +80,25 @@ export function AstrologerSidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+              className={`relative flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
                 isActive
-                  ? 'bg-primary text-white shadow-sm'
+                  ? 'text-white shadow-sm'
                   : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500'}`} />
-              <span className="font-medium text-sm">{item.title}</span>
+              {isActive && !reduced ? (
+                <motion.span
+                  layoutId="astrologer-sidebar-active"
+                  className="absolute inset-0 rounded-lg bg-primary"
+                  transition={getTransition('instrument')}
+                />
+              ) : isActive ? (
+                <span className="absolute inset-0 rounded-lg bg-primary" />
+              ) : null}
+              <span className="relative z-10 flex items-center gap-3">
+                <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-500'}`} />
+                <span className="font-medium text-sm">{item.title}</span>
+              </span>
             </Link>
           );
         })}

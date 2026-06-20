@@ -11,6 +11,7 @@ import {
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { Badge } from "@/components/ui/badge"
@@ -332,6 +333,7 @@ export function WalletHistorySection({
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+          <FadeIn preset="fadeIn" inView={false}>
           <SectionCard
             icon={CreditCard}
             iconClassName="bg-astro-purple/10 text-astro-purple"
@@ -346,7 +348,9 @@ export function WalletHistorySection({
               {...listProps}
             />
           </SectionCard>
+          </FadeIn>
 
+          <FadeIn preset="fadeIn" inView={false}>
           <SectionCard
             icon={History}
             iconClassName="bg-astro-orange/10 text-astro-orange"
@@ -362,6 +366,7 @@ export function WalletHistorySection({
               humanizeCoinType={humanizeCoinType}
             />
           </SectionCard>
+          </FadeIn>
         </div>
       </Container>
     </section>

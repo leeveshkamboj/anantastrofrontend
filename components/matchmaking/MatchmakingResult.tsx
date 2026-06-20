@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import type { MatchmakingResult as MatchmakingResultType } from '@/store/api/kundliApi';
 import { ResultCard, CardContent } from '@/components/kundli/result';
+import { Stagger, StaggerItem } from '@/components/motion';
 import { cn } from '@/lib/utils';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
 import { localizedKootaTableCells } from '@/lib/matchmakingKootaCopy';
@@ -124,10 +125,14 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
   return (
     <ResultCard>
       <CardContent className="pt-0">
+        <Stagger inView={false} className="space-y-8">
+        <StaggerItem>
         <h2 className="mb-6 text-center text-2xl font-extrabold text-gray-900">{t('title')}</h2>
 
         <p className="mx-auto mb-8 max-w-xl text-center text-gray-700">{interpretationParagraph}</p>
+        </StaggerItem>
 
+        <StaggerItem>
         <div className="mb-8 rounded-2xl border border-astro-orange/20 bg-astro-orange/5 p-4">
           <h4 className="mb-2 font-extrabold text-astro-purple">{t('highlightsTitle')}</h4>
           <p className="text-sm text-gray-800">
@@ -144,7 +149,9 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
             </p>
           ) : null}
         </div>
+        </StaggerItem>
 
+        <StaggerItem>
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-gray-100 bg-gray-50/80 p-4">
             <h4 className="mb-2 font-extrabold text-gray-900">{result.partner1Summary.name || tp('partner1')}</h4>
@@ -175,7 +182,9 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
             </p>
           </div>
         </div>
+        </StaggerItem>
 
+        <StaggerItem>
         <h4 className="mb-3 font-extrabold text-gray-900">{t('matchAshtakootPoints')}</h4>
         <div className="overflow-x-auto rounded-2xl border border-gray-200">
           <table className="w-full text-sm">
@@ -232,7 +241,9 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
             </tbody>
           </table>
         </div>
+        </StaggerItem>
 
+        <StaggerItem>
         <p className="mt-8 max-w-2xl text-gray-700">
           {t('footerScoreSentence', { total: result.totalPoints, max: result.maxPoints })} {footerParagraph}
         </p>
@@ -249,6 +260,8 @@ export function MatchmakingResult({ result }: MatchmakingResultProps) {
           </div>
           <p className="text-sm leading-relaxed text-gray-700">{t('doshaNote')}</p>
         </div>
+        </StaggerItem>
+        </Stagger>
       </CardContent>
     </ResultCard>
   );

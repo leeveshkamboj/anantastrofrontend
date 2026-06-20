@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import type { ReactNode } from 'react';
 import type { HoroscopeResult } from '@/store/api/kundliApi';
 import { ResultCard, CardContent } from '@/components/kundli/result';
+import { Stagger, StaggerItem } from '@/components/motion';
 
 export const HOROSCOPE_SECTION_KEYS: {
   key: keyof HoroscopeResult;
@@ -52,23 +53,25 @@ export function HoroscopeReportContent({ result, translatedByKey }: HoroscopeRep
   const r = result as Record<string, string | undefined>;
 
   return (
-    <div className="space-y-6">
+    <Stagger inView={false} className="space-y-6">
       {HOROSCOPE_SECTION_KEYS.map(({ key, labelKey }) => {
         const raw = r[key] ?? r[key.charAt(0).toUpperCase() + key.slice(1)];
         const base = typeof raw === 'string' ? raw : '';
         const text = translatedByKey?.[key as string] ?? base;
         if (!text?.trim()) return null;
         return (
-          <ResultCard key={key}>
-            <CardContent className="pt-0">
-              <h3 className="mb-3 text-lg font-extrabold text-gray-900">{t(labelKey)}</h3>
-              <p className="text-justify leading-relaxed whitespace-pre-wrap text-gray-700">
-                {renderBoldMarkdown(text)}
-              </p>
-            </CardContent>
-          </ResultCard>
+          <StaggerItem key={key}>
+            <ResultCard>
+              <CardContent className="pt-0">
+                <h3 className="mb-3 text-lg font-extrabold text-gray-900">{t(labelKey)}</h3>
+                <p className="text-justify leading-relaxed whitespace-pre-wrap text-gray-700">
+                  {renderBoldMarkdown(text)}
+                </p>
+              </CardContent>
+            </ResultCard>
+          </StaggerItem>
         );
       })}
-    </div>
+    </Stagger>
   );
 }

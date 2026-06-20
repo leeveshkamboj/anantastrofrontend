@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
+import { AnimatedSection, HoverLift, Stagger, StaggerItem } from "@/components/motion"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 
 const faqs = [
@@ -15,22 +16,26 @@ export function ContactFaqSection() {
   const t = useTranslations("contact")
 
   return (
-    <section className="bg-astro-dark text-white px-6 py-20 lg:px-24">
+    <AnimatedSection className="bg-astro-dark px-6 py-20 text-white lg:px-24">
       <Container>
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-white">{t("faqTitle")}</h2>
           <p>{t("faqSubtitle")}</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Stagger className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {faqs.map(({ q, a }) => (
-            <CosmicCard key={q} variant="glass" padding="md" className="items-start text-left">
-              <h3 className="mb-3 text-lg font-bold text-gray-900">{t(q)}</h3>
-              <p className="text-sm text-gray-600 md:text-base">{t(a)}</p>
-            </CosmicCard>
+            <StaggerItem key={q}>
+              <HoverLift className="h-full">
+                <CosmicCard variant="glass" padding="md" className="h-full items-start text-left">
+                  <h3 className="mb-3 text-lg font-bold text-gray-900">{t(q)}</h3>
+                  <p className="text-sm text-gray-600 md:text-base">{t(a)}</p>
+                </CosmicCard>
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
-    </section>
+    </AnimatedSection>
   )
 }

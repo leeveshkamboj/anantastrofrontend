@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { ProtectedRoute } from '@/components/admin/ProtectedRoute';
 import { Sidebar } from '@/components/admin/Sidebar';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { MotionProvider } from '@/components/motion/MotionProvider';
 
 export default function AdminLayout({
   children,
@@ -27,7 +29,11 @@ export default function AdminLayout({
         <main className="flex-1 ml-64 bg-gray-50 min-h-0 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto overflow-x-hidden">
             <div className="px-8 py-6">
-              {children}
+              <MotionProvider tier="instrument">
+                <FadeIn preset="fadeIn" inView={false}>
+                  {children}
+                </FadeIn>
+              </MotionProvider>
             </div>
           </div>
         </main>

@@ -3,6 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { ResultCard, CardContent } from '@/components/kundli/result';
 import { NorthIndianDiamondChart } from '@/components/kundli';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { HoverLift } from '@/components/motion/HoverLift';
+import { Stagger, StaggerItem } from '@/components/motion/Stagger';
 
 interface MatchmakingPartnerKundlisProps {
   partner1Name: string;
@@ -29,12 +32,14 @@ export function MatchmakingPartnerKundlis({
   if (!has1 && !has2) return null;
 
   return (
-    <ResultCard>
-      <CardContent className="pt-0">
-        <h2 className="mb-3 text-center text-xl font-extrabold text-gray-900">{t('title')}</h2>
-        <p className="mx-auto mb-6 max-w-2xl text-center text-sm text-gray-600">{t('intro')}</p>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div className="space-y-4">
+    <FadeIn preset="fadeUp" inView>
+      <ResultCard>
+        <CardContent className="pt-0">
+          <h2 className="mb-3 text-center text-xl font-extrabold text-gray-900">{t('title')}</h2>
+          <p className="mx-auto mb-6 max-w-2xl text-center text-sm text-gray-600">{t('intro')}</p>
+          <Stagger className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <StaggerItem className="space-y-4">
+              <HoverLift>
             <h3 className="text-center text-lg font-extrabold text-gray-900">{partner1Name || tp('partner1')}</h3>
             {has1 ? (
               <div className="flex flex-col items-center gap-6">
@@ -57,8 +62,10 @@ export function MatchmakingPartnerKundlis({
             ) : (
               <p className="text-center text-sm text-gray-500">{t('noChartData')}</p>
             )}
-          </div>
-          <div className="space-y-4">
+              </HoverLift>
+            </StaggerItem>
+            <StaggerItem className="space-y-4">
+              <HoverLift>
             <h3 className="text-center text-lg font-extrabold text-gray-900">{partner2Name || tp('partner2')}</h3>
             {has2 ? (
               <div className="flex flex-col items-center gap-6">
@@ -81,9 +88,11 @@ export function MatchmakingPartnerKundlis({
             ) : (
               <p className="text-center text-sm text-gray-500">{t('noChartData')}</p>
             )}
-          </div>
-        </div>
-      </CardContent>
-    </ResultCard>
+              </HoverLift>
+            </StaggerItem>
+          </Stagger>
+        </CardContent>
+      </ResultCard>
+    </FadeIn>
   );
 }

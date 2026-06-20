@@ -52,7 +52,7 @@ async function loginViaApi(
 
 function buildStorageState(origin: string, token: string) {
   return {
-    cookies: [] as BrowserContextOptions['cookies'],
+    cookies: [] as { name: string; value: string; domain: string; path: string }[],
     origins: [
       {
         origin,

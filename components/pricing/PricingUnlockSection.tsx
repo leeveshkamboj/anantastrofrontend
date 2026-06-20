@@ -2,6 +2,7 @@
 
 import { Check, Coins } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { FadeIn } from "@/components/motion/FadeIn"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 
 const PERK_KEYS = ["perk1", "perk2", "perk3"] as const
@@ -11,7 +12,7 @@ export function PricingUnlockSection() {
 
   return (
     <section className="stars-bg bg-astro-purple px-6 py-16 text-white lg:px-24">
-      <div className="mx-auto max-w-5xl">
+      <FadeIn preset="slideInLeft" className="mx-auto max-w-5xl">
         <CosmicCard
           variant="default"
           padding="md"
@@ -35,7 +36,7 @@ export function PricingUnlockSection() {
             ))}
           </ul>
         </CosmicCard>
-      </div>
+      </FadeIn>
     </section>
   )
 }

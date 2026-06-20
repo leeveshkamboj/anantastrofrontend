@@ -1,5 +1,6 @@
 "use client"
 
+import { FadeIn } from "@/components/motion/FadeIn"
 import { cn } from "@/lib/utils"
 
 type ServiceSectionHeaderProps = {
@@ -18,7 +19,7 @@ export function ServiceSectionHeader({
   className,
 }: ServiceSectionHeaderProps) {
   return (
-    <div className={cn("mb-10 text-center md:mb-12", className)}>
+    <FadeIn preset="fadeUp" className={cn("mb-10 text-center md:mb-12", className)}>
       {eyebrow ? (
         <p
           className={cn(
@@ -44,6 +45,6 @@ export function ServiceSectionHeader({
           {subtitle}
         </p>
       ) : null}
-    </div>
+    </FadeIn>
   )
 }

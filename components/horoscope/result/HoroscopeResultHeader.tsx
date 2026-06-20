@@ -31,6 +31,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { HoroscopeReport } from '@/store/api/kundliApi';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { useMotion } from '@/components/motion/MotionProvider';
+import { getChoreographyDelay } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
 type HoroscopeResultHeaderProps = {
@@ -188,6 +191,7 @@ export function HoroscopeResultHeader({
   onEnableShare,
   onDisableShare,
 }: HoroscopeResultHeaderProps) {
+  const { reduced } = useMotion();
   const t = useTranslations('results.horoscope');
   const ts = useTranslations('shareView.horoscope');
   const tc = useTranslations('commonUi');
@@ -247,7 +251,8 @@ export function HoroscopeResultHeader({
           </Link>
 
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <FadeIn preset="fadeIn" inView={false} delay={getChoreographyDelay("content", reduced)}>
+              <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
                 size="sm"
@@ -268,6 +273,7 @@ export function HoroscopeResultHeader({
                 ) : null}
               </Button>
             </DropdownMenuTrigger>
+            </FadeIn>
             <DropdownMenuContent align="end" className="w-52">
               {isShareView ? (
                 <ShareMenuItems
@@ -301,6 +307,7 @@ export function HoroscopeResultHeader({
           </DropdownMenu>
         </div>
 
+        <FadeIn preset="fadeUp" inView={false}>
         <div className="space-y-6">
           <div className="text-center lg:text-left">
             <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-astro-yellow/25 bg-astro-yellow/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.18em] text-astro-yellow">
@@ -356,6 +363,7 @@ export function HoroscopeResultHeader({
             </div>
           ) : null}
         </div>
+        </FadeIn>
       </Container>
     </header>
   );

@@ -4,6 +4,8 @@ import { Calendar, Moon, Sparkles, Sun, type LucideIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
 import { AstrologersSectionHeader } from "@/components/astrologers/AstrologersSectionHeader"
+import { HoverLift } from "@/components/motion/HoverLift"
+import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 
 const experts: {
   icon: LucideIcon
@@ -33,22 +35,23 @@ export function WhyExpertsSection() {
           subtitle={t("whySubtitle")}
         />
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {experts.map(({ icon: Icon, titleKey, descKey, accent }) => (
-            <article
-              key={titleKey}
-              className="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:ring-1 hover:ring-astro-orange/20"
-            >
-              <div
-                className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br ${accent} text-astro-purple transition group-hover:scale-105`}
-              >
-                <Icon className="h-7 w-7" aria-hidden="true" />
-              </div>
-              <h3 className="mb-2 text-lg font-extrabold text-gray-900">{t(titleKey)}</h3>
-              <p className="text-sm leading-relaxed text-gray-600">{t(descKey)}</p>
-            </article>
+            <StaggerItem key={titleKey}>
+              <HoverLift className="h-full">
+                <article className="group h-full rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition hover:shadow-lg hover:ring-1 hover:ring-astro-orange/20">
+                  <div
+                    className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br ${accent} text-astro-purple transition group-hover:scale-105`}
+                  >
+                    <Icon className="h-7 w-7" aria-hidden="true" />
+                  </div>
+                  <h3 className="mb-2 text-lg font-extrabold text-gray-900">{t(titleKey)}</h3>
+                  <p className="text-sm leading-relaxed text-gray-600">{t(descKey)}</p>
+                </article>
+              </HoverLift>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </Container>
     </section>
   )

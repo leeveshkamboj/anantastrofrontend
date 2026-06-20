@@ -23,6 +23,8 @@ import {
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { cn } from '@/lib/utils';
 import { AiTranslateBar } from '@/components/reports/AiTranslateBar';
+import { AnimatePresenceTabs } from '@/components/motion/AnimatePresenceTabs';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { Button } from '@/components/ui/button';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
@@ -589,6 +591,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
         </div>
       </div>
 
+      <AnimatePresenceTabs activeKey={activeTab}>
       {activeTab === 'dashboard' && (
         <KundliDashboardTab
           gen={gen}
@@ -711,13 +714,13 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
           {chartImageSrc && (
             <ResultCard className="overflow-hidden">
               <CardContent className="p-0">
-                <div className="relative aspect-square max-w-lg mx-auto bg-white">
+                <FadeIn preset="scaleIn" inView={false} className="relative mx-auto aspect-square max-w-lg bg-white">
                   <img
                     src={chartImageSrc}
                     alt={tk('kundliChartAlt')}
-                    className="w-full h-full object-contain"
+                    className="h-full w-full object-contain"
                   />
-                </div>
+                </FadeIn>
               </CardContent>
             </ResultCard>
           )}
@@ -725,8 +728,10 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
           {chartSvg && !chartImageSrc && (
             <ResultCard className="overflow-hidden">
               <CardContent className="p-4 md:p-6">
-                <div
-                  className="max-w-lg mx-auto bg-white [&_svg]:max-w-full [&_svg]:h-auto"
+                <FadeIn
+                  preset="scaleIn"
+                  inView={false}
+                  className="mx-auto max-w-lg bg-white [&_svg]:h-auto [&_svg]:max-w-full"
                   dangerouslySetInnerHTML={{ __html: chartSvg }}
                 />
               </CardContent>
@@ -1029,6 +1034,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
           </ResultCard>
         );
       })()}
+      </AnimatePresenceTabs>
     </>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { ResultCard, CardContent } from '@/components/kundli/result';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
 import type {
   DashaPeriodRow,
@@ -129,14 +130,17 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
 
   if (!vim && !yogini) {
     return (
-      <ResultCard>
-        <CardContent className="pt-8 pb-8 text-center text-gray-600">{tk('dashaNoData')}</CardContent>
-      </ResultCard>
+      <FadeIn preset="fadeIn" inView={false}>
+        <ResultCard>
+          <CardContent className="pt-8 pb-8 text-center text-gray-600">{tk('dashaNoData')}</CardContent>
+        </ResultCard>
+      </FadeIn>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <FadeIn preset="fadeIn" inView={false}>
+      <div className="space-y-6">
       {vim && (
         <>
           <h2 className="text-lg font-semibold text-gray-900">{tk('vimshottariTitle')}</h2>
@@ -219,6 +223,7 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
           </ResultCard>
         </>
       )}
-    </div>
+      </div>
+    </FadeIn>
   );
 }

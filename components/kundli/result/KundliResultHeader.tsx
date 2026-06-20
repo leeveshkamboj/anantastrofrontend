@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Container } from '@/components/layout/Container';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { useMotion } from '@/components/motion/MotionProvider';
+import { getChoreographyDelay } from '@/lib/motion';
 import { ZodiacIcon } from '@/components/kundli/ZodiacIcon';
 import { WhatsAppIcon } from '@/components/reports/WhatsAppIcon';
 import { buildWhatsAppShareUrl } from '@/lib/social-share';
@@ -185,6 +188,7 @@ export function KundliResultHeader({
   const t = useTranslations('results.kundli');
   const ts = useTranslations('shareView.kundli');
   const tc = useTranslations('commonUi');
+  const { reduced } = useMotion();
   const astro = useAstroDisplay();
   const { lagnaSign, moonSign, nakshatra } = getChartHighlights(gen);
   const displayName = gen.name?.trim() || t('yourKundli');
@@ -227,8 +231,9 @@ export function KundliResultHeader({
             </span>
           </Link>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+          <FadeIn preset="fadeIn" inView={false} delay={getChoreographyDelay("content", reduced)}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
                 size="sm"
@@ -284,9 +289,11 @@ export function KundliResultHeader({
               )}
             </DropdownMenuContent>
           </DropdownMenu>
+          </FadeIn>
         </div>
 
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+        <FadeIn preset="fadeUp" inView={false}>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
           <div className="min-w-0 flex-1 text-center lg:text-left">
             <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-astro-yellow/25 bg-astro-yellow/10 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.18em] text-astro-yellow">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
@@ -331,7 +338,8 @@ export function KundliResultHeader({
               </div>
             </div>
           ) : null}
-        </div>
+          </div>
+        </FadeIn>
       </Container>
     </header>
   );
