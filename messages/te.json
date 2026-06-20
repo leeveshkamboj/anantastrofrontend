@@ -786,6 +786,17 @@
           "health": "ఆరోగ్యం",
           "mahadasha": "మహాదశ"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "వారానికోసారి",
       "periodMonthly": "నెలవారీ",
       "periodLabel": "కాలం",
-      "detailLabel": "నివేదిక రకం"
+      "detailLabel": "నివేదిక రకం",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "చెల్లని మ్యాచ్ మేకింగ్ లింక్.",
@@ -933,6 +955,17 @@
           "area": "సంతానం",
           "meaning": "నాది దంపతుల ఆరోగ్య అనుకూలతకు సంబంధించినది. ప్రసవం మరియు సంతానం యొక్క విషయాలు కూడా ఈ గుణంతో నిర్ణయించబడతాయి."
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

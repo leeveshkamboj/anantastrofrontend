@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
 import { useSelector } from 'react-redux';
 import { useGetKundliGenerationQuery, useUpdateKundliShareMutation, kundliApi } from '@/store/api/kundliApi';
@@ -14,13 +14,16 @@ import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'sonner';
 import { KundliResultContent } from '../KundliResultContent';
 import { KundliResultHeader, KundliResultStatusPanel } from '@/components/kundli/result';
+import { KundliJourneyExperience } from '@/components/kundli/result/KundliJourneyExperience';
 import { Container } from '@/components/layout/Container';
 import { shareViaInstagram } from '@/lib/social-share';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function KundliResultPage() {
   const t = useTranslations('results.kundli');
   const tc = useTranslations('commonUi');
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const id = typeof params?.id === 'string' ? params.id : '';
@@ -89,84 +92,129 @@ export default function KundliResultPage() {
     </Button>
   );
 
-  if (!id) {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
-        message={t('invalidLink')}
-        action={backButton}
-      />
-    );
-  }
-
-  if (waitingForData) {
-    return (
-      <KundliResultStatusPanel
-        variant="loading"
-        icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
-        message={t('loading')}
-      />
-    );
-  }
-
-  if (isError || !data?.data) {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
-        message={t('loadError')}
-        action={backButton}
-      />
-    );
-  }
-
-  const gen = data.data;
-  const status = gen.status as KundliGenerationStatus;
-
-  if (status === 'PENDING' || status === 'PROCESSING') {
-    return (
-      <KundliResultStatusPanel
-        variant="loading"
-        icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
-        title={status === 'PENDING' ? t('queue') : t('generating')}
-        message={t('processingHint')}
-      />
-    );
-  }
-
-  if (status === 'FAILED') {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
-        title={t('generationFailed')}
-        message={gen.errorMessage || tc('genericError')}
-        action={backButton}
-      />
-    );
-  }
-
-  const shareToken = gen.shareToken ?? shareResult?.data?.shareToken ?? null;
-  const shareEnabled = gen.shareEnabled ?? shareResult?.data?.shareEnabled ?? false;
+  const gen = data?.data;
+  const status = gen?.status as KundliGenerationStatus | undefined;
+  const shareEnabled = gen?.shareEnabled ?? shareResult?.data?.shareEnabled ?? false;
   const shareUrl = shareUrlForCopy;
+  const hasJourneyMode = searchParams.get('journey') === '1';
+
+  let phaseKey = 'loading';
+  if (!id) phaseKey = 'invalid';
+  else if (waitingForData) phaseKey = 'loading';
+  else if (isError || !gen) phaseKey = 'error';
+  else if (status === 'PENDING') phaseKey = 'pending';
+  else if (status === 'PROCESSING') phaseKey = 'processing';
+  else if (status === 'FAILED') phaseKey = 'failed';
+  else phaseKey = 'result';
 
   return (
-    <div className="overflow-x-hidden">
-      <KundliResultHeader
-        gen={gen}
-        shareLoading={shareLoading}
-        shareEnabled={shareEnabled}
-        shareUrl={shareUrl}
-        copied={copied}
-        onCopyLink={copyLink}
-        onShareInstagram={shareOnInstagram}
-        onEnableShare={() => updateShare({ uuid: id, enabled: true })}
-        onDisableShare={() => updateShare({ uuid: id, enabled: false })}
-      />
+    <div className="relative overflow-x-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={phaseKey}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.35 }}
+        >
+          {phaseKey === 'invalid' ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
+              message={t('invalidLink')}
+              action={backButton}
+            />
+          ) : null}
 
-      <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
-        <Container className="relative z-10">
-          <KundliResultContent gen={gen} />
-        </Container>
-      </section>
+          {phaseKey === 'loading' ? (
+            hasJourneyMode ? (
+              <KundliJourneyExperience
+                phase="loading"
+                title={t('loading')}
+                message={t('processingHint')}
+              />
+            ) : (
+              <KundliResultStatusPanel
+                variant="loading"
+                icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+                message={t('loading')}
+              />
+            )
+          ) : null}
+
+          {phaseKey === 'error' ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
+              message={t('loadError')}
+              action={backButton}
+            />
+          ) : null}
+
+          {phaseKey === 'pending' ? (
+            hasJourneyMode ? (
+              <KundliJourneyExperience
+                phase="pending"
+                title={t('queue')}
+                message={t('processingHint')}
+              />
+            ) : (
+              <KundliResultStatusPanel
+                variant="loading"
+                icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+                title={t('queue')}
+                message={t('processingHint')}
+              />
+            )
+          ) : null}
+
+          {phaseKey === 'processing' ? (
+            hasJourneyMode ? (
+              <KundliJourneyExperience
+                phase="processing"
+                title={t('generating')}
+                message={t('processingHint')}
+              />
+            ) : (
+              <KundliResultStatusPanel
+                variant="loading"
+                icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+                title={t('generating')}
+                message={t('processingHint')}
+              />
+            )
+          ) : null}
+
+          {phaseKey === 'failed' && gen ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
+              title={t('generationFailed')}
+              message={gen.errorMessage || tc('genericError')}
+              action={backButton}
+            />
+          ) : null}
+
+          {phaseKey === 'result' && gen ? (
+            <div>
+              <KundliResultHeader
+                gen={gen}
+                shareLoading={shareLoading}
+                shareEnabled={shareEnabled}
+                shareUrl={shareUrl}
+                copied={copied}
+                onCopyLink={copyLink}
+                onShareInstagram={shareOnInstagram}
+                onEnableShare={() => updateShare({ uuid: id, enabled: true })}
+                onDisableShare={() => updateShare({ uuid: id, enabled: false })}
+              />
+
+              <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
+                <Container className="relative z-10">
+                  <KundliResultContent gen={gen} />
+                </Container>
+              </section>
+            </div>
+          ) : null}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

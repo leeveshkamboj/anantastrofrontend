@@ -29,9 +29,12 @@ import {
   initialPartnerFemale,
 } from '@/components/matchmaking';
 import type { PartnerForm } from '@/components/matchmaking';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 
 export default function MatchmakingPage() {
   const te = useTranslations('services.errors');
+  const tm = useTranslations('services.matchmaking');
   const tv = useTranslations('services.matchmaking.validation');
   const router = useRouter();
   const { isAuthenticated } = useAuth();
@@ -55,6 +58,7 @@ export default function MatchmakingPage() {
   const [placeLoading2, setPlaceLoading2] = useState(false);
   const [debouncedPlace1, setDebouncedPlace1] = useState('');
   const [debouncedPlace2, setDebouncedPlace2] = useState('');
+  const [isStartingFlow, setIsStartingFlow] = useState(false);
   const container1Ref = useRef<HTMLDivElement>(null);
   const container2Ref = useRef<HTMLDivElement>(null);
 
@@ -298,16 +302,19 @@ export default function MatchmakingPage() {
     };
 
     try {
+      setIsStartingFlow(true);
       const [payload1, payload2] = await Promise.all([getPartnerPayload(1), getPartnerPayload(2)]);
       const res = await createMatchmakingReport({ partner1: payload1, partner2: payload2 }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {
         toast.success(te('matchmakingStarted'));
-        router.push(`/services/matchmaking/result/${uuid}`);
-      } else {
-        toast.error(te('generic'));
+        router.push(`/services/matchmaking/result/${uuid}?journey=1`);
+        return;
       }
+      toast.error(te('generic'));
+      setIsStartingFlow(false);
     } catch (err) {
+      setIsStartingFlow(false);
       const fe = parseFetchBaseError(err);
       if (fe.status === 402 || fe.code === 'INSUFFICIENT_COINS') {
         toast.error(fe.message ?? te('insufficientCoins'));
@@ -366,6 +373,35 @@ export default function MatchmakingPage() {
       <MatchmakingWhatYouGet />
       <MatchmakingFaq />
       <MatchmakingFinalCta />
+      <AnimatePresence>
+        {isStartingFlow ? (
+          <motion.div
+            key="matchmaking-starting-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28 }}
+            className="fixed inset-0 z-70 flex items-center justify-center bg-astro-dark/60 px-6 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.99 }}
+              transition={{ duration: 0.36 }}
+              className="w-full max-w-md overflow-hidden rounded-4xl border border-white/70 bg-white text-center shadow-[0_24px_64px_-16px_rgba(46,10,94,0.28)]"
+            >
+              <div className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple" aria-hidden="true" />
+              <div className="p-8">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-astro-purple/15 bg-astro-yellow/20">
+                  <Loader2 className="h-6 w-6 animate-spin text-astro-orange" aria-hidden="true" />
+                </div>
+                <h3 className="text-xl font-extrabold text-gray-900">{tm('form.calculating')}</h3>
+                <p className="mt-2 text-sm text-gray-600">{tm('howItWorks.subtitle')}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

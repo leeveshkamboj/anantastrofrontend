@@ -786,6 +786,17 @@
           "health": "આરોગ્ય",
           "mahadasha": "મહાદશા"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "સાપ્તાહિક",
       "periodMonthly": "માસિક",
       "periodLabel": "સમયગાળો",
-      "detailLabel": "રિપોર્ટ પ્રકાર"
+      "detailLabel": "રિપોર્ટ પ્રકાર",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "અમાન્ય મેચમેકિંગ લિંક.",
@@ -933,6 +955,17 @@
           "area": "સંતાન",
           "meaning": "નાડી દંપતીની સ્વાસ્થ્ય સુસંગતતા સાથે સંબંધિત છે. બાળજન્મ અને સંતાનની બાબતો પણ આ ગુણથી નક્કી થાય છે."
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

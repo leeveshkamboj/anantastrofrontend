@@ -22,6 +22,7 @@ import {
 } from '@/store/api/kundliApi';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { cn } from '@/lib/utils';
+import { ReportBodyText } from '@/lib/report-text';
 import { AiTranslateBar } from '@/components/reports/AiTranslateBar';
 import { AnimatePresenceTabs } from '@/components/motion/AnimatePresenceTabs';
 import { FadeIn } from '@/components/motion/FadeIn';
@@ -560,8 +561,8 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
   return (
     <>
       <div className="sticky top-16 z-20 -mx-1 mb-8 overflow-x-auto px-1 pb-1">
-        <div className="inline-flex min-w-full rounded-2xl border border-white/80 bg-white/95 p-1.5 shadow-[0_8px_32px_-8px_rgba(46,10,94,0.18)] backdrop-blur-md sm:min-w-0">
-          <nav className="flex min-w-max gap-1" aria-label={tk('tabsNavAriaLabel')}>
+        <div className="inline-flex min-w-full rounded-2xl border border-white/80 p-1.5 sm:min-w-0">
+          <nav className="flex min-w-max gap-1 bg-white" aria-label={tk('tabsNavAriaLabel')}>
             {KUNDLI_TAB_IDS.map((id) => (
               <button
                 key={id}
@@ -1023,9 +1024,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                       if (s) void interpretTranslate.translateSections(s);
                     }}
                   />
-                  <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
-                    {renderBoldMarkdown(remediesDisplay)}
-                  </p>
+                  <ReportBodyText text={remediesDisplay} className="text-sm" preferList />
                 </>
               ) : (
                 <p className="text-gray-600 text-sm">{tk('noRemediesYet')}</p>

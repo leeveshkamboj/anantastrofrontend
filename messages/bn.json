@@ -786,6 +786,17 @@
           "health": "স্বাস্থ্য",
           "mahadasha": "মহাদশা"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "সাপ্তাহিক",
       "periodMonthly": "মাসিক",
       "periodLabel": "সময়কাল",
-      "detailLabel": "রিপোর্টের ধরন"
+      "detailLabel": "রিপোর্টের ধরন",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "অবৈধ ম্যাচমেকিং লিঙ্ক।",
@@ -933,6 +955,17 @@
           "area": "বংশধর",
           "meaning": "নদী দম্পতির স্বাস্থ্য সামঞ্জস্যের সাথে সম্পর্কিত। সন্তান প্রসব ও বংশধরের বিষয়ও এই গুণের দ্বারা নির্ধারিত হয়।"
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

@@ -39,8 +39,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 import { BirthGenderSelect, type BirthGender } from '@/components/kundli/BirthGenderSelect';
-import { User, Sparkles, Plus } from 'lucide-react';
+import { User, Sparkles, Plus, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type Period = 'daily' | 'weekly' | 'monthly';
 type DetailLevel = 'summary' | 'detailed';
@@ -249,6 +250,7 @@ export default function HoroscopePage() {
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
   const [placeLoading, setPlaceLoading] = useState(false);
   const [debouncedPlace, setDebouncedPlace] = useState('');
+  const [isStartingFlow, setIsStartingFlow] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -371,6 +373,7 @@ export default function HoroscopePage() {
     }
 
     try {
+      setIsStartingFlow(true);
       let lat: number;
       let lng: number;
       let tz: number;
@@ -398,11 +401,13 @@ export default function HoroscopePage() {
       const uuid = res?.data?.uuid;
       if (uuid) {
         toast.success(te('horoscopeStarted'));
-        router.push(`/services/horoscope/result/${uuid}`);
-      } else {
-        toast.error(te('generic'));
+        router.push(`/services/horoscope/result/${uuid}?journey=1`);
+        return;
       }
+      toast.error(te('generic'));
+      setIsStartingFlow(false);
     } catch (err) {
+      setIsStartingFlow(false);
       const fe = parseFetchBaseError(err);
       if (fe.status === 402 || fe.code === 'INSUFFICIENT_COINS') {
         toast.error(fe.message ?? te('insufficientCoins'));
@@ -630,6 +635,35 @@ export default function HoroscopePage() {
       <HoroscopeWhatYouGet />
       <HoroscopeFaq />
       <HoroscopeFinalCta />
+      <AnimatePresence>
+        {isStartingFlow ? (
+          <motion.div
+            key="horoscope-starting-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28 }}
+            className="fixed inset-0 z-70 flex items-center justify-center bg-astro-dark/60 px-6 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.99 }}
+              transition={{ duration: 0.36 }}
+              className="w-full max-w-md overflow-hidden rounded-4xl border border-white/70 bg-white text-center shadow-[0_24px_64px_-16px_rgba(46,10,94,0.28)]"
+            >
+              <div className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple" aria-hidden="true" />
+              <div className="p-8">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-astro-purple/15 bg-astro-yellow/20">
+                  <Loader2 className="h-6 w-6 animate-spin text-astro-orange" aria-hidden="true" />
+                </div>
+                <h3 className="text-xl font-extrabold text-gray-900">{th('creatingReport')}</h3>
+                <p className="mt-2 text-sm text-gray-600">{th('sectionSubtitle')}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

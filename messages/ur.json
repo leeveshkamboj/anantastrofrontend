@@ -786,6 +786,17 @@
           "health": "صحت",
           "mahadasha": "مہادشا"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "ہفتہ وار",
       "periodMonthly": "ماہانہ",
       "periodLabel": "مدت",
-      "detailLabel": "رپورٹ کی قسم"
+      "detailLabel": "رپورٹ کی قسم",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "غلط میچ میکنگ لنک۔",
@@ -933,6 +955,17 @@
           "area": "اولاد",
           "meaning": "نادی جوڑے کی صحت کی مطابقت سے متعلق ہے۔ ولادت اور اولاد کے معاملات بھی اسی گنا سے طے ہوتے ہیں۔"
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

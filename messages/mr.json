@@ -786,6 +786,17 @@
           "health": "आरोग्य",
           "mahadasha": "महादशा"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "साप्ताहिक",
       "periodMonthly": "मासिक",
       "periodLabel": "कालावधी",
-      "detailLabel": "अहवाल प्रकार"
+      "detailLabel": "अहवाल प्रकार",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "अवैध जुळणी दुवा.",
@@ -933,6 +955,17 @@
           "area": "संतती",
           "meaning": "नाडी जोडप्याच्या आरोग्याच्या अनुकूलतेशी संबंधित आहे. बाळंतपण आणि संतती या गोष्टीही या गुणाने ठरवल्या जातात."
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

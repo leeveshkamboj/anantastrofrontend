@@ -31,11 +31,11 @@ export function ServiceStepsSection({
     <section className={cn("stars-bg bg-astro-purple px-6 py-20 text-white lg:px-24", className)}>
       <Container>
         <ServiceSectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} light />
-        <Stagger className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <Stagger className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 lg:items-stretch">
           {steps.map(({ step, title: stepTitle, description }) => (
-            <StaggerItem key={step}>
-              <CosmicCard className="group cursor-pointer rounded-3xl p-6 backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-lg">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-astro-orange text-sm font-extrabold text-white shadow-sm">
+            <StaggerItem key={step} className="h-full">
+              <CosmicCard className="group flex h-full cursor-pointer flex-col items-start rounded-3xl p-6 text-left backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div className="mb-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-astro-orange text-sm font-extrabold text-white shadow-sm">
                   {step}
                 </div>
                 <h3 className="mb-2 text-lg font-extrabold">{stepTitle}</h3>

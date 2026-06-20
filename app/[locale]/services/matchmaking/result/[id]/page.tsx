@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
 import { useSelector } from 'react-redux';
@@ -16,14 +16,16 @@ import { toast } from 'sonner';
 import { MatchmakingResult, MatchmakingPartnerKundlis } from '@/components/matchmaking';
 import { MatchmakingResultHeader } from '@/components/matchmaking/result';
 import { Stagger, StaggerItem } from '@/components/motion';
-import { KundliResultStatusPanel } from '@/components/kundli/result';
+import { MatchmakingJourneyExperience, KundliResultStatusPanel } from '@/components/kundli/result';
 import { Container } from '@/components/layout/Container';
 import { shareViaInstagram } from '@/lib/social-share';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function MatchmakingResultPage() {
   const t = useTranslations('results.matchmaking');
   const tc = useTranslations('commonUi');
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const id = typeof params?.id === 'string' ? params.id : '';
@@ -96,102 +98,148 @@ export default function MatchmakingResultPage() {
     </Button>
   );
 
-  if (!id) {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
-        message={t('invalidLink')}
-        action={backButton}
-      />
-    );
-  }
+  const status = report?.status as MatchmakingReportStatus | undefined;
+  const hasJourneyMode = searchParams.get('journey') === '1';
 
-  if (waitingForData) {
-    return (
-      <KundliResultStatusPanel
-        variant="loading"
-        icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
-        message={t('loadingReport')}
-      />
-    );
-  }
-
-  if (isError || !report) {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
-        message={t('loadError')}
-        action={backButton}
-      />
-    );
-  }
-
-  const status = report.status as MatchmakingReportStatus;
-
-  if (status === 'PENDING' || status === 'PROCESSING') {
-    return (
-      <KundliResultStatusPanel
-        variant="loading"
-        icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
-        title={status === 'PENDING' ? t('queue') : t('computing')}
-        message={t('processingHintCompat')}
-      />
-    );
-  }
-
-  if (status === 'FAILED') {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
-        title={t('generationFailed')}
-        message={report.errorMessage || tc('genericError')}
-        action={backButton}
-      />
-    );
-  }
-
-  if (!report.result) {
-    return (
-      <KundliResultStatusPanel
-        icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
-        message={t('noResultData')}
-        action={backButton}
-      />
-    );
-  }
+  let phaseKey = 'loading';
+  if (!id) phaseKey = 'invalid';
+  else if (waitingForData) phaseKey = 'loading';
+  else if (isError || !report) phaseKey = 'error';
+  else if (status === 'PENDING') phaseKey = 'pending';
+  else if (status === 'PROCESSING') phaseKey = 'processing';
+  else if (status === 'FAILED') phaseKey = 'failed';
+  else if (!report.result) phaseKey = 'empty';
+  else phaseKey = 'result';
 
   return (
-    <div className="overflow-x-hidden">
-      <MatchmakingResultHeader
-        report={report}
-        result={report.result}
-        shareUrl={shareUrl}
-        copied={copied}
-        onCopyLink={copyLink}
-        onShareInstagram={shareOnInstagram}
-        shareLoading={shareLoading}
-        shareEnabled={shareEnabled}
-        onEnableShare={() => updateShare({ uuid: id, enabled: true })}
-        onDisableShare={() => updateShare({ uuid: id, enabled: false })}
-      />
+    <div className="relative overflow-x-hidden">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={phaseKey}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.35 }}
+        >
+          {phaseKey === 'invalid' ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
+              message={t('invalidLink')}
+              action={backButton}
+            />
+          ) : null}
 
-      <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
-        <Container className="relative z-10 space-y-6">
-          <Stagger inView={false} className="space-y-6">
-            <StaggerItem>
-              <MatchmakingPartnerKundlis
-                partner1Name={report.partner1Name || t('partner1')}
-                partner2Name={report.partner2Name || t('partner2')}
-                partner1ChartData={report.partner1ChartData ?? null}
-                partner2ChartData={report.partner2ChartData ?? null}
+          {phaseKey === 'loading' ? (
+            hasJourneyMode ? (
+              <MatchmakingJourneyExperience
+                phase="loading"
+                title={t('loadingReport')}
+                message={t('processingHintCompat')}
               />
-            </StaggerItem>
-            <StaggerItem>
-              <MatchmakingResult result={report.result} />
-            </StaggerItem>
-          </Stagger>
-        </Container>
-      </section>
+            ) : (
+              <KundliResultStatusPanel
+                variant="loading"
+                icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+                message={t('loadingReport')}
+              />
+            )
+          ) : null}
+
+          {phaseKey === 'error' ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
+              message={t('loadError')}
+              action={backButton}
+            />
+          ) : null}
+
+          {phaseKey === 'pending' ? (
+            hasJourneyMode ? (
+              <MatchmakingJourneyExperience
+                phase="pending"
+                title={t('queue')}
+                message={t('processingHintCompat')}
+              />
+            ) : (
+              <KundliResultStatusPanel
+                variant="loading"
+                icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+                title={t('queue')}
+                message={t('processingHintCompat')}
+              />
+            )
+          ) : null}
+
+          {phaseKey === 'processing' ? (
+            hasJourneyMode ? (
+              <MatchmakingJourneyExperience
+                phase="processing"
+                title={t('computing')}
+                message={t('processingHintCompat')}
+              />
+            ) : (
+              <KundliResultStatusPanel
+                variant="loading"
+                icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+                title={t('computing')}
+                message={t('processingHintCompat')}
+              />
+            )
+          ) : null}
+
+          {phaseKey === 'failed' && report ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
+              title={t('generationFailed')}
+              message={report.errorMessage || tc('genericError')}
+              action={backButton}
+            />
+          ) : null}
+
+          {phaseKey === 'empty' ? (
+            <KundliResultStatusPanel
+              icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
+              message={t('noResultData')}
+              action={backButton}
+            />
+          ) : null}
+
+          {phaseKey === 'result' && report?.result ? (
+            <div>
+              <MatchmakingResultHeader
+                report={report}
+                result={report.result}
+                shareUrl={shareUrl}
+                copied={copied}
+                onCopyLink={copyLink}
+                onShareInstagram={shareOnInstagram}
+                shareLoading={shareLoading}
+                shareEnabled={shareEnabled}
+                onEnableShare={() => updateShare({ uuid: id, enabled: true })}
+                onDisableShare={() => updateShare({ uuid: id, enabled: false })}
+              />
+
+              <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
+                <Container className="relative z-10 space-y-6">
+                  <Stagger inView={false} className="space-y-6">
+                    <StaggerItem>
+                      <MatchmakingPartnerKundlis
+                        partner1Name={report.partner1Name || t('partner1')}
+                        partner2Name={report.partner2Name || t('partner2')}
+                        partner1ChartData={report.partner1ChartData ?? null}
+                        partner2ChartData={report.partner2ChartData ?? null}
+                      />
+                    </StaggerItem>
+                    <StaggerItem>
+                      <MatchmakingResult result={report.result} />
+                    </StaggerItem>
+                  </Stagger>
+                </Container>
+              </section>
+            </div>
+          ) : null}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

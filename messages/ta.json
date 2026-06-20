@@ -786,6 +786,17 @@
           "health": "ஆரோக்கியம்",
           "mahadasha": "மகாதாஷா"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "வாரந்தோறும்",
       "periodMonthly": "மாதாந்திர",
       "periodLabel": "காலம்",
-      "detailLabel": "அறிக்கை வகை"
+      "detailLabel": "அறிக்கை வகை",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "தவறான மேட்ச்மேக்கிங் இணைப்பு.",
@@ -933,6 +955,17 @@
           "area": "சந்ததி",
           "meaning": "நாடி தம்பதியினரின் ஆரோக்கிய பொருத்தத்துடன் தொடர்புடையது. பிரசவம் மற்றும் சந்ததி விஷயங்களும் இந்த குணத்தைக் கொண்டு தீர்மானிக்கப்படுகின்றன."
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

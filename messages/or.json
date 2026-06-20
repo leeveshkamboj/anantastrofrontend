@@ -786,6 +786,17 @@
           "health": "ସ୍ୱାସ୍ଥ୍ୟ",
           "mahadasha": "ମହାଦଶା"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "ସାପ୍ତାହିକ",
       "periodMonthly": "ମାସିକ",
       "periodLabel": "ସମୟ",
-      "detailLabel": "ରିପୋର୍ଟ ପ୍ରକାର"
+      "detailLabel": "ରିପୋର୍ଟ ପ୍ରକାର",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "ଅବ val ଧ ମେକ୍ ଇନ୍ ଲିଙ୍କ୍ |",
@@ -933,6 +955,17 @@
           "area": "ବଂଶ",
           "meaning": "ନାଡି ଦମ୍ପତିଙ୍କ ସ୍ୱାସ୍ଥ୍ୟ ସୁସଙ୍ଗତତା ସହିତ ଜଡିତ | ପ୍ରସବ ଏବଂ ବଂଶର ବିଷୟ ମଧ୍ୟ ଏହି ଗୁନା ସହିତ ନିର୍ଣ୍ଣୟ କରାଯାଏ |"
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

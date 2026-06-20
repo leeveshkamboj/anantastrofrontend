@@ -786,6 +786,17 @@
           "health": "স্বাস্থ্য",
           "mahadasha": "মহাদাশা"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "সাপ্তাহিক",
       "periodMonthly": "মাহেকীয়া",
       "periodLabel": "সময়কাল",
-      "detailLabel": "প্ৰতিবেদনৰ ধৰণ"
+      "detailLabel": "প্ৰতিবেদনৰ ধৰণ",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "অবৈধ মেচমেকিং লিংক।",
@@ -933,6 +955,17 @@
           "area": "বংশধৰ",
           "meaning": "দম্পতীহালৰ স্বাস্থ্যৰ সামঞ্জস্যৰ সৈতে নাডীৰ সম্পৰ্ক আছে। প্ৰসৱ আৰু বংশৰ বিষয়বোৰো এই গুণৰ সহায়ত নিৰ্ণয় কৰা হয়।"
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

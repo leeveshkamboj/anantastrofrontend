@@ -610,6 +610,17 @@
       "queue": "Your kundli is in the queue",
       "generating": "Generating your kundli…",
       "processingHint": "We're calculating your chart. This usually takes a few seconds. The page will update automatically.",
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
+      },
       "generationFailed": "Generation failed",
       "yourKundli": "Your Kundli",
       "tabs": {
@@ -803,6 +814,17 @@
       "generating": "Generating your horoscope…",
       "processingHint": "We're preparing your report. This page will update automatically.",
       "processingHintBuild": "We're building your personalized report. This may take a minute. The page will update automatically.",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      },
       "generationFailed": "Report failed",
       "yourHoroscope": "Your Horoscope",
       "periodDetail": "{period} • {detail}",
@@ -828,6 +850,17 @@
       "computing": "Computing Gun Milan…",
       "processingHint": "We're computing Gun Milan. This page will update automatically.",
       "processingHintCompat": "We're calculating compatibility. This usually takes a few seconds. The page will update automatically.",
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
+      },
       "generationFailed": "Matchmaking failed",
       "yourResult": "Gun Milan Result",
       "reportTitle": "Gun Milan Report",

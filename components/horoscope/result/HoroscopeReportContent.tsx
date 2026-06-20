@@ -1,10 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import type { ReactNode } from 'react';
 import type { HoroscopeResult } from '@/store/api/kundliApi';
 import { ResultCard, CardContent } from '@/components/kundli/result';
 import { Stagger, StaggerItem } from '@/components/motion';
+import { ReportBodyText } from '@/lib/report-text';
 
 export const HOROSCOPE_SECTION_KEYS: {
   key: keyof HoroscopeResult;
@@ -31,16 +31,6 @@ export function parseHoroscopeSections(
   return Object.keys(out).length ? out : null;
 }
 
-function renderBoldMarkdown(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.filter(Boolean).map((part, idx) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={idx}>{part.slice(2, -2)}</strong>;
-    }
-    return <span key={idx}>{part}</span>;
-  });
-}
-
 type HoroscopeReportContentProps = {
   result: HoroscopeResult | Record<string, unknown> | null;
   translatedByKey?: Record<string, string> | null;
@@ -64,9 +54,7 @@ export function HoroscopeReportContent({ result, translatedByKey }: HoroscopeRep
             <ResultCard>
               <CardContent className="pt-0">
                 <h3 className="mb-3 text-lg font-extrabold text-gray-900">{t(labelKey)}</h3>
-                <p className="text-justify leading-relaxed whitespace-pre-wrap text-gray-700">
-                  {renderBoldMarkdown(text)}
-                </p>
+                <ReportBodyText text={text} preferList={key === 'remedies'} />
               </CardContent>
             </ResultCard>
           </StaggerItem>

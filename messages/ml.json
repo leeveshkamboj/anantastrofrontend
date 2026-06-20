@@ -786,6 +786,17 @@
           "health": "ആരോഗ്യം",
           "mahadasha": "മഹാദശ"
         }
+      },
+      "journey": {
+        "badge": "Kundli Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepHouses": "Calculating ascendant & houses",
+        "stepPlanets": "Computing planetary positions",
+        "stepDasha": "Mapping nakshatra & dasha periods",
+        "stepInsights": "Generating life insights",
+        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -816,7 +827,18 @@
       "periodWeekly": "പ്രതിവാരം",
       "periodMonthly": "പ്രതിമാസ",
       "periodLabel": "കാലഘട്ടം",
-      "detailLabel": "റിപ്പോർട്ട് തരം"
+      "detailLabel": "റിപ്പോർട്ട് തരം",
+      "journey": {
+        "badge": "Horoscope Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepDetails": "Validating birth details",
+        "stepChart": "Computing your natal chart",
+        "stepTransits": "Reading planetary transits",
+        "stepPeriod": "Aligning period & timing",
+        "stepPredictions": "Writing your predictions",
+        "stepFinalize": "Finalizing your horoscope"
+      }
     },
     "matchmaking": {
       "invalidLink": "മാച്ച് മേക്കിംഗ് ലിങ്ക് അസാധുവാണ്.",
@@ -933,6 +955,17 @@
           "area": "സന്തതി",
           "meaning": "ദമ്പതികളുടെ ആരോഗ്യ പൊരുത്തവുമായി നാഡി ബന്ധപ്പെട്ടിരിക്കുന്നു. പ്രസവം, സന്തതി എന്നിവയുടെ കാര്യങ്ങളും ഈ ഗുണം കൊണ്ട് നിർണ്ണയിക്കപ്പെടുന്നു."
         }
+      },
+      "journey": {
+        "badge": "Matchmaking Journey",
+        "progress": "Progress",
+        "autoUpdate": "Your report will appear automatically",
+        "stepPartners": "Validating partner details",
+        "stepCharts": "Building both birth charts",
+        "stepGunMilan": "Computing Gun Milan scores",
+        "stepCompatibility": "Analyzing compatibility",
+        "stepInsights": "Generating relationship insights",
+        "stepFinalize": "Finalizing your report"
       }
     }
   },

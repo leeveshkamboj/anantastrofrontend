@@ -23,6 +23,7 @@ import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { ServiceFormSection } from '@/components/services';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   KundliGenerateHero,
   WhatIsKundli,
@@ -33,6 +34,7 @@ import {
   KundliFinalCta,
   GetKundliSection,
 } from '@/components/kundli/generate';
+import { Loader2 } from 'lucide-react';
 
 function KundliGenerateContent() {
   const tk = useTranslations('services.kundli');
@@ -276,7 +278,7 @@ function KundliGenerateContent() {
       const uuid = res?.data?.uuid;
       if (uuid) {
         toast.success(te('kundliStarted'));
-        router.push(`/services/kundli/result/${uuid}`);
+        router.push(`/services/kundli/result/${uuid}?journey=1`);
       } else {
         toast.error(te('generic'));
       }
@@ -482,6 +484,35 @@ function KundliGenerateContent() {
       <WhatYouGet />
       <KundliFaq />
       <KundliFinalCta />
+      <AnimatePresence>
+        {isStartingGeneration ? (
+          <motion.div
+            key="kundli-starting-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28 }}
+            className="fixed inset-0 z-70 flex items-center justify-center bg-astro-dark/60 px-6 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.99 }}
+              transition={{ duration: 0.36 }}
+              className="w-full max-w-md overflow-hidden rounded-4xl border border-white/70 bg-white text-center shadow-[0_24px_64px_-16px_rgba(46,10,94,0.28)]"
+            >
+              <div className="h-1 bg-linear-to-r from-astro-orange via-astro-yellow to-astro-purple" aria-hidden="true" />
+              <div className="p-8">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-astro-purple/15 bg-astro-yellow/20">
+                  <Loader2 className="h-6 w-6 animate-spin text-astro-orange" aria-hidden="true" />
+                </div>
+                <h3 className="text-xl font-extrabold text-gray-900">{tk('suspenseLoading')}</h3>
+                <p className="mt-2 text-sm text-gray-600">{tk('sectionSubtitle')}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
