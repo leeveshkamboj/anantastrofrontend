@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
+import { ServiceFormSection } from '@/components/services';
 import {
   KundliGenerateHero,
   WhatIsKundli,
@@ -432,20 +433,14 @@ function KundliGenerateContent() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="overflow-x-hidden">
       <KundliGenerateHero />
       <WhatIsKundli />
       <HowItWorks />
       <WhyDetailsMatter />
-      <section id="get-kundli" className="py-16 md:py-20 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-2">{tk('sectionTitle')}</h2>
-            <p className="text-lg text-gray-600 text-center mb-10">
-              {tk('sectionSubtitle')}
-            </p>
-            <ServiceCostBanner serviceKey="kundli" className="mb-8" />
-            <GetKundliSection
+      <ServiceFormSection id="get-kundli" title={tk('sectionTitle')} subtitle={tk('sectionSubtitle')}>
+        <ServiceCostBanner serviceKey="kundli" className="mb-8" />
+        <GetKundliSection
               hasProfiles={hasProfiles}
               isLoading={isLoading}
               kundlis={kundlis}
@@ -483,9 +478,7 @@ function KundliGenerateContent() {
               }}
               onBackSomeoneElse={handleBackSomeoneElse}
             />
-          </div>
-        </div>
-      </section>
+      </ServiceFormSection>
       <WhatYouGet />
       <KundliFaq />
       <KundliFinalCta />
@@ -496,7 +489,7 @@ function KundliGenerateContent() {
 function KundliSuspenseFallback() {
   const tk = useTranslations('services.kundli');
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="animate-pulse text-gray-500">{tk('suspenseLoading')}</div>
     </div>
   );

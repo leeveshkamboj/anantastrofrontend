@@ -20,7 +20,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="min-h-[calc(100vh-4rem)] pt-16">{children}</main>
       <Footer />
     </>
   );

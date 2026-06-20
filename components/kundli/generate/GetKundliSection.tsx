@@ -10,6 +10,12 @@ import { Label } from '@/components/ui/label';
 import { BookOpen, Plus, User } from 'lucide-react';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { cn } from '@/lib/utils';
+import {
+  serviceFormCardClassName,
+  serviceProfileButtonClassName,
+  serviceProfileIconClassName,
+} from '@/components/services';
+import { CosmicButton } from '@/components/ui/CosmicButton';
 import { BirthDetailsForm } from './BirthDetailsForm';
 
 export interface GetKundliSectionProps {
@@ -142,10 +148,10 @@ export function GetKundliSection({
   }
 
   return (
-    <Card className="border-0 shadow-xl bg-white">
-      <CardContent className="pt-8 pb-8 space-y-6">
-        <h3 className="text-xl font-semibold text-gray-900">{t('selectTitle')}</h3>
-        <p className="text-gray-600 -mt-2">{t('selectSubtitle')}</p>
+    <Card className={serviceFormCardClassName}>
+      <CardContent className="space-y-6 p-8">
+        <h3 className="text-xl font-extrabold text-gray-900">{t('selectTitle')}</h3>
+        <p className="-mt-2 text-gray-600">{t('selectSubtitle')}</p>
         {isLoading ? (
           <p className="text-gray-500 text-sm">{tCommon('loadingProfiles')}</p>
         ) : (
@@ -156,12 +162,17 @@ export function GetKundliSection({
                   type="button"
                   onClick={() => onSelectProfile(k.id)}
                   className={cn(
-                    'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
-                    selectedId === k.id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50 bg-white'
+                    'flex w-full items-center gap-3 rounded-2xl p-4 text-left transition-all',
+                    serviceProfileButtonClassName(selectedId === k.id),
                   )}
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                    <User className="h-5 w-5 text-primary" />
+                  <div
+                    className={cn(
+                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+                      serviceProfileIconClassName(selectedId === k.id),
+                    )}
+                  >
+                    <User className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">{k.name}</p>
@@ -195,11 +206,12 @@ export function GetKundliSection({
             {t('someoneElseButton')}
           </Button>
         </div>
-        <div className="pt-4 border-t border-gray-200">
-          <Button
+        <div className="border-t border-gray-200 pt-4">
+          <CosmicButton
             onClick={onGetKundli}
             disabled={!selectedId || isStartingGeneration}
-            className="w-full bg-primary hover:bg-primary/90 text-base py-2.5 h-auto"
+            variant="primary"
+            className="h-auto min-h-11 w-full rounded-full py-3 text-base"
           >
             <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
               <BookOpen className="h-4 w-4 mr-2 shrink-0" />
@@ -214,9 +226,9 @@ export function GetKundliSection({
                 </>
               )}
             </span>
-          </Button>
+          </CosmicButton>
           {!selectedId && (
-            <p className="text-sm text-gray-500 mt-2 text-center">{t('hintSelect')}</p>
+            <p className="mt-2 text-center text-sm text-gray-500">{t('hintSelect')}</p>
           )}
         </div>
       </CardContent>

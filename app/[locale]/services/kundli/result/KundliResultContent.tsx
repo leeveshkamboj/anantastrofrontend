@@ -2,7 +2,8 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
+import { CardContent } from '@/components/ui/card';
+import { ResultCard } from '@/components/kundli/result';
 import {
   KundliChart,
   AstroChartRadix,
@@ -20,6 +21,7 @@ import {
   type KpChartData,
 } from '@/store/api/kundliApi';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
+import { cn } from '@/lib/utils';
 import { AiTranslateBar } from '@/components/reports/AiTranslateBar';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { Button } from '@/components/ui/button';
@@ -555,21 +557,21 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
 
   return (
     <>
-      <div className="border-b border-gray-200 mb-6">
-        <nav className="flex gap-1 -mb-px" aria-label={tk('tabsNavAriaLabel')}>
-          {KUNDLI_TAB_IDS.map((id) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setActiveTab(id)}
-              className={`
-                cursor-pointer px-4 py-2.5 text-sm font-medium rounded-t-md border-b-2 transition-colors
-                ${activeTab === id
-                  ? 'border-primary text-primary bg-white'
-                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }
-              `}
-            >
+      <div className="sticky top-16 z-20 -mx-1 mb-8 overflow-x-auto px-1 pb-1">
+        <div className="inline-flex min-w-full rounded-2xl border border-white/80 bg-white/95 p-1.5 shadow-[0_8px_32px_-8px_rgba(46,10,94,0.18)] backdrop-blur-md sm:min-w-0">
+          <nav className="flex min-w-max gap-1" aria-label={tk('tabsNavAriaLabel')}>
+            {KUNDLI_TAB_IDS.map((id) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActiveTab(id)}
+                className={cn(
+                  'cursor-pointer whitespace-nowrap rounded-xl px-3.5 py-2 text-sm font-semibold transition-all sm:px-4 sm:py-2.5',
+                  activeTab === id
+                    ? 'bg-astro-orange text-white shadow-sm ring-1 ring-astro-orange/30'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900',
+                )}
+              >
               {{
                 dashboard: tk('tabs.dashboard'),
                 basic: tk('tabs.basic'),
@@ -583,7 +585,8 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
               }[id]}
             </button>
           ))}
-        </nav>
+          </nav>
+        </div>
       </div>
 
       {activeTab === 'dashboard' && (
@@ -597,7 +600,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
 
       {activeTab === 'basic' && (
         <div className="space-y-6">
-          <Card>
+          <ResultCard>
             <CardContent>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('basicBirthHeading')}</h2>
               <dl className="grid gap-3 sm:grid-cols-2 text-sm">
@@ -650,11 +653,11 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                 )}
               </dl>
             </CardContent>
-          </Card>
+          </ResultCard>
 
           {chartData?.avakhada && typeof chartData.avakhada === 'object' ? (
             <>
-              <Card>
+              <ResultCard>
                 <CardContent>
                   <h2 className="text-lg font-semibold text-gray-900 mb-3">{tk('panchangTitle')}</h2>
                   <div className="overflow-x-auto">
@@ -675,8 +678,8 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                     </table>
                   </div>
                 </CardContent>
-              </Card>
-              <Card>
+              </ResultCard>
+              <ResultCard>
                 <CardContent>
                   <h2 className="text-lg font-semibold text-gray-900 mb-3">{tk('avakhadaTitle')}</h2>
                   <div className="overflow-x-auto">
@@ -697,7 +700,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                     </table>
                   </div>
                 </CardContent>
-              </Card>
+              </ResultCard>
             </>
           ) : null}
         </div>
@@ -706,7 +709,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
       {activeTab === 'kundli' && (
         <div className="space-y-6">
           {chartImageSrc && (
-            <Card className="overflow-hidden">
+            <ResultCard className="overflow-hidden">
               <CardContent className="p-0">
                 <div className="relative aspect-square max-w-lg mx-auto bg-white">
                   <img
@@ -716,22 +719,22 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                   />
                 </div>
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
 
           {chartSvg && !chartImageSrc && (
-            <Card className="overflow-hidden">
+            <ResultCard className="overflow-hidden">
               <CardContent className="p-4 md:p-6">
                 <div
                   className="max-w-lg mx-auto bg-white [&_svg]:max-w-full [&_svg]:h-auto"
                   dangerouslySetInnerHTML={{ __html: chartSvg }}
                 />
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
 
           {hasPlanetsData && (!chartImageSrc && !chartSvg) && (
-            <Card className="overflow-hidden">
+            <ResultCard className="overflow-hidden">
               <CardContent>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4 text-center">{tk('birthChartRashiTitle')}</h2>
                 <p className="text-sm text-gray-600 text-center mb-4">
@@ -742,35 +745,35 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                 </p>
                 <BirthChartSection chartData={chartData} />
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
 
           {chartImageSrc && hasPlanetsData && (
-            <Card className="overflow-hidden">
+            <ResultCard className="overflow-hidden">
               <CardContent>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('chartDataHeading')}</h2>
                 <BirthChartSection chartData={chartData} />
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
 
           {!chartImageSrc && !chartSvg && chartData && !hasPlanetsData && (
-            <Card>
+            <ResultCard>
               <CardContent>
                 <h2 className="text-lg font-semibold text-gray-900 mb-3">{tk('chartDataHeading')}</h2>
                 <pre className="text-sm text-gray-700 bg-gray-100 p-4 rounded-lg overflow-auto max-h-96">
                   {JSON.stringify(chartData, null, 2)}
                 </pre>
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
 
           {!hasKundliContent && (
-            <Card>
+            <ResultCard>
               <CardContent className="pt-8 pb-8 text-center text-gray-600">
                 {tk('noChartDataYet')}
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
         </div>
       )}
@@ -780,7 +783,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
           <h2 className="text-lg font-semibold text-gray-900">{tk('kpBhavChalitTitle')}</h2>
           {(gen.kpChartData as KpChartData | null)?.rulingPlanets?.length ? (
             <>
-              <Card>
+              <ResultCard>
                 <CardContent>
                   <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('kpRulingPlanets')}</h3>
                   <div className="overflow-x-auto">
@@ -806,8 +809,8 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                     </table>
                   </div>
                 </CardContent>
-              </Card>
-              <Card>
+              </ResultCard>
+              <ResultCard>
                 <CardContent>
                   <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('kpPlanetsSection')}</h3>
                   <div className="overflow-x-auto">
@@ -837,8 +840,8 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                     </table>
                   </div>
                 </CardContent>
-              </Card>
-              <Card>
+              </ResultCard>
+              <ResultCard>
                 <CardContent>
                   <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('kpCuspsSection')}</h3>
                   <div className="overflow-x-auto">
@@ -868,14 +871,14 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                     </table>
                   </div>
                 </CardContent>
-              </Card>
+              </ResultCard>
             </>
           ) : (
-            <Card>
+            <ResultCard>
               <CardContent className="pt-8 pb-8 text-center text-gray-600">
                 {tk('kpNoData')}
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
         </div>
       )}
@@ -887,7 +890,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
       {activeTab === 'report' && (
         <>
           {interpretation ? (
-            <Card>
+            <ResultCard>
               <CardContent>
                 <div className="mb-6 pb-4 border-b border-gray-100">
                   <YogHighlightStrip chartData={chartData} />
@@ -910,13 +913,13 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                   translatedByKey={interpretTranslate.translatedByKey}
                 />
               </CardContent>
-            </Card>
+            </ResultCard>
           ) : (
-            <Card>
+            <ResultCard>
               <CardContent className="pt-8 pb-8 text-center text-gray-600">
                 {tk('noInterpretationYet')}
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
         </>
       )}
@@ -928,7 +931,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
         const isWorking = status === 'PENDING' || status === 'PROCESSING';
 
         return (
-          <Card>
+          <ResultCard>
             <CardContent>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('horoscopeAddonTitle')}</h2>
               {isReady ? (
@@ -982,7 +985,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                 </div>
               )}
             </CardContent>
-          </Card>
+          </ResultCard>
         );
       })()}
 
@@ -999,7 +1002,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
         const remediesDisplay =
           interpretTranslate.translatedByKey?.remedies ?? remediesText;
         return (
-          <Card>
+          <ResultCard>
             <CardContent>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('interp.remedies')}</h2>
               {remediesText ? (
@@ -1023,7 +1026,7 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                 <p className="text-gray-600 text-sm">{tk('noRemediesYet')}</p>
               )}
             </CardContent>
-          </Card>
+          </ResultCard>
         );
       })()}
     </>

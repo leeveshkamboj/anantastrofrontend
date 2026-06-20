@@ -8,6 +8,8 @@ import type { MatchmakingResult as MatchmakingResultType } from '@/store/api/kun
 import type { PartnerForm } from './types';
 import { initialPartner, initialPartnerFemale } from './types';
 import { BirthGenderSelect } from '@/components/kundli/BirthGenderSelect';
+import { ServiceFormSection, serviceFormCardClassName, serviceProfileButtonClassName, serviceProfileIconClassName } from '@/components/services';
+import { CosmicButton } from '@/components/ui/CosmicButton';
 import { Card, CardContent } from '@/components/ui/card';
 import { MatchmakingResult } from './MatchmakingResult';
 import { Button } from '@/components/ui/button';
@@ -80,30 +82,52 @@ export function MatchmakingFormSection({
   const tf = useTranslations('services.matchmaking.form');
   const tCommon = useTranslations('services.common');
   return (
-    <section id="get-matchmaking" className="py-16 md:py-20 px-4 md:px-8">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <span className={cn('flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold', matchStep === 1 ? 'bg-primary text-white' : matchStep > 1 ? 'bg-primary/20 text-primary' : 'bg-gray-200 text-gray-500')}>1</span>
-          <span className="h-0.5 w-8 bg-gray-200 rounded" />
-          <span className={cn('flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold', matchStep === 2 ? 'bg-primary text-white' : matchStep > 2 ? 'bg-primary/20 text-primary' : 'bg-gray-200 text-gray-500')}>2</span>
-          <span className="h-0.5 w-8 bg-gray-200 rounded" />
-          <span className={cn('flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold', matchStep === 3 ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500')}>3</span>
-        </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-2">
-          {matchStep === 1 ? tf('step1Title') : matchStep === 2 ? tf('step2Title') : tf('step3Title')}
-        </h2>
-        <p className="text-lg text-gray-600 text-center mb-10">
-          {matchStep === 1
+    <ServiceFormSection
+      id="get-matchmaking"
+      title={matchStep === 1 ? tf('step1Title') : matchStep === 2 ? tf('step2Title') : tf('step3Title')}
+      subtitle={
+        matchStep === 1
+          ? tf('step1Subtitle')
+          : matchStep === 2
             ? tf('step1Subtitle')
-            : matchStep === 2
-              ? tf('step1Subtitle')
-              : tf('step3Subtitle')}
-        </p>
+            : tf('step3Subtitle')
+      }
+      narrow={false}
+    >
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-6 flex items-center justify-center gap-2">
+          <span
+            className={cn(
+              'flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold',
+              matchStep === 1 ? 'bg-astro-orange text-white' : matchStep > 1 ? 'bg-astro-purple/20 text-astro-purple' : 'bg-gray-200 text-gray-500',
+            )}
+          >
+            1
+          </span>
+          <span className="h-0.5 w-8 rounded bg-gray-200" />
+          <span
+            className={cn(
+              'flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold',
+              matchStep === 2 ? 'bg-astro-orange text-white' : matchStep > 2 ? 'bg-astro-purple/20 text-astro-purple' : 'bg-gray-200 text-gray-500',
+            )}
+          >
+            2
+          </span>
+          <span className="h-0.5 w-8 rounded bg-gray-200" />
+          <span
+            className={cn(
+              'flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold',
+              matchStep === 3 ? 'bg-astro-orange text-white' : 'bg-gray-200 text-gray-500',
+            )}
+          >
+            3
+          </span>
+        </div>
 
         <form onSubmit={onSubmit} className="space-y-8">
           {matchStep === 1 && (
-            <Card className="border-0 shadow-xl bg-white">
-              <CardContent className="pt-8 pb-8 space-y-6">
+            <Card className={serviceFormCardClassName}>
+              <CardContent className="space-y-6 p-8">
                 <p className="text-gray-600 text-sm">{tf('introManual')}</p>
                 {kundlis.length > 0 && !loadingKundlis ? (
                   <ul className="space-y-2">
@@ -113,12 +137,17 @@ export function MatchmakingFormSection({
                           type="button"
                           onClick={() => fillFromProfile(1, k.id)}
                           className={cn(
-                            'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
-                            useProfile1 === k.id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50 bg-white'
+                            'flex w-full items-center gap-3 rounded-xl p-4 text-left transition-all',
+                            useProfile1 === k.id ? serviceProfileButtonClassName(true) : serviceProfileButtonClassName(false),
                           )}
                         >
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                            <User className="h-5 w-5 text-primary" />
+                          <div
+                            className={cn(
+                              'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+                              serviceProfileIconClassName(useProfile1 === k.id),
+                            )}
+                          >
+                            <User className="h-5 w-5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="font-medium text-gray-900">{k.name}</p>
@@ -136,8 +165,8 @@ export function MatchmakingFormSection({
                         type="button"
                         onClick={() => { setUseProfile1(null); setPartner1(initialPartner); }}
                         className={cn(
-                          'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
-                          useProfile1 === null ? 'border-primary bg-primary/5' : 'border-dashed border-gray-300 bg-gray-50/50 hover:border-primary/50 hover:bg-primary/5'
+                          'flex w-full items-center gap-3 rounded-xl p-4 text-left transition-all',
+                          useProfile1 === null ? serviceProfileButtonClassName(true) : 'border-2 border-dashed border-gray-300 bg-gray-50/50 hover:border-astro-orange/50 hover:bg-astro-orange/5',
                         )}
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-200">
@@ -182,7 +211,7 @@ export function MatchmakingFormSection({
                         <ul className="absolute z-10 mt-0.5 w-full rounded-xl border border-gray-200 bg-white py-1 shadow-lg max-h-48 overflow-auto">
                           {suggestions1.map((s, i) => (
                             <li key={i}>
-                              <button type="button" onClick={() => onSelectPlace(1, s)} className="w-full text-left px-3 py-2.5 text-sm text-gray-800 hover:bg-primary/5">{s.formattedAddress}</button>
+                              <button type="button" onClick={() => onSelectPlace(1, s)} className="w-full text-left px-3 py-2.5 text-sm text-gray-800 hover:bg-astro-purple/5">{s.formattedAddress}</button>
                             </li>
                           ))}
                         </ul>
@@ -191,27 +220,28 @@ export function MatchmakingFormSection({
                   </div>
                 )}
                 <div className="pt-4 border-t border-gray-200 flex justify-end">
-                  <Button
+                  <CosmicButton
                     type="button"
                     onClick={() => {
                       const { valid, message } = validatePartner1();
                       if (!valid) { toast.error(message); return; }
                       setMatchStep(2);
                     }}
-                    className="bg-primary hover:bg-primary/90 px-8 py-6 text-base font-semibold rounded-xl"
+                    variant="primary"
+                    className="rounded-full px-8 py-6 text-base font-semibold"
                   >
                     {tf('next')}
-                  </Button>
+                  </CosmicButton>
                 </div>
               </CardContent>
             </Card>
           )}
 
           {matchStep === 2 && (
-            <Card className="border-0 shadow-xl bg-white">
-              <CardContent className="pt-8 pb-8 space-y-6">
+            <Card className={serviceFormCardClassName}>
+              <CardContent className="space-y-6 p-8">
                 <div className="flex justify-center mb-2">
-                  <button type="button" onClick={() => setMatchStep(1)} className="text-sm text-primary hover:underline">{tf('backToPartner1')}</button>
+                  <button type="button" onClick={() => setMatchStep(1)} className="text-sm text-astro-purple hover:underline">{tf('backToPartner1')}</button>
                 </div>
                 <p className="text-gray-600 text-sm">{tf('introManual')}</p>
                 {kundlis.length > 0 && !loadingKundlis ? (
@@ -222,12 +252,17 @@ export function MatchmakingFormSection({
                           type="button"
                           onClick={() => fillFromProfile(2, k.id)}
                           className={cn(
-                            'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
-                            useProfile2 === k.id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/50 bg-white'
+                            'flex w-full items-center gap-3 rounded-xl p-4 text-left transition-all',
+                            useProfile2 === k.id ? serviceProfileButtonClassName(true) : serviceProfileButtonClassName(false),
                           )}
                         >
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                            <User className="h-5 w-5 text-primary" />
+                          <div
+                            className={cn(
+                              'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+                              serviceProfileIconClassName(useProfile2 === k.id),
+                            )}
+                          >
+                            <User className="h-5 w-5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="font-medium text-gray-900">{k.name}</p>
@@ -245,8 +280,8 @@ export function MatchmakingFormSection({
                         type="button"
                         onClick={() => { setUseProfile2(null); setPartner2(initialPartnerFemale); }}
                         className={cn(
-                          'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
-                          useProfile2 === null ? 'border-primary bg-primary/5' : 'border-dashed border-gray-300 bg-gray-50/50 hover:border-primary/50 hover:bg-primary/5'
+                          'flex w-full items-center gap-3 rounded-xl p-4 text-left transition-all',
+                          useProfile2 === null ? serviceProfileButtonClassName(true) : 'border-2 border-dashed border-gray-300 bg-gray-50/50 hover:border-astro-orange/50 hover:bg-astro-orange/5',
                         )}
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-200">
@@ -291,7 +326,7 @@ export function MatchmakingFormSection({
                         <ul className="absolute z-10 mt-0.5 w-full rounded-xl border border-gray-200 bg-white py-1 shadow-lg max-h-48 overflow-auto">
                           {suggestions2.map((s, i) => (
                             <li key={i}>
-                              <button type="button" onClick={() => onSelectPlace(2, s)} className="w-full text-left px-3 py-2.5 text-sm text-gray-800 hover:bg-primary/5">{s.formattedAddress}</button>
+                              <button type="button" onClick={() => onSelectPlace(2, s)} className="w-full text-left px-3 py-2.5 text-sm text-gray-800 hover:bg-astro-purple/5">{s.formattedAddress}</button>
                             </li>
                           ))}
                         </ul>
@@ -301,17 +336,18 @@ export function MatchmakingFormSection({
                 )}
                 <div className="pt-4 border-t border-gray-200 flex justify-between">
                   <Button type="button" variant="outline" onClick={() => setMatchStep(1)} className="rounded-xl">{tf('back')}</Button>
-                  <Button
+                  <CosmicButton
                     type="button"
                     onClick={() => {
                       const { valid, message } = validatePartner2();
                       if (!valid) { toast.error(message); return; }
                       setMatchStep(3);
                     }}
-                    className="bg-primary hover:bg-primary/90 px-8 py-6 text-base font-semibold rounded-xl"
+                    variant="primary"
+                    className="rounded-full px-8 py-6 text-base font-semibold"
                   >
                     {tf('next')}
-                  </Button>
+                  </CosmicButton>
                 </div>
               </CardContent>
             </Card>
@@ -320,14 +356,14 @@ export function MatchmakingFormSection({
           {matchStep === 3 && (
             <>
               <div className="flex justify-center mb-4">
-                <button type="button" onClick={() => setMatchStep(2)} className="text-sm text-primary hover:underline">{tf('backToPartner2')}</button>
+                <button type="button" onClick={() => setMatchStep(2)} className="text-sm text-astro-purple hover:underline">{tf('backToPartner2')}</button>
               </div>
-              <Card className="border-2 border-gray-100 overflow-hidden shadow-sm">
+              <Card className={cn(serviceFormCardClassName, 'overflow-hidden')}>
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-0">
                   <div className="p-6 lg:border-r border-gray-100 lg:pr-8">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center">
-                        <User className="h-5 w-5 text-primary" />
+                      <div className="h-9 w-9 rounded-full bg-astro-purple/15 flex items-center justify-center">
+                        <User className="h-5 w-5 text-astro-purple" />
                       </div>
                       <h3 className="text-lg font-semibold text-gray-900">{tf('partner1')}</h3>
                     </div>
@@ -343,15 +379,15 @@ export function MatchmakingFormSection({
                     </p>
                   </div>
                   <div className="hidden lg:flex flex-col items-center justify-center px-4 bg-gray-50/50">
-                    <div className="rounded-full bg-primary/10 p-3">
-                      <Heart className="h-8 w-8 text-primary" />
+                    <div className="rounded-full bg-astro-purple/10 p-3">
+                      <Heart className="h-8 w-8 text-astro-purple" />
                     </div>
                     <p className="text-xs font-medium text-gray-500 mt-2 uppercase tracking-wider">{tf('match')}</p>
                   </div>
                   <div className="p-6 lg:pl-8 border-t lg:border-t-0 lg:border-l border-gray-100">
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center">
-                        <User className="h-5 w-5 text-primary" />
+                      <div className="h-9 w-9 rounded-full bg-astro-purple/15 flex items-center justify-center">
+                        <User className="h-5 w-5 text-astro-purple" />
                       </div>
                       <h3 className="text-lg font-semibold text-gray-900">{tf('partner2')}</h3>
                     </div>
@@ -369,11 +405,12 @@ export function MatchmakingFormSection({
                 </div>
                 <div className="border-t border-gray-100 bg-gray-50/50 px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <p className="text-sm text-gray-500">{tf('summaryNote')}</p>
-                  <Button
+                  <CosmicButton
                     type="submit"
                     disabled={isComputing}
-                    className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-base font-semibold px-8 py-6 rounded-xl shadow-sm h-auto min-h-[3.25rem] sm:min-w-[14rem]"
+                    variant="primary"
                     size="lg"
+                    className="h-auto min-h-[3.25rem] w-full rounded-full px-8 py-6 text-base font-semibold shadow-sm sm:min-w-[14rem] sm:w-auto"
                   >
                     <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
                       {isComputing ? tf('calculating') : tf('seeCompatibility')}
@@ -388,7 +425,7 @@ export function MatchmakingFormSection({
                       )}
                        <ArrowRight className="h-5 w-5 shrink-0" />
                     </span>
-                  </Button>
+                  </CosmicButton>
                 </div>
               </Card>
             </>
@@ -396,6 +433,6 @@ export function MatchmakingFormSection({
         </form>
         {result && <MatchmakingResult result={result} />}
       </div>
-    </section>
+    </ServiceFormSection>
   );
 }

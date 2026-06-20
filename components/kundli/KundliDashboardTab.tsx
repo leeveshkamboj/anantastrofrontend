@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ResultCard, CardContent, CardHeader, CardTitle } from '@/components/kundli/result';
 import { Button } from '@/components/ui/button';
 import {
   excerptDashboardText,
@@ -96,22 +96,14 @@ export function KundliDashboardTab({
 
   return (
     <div className="space-y-6">
-      {(gen.name || gen.placeOfBirth) && (
-        <p className="text-sm text-gray-600 text-center">
-          {gen.name && <span className="font-medium text-gray-900">{gen.name}</span>}
-          {gen.name && gen.placeOfBirth && ' · '}
-          {gen.placeOfBirth}
-        </p>
-      )}
-
-      <Card>
-        <CardContent className="pt-6">
+      <ResultCard>
+        <CardContent className="pt-0">
           <YogHighlightStrip chartData={chartData} />
         </CardContent>
-      </Card>
+      </ResultCard>
 
       {interpretationLoading && (
-        <p className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+        <p className="rounded-2xl border border-astro-orange/20 bg-astro-orange/10 px-4 py-3 text-sm text-astro-purple">
           {tk('interpretationLoading')}
         </p>
       )}
@@ -131,10 +123,13 @@ export function KundliDashboardTab({
           const SectionIcon = SECTION_ICONS[section.key];
 
           return (
-            <Card key={section.key} className="flex flex-col">
+            <ResultCard
+              key={section.key}
+              className="flex flex-col transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-1 hover:ring-astro-orange/15"
+            >
               <CardHeader className="pb-2">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <SectionIcon className="h-4 w-4 text-primary shrink-0" aria-hidden />
+                <CardTitle className="flex items-center gap-2 text-base font-extrabold">
+                  <SectionIcon className="h-4 w-4 shrink-0 text-astro-orange" aria-hidden />
                   {tk(`sections.${section.key}`)}
                 </CardTitle>
                 {section.key === 'mahadasha' && section.subtitle && (
@@ -181,7 +176,7 @@ export function KundliDashboardTab({
                   )}
                 </div>
               </CardContent>
-            </Card>
+            </ResultCard>
           );
         })}
       </div>

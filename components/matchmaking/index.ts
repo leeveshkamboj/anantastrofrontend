@@ -8,6 +8,7 @@ export { MatchmakingFinalCta } from './MatchmakingFinalCta';
 export { MatchmakingResult } from './MatchmakingResult';
 export { MatchmakingPartnerKundlis } from './MatchmakingPartnerKundlis';
 export { MatchmakingFormSection } from './MatchmakingFormSection';
+export { MatchmakingResultHeader } from './result';
 export type { MatchmakingFormSectionProps } from './MatchmakingFormSection';
 export type { PartnerForm } from './types';
 export { initialPartner, initialPartnerFemale } from './types';

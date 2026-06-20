@@ -3,12 +3,14 @@
 import { useTranslations } from 'next-intl';
 import { useRouter } from "@/i18n/navigation";
 import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CelestialBackground } from '@/components/CelestialBackground';
+import { CosmicButton } from '@/components/ui/CosmicButton';
+import { CosmicCard } from '@/components/ui/CosmicCard';
+import { Container } from '@/components/layout/Container';
+import { DecorativePlanets } from '@/components/layout/DecorativePlanets';
+import { AstrologerRegisterHero } from '@/components/astrologer/register/AstrologerRegisterHero';
 import { useCreateAstrologerRequestMutation, useUploadFileMutation, useGetMyAstrologerRequestQuery } from '@/store/api/astrologerApi';
 import { useGetProfileQuery } from '@/store/api/authApi';
 import { useGetPredefinedLanguagesQuery } from '@/store/api/astrologerProfileApi';
@@ -402,28 +404,25 @@ export default function AstrologerRegisterPage() {
 
     return (
       <ProtectedRoute>
-        <CelestialBackground className="flex items-center justify-center px-4 py-12 overflow-hidden min-h-screen">
-          <div className="w-full max-w-3xl mx-auto">
-            <Card className="w-full shadow-2xl border-0 bg-white">
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="relative">
-                    {myRequest.status === 'pending' && (
-                      <div className="absolute inset-0 bg-orange-200 rounded-full animate-ping"></div>
-                    )}
+        <div className="bg-white text-gray-900">
+          <AstrologerRegisterHero />
+          <section className="relative overflow-hidden px-6 py-12 lg:px-24">
+            <DecorativePlanets variant="register-status" />
+            <Container size="narrow" className="relative z-10">
+              <CosmicCard variant="glass" padding="md" className="w-full items-stretch text-left">
+                <div className="mb-6 text-center">
+                  <div className="mb-4 flex justify-center">
                     <div className="relative">
-                      {getStatusIcon()}
+                      {myRequest.status === 'pending' && (
+                        <div className="absolute inset-0 animate-ping rounded-full bg-orange-200" />
+                      )}
+                      <div className="relative">{getStatusIcon()}</div>
                     </div>
                   </div>
+                  <h2 className="text-3xl font-bold text-astro-purple">Application Status</h2>
+                  <p className="mt-4 text-lg text-gray-600">{getStatusText()}</p>
                 </div>
-                <CardTitle className="text-3xl font-bold text-center text-gray-900">
-                  Application Status
-                </CardTitle>
-                <CardDescription className="text-center text-lg mt-4">
-                  {getStatusText()}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
+                <div className="space-y-6">
                 <div className={`border-2 rounded-lg p-6 ${getStatusColor()}`}>
                   <div className="flex items-center justify-center mb-4">
                     <Badge
@@ -470,14 +469,13 @@ export default function AstrologerRegisterPage() {
                       )}
                       {myRequest.canReapply && (
                         <div className="mt-4">
-                          <Button
+                          <CosmicButton
                             onClick={() => {
                               setShowForm(true);
                             }}
-                            className="bg-primary hover:bg-primary/90 text-white"
                           >
                             Apply Again
-                          </Button>
+                          </CosmicButton>
                         </div>
                       )}
                     </div>
@@ -506,31 +504,32 @@ export default function AstrologerRegisterPage() {
                 </div>
 
                 <div className="flex justify-center">
-                  <Button
-                    onClick={() => router.push('/')}
-                    className="bg-primary hover:bg-primary/90 text-white"
-                  >
+                  <CosmicButton onClick={() => router.push('/')}>
                     Go to Homepage
-                  </Button>
+                  </CosmicButton>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </CelestialBackground>
+                </div>
+              </CosmicCard>
+            </Container>
+          </section>
+        </div>
       </ProtectedRoute>
     );
   }
 
   return (
     <ProtectedRoute>
-      <CelestialBackground className="flex items-center justify-center px-4 py-12 overflow-hidden min-h-screen">
-      <div className="w-full max-w-3xl mx-auto">
-        <Card className="w-full shadow-2xl border-0 bg-white">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Become an Astrologer</CardTitle>
-            <CardDescription className="text-center">
-              Register to become a verified astrologer on AnantAstro
-            </CardDescription>
+      <div className="bg-white text-gray-900">
+        <AstrologerRegisterHero />
+        <section className="relative overflow-hidden px-6 pb-16 pt-4 lg:px-24">
+          <DecorativePlanets variant="register-form" />
+          <Container size="narrow" className="relative z-10">
+            <CosmicCard variant="glass" padding="md" className="w-full items-stretch text-left">
+              <div className="mb-6 text-center">
+                <h2 className="text-2xl font-bold text-astro-purple">Application Form</h2>
+                <p className="mt-1 text-sm text-gray-600">
+                  Complete all steps to submit your astrologer registration
+                </p>
             
             {/* Success Message */}
             {showSuccess && (
@@ -550,17 +549,16 @@ export default function AstrologerRegisterPage() {
                   Your request to become an astrologer has been received. Your application is being reviewed by our team. You will receive a reply via email within{' '}
                   <span className="font-semibold">10-15 business days</span>.
                 </p>
-                <div className="flex justify-center mt-4">
-                  <Button
+                <div className="mt-4 flex justify-center">
+                  <CosmicButton
                     onClick={async () => {
                       setShowSuccess(false);
                       await refetchMyRequest();
                     }}
                     variant="outline"
-                    className="border-green-500 text-green-700 hover:bg-green-50"
                   >
                     View Status
-                  </Button>
+                  </CosmicButton>
                 </div>
               </div>
             )}
@@ -570,38 +568,38 @@ export default function AstrologerRegisterPage() {
               <>
                 {/* Progress Bar */}
                 <div className="mt-6">
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="mb-2 flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-700">Step {currentStep} of 4</span>
                     <span className="text-sm text-gray-500">{Math.round(progressPercentage)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="h-2 w-full rounded-full bg-gray-200">
                     <div
-                      className="bg-primary h-2 rounded-full transition-all duration-300"
+                      className="h-2 rounded-full bg-astro-orange transition-all duration-300"
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Step Indicators */}
-                <div className="flex items-center justify-between mt-6">
+                <div className="mt-6 flex items-center justify-between">
                   {[1, 2, 3, 4].map((step) => (
-                    <div key={step} className="flex flex-col items-center flex-1">
+                    <div key={step} className="flex flex-1 flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
+                        className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${
                           step === currentStep
-                            ? 'bg-primary border-primary text-white'
+                            ? 'border-astro-orange bg-astro-orange text-white'
                             : step < currentStep
-                            ? 'bg-green-500 border-green-500 text-white'
-                            : 'bg-white border-gray-300 text-gray-400'
+                            ? 'border-green-500 bg-green-500 text-white'
+                            : 'border-gray-300 bg-white text-gray-400'
                         }`}
                       >
                         {step < currentStep ? (
-                          <Check className="w-5 h-5" />
+                          <Check className="h-5 w-5" />
                         ) : (
                           <span className="font-semibold">{step}</span>
                         )}
                       </div>
-                      <span className="text-xs mt-2 text-center text-gray-600">
+                      <span className="mt-2 text-center text-xs text-gray-600">
                         {step === 1 && 'Basic Info'}
                         {step === 2 && 'About You'}
                         {step === 3 && 'Expertise'}
@@ -612,15 +610,15 @@ export default function AstrologerRegisterPage() {
                 </div>
               </>
             )}
-          </CardHeader>
+              </div>
           {(!myRequest || canShowForm) && !showSuccess && (
-            <CardContent>
+            <div className="mt-6">
               {/* Step 1: Basic Information */}
             {currentStep === 1 && (
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold mb-4">Basic Information</h3>
+                <h3 className="mb-4 text-lg font-semibold text-astro-purple">Basic Information</h3>
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name *</Label>
+                  <Label htmlFor="name" className="text-sm font-medium text-gray-700">Full Name *</Label>
                   <Input
                     id="name"
                     type="text"
@@ -674,7 +672,7 @@ export default function AstrologerRegisterPage() {
             {/* Step 2: About Yourself */}
             {currentStep === 2 && (
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold mb-4">About Yourself</h3>
+                <h3 className="mb-4 text-lg font-semibold text-astro-purple">About Yourself</h3>
                 <div className="space-y-2">
                   <Label htmlFor="bio">Bio/Description *</Label>
                   <Textarea
@@ -777,7 +775,7 @@ export default function AstrologerRegisterPage() {
                     
                     {/* Dropdown */}
                     {showLanguageDropdown && (
-                      <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                      <div className="absolute z-50 mt-1 max-h-60 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white shadow-lg">
                         {isLoadingLanguages ? (
                           <div className="p-4 text-center text-sm text-gray-500">
                             Searching...
@@ -802,7 +800,7 @@ export default function AstrologerRegisterPage() {
                                   }}
                                   className="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors flex items-center space-x-2"
                                 >
-                                  <Check className={`h-4 w-4 ${formData.languages.includes(language.name) ? 'text-primary' : 'text-transparent'}`} />
+                                  <Check className={`h-4 w-4 ${formData.languages.includes(language.name) ? 'text-astro-orange' : 'text-transparent'}`} />
                                   <span className="text-sm">{language.name}</span>
                                 </button>
                               ))}
@@ -831,16 +829,16 @@ export default function AstrologerRegisterPage() {
             {/* Step 3: Expertise & Specialization */}
             {currentStep === 3 && (
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold mb-4">Expertise & Specialization</h3>
+                <h3 className="mb-4 text-lg font-semibold text-astro-purple">Expertise & Specialization</h3>
                 <div className="space-y-2">
                   <Label>Select Your Expertise *</Label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
                     {EXPERTISE_OPTIONS.map((expertise) => (
                       <label
                         key={expertise}
-                        className={`flex items-center space-x-2 p-3 border-2 rounded-lg cursor-pointer transition-colors ${
+                        className={`flex cursor-pointer items-center space-x-2 rounded-2xl border-2 p-3 transition-colors ${
                           formData.expertise.includes(expertise)
-                            ? 'border-primary bg-primary/10'
+                            ? 'border-astro-orange bg-astro-orange/10'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
@@ -848,7 +846,7 @@ export default function AstrologerRegisterPage() {
                           type="checkbox"
                           checked={formData.expertise.includes(expertise)}
                           onChange={() => toggleExpertise(expertise)}
-                          className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                          className="w-4 h-4 text-astro-orange border-gray-300 rounded focus:ring-astro-orange"
                         />
                         <span className="text-sm">{expertise}</span>
                       </label>
@@ -926,13 +924,13 @@ export default function AstrologerRegisterPage() {
             {/* Step 4: KYC Documents */}
             {currentStep === 4 && (
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold mb-4">KYC Documents</h3>
+                <h3 className="mb-4 text-lg font-semibold text-astro-purple">KYC Documents</h3>
                 <div className="space-y-2">
                   <Label htmlFor="aadharCard">Aadhar Card *</Label>
                   <div className="flex items-center gap-4">
                     <label
                       htmlFor="aadharCard"
-                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+                      className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-300 hover:bg-gray-50"
                     >
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <Upload className="w-8 h-8 mb-2 text-gray-400" />
@@ -978,7 +976,7 @@ export default function AstrologerRegisterPage() {
                   <div className="flex items-center gap-4">
                     <label
                       htmlFor="panCard"
-                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+                      className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-300 hover:bg-gray-50"
                     >
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <Upload className="w-8 h-8 mb-2 text-gray-400" />
@@ -1022,43 +1020,38 @@ export default function AstrologerRegisterPage() {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-8 pt-6 border-t">
-              <Button
+            <div className="mt-8 flex items-center justify-between border-t pt-6">
+              <CosmicButton
                 type="button"
                 variant="outline"
                 onClick={handlePrevious}
                 disabled={currentStep === 1}
-                className="gap-2"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="h-4 w-4" />
                 Previous
-              </Button>
+              </CosmicButton>
               
               {currentStep < 4 ? (
-                <Button
-                  type="button"
-                  onClick={handleNext}
-                  className="gap-2"
-                >
+                <CosmicButton type="button" onClick={handleNext}>
                   Next
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                  <ChevronRight className="h-4 w-4" />
+                </CosmicButton>
               ) : (
-                <Button
+                <CosmicButton
                   type="button"
                   onClick={onSubmit}
                   disabled={isSubmittingRequest || isUploading}
-                  className="gap-2"
                 >
                   {isSubmittingRequest || isUploading ? 'Submitting...' : 'Submit Application'}
-                </Button>
+                </CosmicButton>
               )}
             </div>
-            </CardContent>
+            </div>
           )}
-        </Card>
+            </CosmicCard>
+          </Container>
+        </section>
       </div>
-    </CelestialBackground>
     </ProtectedRoute>
   );
 }

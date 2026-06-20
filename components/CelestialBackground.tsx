@@ -14,6 +14,7 @@ import {
   TbZodiacAquarius,
   TbZodiacPisces
 } from "react-icons/tb";
+import { cn } from "@/lib/utils";
 
 const zodiacSigns = [
   { Icon: TbZodiacAries, rotation: -12 },
@@ -32,26 +33,26 @@ const zodiacSigns = [
 
 const offsets = [5, -8, 12, -5, 8, -12, 6, -9, 11, -7, 9, -11, 7, -6, 10, -10];
 const scatterPositions = [
-  { left: 10, top: 15, rotation: 8, opacity: 0.06 },
-  { left: 85, top: 20, rotation: -12, opacity: 0.08 },
-  { left: 25, top: 60, rotation: 15, opacity: 0.05 },
-  { left: 70, top: 55, rotation: -8, opacity: 0.07 },
-  { left: 5, top: 80, rotation: 12, opacity: 0.06 },
-  { left: 90, top: 75, rotation: -15, opacity: 0.08 },
-  { left: 50, top: 10, rotation: 10, opacity: 0.05 },
-  { left: 15, top: 40, rotation: -10, opacity: 0.07 },
-  { left: 80, top: 45, rotation: 12, opacity: 0.06 },
-  { left: 35, top: 85, rotation: -8, opacity: 0.08 },
-  { left: 60, top: 25, rotation: 15, opacity: 0.05 },
-  { left: 95, top: 65, rotation: -12, opacity: 0.07 },
-  { left: 20, top: 30, rotation: 9, opacity: 0.06 },
-  { left: 75, top: 35, rotation: -11, opacity: 0.08 },
-  { left: 40, top: 70, rotation: 13, opacity: 0.05 },
-  { left: 65, top: 90, rotation: -9, opacity: 0.07 },
-  { left: 30, top: 5, rotation: 11, opacity: 0.06 },
-  { left: 55, top: 50, rotation: -13, opacity: 0.08 },
-  { left: 45, top: 95, rotation: 7, opacity: 0.05 },
-  { left: 88, top: 12, rotation: -14, opacity: 0.07 },
+  { left: 10, top: 15, rotation: 8, opacity: 0.04 },
+  { left: 85, top: 20, rotation: -12, opacity: 0.05 },
+  { left: 25, top: 60, rotation: 15, opacity: 0.035 },
+  { left: 70, top: 55, rotation: -8, opacity: 0.045 },
+  { left: 5, top: 80, rotation: 12, opacity: 0.04 },
+  { left: 90, top: 75, rotation: -15, opacity: 0.05 },
+  { left: 50, top: 10, rotation: 10, opacity: 0.035 },
+  { left: 15, top: 40, rotation: -10, opacity: 0.045 },
+  { left: 80, top: 45, rotation: 12, opacity: 0.04 },
+  { left: 35, top: 85, rotation: -8, opacity: 0.05 },
+  { left: 60, top: 25, rotation: 15, opacity: 0.035 },
+  { left: 95, top: 65, rotation: -12, opacity: 0.045 },
+  { left: 20, top: 30, rotation: 9, opacity: 0.04 },
+  { left: 75, top: 35, rotation: -11, opacity: 0.05 },
+  { left: 40, top: 70, rotation: 13, opacity: 0.035 },
+  { left: 65, top: 90, rotation: -9, opacity: 0.045 },
+  { left: 30, top: 5, rotation: 11, opacity: 0.04 },
+  { left: 55, top: 50, rotation: -13, opacity: 0.05 },
+  { left: 45, top: 95, rotation: 7, opacity: 0.035 },
+  { left: 88, top: 12, rotation: -14, opacity: 0.045 },
 ];
 
 interface CelestialBackgroundProps {
@@ -61,12 +62,10 @@ interface CelestialBackgroundProps {
 
 export function CelestialBackground({ children, className = '' }: CelestialBackgroundProps) {
   return (
-    <div className={`celestial-header relative ${className}`}>
-      {/* Zodiac symbols decorative background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <div className="relative w-full h-full">
-          {/* Grid pattern covering entire background */}
-          <div className="absolute inset-0 grid grid-cols-6 md:grid-cols-12 lg:grid-cols-16 gap-4 md:gap-6 lg:gap-8 p-4 md:p-8">
+    <div className={cn("celestial-header relative isolate", className)}>
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="relative h-full w-full">
+          <div className="absolute inset-0 grid grid-cols-6 gap-4 p-4 md:grid-cols-12 md:gap-6 md:p-8 lg:grid-cols-16 lg:gap-8">
             {Array.from({ length: 96 }).map((_, index) => {
               const zodiacIndex = index % zodiacSigns.length;
               const { Icon, rotation } = zodiacSigns[zodiacIndex];
@@ -78,16 +77,15 @@ export function CelestialBackground({ children, className = '' }: CelestialBackg
                   className="flex items-center justify-center"
                   style={{
                     transform: `rotate(${rotation + offset}deg)`,
-                    opacity: 0.08 + (index % 3) * 0.13,
+                    opacity: 0.035 + (index % 3) * 0.055,
                   }}
                 >
-                  <Icon className="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 text-primary-dark" />
+                  <Icon className="h-8 w-8 text-astro-purple md:h-12 md:w-12 lg:h-16 lg:w-16" />
                 </div>
               );
             })}
           </div>
           
-          {/* Additional scattered larger symbols for depth */}
           <div className="absolute inset-0">
             {scatterPositions.map((pos, index) => {
               const zodiacIndex = index % zodiacSigns.length;
@@ -104,7 +102,7 @@ export function CelestialBackground({ children, className = '' }: CelestialBackg
                     opacity: pos.opacity,
                   }}
                 >
-                  <Icon className="w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:w-32 text-primary-dark" />
+                  <Icon className="h-16 w-16 text-astro-purple/20 md:h-24 md:w-24 lg:h-32 lg:w-32" />
                 </div>
               );
             })}
@@ -112,11 +110,9 @@ export function CelestialBackground({ children, className = '' }: CelestialBackg
         </div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full">
+      <div className="celestial-content w-full">
         {children}
       </div>
     </div>
   );
 }
-

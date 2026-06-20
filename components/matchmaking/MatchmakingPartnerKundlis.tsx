@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
+import { ResultCard, CardContent } from '@/components/kundli/result';
 import { NorthIndianDiamondChart } from '@/components/kundli';
 
 interface MatchmakingPartnerKundlisProps {
@@ -29,13 +29,13 @@ export function MatchmakingPartnerKundlis({
   if (!has1 && !has2) return null;
 
   return (
-    <Card className="mb-8 border border-gray-200">
-      <CardContent className="pt-6 pb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">{t('title')}</h2>
-        <p className="text-sm text-gray-600 text-center mb-6 max-w-2xl mx-auto">{t('intro')}</p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <ResultCard>
+      <CardContent className="pt-0">
+        <h2 className="mb-3 text-center text-xl font-extrabold text-gray-900">{t('title')}</h2>
+        <p className="mx-auto mb-6 max-w-2xl text-center text-sm text-gray-600">{t('intro')}</p>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 text-center">{partner1Name || tp('partner1')}</h3>
+            <h3 className="text-center text-lg font-extrabold text-gray-900">{partner1Name || tp('partner1')}</h3>
             {has1 ? (
               <div className="flex flex-col items-center gap-6">
                 <NorthIndianDiamondChart
@@ -55,11 +55,11 @@ export function MatchmakingPartnerKundlis({
                 ) : null}
               </div>
             ) : (
-              <p className="text-sm text-gray-500 text-center">{t('noChartData')}</p>
+              <p className="text-center text-sm text-gray-500">{t('noChartData')}</p>
             )}
           </div>
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 text-center">{partner2Name || tp('partner2')}</h3>
+            <h3 className="text-center text-lg font-extrabold text-gray-900">{partner2Name || tp('partner2')}</h3>
             {has2 ? (
               <div className="flex flex-col items-center gap-6">
                 <NorthIndianDiamondChart
@@ -79,11 +79,11 @@ export function MatchmakingPartnerKundlis({
                 ) : null}
               </div>
             ) : (
-              <p className="text-sm text-gray-500 text-center">{t('noChartData')}</p>
+              <p className="text-center text-sm text-gray-500">{t('noChartData')}</p>
             )}
           </div>
         </div>
       </CardContent>
-    </Card>
+    </ResultCard>
   );
 }

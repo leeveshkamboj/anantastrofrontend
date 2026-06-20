@@ -35,11 +35,11 @@ export function CoinNavPill({ className }: { className?: string }) {
     <Link
       href="/wallet"
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50/90 px-3 py-1.5 text-sm font-semibold text-amber-950 shadow-sm hover:bg-amber-100 transition-colors',
-        className,
+        "link-reset inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white/90 px-3 py-1.5 text-sm font-semibold text-black shadow-sm transition-colors hover:bg-white",
+        className
       )}
     >
-      <CoinGlyph className="h-4 w-4 text-amber-600" />
+      <CoinGlyph className="h-4 w-4 text-astro-orange" />
       <span className="tabular-nums">{isFetching && balance == null ? '…' : (balance ?? '—')}</span>
     </Link>
   );

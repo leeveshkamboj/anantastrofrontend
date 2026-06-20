@@ -1,0 +1,192 @@
+ANANTASTRO — ASTROLOGER DISPLAY PICTURE (DP) GENERATION PROMPTS
+====================================================================
+
+Source: backend seed data (7 astrologers)
+Generated for: AnantAstro astrologers page design mockup
+
+USAGE NOTES
+-----------
+• Style A (Featured) → save as: public/images/astrologers/featured/{slug}.jpg
+  Used in: Featured Astrologers section (realistic portrait with golden glow)
+
+• Style B (Directory) → save as: public/images/astrologers/directory/{slug}.png
+  Used in: Main Directory section (flat vector avatar on pastel circle)
+
+• Recommended size: 512×512 px (square), transparent or solid background as noted
+• Aspect ratio: 1:1, centered headshot/avatar
+• Brand palette reference: yellow #ffc800, purple #2e0a5e, orange #ff9500
+
+
+====================================================================
+1. ARYA VEDIKA
+====================================================================
+Slug: arya
+Gender: Female
+Persona: Calm mentor
+Location: Varanasi, Uttar Pradesh, India
+Specialties: Life Direction, Emotional Balance, Spiritual Guidance
+Coins/min: 6
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian woman in her mid-30s named Arya Vedika, calm wise Vedic astrologer and spiritual mentor from Varanasi India. Warm gentle smile, serene confident eyes, traditional elegant Indian attire — soft cream or saffron saree with subtle gold border. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background fading to deep purple tones. Photorealistic, high quality, trustworthy and compassionate mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian woman, calm mentor astrologer character. Simple clean facial features, friendly warm expression, medium-length dark hair, small bindi optional. Wearing simple solid-color Indian top in soft saffron or cream. Solid light pastel yellow circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+2. NIRAV JYOTISH
+====================================================================
+Slug: nirav
+Gender: Male
+Persona: Practical advisor
+Location: Jaipur, Rajasthan, India
+Specialties: Career, Finance, Business Timing
+Coins/min: 8
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian man in his late 30s named Nirav Jyotish, practical Vedic astrologer and career advisor from Jaipur Rajasthan India. Confident approachable smile, sharp intelligent eyes, smart-casual Indian attire — neat cream or light maroon kurta with subtle embroidery. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind him. Dark neutral textured background with hints of royal purple. Photorealistic, high quality, trustworthy professional mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian man, practical advisor astrologer character. Simple clean facial features, confident friendly expression, short neat dark hair, light stubble optional. Wearing simple solid-color kurta in maroon or cream. Solid light pastel blue circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+3. MAITRI SHASTRI
+====================================================================
+Slug: maitri
+Gender: Female
+Persona: Relationship specialist
+Location: Ujjain, Madhya Pradesh, India
+Specialties: Marriage, Compatibility, Communication
+Coins/min: 9
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian woman in her early 30s named Maitri Shastri, relationship specialist and Vedic astrologer from Ujjain Madhya Pradesh India. Warm empathetic smile, kind expressive eyes, elegant traditional Indian attire — soft pink or rose saree with delicate gold accents. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background with soft purple undertones. Photorealistic, high quality, nurturing and trustworthy mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian woman, relationship specialist astrologer character. Simple clean facial features, warm empathetic smile, shoulder-length dark wavy hair. Wearing simple solid-color Indian top in soft rose or pink. Solid light pastel pink circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+4. DEV RISHI
+====================================================================
+Slug: dev
+Gender: Male
+Persona: Traditional Vedic guide
+Location: Haridwar, Uttarakhand, India
+Specialties: Vedic Remedies, Mantras, Dosha Guidance
+Coins/min: 7
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian man in his 40s named Dev Rishi, traditional Vedic astrologer and spiritual guide from Haridwar Uttarakhand India. Calm dignified expression with a gentle wise smile, serene eyes, traditional Indian attire — white or off-white kurta with saffron shawl. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind him. Dark neutral textured background with deep spiritual purple tones. Photorealistic, high quality, wise and reverent mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian man, traditional Vedic guide astrologer character. Simple clean facial features, calm wise expression, short dark hair, optional tilak mark. Wearing simple solid-color white kurta with saffron accent. Solid light pastel saffron circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+5. TARA NAKSHETRA
+====================================================================
+Slug: tara
+Gender: Female
+Persona: Modern intuitive counselor
+Location: Delhi, Delhi, India
+Specialties: Personal Growth, Mindset, Relationships
+Coins/min: 10
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian woman in her late 20s named Tara Nakshetra, modern intuitive Vedic counselor and astrologer from Delhi India. Bright confident smile, expressive intelligent eyes, contemporary smart Indian attire — modern kurta or fusion ethnic top in teal or deep purple. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background with modern purple accents. Photorealistic, high quality, vibrant and approachable mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian woman, modern intuitive counselor astrologer character. Simple clean facial features, bright confident expression, modern shoulder-length hair. Wearing simple solid-color contemporary Indian top in teal or purple. Solid light pastel lavender circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+6. ISHAN ADITYA
+====================================================================
+Slug: ishan
+Gender: Male
+Persona: Career strategist
+Location: Mumbai, Maharashtra, India
+Specialties: Job Switches, Leadership, Goal Planning
+Coins/min: 11
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian man in his mid-30s named Ishan Aditya, career strategist and Vedic astrologer from Mumbai Maharashtra India. Confident professional smile, focused ambitious eyes, smart modern Indian business-casual attire — well-fitted navy or charcoal kurta with subtle gold buttons. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind him. Dark neutral textured background with corporate purple undertones. Photorealistic, high quality, dynamic and trustworthy mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian man, career strategist astrologer character. Simple clean facial features, confident professional expression, neat styled dark hair. Wearing simple solid-color kurta in navy or charcoal. Solid light pastel mint circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+7. KAVYA PRERNA
+====================================================================
+Slug: kavya
+Gender: Female
+Persona: Compassionate life coach
+Location: Pune, Maharashtra, India
+Specialties: Family, Healing, Self-confidence
+Coins/min: 7
+
+
+--- STYLE A: FEATURED (Realistic Portrait) ---
+
+Professional studio portrait of a South Asian woman in her early 30s named Kavya Prerna, compassionate life coach and Vedic astrologer from Pune Maharashtra India. Soft healing smile, warm reassuring eyes, elegant comfortable Indian attire — soft green or peach saree with minimal gold detail. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background with gentle purple warmth. Photorealistic, high quality, comforting and uplifting mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+
+
+--- STYLE B: DIRECTORY (Flat Vector Avatar) ---
+
+Minimalist flat-design vector illustration avatar of a South Asian woman, compassionate life coach astrologer character. Simple clean facial features, soft healing smile, long dark hair tied back gently. Wearing simple solid-color Indian top in soft green or peach. Solid light pastel peach circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+
+
+====================================================================
+END OF PROMPTS
+====================================================================
+
+After generating images, place them at:
+
+  Featured (Style A):
+    public/images/astrologers/featured/arya.jpg
+    public/images/astrologers/featured/nirav.jpg
+    public/images/astrologers/featured/maitri.jpg
+    public/images/astrologers/featured/dev.jpg
+    public/images/astrologers/featured/tara.jpg
+    public/images/astrologers/featured/ishan.jpg
+    public/images/astrologers/featured/kavya.jpg
+
+  Directory (Style B) — optional if replacing DiceBear fallbacks:
+    public/images/astrologers/directory/arya.png
+    public/images/astrologers/directory/nirav.png
+    public/images/astrologers/directory/maitri.png
+    public/images/astrologers/directory/dev.png
+    public/images/astrologers/directory/tara.png
+    public/images/astrologers/directory/ishan.png
+    public/images/astrologers/directory/kavya.png
+
+Images are stored in S3 at: astrologers/{slug}.jpeg
+The seeder sets avatar_url and users.profile_image to these S3 keys.

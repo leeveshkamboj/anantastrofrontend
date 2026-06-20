@@ -11,6 +11,8 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { BirthGenderSelect, type BirthGender } from '@/components/kundli/BirthGenderSelect';
 import { BookOpen, ArrowLeft } from 'lucide-react';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
+import { serviceFormCardClassName } from '@/components/services';
+import { CosmicButton } from '@/components/ui/CosmicButton';
 
 export interface BirthDetailsFormProps {
   title: string;
@@ -70,10 +72,10 @@ export function BirthDetailsForm({
 }: BirthDetailsFormProps) {
   const tl = useTranslations('services.kundli.birthForm');
   return (
-    <Card className="border-0 shadow-xl bg-white">
-      <CardContent className="pt-8 pb-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-        {subtitle && <p className="text-gray-600 mb-6">{subtitle}</p>}
+    <Card className={serviceFormCardClassName}>
+      <CardContent className="p-8">
+        <h3 className="mb-2 text-xl font-extrabold text-gray-900">{title}</h3>
+        {subtitle && <p className="mb-6 text-gray-600">{subtitle}</p>}
         <form onSubmit={onSubmit} className="space-y-5">
           <div className="space-y-2">
             <Label htmlFor={nameId}>{tl('name')}</Label>
@@ -139,25 +141,26 @@ export function BirthDetailsForm({
               </ul>
             )}
           </div>
-          <Button
+          <CosmicButton
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-primary hover:bg-primary/90 text-base py-2.5 h-auto"
+            variant="primary"
+            className="h-auto min-h-11 w-full rounded-full py-3 text-base"
           >
             <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
-              <BookOpen className="h-4 w-4 mr-2 shrink-0" />
+              <BookOpen className="mr-2 h-4 w-4 shrink-0" />
               {isSubmitting ? tl('saving') : submitLabel}
               {!isSubmitting && priceLine && (
                 <>
                   <span aria-hidden>·</span>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-white whitespace-nowrap">
-                <CoinGlyph className="h-4 w-4 shrink-0" />
-                {priceLine}
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-medium text-white">
+                    <CoinGlyph className="h-4 w-4 shrink-0" />
+                    {priceLine}
                   </span>
                 </>
               )}
             </span>
-          </Button>
+          </CosmicButton>
           {backLabel && onBack && (
             <Button
               type="button"

@@ -328,12 +328,12 @@ export default function MatchmakingPage() {
   if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="overflow-x-hidden">
       <MatchmakingHero />
       <WhatIsGunMilan />
       <MatchmakingHowItWorks />
       <MatchmakingWhyDetailsMatter />
-      <div className="max-w-3xl mx-auto px-4 -mt-4 mb-6">
+      <div className="mx-auto max-w-3xl px-6 -mt-2 mb-2 lg:px-24">
         <ServiceCostBanner serviceKey="matchmaking" />
       </div>
       <MatchmakingFormSection

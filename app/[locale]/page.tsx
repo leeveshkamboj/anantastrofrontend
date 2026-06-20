@@ -1,19 +1,13 @@
-import { HeroSection } from "@/components/home/HeroSection"
-import { FeaturesSection } from "@/components/home/FeaturesSection"
-import { AIReportsSection } from "@/components/home/AIReportsSection"
-import { HowItWorksSection } from "@/components/home/HowItWorksSection"
-import { FeaturesGridSection } from "@/components/home/FeaturesGridSection"
-import { CTASection } from "@/components/home/CTASection"
+import { HeroSection } from "@/components/homepage/HeroSection"
+import { ServicesSection } from "@/components/homepage/ServicesSection"
+import { ReportsSection } from "@/components/homepage/ReportsSection"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-gray-900">
       <HeroSection />
-      <FeaturesSection />
-      <AIReportsSection />
-      <HowItWorksSection />
-      <FeaturesGridSection />
-      <CTASection />
+      <ServicesSection />
+      <ReportsSection />
     </div>
   )
 }

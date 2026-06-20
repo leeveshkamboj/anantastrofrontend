@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
+import { ResultCard, CardContent } from '@/components/kundli/result';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
 import type { AshtakvargaData, AshtakvargaPlanet } from '@/store/api/kundliApi';
 
@@ -59,11 +59,11 @@ export function KundliAshtakvargaTab({ chartData }: { chartData: Record<string, 
 
   if (!data) {
     return (
-      <Card>
+      <ResultCard>
         <CardContent className="pt-8 pb-8 text-center text-gray-600">
           {tk('ashtakvargaNoData')}
         </CardContent>
-      </Card>
+      </ResultCard>
     );
   }
 
@@ -92,7 +92,7 @@ export function KundliAshtakvargaTab({ chartData }: { chartData: Record<string, 
           <span className="font-medium tabular-nums text-gray-900">{savTotal(data.sav)}</span>
         </p>
       </div>
-      <Card>
+      <ResultCard>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-center border-collapse min-w-[640px]">
@@ -129,7 +129,7 @@ export function KundliAshtakvargaTab({ chartData }: { chartData: Record<string, 
           </div>
           <p className="mt-3 text-xs text-gray-500">{tk('ashtakvargaHouseHint')}</p>
         </CardContent>
-      </Card>
+      </ResultCard>
     </div>
   );
 }

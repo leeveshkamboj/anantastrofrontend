@@ -2,151 +2,119 @@
 
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
 import { useGetHoroscopeByShareTokenQuery } from '@/store/api/kundliApi';
-import type {
-  HoroscopeReportResponse,
-  HoroscopeResult,
-} from '@/store/api/kundliApi';
-import { Card, CardContent } from '@/components/ui/card';
+import type { HoroscopeReportResponse } from '@/store/api/kundliApi';
 import { Button } from '@/components/ui/button';
-import { User, Calendar, Clock, MapPin, AlertCircle, Sparkles } from 'lucide-react';
-import { Link } from "@/i18n/navigation";
-
-const SECTION_KEYS: { key: keyof HoroscopeResult; labelKey: 'sectionOverview' | 'sectionCareer' | 'sectionHealth' | 'sectionRelationships' | 'sectionFinance' | 'sectionRemedies' }[] = [
-  { key: 'overview', labelKey: 'sectionOverview' },
-  { key: 'career', labelKey: 'sectionCareer' },
-  { key: 'health', labelKey: 'sectionHealth' },
-  { key: 'relationships', labelKey: 'sectionRelationships' },
-  { key: 'finance', labelKey: 'sectionFinance' },
-  { key: 'remedies', labelKey: 'sectionRemedies' },
-];
-
-function ReportContent({ result }: { result: HoroscopeResult | Record<string, unknown> | null }) {
-  const t = useTranslations('results.horoscope');
-  if (!result || typeof result !== 'object') return null;
-  const r = result as Record<string, string | undefined>;
-  return (
-    <div className="space-y-6">
-      {SECTION_KEYS.map(({ key, labelKey }) => {
-        const text = r[key] ?? r[key.charAt(0).toUpperCase() + key.slice(1)];
-        if (!text?.trim()) return null;
-        return (
-          <Card key={key} className="border border-gray-200">
-            <CardContent className="pt-6 pb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">{t(labelKey)}</h3>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{text}</p>
-            </CardContent>
-          </Card>
-        );
-      })}
-    </div>
-  );
-}
+import { ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import {
+  HoroscopeResultHeader,
+  HoroscopeReportContent,
+} from '@/components/horoscope/result';
+import { KundliResultStatusPanel } from '@/components/kundli/result';
+import { Container } from '@/components/layout/Container';
+import { shareViaInstagram } from '@/lib/social-share';
 
 export default function HoroscopeSharePage() {
   const t = useTranslations('shareView.horoscope');
-  const th = useTranslations('results.horoscope');
   const tc = useTranslations('commonUi');
   const params = useParams();
   const token = typeof params?.token === 'string' ? params.token : '';
 
-  const { data, isLoading, isError } = useGetHoroscopeByShareTokenQuery(token, { skip: !token });
-  const report = (data as HoroscopeReportResponse | undefined)?.data;
+  const result = useGetHoroscopeByShareTokenQuery(token, { skip: !token });
+  const data = result.data as HoroscopeReportResponse | undefined;
+  const report = data?.data;
+  const { isLoading, isFetching, isError, isUninitialized } = result;
+
+  const waitingForData = Boolean(token) && !report && (isLoading || isFetching || isUninitialized);
+
+  const [pageShareUrl, setPageShareUrl] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setPageShareUrl(window.location.href);
+  }, []);
+
+  const copyLink = useCallback(() => {
+    if (!pageShareUrl) return;
+    navigator.clipboard.writeText(pageShareUrl).then(() => {
+      setCopied(true);
+      toast.success(tc('shareLinkCopied'));
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [pageShareUrl, tc]);
+
+  const shareOnInstagram = useCallback(async () => {
+    if (!pageShareUrl) return;
+    const shareResult = await shareViaInstagram(pageShareUrl);
+    if (shareResult === 'copied') {
+      toast.success(tc('instagramShareCopied'));
+    } else {
+      toast.error(tc('instagramShareFailed'));
+    }
+  }, [pageShareUrl, tc]);
+
+  const ctaButton = (
+    <Button
+      asChild
+      variant="outline"
+      className="rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+    >
+      <Link href="/services/horoscope">
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        {t('ctaOwn')}
+      </Link>
+    </Button>
+  );
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
-          <CardContent className="pt-8 pb-8 text-center">
-            <AlertCircle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
-            <p className="text-gray-600">{t('invalidOrMissing')}</p>
-            <Button className="mt-4" variant="outline" asChild>
-              <Link href="/">{tc('goHome')}</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <KundliResultStatusPanel
+        icon={<AlertCircle className="h-12 w-12 text-amber-500" aria-hidden="true" />}
+        message={t('invalidOrMissing')}
+        action={ctaButton}
+      />
     );
   }
 
-  if (isLoading && !report) {
+  if (waitingForData) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <p className="text-gray-600">{t('loadingReport')}</p>
-      </div>
+      <KundliResultStatusPanel
+        variant="loading"
+        icon={<Loader2 className="h-12 w-12 animate-spin text-astro-orange" aria-hidden="true" />}
+        message={t('loadingReport')}
+      />
     );
   }
 
   if (isError || !report || report.status !== 'COMPLETED' || !report.result) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
-          <CardContent className="pt-8 pb-8 text-center">
-            <AlertCircle className="h-12 w-12 text-amber-500 mx-auto mb-4" />
-            <p className="text-gray-600">{t('disabled')}</p>
-            <Button className="mt-4" variant="outline" asChild>
-              <Link href="/">{tc('goHome')}</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <KundliResultStatusPanel
+        icon={<AlertCircle className="h-12 w-12 text-red-500" aria-hidden="true" />}
+        message={t('disabled')}
+        action={ctaButton}
+      />
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto py-8 px-4 max-w-3xl">
-        <div className="flex items-center gap-3 mb-6">
-          <Sparkles className="h-10 w-10 text-primary" />
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t('reportTitle')}</h1>
-            <p className="text-gray-600 text-sm capitalize">
-              {t('sharedPeriodLine', {
-                period: (() => {
-                  const pl = (report.period ?? '').toLowerCase();
-                  if (pl === 'daily') return th('periodDaily');
-                  if (pl === 'weekly') return th('periodWeekly');
-                  if (pl === 'monthly') return th('periodMonthly');
-                  return report.period ?? '';
-                })(),
-              })}
-            </p>
-          </div>
-        </div>
+    <div className="overflow-x-hidden">
+      <HoroscopeResultHeader
+        view="share"
+        report={report}
+        shareUrl={pageShareUrl}
+        copied={copied}
+        onCopyLink={copyLink}
+        onShareInstagram={shareOnInstagram}
+      />
 
-        <Card className="border border-gray-200 mb-8">
-          <CardContent className="pt-6 pb-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                {report.name || th('birthDetails')}
-              </h3>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
-              <Calendar className="h-4 w-4 shrink-0" />
-              <span>{report.dob || '—'}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-              <Clock className="h-4 w-4 shrink-0" />
-              <span>{report.time || '—'}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-              <MapPin className="h-4 w-4 shrink-0" />
-              <span>{report.placeOfBirth || '—'}</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <ReportContent result={report.result} />
-
-        <div className="mt-8 text-center">
-          <Button variant="outline" asChild>
-            <Link href="/services/horoscope">{t('ctaOwn')}</Link>
-          </Button>
-        </div>
-      </div>
+      <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
+        <Container className="relative z-10">
+          <HoroscopeReportContent result={report.result} />
+        </Container>
+      </section>
     </div>
   );
 }

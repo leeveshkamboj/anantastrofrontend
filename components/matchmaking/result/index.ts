@@ -1,0 +1,1 @@
+export { MatchmakingResultHeader } from './MatchmakingResultHeader';

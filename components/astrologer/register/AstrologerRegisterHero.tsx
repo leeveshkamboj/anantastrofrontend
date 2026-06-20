@@ -1,0 +1,31 @@
+"use client"
+
+import { Sparkles, UserRound } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { Container } from "@/components/layout/Container"
+
+export function AstrologerRegisterHero() {
+  const tNav = useTranslations("nav")
+
+  return (
+    <section className="bg-hero-gradient px-6 pb-10 pt-12 lg:px-24">
+      <Container className="text-center">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-black/10 px-4 py-1.5 text-xs font-semibold text-black">
+          <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+          {tNav("becomeAstrologer")}
+        </div>
+
+        <div className="mb-4 flex justify-center">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-black bg-white">
+            <UserRound className="h-7 w-7 text-astro-orange" aria-hidden="true" />
+          </span>
+        </div>
+
+        <h1 className="mb-3 text-4xl font-extrabold text-black md:text-5xl">Become an Astrologer</h1>
+        <p className="mx-auto max-w-xl text-sm text-gray-800 md:text-base">
+          Register to become a verified astrologer on AnantAstro
+        </p>
+      </Container>
+    </section>
+  )
+}

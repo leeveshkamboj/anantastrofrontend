@@ -1,164 +1,126 @@
 "use client"
 
+import { Facebook, Globe, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react"
 import { Link } from "@/i18n/navigation"
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
 import { useTranslations } from "next-intl"
+
+const socialLinks = [
+  { href: "https://facebook.com", label: "Facebook", Icon: Facebook },
+  { href: "https://twitter.com", label: "Twitter", Icon: Twitter },
+  { href: "https://instagram.com", label: "Instagram", Icon: Instagram },
+  { href: "https://youtube.com", label: "YouTube", Icon: Youtube },
+] as const
 
 export function Footer() {
   const t = useTranslations("footer")
   const tNav = useTranslations("nav")
   const year = new Date().getFullYear()
 
+  const serviceLinks = [
+    { href: "/services/kundli/generate", label: t("kundliGeneration") },
+    { href: "/services/horoscope", label: t("horoscope") },
+    { href: "/services/matchmaking", label: t("matchmaking") },
+    { href: "/pricing", label: t("reports") },
+    { href: "/contact", label: t("liveConsultation") },
+  ]
+
+  const quickLinks = [
+    { href: "/", label: tNav("brand") },
+    { href: "/astrologers", label: t("ourAstrologers") },
+    { href: "/pricing", label: t("pricingPlans") },
+    { href: "/about", label: t("aboutUs") },
+    { href: "/contact", label: t("contactUs") },
+  ]
+
+  const policyLinks = [
+    { href: "/privacy", label: t("privacyPolicy") },
+    { href: "/terms", label: t("termsOfService") },
+    { href: "/refund", label: t("refundPolicy") },
+  ]
+
   return (
-    <footer className="footer-gradient text-[#794235]">
-      <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary via-primary-light to-cream flex items-center justify-center">
-                <div className="w-7 h-7 rounded-full border-2 border-primary-light flex items-center justify-center">
-                  <span className="text-primary text-sm font-bold">A</span>
-                </div>
-              </div>
-              <span className="text-xl font-serif font-bold ">{tNav("brand")}</span>
-            </div>
-            <p className="text-sm leading-relaxed">{t("tagline")}</p>
-            <div className="flex gap-4">
+    <footer className="bg-footer-gradient px-6 py-16 text-black lg:px-24">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <div className="mb-2 text-3xl font-bold">{tNav("brand")}</div>
+          <p className="mb-6 text-sm text-gray-800">{t("tagline")}</p>
+          <div className="flex space-x-4">
+            {socialLinks.map(({ href, label, Icon }) => (
               <a
-                href="https://facebook.com"
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className=" hover:text-primary transition-colors"
+                className="rounded-full bg-black p-2 text-white transition-opacity hover:opacity-80"
+                aria-label={label}
               >
-                <Facebook className="h-5 w-5" />
+                <Icon className="h-4 w-4" aria-hidden="true" />
               </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className=" hover:text-primary transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className=" hover:text-primary transition-colors"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className=" hover:text-primary transition-colors"
-              >
-                <Youtube className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">{t("servicesHeading")}</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/services/kundli/generate" className=" hover:text-primary transition-colors">
-                  {t("kundliGeneration")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/horoscope" className=" hover:text-primary transition-colors">
-                  {t("horoscope")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/matchmaking" className=" hover:text-primary transition-colors">
-                  {t("matchmaking")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/ai-reports" className=" hover:text-primary transition-colors">
-                  {t("reports")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/consultation" className=" hover:text-primary transition-colors">
-                  {t("liveConsultation")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">{t("quickLinksHeading")}</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/astrologers" className=" hover:text-primary transition-colors">
-                  {t("ourAstrologers")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className=" hover:text-primary transition-colors">
-                  {t("pricingPlans")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/profile" className=" hover:text-primary transition-colors">
-                  {tNav("profile")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className=" hover:text-primary transition-colors">
-                  {t("aboutUs")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className=" hover:text-primary transition-colors">
-                  {t("contactUs")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold ">{t("contactHeading")}</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3">
-                <Mail className="h-5 w-5  mt-0.5 shrink-0" />
-                <span className="">support@anantastro.com</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone className="h-5 w-5  mt-0.5 shrink-0" />
-                <span className="">+1 (555) 123-4567</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5  mt-0.5 shrink-0" />
-                <span className="">
-                  123 Astrology Street<br />
-                  Mystic City, MC 12345
-                </span>
-              </li>
-            </ul>
+            ))}
           </div>
         </div>
 
-        <Separator className="my-8 bg-black/20" />
+        <div>
+          <h4 className="mb-4 font-bold">{t("servicesHeading")}</h4>
+          <ul className="space-y-2 text-sm">
+            {serviceLinks.map(({ href, label }) => (
+              <li key={label}>
+                <Link href={href} className="hover:underline">
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm ">
-          <p>{t("copyright", { year })}</p>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-primary transition-colors">
-              {t("privacyPolicy")}
+        <div>
+          <h4 className="mb-4 font-bold">{t("quickLinksHeading")}</h4>
+          <ul className="space-y-2 text-sm">
+            {quickLinks.map(({ href, label }) => (
+              <li key={label}>
+                <Link href={href} className="hover:underline">
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="mb-4 font-bold">{t("contactHeading")}</h4>
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-center">
+              <Phone className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
+              +1 (555) 123-4567
+            </li>
+            <li className="flex items-center">
+              <Mail className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
+              support@anantastro.com
+            </li>
+            <li className="flex items-start">
+              <MapPin className="mr-2 mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              <span>
+                123 Astrology Street
+                <br />
+                Mystic City, MC 12345
+              </span>
+            </li>
+            <li className="flex items-center">
+              <Globe className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
+              www.anantastro.com
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-4 border-t border-black/20 pt-6 text-xs font-medium md:flex-row md:items-center">
+        <div>{t("copyright", { year })}</div>
+        <div className="flex flex-wrap gap-4 md:gap-6">
+          {policyLinks.map(({ href, label }) => (
+            <Link key={label} href={href} className="hover:underline">
+              {label}
             </Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">
-              {t("termsOfService")}
-            </Link>
-            <Link href="/refund" className="hover:text-primary transition-colors">
-              {t("refundPolicy")}
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
     </footer>

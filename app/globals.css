@@ -3,8 +3,8 @@
 
 /* react-day-picker v9: use .rdp-root for variables and layout */
 .rdp-root {
-  --rdp-accent-color: #f37833;
-  --rdp-accent-background-color: #fff5eb;
+  --rdp-accent-color: #ff9500;
+  --rdp-accent-background-color: #fff8eb;
   --rdp-day-height: 36px;
   --rdp-day-width: 36px;
   --rdp-day_button-height: 34px;
@@ -68,26 +68,26 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 20 85% 55%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --primary: 36 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 265 80% 20%;
+    --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 20 85% 55%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 48 100% 50%;
+    --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 20 85% 55%;
-    --radius: 0.5rem;
-    
-    /* Custom color palette */
-    --color-primary: #f37833;
-    --color-primary-light: #fcbb18;
-    --color-primary-dark: #794235;
-    --color-cream: #794235;
+    --ring: 36 100% 50%;
+    --radius: 1.5rem;
+
+    /* Legacy aliases — aligned with Stitch / cosmic palette */
+    --color-primary: #ff9500;
+    --color-primary-light: #ffc800;
+    --color-primary-dark: #2e0a5e;
+    --color-cream: #2e0a5e;
   }
 
   .dark {
@@ -111,21 +111,44 @@
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
   }
+
+  a:not([data-slot="button"]):not(.link-reset) {
+    color: var(--color-astro-purple, #2e0a5e);
+    text-decoration: none;
+  }
+
+  a:not([data-slot="button"]):not(.link-reset):hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 }
 
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --font-sans: var(--font-geist-sans);
+  --color-primary: hsl(var(--primary));
+  --color-secondary: hsl(var(--secondary));
+  --color-ring: hsl(var(--ring));
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-poppins-family), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 @theme {
-  /* Custom color palette - accessible as bg-primary, text-primary, etc. */
-  --color-primary: #f37833;
-  --color-primary-light: #fcbb18;
-  --color-primary-dark: #794235;
-  --color-cream: #794235;
+  --color-primary: #ff9500;
+  --color-primary-light: #ffc800;
+  --color-primary-dark: #2e0a5e;
+  --color-cream: #2e0a5e;
+
+  /* Stitch homepage palette */
+  --color-astro-yellow: #ffc800;
+  --color-astro-orange: #ff9500;
+  --color-astro-purple: #2e0a5e;
+  --color-astro-dark: #1a0633;
+  --font-poppins: var(--font-poppins-family);
 }
 
 * {
@@ -135,7 +158,7 @@
 body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins-family), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Celestial theme custom styles */
@@ -182,12 +205,89 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 0;
+  pointer-events: none;
   background: #fcbb18;
   color: #794235;
   background-size: 200% 200%;
   background-position: 0% 0%;
   opacity: 0.4;
   animation: twinkle 20s ease-in-out infinite;
+}
+
+.celestial-content {
+  position: relative;
+  z-index: 1;
+  color: var(--color-astro-dark, #1a0633);
+}
+
+.celestial-content :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-astro-dark, #1a0633);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
+}
+
+.celestial-content :where(p, span, li) {
+  color: color-mix(in srgb, var(--color-astro-purple, #2e0a5e) 88%, black);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+}
+
+/* Buttons and links keep their intended text colors inside CelestialBackground */
+.celestial-content :is(button, a, [data-slot="button"]) {
+  text-shadow: none;
+}
+
+.celestial-content :is(button, a, [data-slot="button"]) :where(span, p, li) {
+  color: inherit;
+  text-shadow: none;
+}
+
+/* Cards inside CelestialBackground carry their own text colors */
+.celestial-content .celestial-surface-light {
+  color: #111827;
+  text-shadow: none;
+}
+
+.celestial-content .celestial-surface-light :where(h1, h2, h3, h4, h5, h6, p, span, li, time) {
+  color: inherit;
+  text-shadow: none;
+}
+
+.celestial-content .celestial-surface-light .text-gray-600 {
+  color: #4b5563;
+}
+
+.celestial-content .celestial-surface-light .text-gray-500 {
+  color: #6b7280;
+}
+
+.celestial-content .celestial-surface-dark {
+  color: #ffffff;
+  text-shadow: none;
+}
+
+.celestial-content .celestial-surface-dark :where(h1, h2, h3, h4, h5, h6, p, span, li, time) {
+  color: inherit;
+  text-shadow: none;
+}
+
+.celestial-content .celestial-surface-dark .text-purple-100 {
+  color: #f3e8ff;
+}
+
+.celestial-content .celestial-surface-dark .text-purple-200 {
+  color: #e9d5ff;
+}
+
+.celestial-content .celestial-surface-dark .text-white {
+  color: #ffffff;
+}
+
+.celestial-content .celestial-surface-dark .text-emerald-200 {
+  color: #a7f3d0;
+}
+
+.celestial-content .celestial-surface-dark .text-amber-200 {
+  color: #fde68a;
 }
 
 @keyframes twinkle {
@@ -268,7 +368,7 @@ body {
 [data-slot="dropdown-menu-sub-trigger"][data-highlighted],
 [data-slot="select-item"]:hover,
 [data-slot="select-item"][data-highlighted] {
-  background: hsl(var(--muted)) !important;
+  background: rgb(255 149 0 / 0.1) !important;
   color: hsl(var(--foreground)) !important;
 }
 [data-slot="dropdown-menu-item"][data-variant="destructive"]:hover,
@@ -381,4 +481,42 @@ body {
 
 .animate-bounce-slow {
   animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* Stitch homepage utilities */
+.bg-hero-gradient {
+  background: linear-gradient(to bottom, #ffd600, #ffb800);
+}
+
+.hero-premium-blend {
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-composite: source-in;
+}
+
+.bg-footer-gradient {
+  background: linear-gradient(to right, #ffc800, #ff9500);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stars-bg {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05) 1.5px, transparent 1px),
+    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+
+.font-poppins {
+  font-family: var(--font-poppins-family), sans-serif;
 }

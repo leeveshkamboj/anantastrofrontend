@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Card, CardContent } from '@/components/ui/card';
+import { ResultCard, CardContent } from '@/components/kundli/result';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
 import type {
   DashaPeriodRow,
@@ -129,9 +129,9 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
 
   if (!vim && !yogini) {
     return (
-      <Card>
+      <ResultCard>
         <CardContent className="pt-8 pb-8 text-center text-gray-600">{tk('dashaNoData')}</CardContent>
-      </Card>
+      </ResultCard>
     );
   }
 
@@ -140,7 +140,7 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
       {vim && (
         <>
           <h2 className="text-lg font-semibold text-gray-900">{tk('vimshottariTitle')}</h2>
-          <Card>
+          <ResultCard>
             <CardContent>
               <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('dashaAtBirth')}</h3>
               <dl className="grid gap-3 sm:grid-cols-2 text-sm">
@@ -162,8 +162,8 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
                 </div>
               </dl>
             </CardContent>
-          </Card>
-          <Card>
+          </ResultCard>
+          <ResultCard>
             <CardContent>
               <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('vimshottariMahadasha')}</h3>
               <DashaPeriodTable
@@ -173,9 +173,9 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
                 formatDate={formatDashaDate}
               />
             </CardContent>
-          </Card>
+          </ResultCard>
           {vim.birthMahadashaAntardashas.length > 0 && (
-            <Card>
+            <ResultCard>
               <CardContent>
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">
                   {tk('vimshottariAntardashaBirth')}
@@ -187,7 +187,7 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
                   formatDate={formatDashaDate}
                 />
               </CardContent>
-            </Card>
+            </ResultCard>
           )}
         </>
       )}
@@ -195,7 +195,7 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
       {yogini && (
         <>
           <h2 className="text-lg font-semibold text-gray-900">{tk('yoginiTitle')}</h2>
-          <Card>
+          <ResultCard>
             <CardContent>
               <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('dashaAtBirth')}</h3>
               <dl className="grid gap-3 sm:grid-cols-2 text-sm">
@@ -205,8 +205,8 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
                 </div>
               </dl>
             </CardContent>
-          </Card>
-          <Card>
+          </ResultCard>
+          <ResultCard>
             <CardContent>
               <h3 className="text-sm font-semibold text-gray-900 mb-3">{tk('yoginiPeriods')}</h3>
               <DashaPeriodTable
@@ -216,7 +216,7 @@ export function KundliDashaTab({ chartData }: { chartData: Record<string, unknow
                 formatDate={formatDashaDate}
               />
             </CardContent>
-          </Card>
+          </ResultCard>
         </>
       )}
     </div>

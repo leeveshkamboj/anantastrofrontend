@@ -17,6 +17,22 @@ import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
+import {
+  HoroscopeHero,
+  WhatIsHoroscope,
+  HoroscopeHowItWorks,
+  HoroscopeWhyDetailsMatter,
+  HoroscopeWhatYouGet,
+  HoroscopeFaq,
+  HoroscopeFinalCta,
+} from '@/components/horoscope';
+import {
+  ServiceFormSection,
+  serviceFormCardClassName,
+  serviceProfileButtonClassName,
+  serviceProfileIconClassName,
+} from '@/components/services';
+import { CosmicButton } from '@/components/ui/CosmicButton';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -185,7 +201,8 @@ function ManualBirthForm({
       </div>
       <Button
         type="submit"
-        className="w-full h-auto min-h-11 py-3"
+        variant="gradient"
+        className="h-auto min-h-11 w-full rounded-full py-3"
         size="lg"
         disabled={isSubmitting}
       >
@@ -406,37 +423,24 @@ export default function HoroscopePage() {
   if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen bg-white">
-      <section className="bg-primary-light text-primary-dark relative py-20 md:py-24 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-6 flex items-center justify-center gap-4">
-            <Sparkles className="h-12 w-12 md:h-14 md:w-14 text-primary" />
-            {th('title')}
-          </h1>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-gray-700 mb-4">
-            {th('heroSubtitle')}
-          </p>
-          <p className="text-base text-gray-600 max-w-xl mx-auto">
-            {th('heroSubtitle2')}
-          </p>
-        </div>
-      </section>
+    <div className="overflow-x-hidden">
+      <HoroscopeHero />
+      <WhatIsHoroscope />
+      <HoroscopeHowItWorks />
+      <HoroscopeWhyDetailsMatter />
 
-      <section id="get-horoscope" className="py-16 md:py-20 px-4 md:px-8">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-2">
-            {th('sectionTitle')}
-          </h2>
-          <p className="text-lg text-gray-600 text-center mb-10">
-            {th('sectionSubtitle')}
-          </p>
-          <ServiceCostBanner serviceKey={detailLevel === 'detailed' ? 'horoscope_detailed' : 'horoscope'} className="mb-8" />
+      <ServiceFormSection
+        id="get-horoscope"
+        title={th('sectionTitle')}
+        subtitle={th('sectionSubtitle')}
+      >
+        <ServiceCostBanner serviceKey={detailLevel === 'detailed' ? 'horoscope_detailed' : 'horoscope'} className="mb-8" />
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
             {/* Loading profiles (no profiles yet) */}
             {!hasProfiles && loadingKundlis && (
-              <Card className="border-0 shadow-xl bg-white">
-                <CardContent className="pt-8 pb-8 text-center text-gray-500">
+              <Card className={serviceFormCardClassName}>
+                <CardContent className="p-8 text-center text-gray-500">
                   {th('loadingCard')}
                 </CardContent>
               </Card>
@@ -444,9 +448,9 @@ export default function HoroscopePage() {
 
             {/* No profiles: manual form only (like kundli first-time) */}
             {!hasProfiles && !loadingKundlis && (
-              <Card className="border-0 shadow-xl bg-white">
-                <CardContent className="pt-8 pb-8 space-y-6">
-                  <h3 className="text-xl font-semibold text-gray-900">
+              <Card className={serviceFormCardClassName}>
+                <CardContent className="space-y-6 p-8">
+                  <h3 className="text-xl font-extrabold text-gray-900">
                     {th('noProfilesTitle')}
                   </h3>
                   <p className="text-gray-600 -mt-2">
@@ -471,10 +475,10 @@ export default function HoroscopePage() {
 
             {/* Has profiles + "Enter details manually" chosen: manual form with Back */}
             {hasProfiles && showManualForm && (
-              <Card className="border-0 shadow-xl bg-white">
-                <CardContent className="pt-8 pb-8 space-y-6">
+              <Card className={serviceFormCardClassName}>
+                <CardContent className="space-y-6 p-8">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-extrabold text-gray-900">
                       {th('manualTitle')}
                     </h3>
                     <Button
@@ -508,9 +512,9 @@ export default function HoroscopePage() {
 
             {/* Has profiles + profile select view (like GetKundliSection) */}
             {hasProfiles && !showManualForm && (
-              <Card className="border-0 shadow-xl bg-white">
-                <CardContent className="pt-8 pb-8 space-y-6">
-                  <h3 className="text-xl font-semibold text-gray-900">{th('selectProfileTitle')}</h3>
+              <Card className={serviceFormCardClassName}>
+                <CardContent className="space-y-6 p-8">
+                  <h3 className="text-xl font-extrabold text-gray-900">{th('selectProfileTitle')}</h3>
                   <p className="text-gray-600 -mt-2">
                     {th('selectProfileSubtitle')}
                   </p>
@@ -524,14 +528,17 @@ export default function HoroscopePage() {
                             type="button"
                             onClick={() => setSelectedProfileId(k.id)}
                             className={cn(
-                              'w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all',
-                              selectedProfileId === k.id
-                                ? 'border-primary bg-primary/5'
-                                : 'border-gray-200 hover:border-primary/50 bg-white',
+                              'flex w-full items-center gap-3 rounded-2xl p-4 text-left transition-all',
+                              serviceProfileButtonClassName(selectedProfileId === k.id),
                             )}
                           >
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                              <User className="h-5 w-5 text-primary" />
+                            <div
+                              className={cn(
+                                'flex h-10 w-10 shrink-0 items-center justify-center rounded-full',
+                                serviceProfileIconClassName(selectedProfileId === k.id),
+                              )}
+                            >
+                              <User className="h-5 w-5" />
                             </div>
                             <div>
                               <p className="font-medium text-gray-900">{k.name}</p>
@@ -588,10 +595,11 @@ export default function HoroscopePage() {
                         <option value="detailed">{th('manualForm.detailed')}</option>
                       </select>
                     </div>
-                    <Button
+                    <CosmicButton
                       type="submit"
                       disabled={!selectedProfileId || isSubmitting}
-                      className="w-full bg-primary hover:bg-primary/90 h-auto min-h-11 py-3"
+                      variant="primary"
+                      className="h-auto min-h-11 w-full rounded-full py-3"
                       size="lg"
                     >
                       <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-white text-sm font-medium">
@@ -607,7 +615,7 @@ export default function HoroscopePage() {
                           </>
                         )}
                       </span>
-                    </Button>
+                    </CosmicButton>
                     {!selectedProfileId && (
                       <p className="text-sm text-gray-500 mt-2 text-center">
                         {th('hintSelectProfile')}
@@ -618,8 +626,10 @@ export default function HoroscopePage() {
               </Card>
             )}
           </form>
-        </div>
-      </section>
+      </ServiceFormSection>
+      <HoroscopeWhatYouGet />
+      <HoroscopeFaq />
+      <HoroscopeFinalCta />
     </div>
   );
 }

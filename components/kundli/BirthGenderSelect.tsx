@@ -12,6 +12,7 @@ export interface BirthGenderSelectProps {
   onChange: (value: BirthGender) => void;
   className?: string;
   labelClassName?: string;
+  selectClassName?: string;
   /** Override translation namespace; defaults to services.kundli.birthForm */
   translationNamespace?: string;
 }
@@ -22,6 +23,7 @@ export function BirthGenderSelect({
   onChange,
   className,
   labelClassName,
+  selectClassName,
   translationNamespace = 'services.kundli.birthForm',
 }: BirthGenderSelectProps) {
   const t = useTranslations(translationNamespace);
@@ -34,7 +36,10 @@ export function BirthGenderSelect({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value as BirthGender)}
-        className="flex h-10 w-full rounded-md border border-input bg-gray-50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className={cn(
+          'flex h-11 w-full rounded-full border border-gray-300 bg-transparent px-4 py-3 text-sm ring-offset-background focus-visible:border-astro-orange focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-astro-orange',
+          selectClassName
+        )}
       >
         <option value="Male">{t('genderMale')}</option>
         <option value="Female">{t('genderFemale')}</option>
