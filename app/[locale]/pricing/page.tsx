@@ -6,6 +6,7 @@ import { useRouter } from '@/i18n/navigation';
 import { useGetCoinPlansPublicQuery, useCreateCoinCheckoutOrderMutation } from '@/store/api/coinsApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import { loadRazorpayScript, openRazorpayCheckout } from '@/lib/razorpay-checkout';
+import { savePaymentSuccessSnapshot } from '@/lib/payment-success-storage';
 import { toast } from 'sonner';
 import { PricingHeroSection } from '@/components/pricing/PricingHeroSection';
 import { PricingUnlockSection } from '@/components/pricing/PricingUnlockSection';
@@ -75,8 +76,17 @@ export default function PricingPage() {
         }),
         userEmail: user?.email,
         userName: user?.name,
-        onSuccess: () => {
-          toast.success(t('toastPaymentSuccess'));
+        onSuccess: (paymentId, orderId, signature) => {
+          savePaymentSuccessSnapshot({
+            orderId,
+            paymentId,
+            signature,
+            planName: d.plan.name,
+            coinQuantity: d.plan.coinQuantity,
+            amountPaise: d.amountPaise,
+            currency: d.currency,
+          });
+          router.push('/payment/thank-you', { scroll: true });
         },
       });
     } catch {

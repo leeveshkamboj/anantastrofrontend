@@ -50,7 +50,7 @@ export function openRazorpayCheckout(options: {
       email: options.userEmail,
       name: options.userName,
     },
-    theme: { color: '#7c3aed' },
+    theme: { color: '#C17A3A' },
     handler: (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
       options.onSuccess?.(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
     },

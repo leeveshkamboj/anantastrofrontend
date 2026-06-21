@@ -1034,6 +1034,24 @@
     "useCoinsOnServices": "Use coins on services",
     "checkoutDescription": "{name} — {quantity} coins"
   },
+  "paymentThankYou": {
+    "badge": "Payment successful",
+    "title": "Thank you!",
+    "subtitle": "Your purchase is confirmed and coins are in your wallet.",
+    "processingTitle": "Confirming payment…",
+    "processingSubtitle": "Just a moment while we secure your purchase.",
+    "errorTitle": "Couldn't confirm payment",
+    "errorSubtitle": "Your payment may still be processing. Check your wallet in a minute or contact support if coins don't appear.",
+    "coinsAdded": "+{n} coins added",
+    "amountPaid": "Amount paid",
+    "newBalance": "New wallet balance",
+    "coinsLabel": "coins",
+    "orderRef": "Order reference",
+    "goToWallet": "View wallet",
+    "generateKundli": "Generate your kundli",
+    "backToPricing": "Back to pricing",
+    "retry": "Try again"
+  },
   "wallet": {
     "badge": "Coins & billing",
     "title": "Wallet",

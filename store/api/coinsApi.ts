@@ -35,6 +35,20 @@ export interface CreateOrderResponse {
   };
 }
 
+export interface VerifyCheckoutResponse {
+  isSuccess: boolean;
+  data: {
+    credited: boolean;
+    balance: number;
+    coinsCredited: number;
+    amountPaise: number;
+    currency: string;
+    planName: string;
+    orderId: string;
+    paymentId: string;
+  };
+}
+
 export const coinsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getServiceCoinCosts: builder.query<{ isSuccess: boolean; data: ServiceCoinCostRow[] }, void>({
@@ -103,6 +117,17 @@ export const coinsApi = baseApi.injectEndpoints({
     createCoinCheckoutOrder: builder.mutation<CreateOrderResponse, { planId: number }>({
       query: (body) => ({
         url: '/coins/checkout/order',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Coins'],
+    }),
+    verifyCoinCheckout: builder.mutation<
+      VerifyCheckoutResponse,
+      { orderId: string; paymentId: string; signature: string }
+    >({
+      query: (body) => ({
+        url: '/coins/checkout/verify',
         method: 'POST',
         body,
       }),
@@ -209,6 +234,7 @@ export const {
   useGetMyCoinTransactionsQuery,
   useGetMyPaymentHistoryQuery,
   useCreateCoinCheckoutOrderMutation,
+  useVerifyCoinCheckoutMutation,
   useGetAdminCoinSettingsQuery,
   usePatchAdminCoinSettingsMutation,
   useGetAdminServiceCoinCostsQuery,
