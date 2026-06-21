@@ -5,9 +5,12 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '@/store/hooks/useAuth';
-import { setToken } from '@/lib/auth';
-import { setCredentials, setAuthToken } from '@/store/slices/authSlice';
+import { setCredentials } from '@/store/slices/authSlice';
 import { selectKundliFormData } from '@/store/slices/kundliFormSlice';
+import {
+  useExchangeOAuthCodeMutation,
+  useEstablishSessionMutation,
+} from '@/store/api/authApi';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 
@@ -18,10 +21,13 @@ function GoogleCallbackContent() {
   const dispatch = useDispatch();
   const kundliForm = useSelector(selectKundliFormData);
   const { refetchProfile } = useAuth();
+  const [exchangeOAuthCode] = useExchangeOAuthCodeMutation();
+  const [establishSession] = useEstablishSessionMutation();
 
   useEffect(() => {
     const handleCallback = async () => {
-      const token = searchParams.get('token');
+      const code = searchParams.get('code');
+      const legacyToken = searchParams.get('token');
       const error = searchParams.get('error');
 
       if (error) {
@@ -30,43 +36,41 @@ function GoogleCallbackContent() {
         return;
       }
 
-      if (token) {
-        setToken(token);
-        dispatch(setAuthToken(token));
-        try {
-          const profileResult = await refetchProfile();
-
-          if (profileResult?.data?.data) {
-            dispatch(setCredentials({
-              user: profileResult.data.data,
-              token: token,
-            }));
-          }
-
-          toast.success(t('googleCallback.success'));
-
-          const userData = profileResult?.data?.data;
-          if (userData?.role === 'admin') {
-            router.push('/admin');
-          } else if (kundliForm.name?.trim()) {
-            router.push('/services/kundli/generate');
-          } else {
-            router.push('/');
-          }
+      try {
+        if (code) {
+          await exchangeOAuthCode({ code }).unwrap();
+        } else if (legacyToken) {
+          await establishSession({ token: legacyToken }).unwrap();
+        } else {
+          toast.error(t('googleCallback.authFailed'));
+          router.push('/auth/login');
           return;
-        } catch (err) {
-          console.error('Profile fetch error:', err);
-          toast.success(t('googleCallback.success'));
+        }
+
+        const profileResult = await refetchProfile();
+        if (profileResult?.data?.data) {
+          dispatch(setCredentials({ user: profileResult.data.data }));
+        }
+
+        toast.success(t('googleCallback.success'));
+
+        const userData = profileResult?.data?.data;
+        if (userData?.role === 'admin') {
+          router.push('/admin');
+        } else if (kundliForm.name?.trim()) {
+          router.push('/services/kundli/generate');
+        } else {
           router.push('/');
         }
-      } else {
+      } catch (err) {
+        console.error('OAuth callback error:', err);
         toast.error(t('googleCallback.authFailed'));
         router.push('/auth/login');
       }
     };
 
     handleCallback();
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount with token from URL
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount with code from URL
   }, [searchParams]);
 
   return (

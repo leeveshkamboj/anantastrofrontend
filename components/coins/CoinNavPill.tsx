@@ -7,20 +7,21 @@ import { CoinGlyph } from './CoinGlyph';
 import { cn } from '@/lib/utils';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
-import { selectToken } from '@/store/slices/authSlice';
+import { selectIsAuthenticated } from '@/store/slices/authSlice';
 
 export function CoinNavPill({ className }: { className?: string }) {
-  const token = useSelector(selectToken);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const { data, isFetching, refetch } = useGetMyWalletQuery(undefined, {
+    skip: !isAuthenticated,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
   const balance = data?.data?.balance;
 
   useEffect(() => {
-    if (!token) return;
+    if (!isAuthenticated) return;
     const wsBase = process.env.NEXT_PUBLIC_API_URL || window.location.origin;
-    const socket = io(`${wsBase}/realtime`, { auth: { token } });
+    const socket = io(`${wsBase}/realtime`, { withCredentials: true });
     const onBalanceUpdate = () => {
       void refetch();
     };
@@ -29,7 +30,11 @@ export function CoinNavPill({ className }: { className?: string }) {
       socket.off('wallet:balanceUpdated', onBalanceUpdate);
       socket.disconnect();
     };
-  }, [token, refetch]);
+  }, [isAuthenticated, refetch]);
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <Link

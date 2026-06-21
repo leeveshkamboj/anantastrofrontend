@@ -99,10 +99,9 @@ export default function RegisterPage() {
         toast.success(t('registerToast.checkEmail'));
         return;
       }
-      if (result?.data && 'access_token' in responseData) {
+      if (result?.data && 'user' in responseData && responseData.user) {
         dispatch(setCredentials({
           user: (responseData as AuthData).user,
-          token: (responseData as AuthData).access_token,
         }));
       }
       toast.success(t('registerToast.welcome'));

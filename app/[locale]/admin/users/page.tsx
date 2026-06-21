@@ -76,10 +76,9 @@ export default function AdminUsersPage() {
   const handleLoginAs = async (userId: number) => {
     try {
       const result = await loginAsUser(userId).unwrap();
-      if (result?.data) {
+      if (result?.data?.user) {
         dispatch(setCredentials({
           user: result.data.user,
-          token: result.data.access_token,
         }));
         toast.success(`Logged in as ${result.data.user.name}`);
         if (result.data.user.role === 'astrologer') {

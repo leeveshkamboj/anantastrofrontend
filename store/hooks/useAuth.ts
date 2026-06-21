@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '../store';
 import {
   selectUser,
-  selectToken,
   selectIsAuthenticated,
+  selectSessionChecked,
   selectUserRole,
   selectIsAdmin,
   selectAuthLoading,
@@ -13,7 +13,12 @@ import {
   setError,
   clearError,
 } from '../slices/authSlice';
-import { useLoginMutation, useRegisterMutation, useGetProfileQuery, useLogoutMutation } from '../api/authApi';
+import {
+  useLoginMutation,
+  useRegisterMutation,
+  useGetProfileQuery,
+  useLogoutMutation,
+} from '../api/authApi';
 import { parseFetchBaseError } from '@/lib/api-errors';
 
 /**
@@ -21,26 +26,23 @@ import { parseFetchBaseError } from '@/lib/api-errors';
  */
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
-  
-  // Selectors
+
   const user = useSelector(selectUser);
-  const token = useSelector(selectToken);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const sessionChecked = useSelector(selectSessionChecked);
   const userRole = useSelector(selectUserRole);
   const isAdmin = useSelector(selectIsAdmin);
   const isLoading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
 
-  // API hooks
   const [loginMutation, { isLoading: isLoginLoading }] = useLoginMutation();
   const [registerMutation, { isLoading: isRegisterLoading }] = useRegisterMutation();
   const [logoutMutation, { isLoading: isLogoutLoading }] = useLogoutMutation();
   const { isLoading: isProfileLoading, refetch: refetchProfile } = useGetProfileQuery(
     undefined,
-    { skip: !isAuthenticated }
+    { skip: sessionChecked && !isAuthenticated },
   );
 
-  // Actions
   const handleLogin = async (email: string, password: string) => {
     try {
       dispatch(setLoading(true));
@@ -85,7 +87,6 @@ export const useAuth = () => {
       dispatch(setLoading(true));
       await logoutMutation().unwrap();
     } catch {
-      // Even if logout fails on server, clear local state
       dispatch(logout());
     } finally {
       dispatch(setLoading(false));
@@ -96,28 +97,23 @@ export const useAuth = () => {
     if (user) {
       return user;
     }
-    // Try to refetch if not available
     if (isAuthenticated) {
       refetchProfile();
     }
     return user;
   };
 
-  const getUserRole = () => {
-    return userRole;
-  };
+  const getUserRole = () => userRole;
 
   return {
-    // State
     user,
-    token,
     isAuthenticated,
+    sessionChecked,
     userRole,
     isAdmin,
-    isLoading: isLoading || isLoginLoading || isRegisterLoading || isLogoutLoading || isProfileLoading,
+    isLoading:
+      isLoading || isLoginLoading || isRegisterLoading || isLogoutLoading || isProfileLoading,
     error,
-
-    // Actions
     login: handleLogin,
     register: handleRegister,
     logout: handleLogout,
@@ -127,4 +123,3 @@ export const useAuth = () => {
     clearError: () => dispatch(clearError()),
   };
 };
-

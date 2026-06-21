@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import { Clock, Mail, MapPin, Phone, Send, type LucideIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { toast } from "sonner"
 import { Container } from "@/components/layout/Container"
 import { DecorativePlanets } from "@/components/layout/DecorativePlanets"
 import { AnimatedSection, FadeIn, HoverLift, Stagger, StaggerItem } from "@/components/motion"
@@ -10,6 +12,8 @@ import { CosmicCard } from "@/components/ui/CosmicCard"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { config } from "@/lib/config"
+import { parseFetchBaseError } from "@/lib/api-errors"
 
 type ContactInfoItem =
   | {
@@ -60,6 +64,48 @@ const contactInfo: ContactInfoItem[] = [
 
 export function ContactMainSection() {
   const t = useTranslations("contact")
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    const data = new FormData(form)
+
+    const payload = {
+      firstName: String(data.get("firstName") ?? "").trim(),
+      lastName: String(data.get("lastName") ?? "").trim(),
+      email: String(data.get("email") ?? "").trim(),
+      phone: String(data.get("phone") ?? "").trim() || undefined,
+      subject: String(data.get("subject") ?? "").trim(),
+      message: String(data.get("message") ?? "").trim(),
+    }
+
+    if (!payload.firstName || !payload.lastName || !payload.email || !payload.subject || !payload.message) {
+      toast.error(t("submitError"))
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const response = await fetch(`${config.apiBaseUrl}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null)
+        throw parseFetchBaseError({ status: response.status, data: body })
+      }
+
+      toast.success(t("submitSuccess"))
+      form.reset()
+    } catch {
+      toast.error(t("submitError"))
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <AnimatedSection className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-24 lg:py-20">
@@ -71,19 +117,31 @@ export function ContactMainSection() {
               <h2 className="mb-1 text-xl font-bold text-gray-900 sm:text-2xl">{t("formTitle")}</h2>
               <p className="mb-5 text-sm text-gray-600 sm:mb-6">{t("formSubtitle")}</p>
 
-              <form className="space-y-5" aria-label={t("formTitle")} onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-5" aria-label={t("formTitle")} onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="contact-first-name" className="text-sm font-medium text-gray-700">
                       {t("firstName")}
                     </Label>
-                    <Input id="contact-first-name" type="text" placeholder={t("placeholderFirst")} />
+                    <Input
+                      id="contact-first-name"
+                      name="firstName"
+                      type="text"
+                      required
+                      placeholder={t("placeholderFirst")}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="contact-last-name" className="text-sm font-medium text-gray-700">
                       {t("lastName")}
                     </Label>
-                    <Input id="contact-last-name" type="text" placeholder={t("placeholderLast")} />
+                    <Input
+                      id="contact-last-name"
+                      name="lastName"
+                      type="text"
+                      required
+                      placeholder={t("placeholderLast")}
+                    />
                   </div>
                 </div>
 
@@ -91,21 +149,33 @@ export function ContactMainSection() {
                   <Label htmlFor="contact-email" className="text-sm font-medium text-gray-700">
                     {t("email")}
                   </Label>
-                  <Input id="contact-email" type="email" placeholder={t("placeholderEmail")} />
+                  <Input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder={t("placeholderEmail")}
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="contact-phone" className="text-sm font-medium text-gray-700">
                     {t("phoneOptional")}
                   </Label>
-                  <Input id="contact-phone" type="tel" placeholder={t("placeholderPhone")} />
+                  <Input id="contact-phone" name="phone" type="tel" placeholder={t("placeholderPhone")} />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="contact-subject" className="text-sm font-medium text-gray-700">
                     {t("subject")}
                   </Label>
-                  <Input id="contact-subject" type="text" placeholder={t("placeholderSubject")} />
+                  <Input
+                    id="contact-subject"
+                    name="subject"
+                    type="text"
+                    required
+                    placeholder={t("placeholderSubject")}
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -114,14 +184,16 @@ export function ContactMainSection() {
                   </Label>
                   <Textarea
                     id="contact-message"
+                    name="message"
+                    required
                     placeholder={t("placeholderMessage")}
                     className="min-h-32 rounded-3xl border-gray-300 px-4 py-3 focus-visible:border-astro-orange focus-visible:ring-astro-orange/50"
                   />
                 </div>
 
-                <CosmicButton type="submit" variant="primary" className="w-full">
+                <CosmicButton type="submit" variant="primary" className="w-full" disabled={submitting}>
                   <Send className="h-4 w-4" aria-hidden="true" />
-                  {t("submit")}
+                  {submitting ? t("submitting") : t("submit")}
                 </CosmicButton>
               </form>
             </CosmicCard>
@@ -138,8 +210,7 @@ export function ContactMainSection() {
             <Stagger className="grid grid-cols-1 gap-4">
               {contactInfo.map((info, index) => {
                 const Icon = info.icon
-                const displayValue =
-                  "valueKey" in info ? t(info.valueKey) : info.value
+                const displayValue = "valueKey" in info ? t(info.valueKey) : info.value
 
                 return (
                   <StaggerItem key={index}>

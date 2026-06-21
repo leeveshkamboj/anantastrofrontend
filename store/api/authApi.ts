@@ -1,5 +1,5 @@
 import { baseApi } from './baseApi';
-import { setCredentials, setUser, logout as logoutAction } from '../slices/authSlice';
+import { setCredentials, setUser, logout as logoutAction, setSessionChecked } from '../slices/authSlice';
 
 export interface RegisterRequest {
   email: string;
@@ -17,7 +17,6 @@ export interface LoginRequest {
 }
 
 export interface AuthData {
-  access_token: string;
   user: {
     id: number;
     email: string;
@@ -65,6 +64,11 @@ export interface User {
   currency?: string;
   timezone?: string;
   emailVerified?: boolean;
+  impersonation?: {
+    active: boolean;
+    adminId: number;
+    adminName: string;
+  } | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -111,13 +115,8 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          if (data.isSuccess && data.data && 'access_token' in data.data) {
-            dispatch(
-              setCredentials({
-                user: data.data.user,
-                token: data.data.access_token,
-              })
-            );
+          if (data.isSuccess && data.data && 'user' in data.data) {
+            dispatch(setCredentials({ user: data.data.user }));
             dispatch(authApi.endpoints.getProfile.initiate(undefined, { forceRefetch: true }));
           }
         } catch {
@@ -142,13 +141,8 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          if (data.isSuccess && data.data) {
-            dispatch(
-              setCredentials({
-                user: data.data.user,
-                token: data.data.access_token,
-              })
-            );
+          if (data.isSuccess && data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
             dispatch(authApi.endpoints.getProfile.initiate(undefined, { forceRefetch: true }));
           }
         } catch {
@@ -166,13 +160,8 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          if (data.isSuccess && data.data) {
-            dispatch(
-              setCredentials({
-                user: data.data.user,
-                token: data.data.access_token,
-              })
-            );
+          if (data.isSuccess && data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
           }
         } catch {
           // Error handling is done by the mutation hook
@@ -189,9 +178,10 @@ export const authApi = baseApi.injectEndpoints({
             dispatch(setUser(data.data));
           }
         } catch (error: any) {
-          // If profile fetch fails with 401, user is not authenticated
           if (error?.status === 401 || error?.status === 'FETCH_ERROR') {
             dispatch(logoutAction());
+          } else {
+            dispatch(setSessionChecked(true));
           }
         }
       },
@@ -247,6 +237,82 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    forgotPassword: builder.mutation<
+      { isSuccess: boolean; data: { message: string } },
+      { email: string }
+    >({
+      query: (body) => ({
+        url: '/auth/forgot-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    resetPassword: builder.mutation<
+      { isSuccess: boolean; data: { message: string } },
+      { token: string; newPassword: string }
+    >({
+      query: (body) => ({
+        url: '/auth/reset-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    exchangeOAuthCode: builder.mutation<AuthResponse, { code: string }>({
+      query: (body) => ({
+        url: '/auth/oauth/exchange',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Auth', 'User'],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.isSuccess && data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
+          }
+        } catch {
+          // Error handled in component
+        }
+      },
+    }),
+    establishSession: builder.mutation<AuthResponse, { token?: string } | void>({
+      query: (arg) => ({
+        url: '/auth/establish-session',
+        method: 'POST',
+        headers:
+          arg && typeof arg === 'object' && arg.token
+            ? { authorization: `Bearer ${arg.token}` }
+            : undefined,
+      }),
+      invalidatesTags: ['Auth', 'User'],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.isSuccess && data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
+          }
+        } catch {
+          // Error handled in component
+        }
+      },
+    }),
+    exitImpersonation: builder.mutation<AuthResponse, void>({
+      query: () => ({
+        url: '/auth/exit-impersonation',
+        method: 'POST',
+      }),
+      invalidatesTags: ['Auth', 'User'],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.isSuccess && data.data?.user) {
+            dispatch(setCredentials({ user: data.data.user }));
+          }
+        } catch {
+          // Error handled in component
+        }
+      },
+    }),
   }),
 });
 
@@ -260,5 +326,10 @@ export const {
   useSetPasswordMutation,
   useResendVerificationMutation,
   useVerifyEmailMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useExchangeOAuthCodeMutation,
+  useEstablishSessionMutation,
+  useExitImpersonationMutation,
 } = authApi;
 

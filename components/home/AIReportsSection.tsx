@@ -37,7 +37,7 @@ export function AIReportsSection() {
               })}
             </div>
             <Button asChild className="mt-8 bg-primary hover:bg-[#d6682a] text-white" size="lg">
-              <Link href="/services/ai-reports">
+              <Link href="/pricing">
                 {t("viewAll")} <ArrowRight className="ml-2 h-4 w-4 text-primary-dark" />
               </Link>
             </Button>

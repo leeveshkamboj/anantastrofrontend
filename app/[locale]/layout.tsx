@@ -6,6 +6,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { ReduxProvider } from "@/store/Provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ProfileChecker } from "@/components/ProfileChecker";
+import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
 import { ConditionalLayout } from "@/components/ConditionalLayout";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { routing } from "@/i18n/routing";
@@ -77,6 +78,7 @@ export default async function LocaleLayout({
           <ReduxProvider>
             <MotionProvider>
               <ProfileChecker />
+              <ImpersonationBanner />
               <ConditionalLayout>{children}</ConditionalLayout>
               <Toaster />
             </MotionProvider>

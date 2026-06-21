@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from 'next-intl';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated, selectUserRole, selectToken } from '@/store/slices/authSlice';
+import {
+  selectIsAuthenticated,
+  selectSessionChecked,
+  selectUserRole,
+} from '@/store/slices/authSlice';
 import { useGetProfileQuery } from '@/store/api/authApi';
 
 interface GuestRouteProps {
@@ -15,47 +19,32 @@ export function GuestRoute({ children }: GuestRouteProps) {
   const t = useTranslations('auth');
   const router = useRouter();
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const sessionChecked = useSelector(selectSessionChecked);
   const userRole = useSelector(selectUserRole);
-  const token = useSelector(selectToken);
-  
-  // Check profile if we have a token (handles refresh case)
+
   const { isLoading: isProfileLoading } = useGetProfileQuery(undefined, {
-    skip: !token,
     refetchOnMountOrArgChange: true,
   });
 
   const [hasChecked, setHasChecked] = useState(false);
 
   useEffect(() => {
-    // Wait for profile query to complete
-    if (isProfileLoading) {
+    if (isProfileLoading || !sessionChecked) {
       return;
     }
 
-    // If we have a token, wait a bit for Redux state to update
-    if (token) {
-      const timer = setTimeout(() => {
-        setHasChecked(true);
-        
-        if (isAuthenticated) {
-          // Redirect admin users to admin dashboard, others to home
-          if (userRole === 'admin') {
-            router.push('/admin');
-          } else {
-            router.push('/');
-          }
-        }
-      }, 200);
+    setHasChecked(true);
 
-      return () => clearTimeout(timer);
-    } else {
-      // No token, user is not authenticated, allow access
-      setHasChecked(true);
+    if (isAuthenticated) {
+      if (userRole === 'admin') {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     }
-  }, [isAuthenticated, userRole, router, isProfileLoading, token]);
+  }, [isAuthenticated, userRole, router, isProfileLoading, sessionChecked]);
 
-  // Show loading state while checking auth
-  if (!hasChecked || (token && isProfileLoading)) {
+  if (!hasChecked || isProfileLoading || !sessionChecked) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="text-center">
@@ -66,7 +55,6 @@ export function GuestRoute({ children }: GuestRouteProps) {
     );
   }
 
-  // Don't render if authenticated (redirect is in progress)
   if (isAuthenticated) {
     return null;
   }

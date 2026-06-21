@@ -59,10 +59,9 @@ export default function LoginPage() {
     setEmailNotVerified(null);
     try {
       const result = await login(data.email, data.password);
-      if (result?.data) {
+      if (result?.data?.user) {
         dispatch(setCredentials({
           user: result.data.user,
-          token: result.data.access_token,
         }));
 
         if (result.data.user.role === 'admin') {
@@ -139,7 +138,12 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">{t('login.password')}</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">{t('login.password')}</Label>
+                <Link href="/auth/forgot-password" className="text-sm text-primary hover:underline">
+                  {t('login.forgotPassword')}
+                </Link>
+              </div>
               <Input
                 id="password"
                 type="password"

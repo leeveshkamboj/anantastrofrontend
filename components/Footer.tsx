@@ -22,7 +22,7 @@ export function Footer() {
     { href: "/services/horoscope", label: t("horoscope") },
     { href: "/services/matchmaking", label: t("matchmaking") },
     { href: "/pricing", label: t("reports") },
-    { href: "/contact", label: t("liveConsultation") },
+    { href: "/contact", label: t("contactUs") },
   ]
 
   const quickLinks = [

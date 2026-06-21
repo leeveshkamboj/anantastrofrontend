@@ -18,11 +18,11 @@ import {
   splitFeaturedAndDirectory,
   type AstrologerFilters,
 } from "@/lib/astrologer-utils";
-import { selectToken } from "@/store/slices/authSlice";
+import { selectIsAuthenticated } from "@/store/slices/authSlice";
 
 export default function AstrologersPage() {
   const router = useRouter();
-  const token = useSelector(selectToken);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const { data, isLoading } = useGetChatAstrologersQuery();
   const [filters, setFilters] = useState<AstrologerFilters>(
     DEFAULT_ASTROLOGER_FILTERS,
@@ -48,7 +48,7 @@ export default function AstrologersPage() {
   const activeAstrologer = astrologers.find((a) => a.id === activeAstrologerId);
 
   const openStartChatDialog = (astrologerId: number) => {
-    if (!token) {
+    if (!isAuthenticated) {
       router.push(`/auth/login?next=${encodeURIComponent("/astrologers")}`);
       return;
     }

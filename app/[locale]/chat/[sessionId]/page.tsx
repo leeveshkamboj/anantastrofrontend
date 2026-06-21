@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
-import { selectToken } from '@/store/slices/authSlice';
+import { selectIsAuthenticated } from '@/store/slices/authSlice';
 import {
   useEndChatSessionMutation,
   useGetChatMessagesQuery,
@@ -29,7 +29,7 @@ export default function ChatSessionPage() {
   const tc = useTranslations('chatSession');
   const params = useParams<{ sessionId: string }>();
   const router = useRouter();
-  const token = useSelector(selectToken);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const sessionUuid = String(params?.sessionId || '');
   const [text, setText] = useState('');
   const [isAstrologerTyping, setIsAstrologerTyping] = useState(false);
@@ -55,15 +55,15 @@ export default function ChatSessionPage() {
   const [endSession, { isLoading: ending }] = useEndChatSessionMutation();
 
   useEffect(() => {
-    if (token) return;
+    if (isAuthenticated) return;
     const next = `/chat/${encodeURIComponent(sessionUuid)}`;
     router.replace(`/auth/login?next=${encodeURIComponent(next)}`);
-  }, [token, router, sessionUuid]);
+  }, [isAuthenticated, router, sessionUuid]);
 
   useEffect(() => {
-    if (!sessionUuid || !token) return;
+    if (!sessionUuid || !isAuthenticated) return;
     const wsBase = process.env.NEXT_PUBLIC_API_URL || window.location.origin;
-    const socket = io(`${wsBase}/chat`, { auth: { token } });
+    const socket = io(`${wsBase}/chat`, { withCredentials: true });
     socket.emit('chat:join', { sessionId: sessionUuid });
     const syncFromServer = () => {
       void refetchMessages();
@@ -78,7 +78,7 @@ export default function ChatSessionPage() {
     return () => {
       socket.disconnect();
     };
-  }, [sessionUuid, token, refetchMessages, refetchSession, refetchWallet]);
+  }, [sessionUuid, isAuthenticated, refetchMessages, refetchSession, refetchWallet]);
 
   const submit = async () => {
     const message = text.trim();
@@ -196,19 +196,17 @@ export default function ChatSessionPage() {
     return () => {
       window.clearTimeout(armCleanupTimer);
       if (!autoEndCleanupArmedRef.current) return;
-      if (!sessionUuid || !token || sessionEndedRef.current) return;
+      if (!sessionUuid || !isAuthenticated || sessionEndedRef.current) return;
       sessionEndedRef.current = true;
       const apiBase = process.env.NEXT_PUBLIC_API_URL || '';
       const url = `${apiBase}/api/chat/sessions/${encodeURIComponent(sessionUuid)}/end`;
       void fetch(url, {
         method: 'POST',
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
         keepalive: true,
       }).catch(() => undefined);
     };
-  }, [sessionUuid, token]);
+  }, [sessionUuid, isAuthenticated]);
 
   if (isSessionNotFound) {
     return <NotFound />;

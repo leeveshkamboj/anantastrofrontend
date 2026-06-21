@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../api/authApi';
-import { getToken, removeToken, setToken } from '@/lib/auth';
+import { clearLegacyToken } from '@/lib/auth';
 
 interface AuthState {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
+  sessionChecked: boolean;
   isLoading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
-  token: typeof window !== 'undefined' ? getToken() : null,
-  isAuthenticated: typeof window !== 'undefined' ? getToken() !== null : false,
+  isAuthenticated: false,
+  sessionChecked: false,
   isLoading: false,
   error: null,
 };
@@ -22,37 +22,29 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (
-      state,
-      action: PayloadAction<{ user: User; token: string }>
-    ) => {
+    setCredentials: (state, action: PayloadAction<{ user: User }>) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
       state.isAuthenticated = true;
+      state.sessionChecked = true;
       state.error = null;
-      setToken(action.payload.token);
-    },
-    /** Sets only the token (e.g. after OAuth). Use before refetching profile so API requests include the Bearer token. */
-    setAuthToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-      state.isAuthenticated = true;
-      state.error = null;
-      setToken(action.payload);
+      clearLegacyToken();
     },
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      state.sessionChecked = true;
       state.error = null;
+      clearLegacyToken();
     },
     logout: (state) => {
-      // Immediately clear token from Redux state first
-      // This ensures APIs stop using the token right away
       state.user = null;
-      state.token = null;
       state.isAuthenticated = false;
+      state.sessionChecked = true;
       state.error = null;
-      // Then remove from localStorage
-      removeToken();
+      clearLegacyToken();
+    },
+    setSessionChecked: (state, action: PayloadAction<boolean>) => {
+      state.sessionChecked = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
@@ -66,14 +58,21 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, setAuthToken, setUser, logout, setLoading, setError, clearError } =
-  authSlice.actions;
+export const {
+  setCredentials,
+  setUser,
+  logout,
+  setSessionChecked,
+  setLoading,
+  setError,
+  clearError,
+} = authSlice.actions;
 
-// Selectors
 export const selectUser = (state: { auth: AuthState }) => state.auth.user;
-export const selectToken = (state: { auth: AuthState }) => state.auth.token;
 export const selectIsAuthenticated = (state: { auth: AuthState }) =>
   state.auth.isAuthenticated;
+export const selectSessionChecked = (state: { auth: AuthState }) =>
+  state.auth.sessionChecked;
 export const selectUserRole = (state: { auth: AuthState }) =>
   state.auth.user?.role || null;
 export const selectIsAdmin = (state: { auth: AuthState }) =>
@@ -85,4 +84,3 @@ export const selectAuthLoading = (state: { auth: AuthState }) =>
 export const selectAuthError = (state: { auth: AuthState }) => state.auth.error;
 
 export default authSlice.reducer;
-

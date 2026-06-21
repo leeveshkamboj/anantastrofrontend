@@ -44,7 +44,7 @@ export default function NotFound() {
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary hover:text-white px-8 py-6 text-lg"
               >
-                <Link href="/services/ai-reports" className="flex items-center gap-2">
+                <Link href="/pricing" className="flex items-center gap-2">
                   <ArrowRight className="h-5 w-5" />
                   {t('exploreServices')}
                 </Link>
