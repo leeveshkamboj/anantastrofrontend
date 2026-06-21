@@ -15,7 +15,8 @@
     "screenshots": "tsx scripts/generate-screenshots.ts",
     "screenshots:dry-run": "tsx scripts/generate-screenshots.ts --dry-run",
     "screenshots:critical": "tsx scripts/generate-screenshots.ts --priority=critical --exclude-optional",
-    "screenshots:install": "playwright install chromium"
+    "screenshots:install": "playwright install chromium",
+    "deploy": "./scripts/deploy-frontend.sh"
   },
   "dependencies": {
     "@astrodraw/astrochart": "^3.0.2",
