@@ -149,6 +149,11 @@
       "savedProfile": "ਸੁਰੱਖਿਅਤ ਪ੍ਰੋਫਾਈਲ",
       "newProfile": "ਨਵਾਂ ਪ੍ਰੋਫਾਈਲ",
       "termsHeading": "ਨਿਯਮ ਅਤੇ ਸ਼ਰਤਾਂ"
+    },
+    "accountDeactivated": {
+      "title": "Account deactivated",
+      "message": "Your account has been deactivated. Please contact support@anantastro.com if you believe this is an error.",
+      "dismiss": "Dismiss"
     }
   },
   "auth": {
@@ -173,7 +178,8 @@
       "signUpLink": "ਸਾਇਨ ਅਪ",
       "verifyBanner": "ਸਾਈਨ ਇਨ ਕਰਨ ਲਈ ਆਪਣੀ ਈਮੇਲ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ। ਕੀ ਈਮੇਲ ਨਹੀਂ ਮਿਲੀ?",
       "resendVerification": "ਪੁਸ਼ਟੀਕਰਨ ਈਮੇਲ ਦੁਬਾਰਾ ਭੇਜੋ",
-      "sending": "ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
+      "sending": "ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ...",
+      "forgotPassword": "Forgot password?"
     },
     "loginToast": {
       "success": "ਲੌਗਇਨ ਸਫਲ! ਵਾਪਸ ਸਵਾਗਤ.",
@@ -243,6 +249,34 @@
       "loading": "ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
       "success": "Google ਨਾਲ ਸਫਲਤਾਪੂਰਵਕ ਸਾਈਨ ਇਨ ਕੀਤਾ ਗਿਆ!",
       "authFailed": "ਪ੍ਰਮਾਣੀਕਰਨ ਅਸਫਲ ਰਿਹਾ"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we'll send you a reset link",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "emailInvalid": "Please enter a valid email",
+      "submit": "Send reset link",
+      "submitting": "Sending...",
+      "successToast": "If an account exists, a reset link has been sent.",
+      "errorToast": "Could not send reset link. Please try again.",
+      "checkInbox": "Check your inbox for a password reset link.",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "subtitle": "Choose a new password for your account",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "passwordMin": "Password must be at least 6 characters",
+      "passwordMismatch": "Passwords do not match",
+      "submit": "Reset password",
+      "submitting": "Resetting...",
+      "successToast": "Password updated. You can sign in now.",
+      "errorToast": "Could not reset password. The link may be invalid or expired.",
+      "missingToken": "This reset link is invalid or missing.",
+      "requestNewLink": "Request a new link",
+      "loading": "Loading..."
     }
   },
   "services": {
@@ -1287,7 +1321,10 @@
     "faq3q": "ਕੀ ਮੇਰੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਸੁਰੱਖਿਅਤ ਹੈ?",
     "faq3a": "ਬਿਲਕੁਲ! ਅਸੀਂ ਤੁਹਾਡੇ ਸਾਰੇ ਡੇਟਾ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਲਈ ਉਦਯੋਗ-ਸਟੈਂਡਰਡ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹਾਂ। ਤੁਹਾਡੇ ਜਨਮ ਦੇ ਵੇਰਵੇ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਕਦੇ ਵੀ ਤੀਜੀ ਧਿਰ ਨਾਲ ਸਾਂਝੀ ਨਹੀਂ ਕੀਤੀ ਜਾਂਦੀ।",
     "faq4q": "ਜੇਕਰ ਮੈਂ ਸੰਤੁਸ਼ਟ ਨਹੀਂ ਹਾਂ ਤਾਂ ਕੀ ਮੈਨੂੰ ਰਿਫੰਡ ਮਿਲ ਸਕਦਾ ਹੈ?",
-    "faq4a": "ਹਾਂ, ਅਸੀਂ ਆਪਣੀਆਂ ਸਾਰੀਆਂ ਸੇਵਾਵਾਂ 'ਤੇ 30-ਦਿਨਾਂ ਦੀ ਪੈਸੇ-ਵਾਪਸੀ ਦੀ ਗਰੰਟੀ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਦੇ ਹਾਂ। ਜੇਕਰ ਤੁਸੀਂ ਸੰਤੁਸ਼ਟ ਨਹੀਂ ਹੋ, ਤਾਂ ਪੂਰੀ ਰਿਫੰਡ ਲਈ ਸਾਡੀ ਸਹਾਇਤਾ ਟੀਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"
+    "faq4a": "ਹਾਂ, ਅਸੀਂ ਆਪਣੀਆਂ ਸਾਰੀਆਂ ਸੇਵਾਵਾਂ 'ਤੇ 30-ਦਿਨਾਂ ਦੀ ਪੈਸੇ-ਵਾਪਸੀ ਦੀ ਗਰੰਟੀ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਦੇ ਹਾਂ। ਜੇਕਰ ਤੁਸੀਂ ਸੰਤੁਸ਼ਟ ਨਹੀਂ ਹੋ, ਤਾਂ ਪੂਰੀ ਰਿਫੰਡ ਲਈ ਸਾਡੀ ਸਹਾਇਤਾ ਟੀਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
+    "submitting": "Sending…",
+    "submitSuccess": "Thank you! We received your message and will respond soon.",
+    "submitError": "Could not send your message. Please try again or email support@anantastro.com."
   },
   "about": {
     "heroTitle": "AnantAstro ਬਾਰੇ",
@@ -1396,7 +1433,7 @@
     "featuredEyebrow": "ਚੋਟੀ ਦੀਆਂ ਚੋਣਾਂ",
     "featuredTitle": "ਵਿਸ਼ੇਸ਼ ਜੋਤਸ਼ੀ",
     "featuredSubtitle": "ਸਪਸ਼ਟਤਾ, ਹਮਦਰਦੀ ਅਤੇ ਸਟੀਕ ਵੈਦਿਕ ਸੂਝ ਲਈ ਹਜ਼ਾਰਾਂ ਲੋਕਾਂ ਦੁਆਰਾ ਭਰੋਸੇਯੋਗ ਹੱਥ-ਚੁਣੀਆਂ ਗਾਈਡਾਂ।",
-    "featuredBio": "{ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ} ਵਿੱਚ ਵਿਸ਼ੇਸ਼ਤਾ.",
+    "featuredBio": "{specialties} ਵਿੱਚ ਵਿਸ਼ੇਸ਼ਤਾ.",
     "topRated": "ਚੋਟੀ ਦਾ ਦਰਜਾ",
     "directoryEyebrow": "ਪੂਰਾ ਰੋਸਟਰ",
     "directoryDivider": "ਸਭ ਬ੍ਰਾਊਜ਼ ਕਰੋ",
@@ -1493,7 +1530,12 @@
     "aiDeleteFailed": "ਮਿਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ",
     "packSaveFailed": "ਪੈਕ ਨੂੰ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ",
     "costUpdated": "ਅੱਪਡੇਟ ਕੀਤਾ {label}",
-    "userDeleteFailed": "ਉਪਭੋਗਤਾ ਨੂੰ ਮਿਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ"
+    "userDeleteFailed": "ਉਪਭੋਗਤਾ ਨੂੰ ਮਿਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ",
+    "impersonationBanner": "Viewing as {userName}",
+    "exitImpersonation": "Exit impersonation",
+    "impersonationExiting": "Exiting…",
+    "impersonationExited": "Returned to your admin account",
+    "impersonationExitFailed": "Could not exit impersonation. Try signing in again."
   },
   "astrologer": {
     "uploadBothDocs": "ਕਿਰਪਾ ਕਰਕੇ ਆਧਾਰ ਅਤੇ ਪੈਨ ਕਾਰਡ ਦੋਵੇਂ ਅਪਲੋਡ ਕਰੋ",
@@ -1859,5 +1901,111 @@
     "generateKundli": "ਆਪਣੀ ਕੁੰਡਲੀ ਬਣਾਓ",
     "backToPricing": "ਕੀਮਤ 'ਤੇ ਵਾਪਸ ਜਾਓ",
     "retry": "ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+  },
+  "legal": {
+    "badge": "Legal",
+    "lastUpdated": "Last updated: {date}",
+    "draftNotice": "Draft for review — this policy is provided for launch readiness and should be reviewed by qualified legal counsel before production use.",
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": {
+        "title": "Introduction",
+        "body": "AnantAstro (\"we\", \"us\", \"AnantAstro\") operates a Vedic astrology platform offering kundli generation, horoscope and matchmaking reports, AI astrologer chat, and coin-based services. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our website and services."
+      },
+      "dataCollected": {
+        "title": "Information we collect",
+        "body": "We collect information you provide directly: account details (name, email, password hash), birth data for kundli profiles (date, time, place of birth, gender), payment-related metadata processed by Razorpay (we do not store full card details), wallet and coin transaction history, chat messages with AI astrologers, and—if you apply as an astrologer—KYC documents such as Aadhar and PAN. We also collect technical data such as IP address, browser type, and usage logs for security and service delivery."
+      },
+      "howWeUse": {
+        "title": "How we use your information",
+        "body": "We use your data to create and deliver astrology reports, operate your coin wallet, provide AI chat sessions, verify your email, process astrologer applications, improve our services, prevent fraud, and comply with legal obligations. Birth data is used solely to compute charts and related interpretations you request."
+      },
+      "aiProcessing": {
+        "title": "AI and automated processing",
+        "body": "Certain features use automated systems powered by third-party AI providers (including OpenAI) to generate kundli interpretations, horoscope content, and AI astrologer chat replies. Inputs may include your birth chart data and chat messages. Outputs are generated automatically and are not reviewed by a human astrologer unless stated otherwise in a specific service. Do not share sensitive personal, medical, legal, or financial information in chat."
+      },
+      "sharing": {
+        "title": "Sharing and processors",
+        "body": "We share data with service providers who help us operate the platform: payment processing (Razorpay), email delivery (SMTP), cloud storage (when enabled), maps/geocoding (Google Maps), and AI inference (OpenAI). We do not sell your personal information. Shared kundli links are accessible only to people you give the link to while sharing is enabled."
+      },
+      "retention": {
+        "title": "Retention",
+        "body": "We retain account and report data while your account is active and as needed to provide services, resolve disputes, and meet legal requirements. You may request deletion subject to our data retention obligations. Astrologer KYC documents are retained for the application and compliance period required by law and internal policy."
+      },
+      "rights": {
+        "title": "Your rights",
+        "body": "Depending on applicable law (including India's Digital Personal Data Protection Act), you may have rights to access, correct, or delete your personal data. Contact us at support@anantastro.com to submit a request. We will respond within a reasonable timeframe."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "For privacy questions or requests, email support@anantastro.com."
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "intro": {
+        "title": "Agreement",
+        "body": "By accessing or using AnantAstro, you agree to these Terms of Service. If you do not agree, do not use the platform."
+      },
+      "accounts": {
+        "title": "Accounts",
+        "body": "You must provide accurate registration information and keep your credentials secure. You are responsible for activity under your account. Email verification is required for local sign-up. We may suspend or terminate accounts that violate these terms."
+      },
+      "coins": {
+        "title": "Coins and payments",
+        "body": "Services are purchased using virtual coins bought through Razorpay. Coins are non-transferable except as we expressly allow. Prices and coin costs may change with notice on the platform. Refunds are governed by our Refund Policy."
+      },
+      "services": {
+        "title": "Astrology services",
+        "body": "Kundli, horoscope, and matchmaking outputs are generated using defined calculation methods and, where applicable, AI interpretation. Results are for personal insight and entertainment. They are not a substitute for professional medical, legal, financial, or psychological advice."
+      },
+      "aiDisclaimer": {
+        "title": "AI astrologer disclaimer",
+        "body": "AI astrologer chat on AnantAstro is provided by automated personas, not human astrologers. Responses are generated by machine learning systems and may be inaccurate or incomplete. AI astrologers do not provide medical, legal, financial, or investment advice. Human astrologer marketplace features, when offered, will be described separately in the product."
+      },
+      "prohibited": {
+        "title": "Prohibited use",
+        "body": "You may not misuse the platform, attempt unauthorized access, scrape or overload our APIs, upload unlawful content, or use the service to harm others. Abuse of AI or translation endpoints may result in suspension."
+      },
+      "liability": {
+        "title": "Limitation of liability",
+        "body": "To the fullest extent permitted by law, AnantAstro is not liable for indirect or consequential damages arising from use of the platform or reliance on astrological content. Our total liability for any claim is limited to the amount you paid us in the twelve months preceding the claim."
+      },
+      "governing": {
+        "title": "Governing law",
+        "body": "These terms are governed by the laws of India. Courts in India shall have exclusive jurisdiction, subject to applicable consumer protection laws."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "Questions about these terms: support@anantastro.com."
+      }
+    },
+    "refund": {
+      "title": "Refund Policy",
+      "intro": {
+        "title": "Overview",
+        "body": "This Refund Policy explains when AnantAstro may refund coin purchases or reverse charges for failed services. By purchasing coins, you agree to this policy."
+      },
+      "coinPurchases": {
+        "title": "Coin purchases",
+        "body": "Coin purchases via Razorpay are generally non-refundable once coins are credited to your wallet, except where required by law or where we confirm a duplicate charge or technical error. Unused coins remain in your wallet until used or your account is closed per our Privacy Policy."
+      },
+      "failedServices": {
+        "title": "Failed report generation",
+        "body": "If a kundli, horoscope, or matchmaking generation fails after coins are debited and cannot be completed after a reasonable retry, contact support@anantastro.com within 7 days with your report ID. We will investigate and, if confirmed, restore coins to your wallet."
+      },
+      "chatBilling": {
+        "title": "AI chat billing",
+        "body": "AI astrologer chat is billed per minute in coins while a session is active. If you believe you were charged incorrectly due to a platform error, contact support within 48 hours with your session ID."
+      },
+      "process": {
+        "title": "How to request a refund",
+        "body": "Email support@anantastro.com with your registered email, transaction or session ID, and a description of the issue. Approved refunds for coin purchases may be returned to your original payment method or credited as coins, at our discretion and as permitted by Razorpay."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "Refund requests: support@anantastro.com."
+      }
+    }
   }
 }

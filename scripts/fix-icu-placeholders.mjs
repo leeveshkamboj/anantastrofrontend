@@ -11,7 +11,7 @@ import { dirname, join } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MESSAGES = join(__dirname, "../messages");
 
-const TARGETS = ["bn", "ta", "te", "mr", "gu", "kn", "ml", "pa", "or", "as", "ur"];
+const TARGETS = ["hi", "bn", "ta", "te", "mr", "gu", "kn", "ml", "pa", "or", "as", "ur"];
 
 /** Placeholders as they appear in en.json (ASCII identifiers only). */
 function extractEnPlaceholders(enStr) {
