@@ -1163,7 +1163,24 @@
     "dob": "DOB:",
     "time": "সময়:",
     "genderMale": "পুৰুষ",
-    "genderFemale": "মহিলা"
+    "genderFemale": "মহিলা",
+    "loading": "Loading profiles…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editTitle": "Edit profile",
+    "editDescription": "Update birth details for {name}.",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "nameRequired": "Name is required.",
+    "updatedSuccess": "Profile updated.",
+    "updateFailed": "Could not update profile. Please try again.",
+    "deleteTitle": "Delete profile?",
+    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
+    "deleteConfirm": "Delete profile",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deletedSuccess": "Profile deleted.",
+    "deleteFailed": "Could not delete profile. Please try again."
   },
   "reports": {
     "title": "মোৰ ৰিপৰ্ট",
@@ -1420,7 +1437,14 @@
     "labelGender": "লিংগ",
     "gender": "লিংগ",
     "genderMale": "পুৰুষ",
-    "genderFemale": "মহিলা"
+    "genderFemale": "মহিলা",
+    "type": {
+      "vedic": "বৈদিক জ্যোতিষী",
+      "numerology": "সংখ্যাবিজ্ঞানী",
+      "vastu": "বাস্তু বিশেষজ্ঞ",
+      "tarot": "টেৰ'ট ৰিডাৰ",
+      "lal_kitab": "লাল কিতাব বিশেষজ্ঞ"
+    }
   },
   "admin": {
     "userUpdated": "ব্যৱহাৰকাৰী সফলতাৰে আপডেট কৰা হৈছে",

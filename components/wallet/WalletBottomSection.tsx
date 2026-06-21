@@ -11,7 +11,7 @@ export function WalletBottomSection() {
   return (
     <section className="bg-footer-gradient px-4 py-12 sm:px-6 lg:px-16">
       <div className="mx-auto max-w-3xl">
-        <CosmicCard variant="glass" padding="md" className="items-stretch text-center">
+        <CosmicCard variant="glass" padding="md" className="items-stretch p-5 text-center sm:p-8">
           <p className="font-bold text-gray-900">{t("needHelp")}</p>
           <p className="mt-3 flex flex-col items-center gap-2 text-sm text-gray-700 sm:flex-row sm:justify-center sm:gap-4">
             <Link href="/pricing" className="font-semibold text-black underline-offset-4 hover:underline">

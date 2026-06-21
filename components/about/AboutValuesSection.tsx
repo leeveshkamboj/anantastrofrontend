@@ -17,11 +17,11 @@ export function AboutValuesSection() {
   const t = useTranslations("about")
 
   return (
-    <AnimatedSection className="stars-bg bg-astro-purple px-6 py-20 text-white lg:px-24">
+    <AnimatedSection className="stars-bg bg-astro-purple px-4 py-12 text-white sm:px-6 sm:py-16 lg:px-24 lg:py-20">
       <Container>
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold">{t("valuesTitle")}</h2>
-          <p className="mx-auto max-w-2xl text-gray-400">{t("valuesSubtitle")}</p>
+        <div className="mb-10 text-center sm:mb-16">
+          <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">{t("valuesTitle")}</h2>
+          <p className="mx-auto max-w-2xl px-2 text-sm text-gray-400 sm:px-0 sm:text-base">{t("valuesSubtitle")}</p>
         </div>
 
         <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">

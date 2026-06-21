@@ -4,7 +4,7 @@ import { ContactMainSection } from "@/components/contact/ContactMainSection"
 
 export default function ContactPage() {
   return (
-    <div className="bg-white text-gray-900">
+    <div className="overflow-x-hidden bg-white text-gray-900">
       <ContactHeroSection />
       <ContactMainSection />
       <ContactFaqSection />

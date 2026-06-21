@@ -62,14 +62,14 @@ export function ContactMainSection() {
   const t = useTranslations("contact")
 
   return (
-    <AnimatedSection className="relative overflow-hidden bg-white px-6 py-20 lg:px-24">
+    <AnimatedSection className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-24 lg:py-20">
       <DecorativePlanets variant="contact" />
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
           <FadeIn preset="scaleIn" inView>
-            <CosmicCard variant="glass" padding="md" className="items-stretch text-left">
-              <h2 className="mb-1 text-2xl font-bold text-gray-900">{t("formTitle")}</h2>
-              <p className="mb-6 text-sm text-gray-600">{t("formSubtitle")}</p>
+            <CosmicCard variant="glass" padding="md" className="items-stretch p-5 text-left sm:p-8">
+              <h2 className="mb-1 text-xl font-bold text-gray-900 sm:text-2xl">{t("formTitle")}</h2>
+              <p className="mb-5 text-sm text-gray-600 sm:mb-6">{t("formSubtitle")}</p>
 
               <form className="space-y-5" aria-label={t("formTitle")} onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -127,11 +127,11 @@ export function ContactMainSection() {
             </CosmicCard>
           </FadeIn>
 
-          <div className="space-y-6">
+          <div className="space-y-5 sm:space-y-6">
             <FadeIn preset="fadeUp" inView>
               <div>
-                <h2 className="mb-4 text-2xl font-bold text-astro-purple">{t("getInTouchTitle")}</h2>
-                <p className="leading-relaxed text-gray-600">{t("getInTouchBody")}</p>
+                <h2 className="mb-3 text-xl font-bold text-astro-purple sm:mb-4 sm:text-2xl">{t("getInTouchTitle")}</h2>
+                <p className="text-sm leading-relaxed text-gray-600 sm:text-base">{t("getInTouchBody")}</p>
               </div>
             </FadeIn>
 

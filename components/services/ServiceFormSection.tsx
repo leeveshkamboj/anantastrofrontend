@@ -3,6 +3,7 @@
 import { Container } from "@/components/layout/Container"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
+import { serviceFormSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 
 type ServiceFormSectionProps = {
@@ -23,7 +24,7 @@ export function ServiceFormSection({
   narrow = true,
 }: ServiceFormSectionProps) {
   return (
-    <section id={id} className={cn("bg-gray-50/80 px-6 py-20 lg:px-24", className)}>
+    <section id={id} className={cn("bg-gray-50/80", serviceFormSectionClassName, className)}>
       <Container size={narrow ? "narrow" : "default"}>
         <ServiceSectionHeader title={title} subtitle={subtitle} />
         <FadeIn preset="scaleIn">{children}</FadeIn>

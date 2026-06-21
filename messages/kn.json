@@ -1163,7 +1163,24 @@
     "dob": "DOB:",
     "time": "ಸಮಯ:",
     "genderMale": "ಪುರುಷ",
-    "genderFemale": "ಹೆಣ್ಣು"
+    "genderFemale": "ಹೆಣ್ಣು",
+    "loading": "Loading profiles…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editTitle": "Edit profile",
+    "editDescription": "Update birth details for {name}.",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "nameRequired": "Name is required.",
+    "updatedSuccess": "Profile updated.",
+    "updateFailed": "Could not update profile. Please try again.",
+    "deleteTitle": "Delete profile?",
+    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
+    "deleteConfirm": "Delete profile",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deletedSuccess": "Profile deleted.",
+    "deleteFailed": "Could not delete profile. Please try again."
   },
   "reports": {
     "title": "ನನ್ನ ವರದಿಗಳು",
@@ -1420,7 +1437,14 @@
     "labelGender": "ಲಿಂಗ",
     "gender": "ಲಿಂಗ",
     "genderMale": "ಪುರುಷ",
-    "genderFemale": "ಹೆಣ್ಣು"
+    "genderFemale": "ಹೆಣ್ಣು",
+    "type": {
+      "vedic": "ವೈದಿಕ ಜ್ಯೋತಿಷಿ",
+      "numerology": "ಸಂಖ್ಯಾಶಾಸ್ತ್ರಜ್ಞ",
+      "vastu": "ವಾಸ್ತು ತಜ್ಞ",
+      "tarot": "ಟ್ಯಾರೋ ರೀಡರ್",
+      "lal_kitab": "ಲಾಲ್ ಕಿತಾಬ್ ತಜ್ಞ"
+    }
   },
   "admin": {
     "userUpdated": "ಬಳಕೆದಾರರನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ",

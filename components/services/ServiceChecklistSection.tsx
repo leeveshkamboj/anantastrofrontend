@@ -4,6 +4,7 @@ import { CheckCircle2 } from "lucide-react"
 import { Container } from "@/components/layout/Container"
 import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
+import { serviceContentSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 
 type ServiceChecklistSectionProps = {
@@ -22,7 +23,7 @@ export function ServiceChecklistSection({
   className,
 }: ServiceChecklistSectionProps) {
   return (
-    <section className={cn("bg-gray-50/80 px-6 py-20 lg:px-24", className)}>
+    <section className={cn("bg-gray-50/80", serviceContentSectionClassName, className)}>
       <Container>
         <ServiceSectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
         <Stagger className="mx-auto max-w-2xl space-y-4">

@@ -1163,7 +1163,24 @@
     "dob": "DOB:",
     "time": "సమయం:",
     "genderMale": "పురుషుడు",
-    "genderFemale": "స్త్రీ"
+    "genderFemale": "స్త్రీ",
+    "loading": "Loading profiles…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editTitle": "Edit profile",
+    "editDescription": "Update birth details for {name}.",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "nameRequired": "Name is required.",
+    "updatedSuccess": "Profile updated.",
+    "updateFailed": "Could not update profile. Please try again.",
+    "deleteTitle": "Delete profile?",
+    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
+    "deleteConfirm": "Delete profile",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deletedSuccess": "Profile deleted.",
+    "deleteFailed": "Could not delete profile. Please try again."
   },
   "reports": {
     "title": "నా నివేదికలు",
@@ -1420,7 +1437,14 @@
     "labelGender": "లింగం",
     "gender": "లింగం",
     "genderMale": "పురుషుడు",
-    "genderFemale": "స్త్రీ"
+    "genderFemale": "స్త్రీ",
+    "type": {
+      "vedic": "వేద జ్యోతిష్కుడు",
+      "numerology": "న్యూమరాలజిస్ట్",
+      "vastu": "వాస్తు నిపుణుడు",
+      "tarot": "టారో రీడర్",
+      "lal_kitab": "లాల్ కితాబ్ నిపుణుడు"
+    }
   },
   "admin": {
     "userUpdated": "వినియోగదారు విజయవంతంగా నవీకరించబడ్డారు",

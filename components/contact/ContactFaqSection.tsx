@@ -16,11 +16,11 @@ export function ContactFaqSection() {
   const t = useTranslations("contact")
 
   return (
-    <AnimatedSection className="bg-astro-dark px-6 py-20 text-white lg:px-24">
+    <AnimatedSection className="bg-astro-dark px-4 py-12 text-white sm:px-6 sm:py-16 lg:px-24 lg:py-20">
       <Container>
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white">{t("faqTitle")}</h2>
-          <p>{t("faqSubtitle")}</p>
+        <div className="mb-8 text-center sm:mb-12">
+          <h2 className="mb-3 text-2xl font-bold text-white sm:mb-4 sm:text-3xl">{t("faqTitle")}</h2>
+          <p className="px-2 text-sm sm:px-0 sm:text-base">{t("faqSubtitle")}</p>
         </div>
 
         <Stagger className="grid grid-cols-1 gap-4 md:grid-cols-2">

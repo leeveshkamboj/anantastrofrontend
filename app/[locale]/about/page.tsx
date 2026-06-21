@@ -7,7 +7,7 @@ import { AboutWhySection } from "@/components/about/AboutWhySection"
 
 export default function AboutPage() {
   return (
-    <div className="bg-white text-gray-900">
+    <div className="overflow-x-hidden bg-white text-gray-900">
       <AboutHeroSection />
       <AboutMissionSection />
       <AboutValuesSection />

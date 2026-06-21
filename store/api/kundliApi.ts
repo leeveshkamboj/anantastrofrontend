@@ -385,6 +385,13 @@ export const kundliApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Kundlis'],
     }),
+    deleteKundli: builder.mutation<{ isSuccess: boolean; data: { id: number } }, number>({
+      query: (id) => ({
+        url: `/kundlis/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Kundlis'],
+    }),
     getMyKundlis: builder.query<KundlisListResponse, void>({
       query: () => '/kundlis',
       providesTags: ['Kundlis'],
@@ -566,6 +573,7 @@ export const kundliApi = baseApi.injectEndpoints({
 export const {
   useCreateKundliMutation,
   useUpdateKundliMutation,
+  useDeleteKundliMutation,
   useGetMyKundlisQuery,
   useGetMyKundliGenerationsQuery,
   useCreateKundliGenerationMutation,

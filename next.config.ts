@@ -12,6 +12,55 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   // Enable standalone output for Docker
   output: 'standalone',
+  async headers() {
+    return [
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/:path*.png",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/:path*.jpg",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/:path*.webp",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/:path*.svg",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);

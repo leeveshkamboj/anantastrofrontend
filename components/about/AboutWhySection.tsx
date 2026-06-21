@@ -17,10 +17,10 @@ export function AboutWhySection() {
   const t = useTranslations("about")
 
   return (
-    <AnimatedSection className="bg-footer-gradient px-6 py-20 lg:px-24">
+    <AnimatedSection className="bg-footer-gradient px-4 py-12 sm:px-6 sm:py-16 lg:px-24 lg:py-20">
       <Container>
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-black">{t("whyTitle")}</h2>
+        <div className="mb-10 text-center sm:mb-16">
+          <h2 className="mb-3 text-2xl font-bold text-black sm:mb-4 sm:text-3xl">{t("whyTitle")}</h2>
         </div>
 
         <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-2">

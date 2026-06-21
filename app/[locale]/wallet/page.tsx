@@ -91,7 +91,7 @@ export default function WalletPage() {
   const payments = pays?.data ?? [];
 
   return (
-    <div className="bg-white text-gray-900">
+    <div className="overflow-x-hidden bg-white text-gray-900">
       <WalletHeroSection
         balance={balance}
         isLoading={walletLoading}

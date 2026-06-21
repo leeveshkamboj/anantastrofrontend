@@ -4,6 +4,7 @@ import { Sparkles } from "lucide-react"
 import { Container } from "@/components/layout/Container"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
+import { serviceContentSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 
 type ServiceInfoSectionProps = {
@@ -22,7 +23,7 @@ export function ServiceInfoSection({
   className,
 }: ServiceInfoSectionProps) {
   return (
-    <section className={cn("relative overflow-hidden bg-white px-6 py-20 lg:px-24", className)}>
+    <section className={cn("relative overflow-hidden bg-white", serviceContentSectionClassName, className)}>
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-astro-purple/8 to-transparent"
         aria-hidden="true"
@@ -47,7 +48,7 @@ export function ServiceInfoSection({
           </FadeIn>
           <FadeIn preset="slideInRight">
             <div className="flex items-center justify-center">
-              <div className="rounded-3xl border border-astro-purple/15 bg-linear-to-br from-astro-purple/10 via-white to-astro-yellow/10 p-8 md:p-12 shadow-sm">
+              <div className="rounded-3xl border border-astro-purple/15 bg-linear-to-br from-astro-purple/10 via-white to-astro-yellow/10 p-6 shadow-sm sm:p-8 md:p-12">
                 <Sparkles className="mx-auto h-24 w-24 text-astro-purple opacity-80" aria-hidden="true" />
                 <p className="mt-4 text-center text-base font-semibold text-gray-700">{aside}</p>
               </div>

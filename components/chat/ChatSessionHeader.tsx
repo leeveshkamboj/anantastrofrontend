@@ -1,10 +1,12 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { ArrowLeft, MapPin, PhoneOff } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
 import { CoinGlyph } from "@/components/coins/CoinGlyph"
+import { FadeIn, Stagger, StaggerItem } from "@/components/motion"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { cn } from "@/lib/utils"
 import type { ChatAstrologer } from "@/store/api/chatApi"
@@ -44,7 +46,7 @@ export function ChatSessionHeader({
     .join(", ")
 
   return (
-    <div className="border-b border-gray-100 px-4 py-4 sm:px-6 sm:py-5">
+    <FadeIn preset="fadeDown" className="shrink-0 border-b border-gray-100 px-4 py-4 sm:px-6 sm:py-5">
       <div className="mb-4">
         <Link
           href="/conversations"
@@ -58,7 +60,12 @@ export function ChatSessionHeader({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 items-start gap-3">
           {astrologer ? (
-            <div className="relative shrink-0">
+            <motion.div
+              className="relative shrink-0"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+            >
               <AstrologerAvatar
                 astrologer={astrologer}
                 variant="directory"
@@ -72,7 +79,15 @@ export function ChatSessionHeader({
                 )}
                 aria-hidden="true"
               />
-            </div>
+              {astrologer.isOnlineNow ? (
+                <motion.span
+                  className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-500"
+                  aria-hidden="true"
+                  animate={{ scale: [1, 1.45, 1], opacity: [0.55, 0, 0.55] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                />
+              ) : null}
+            </motion.div>
           ) : null}
 
           <div className="min-w-0">
@@ -112,12 +127,18 @@ export function ChatSessionHeader({
         </CosmicButton>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-        <StatChip label={t("session")} value={elapsedLabel} />
-        <StatChip label={t("nextBill")} value={nextBillLabel} />
-        <StatChip label={t("billed")} value={`${billedSecondsLive}s`} />
-      </div>
-    </div>
+      <Stagger inView={false} className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+        <StaggerItem preset="fadeIn">
+          <StatChip label={t("session")} value={elapsedLabel} />
+        </StaggerItem>
+        <StaggerItem preset="fadeIn">
+          <StatChip label={t("nextBill")} value={nextBillLabel} />
+        </StaggerItem>
+        <StaggerItem preset="fadeIn">
+          <StatChip label={t("billed")} value={`${billedSecondsLive}s`} />
+        </StaggerItem>
+      </Stagger>
+    </FadeIn>
   )
 }
 

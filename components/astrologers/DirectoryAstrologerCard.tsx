@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
-import { getDisplayRating, YEARS_OF_EXPERIENCE } from "@/lib/astrologer-utils"
+import { AstrologerTypeBadge } from "@/components/astrologers/AstrologerTypeBadge"
+import { getDisplayRating, getDisplayYearsOfExperience } from "@/lib/astrologer-utils"
 import type { ChatAstrologer } from "@/store/api/chatApi"
 import { cn } from "@/lib/utils"
 
@@ -23,6 +24,7 @@ export function DirectoryAstrologerCard({
 }: DirectoryAstrologerCardProps) {
   const t = useTranslations("astrologersPage")
   const rating = getDisplayRating(astrologer.slug)
+  const yearsOfExperience = getDisplayYearsOfExperience(astrologer)
   const isOffline = astrologer.isOnlineNow === false
   const location = [astrologer.locationCity, astrologer.locationState].filter(Boolean).join(", ")
 
@@ -54,7 +56,8 @@ export function DirectoryAstrologerCard({
 
         <div className="min-w-0 flex-1 pt-0.5">
           <h3 className="truncate text-lg font-extrabold text-gray-900">{astrologer.displayName}</h3>
-          <p className="text-sm font-medium text-astro-orange">{astrologer.persona || t("personaFallback")}</p>
+          <AstrologerTypeBadge astrologerType={astrologer.astrologerType} className="mt-1" />
+          <p className="mt-1 text-sm font-medium text-astro-orange">{astrologer.persona || t("personaFallback")}</p>
           {location ? (
             <p className="mt-1 flex items-center gap-1 truncate text-xs text-gray-500">
               <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
@@ -86,7 +89,7 @@ export function DirectoryAstrologerCard({
             </span>
           }
         />
-        <StatCell label={t("statExperience")} value={`${YEARS_OF_EXPERIENCE}+`} />
+        <StatCell label={t("statExperience")} value={`${yearsOfExperience}+`} />
         <StatCell
           label={t("statPerMin")}
           value={

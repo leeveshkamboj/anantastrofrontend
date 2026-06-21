@@ -4,6 +4,7 @@ import { ArrowUpRight, Sparkles } from "lucide-react"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { Container } from "@/components/layout/Container"
 import { FadeIn } from "@/components/motion/FadeIn"
+import { serviceContentSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 
 type ServiceFinalCtaSectionProps = {
@@ -22,7 +23,7 @@ export function ServiceFinalCtaSection({
   className,
 }: ServiceFinalCtaSectionProps) {
   return (
-    <section className={cn("relative overflow-hidden bg-footer-gradient px-6 py-20 lg:px-24", className)}>
+    <section className={cn("relative overflow-hidden bg-footer-gradient", serviceContentSectionClassName, className)}>
       <div
         className="pointer-events-none absolute -left-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-white/20 blur-3xl"
         aria-hidden="true"
@@ -34,7 +35,7 @@ export function ServiceFinalCtaSection({
 
       <Container className="relative">
         <FadeIn preset="fadeUp">
-          <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/40 bg-white/75 px-8 py-12 text-center shadow-xl backdrop-blur-md md:px-12">
+          <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/40 bg-white/75 px-5 py-10 text-center shadow-xl backdrop-blur-md sm:px-8 sm:py-12 md:px-12">
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-astro-orange/15 text-astro-orange">
               <Sparkles className="h-6 w-6" aria-hidden="true" />
             </div>

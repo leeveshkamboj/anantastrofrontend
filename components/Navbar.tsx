@@ -33,9 +33,12 @@ export function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-hero-gradient px-6 lg:px-24">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between">
-        <Link href="/" className="link-reset text-2xl font-bold tracking-tight text-black">
-          {t("brand")}
-        </Link>
+        <div className="flex min-w-0 items-center gap-1 sm:gap-2">
+          <NavMobileMenu navLinks={navLinks} isAuthenticated={isAuthenticated} />
+          <Link href="/" className="link-reset truncate text-xl font-bold tracking-tight text-black sm:text-2xl">
+            {t("brand")}
+          </Link>
+        </div>
 
         <LayoutGroup>
           <nav
@@ -56,8 +59,7 @@ export function Navbar() {
           </nav>
         </LayoutGroup>
 
-        <div className="flex items-center gap-2">
-          <NavMobileMenu navLinks={navLinks} isAuthenticated={isAuthenticated} />
+        <div className="flex shrink-0 items-center gap-2">
           {isAuthenticated && <CoinNavPill className="lg:hidden" />}
           <NavUserMenu />
         </div>

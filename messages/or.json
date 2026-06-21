@@ -1163,7 +1163,24 @@
     "dob": "DOB:",
     "time": "ସମୟ:",
     "genderMale": "ପୁରୁଷ",
-    "genderFemale": "ମହିଳା"
+    "genderFemale": "ମହିଳା",
+    "loading": "Loading profiles…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editTitle": "Edit profile",
+    "editDescription": "Update birth details for {name}.",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "nameRequired": "Name is required.",
+    "updatedSuccess": "Profile updated.",
+    "updateFailed": "Could not update profile. Please try again.",
+    "deleteTitle": "Delete profile?",
+    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
+    "deleteConfirm": "Delete profile",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deletedSuccess": "Profile deleted.",
+    "deleteFailed": "Could not delete profile. Please try again."
   },
   "reports": {
     "title": "ମୋର ରିପୋର୍ଟଗୁଡିକ",
@@ -1420,7 +1437,14 @@
     "labelGender": "ଲିଙ୍ଗ",
     "gender": "ଲିଙ୍ଗ",
     "genderMale": "ପୁରୁଷ",
-    "genderFemale": "ମହିଳା"
+    "genderFemale": "ମହିଳା",
+    "type": {
+      "vedic": "ବ ed ଦିକ ଜ୍ୟୋତିଷ",
+      "numerology": "ସଂଖ୍ୟା ବିଶେଷଜ୍ଞ |",
+      "vastu": "ଭସ୍ତୁ ବିଶେଷଜ୍ଞ |",
+      "tarot": "ଟାରୋଟ୍ ରିଡର୍ |",
+      "lal_kitab": "ଲାଲ କିତାବ ବିଶେଷଜ୍ଞ |"
+    }
   },
   "admin": {
     "userUpdated": "ଉପଯୋଗକର୍ତ୍ତା ସଫଳତାର ସହିତ ଅଦ୍ୟତନ କଲେ |",

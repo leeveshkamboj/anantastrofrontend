@@ -8,6 +8,7 @@ export type ChatAstrologer = {
   displayName: string;
   slug: string;
   persona: string | null;
+  astrologerType?: string;
   gender?: string | null;
   locationCity?: string | null;
   locationState?: string | null;
@@ -21,6 +22,7 @@ export type ChatAstrologer = {
   activeStartHour?: number;
   activeEndHour?: number;
   isOnlineNow?: boolean;
+  yearsOfExperience?: number | null;
   user?: { id: number; name: string; email: string; profileImage?: string | null };
 };
 

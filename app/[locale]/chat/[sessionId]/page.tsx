@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
@@ -21,6 +22,7 @@ import {
   ChatSessionShell,
   ChatSessionSkeleton,
 } from '@/components/chat';
+import { useChatSounds } from '@/hooks/useChatSounds';
 import NotFound from '@/app/[locale]/not-found';
 
 export default function ChatSessionPage() {
@@ -35,6 +37,11 @@ export default function ChatSessionPage() {
   const sessionEndedRef = useRef(false);
   const autoEndCleanupArmedRef = useRef(false);
   const messagesViewportRef = useRef<HTMLDivElement | null>(null);
+  const messagesBottomRef = useRef<HTMLDivElement | null>(null);
+  const messagesPrimedRef = useRef(false);
+  const prevTypingRef = useRef(false);
+  const knownMessageIdsRef = useRef(new Set<number>());
+  const { prime: primeChatAudio, playSend, playReceive, playTyping } = useChatSounds();
   const { data, refetch: refetchMessages, isLoading } = useGetChatMessagesQuery(
     { sessionUuid },
     { skip: !sessionUuid },
@@ -76,6 +83,7 @@ export default function ChatSessionPage() {
   const submit = async () => {
     const message = text.trim();
     if (!message) return;
+    playSend();
     try {
       await sendMessage({ sessionUuid, contentType: 'text', text: message }).unwrap();
       setText('');
@@ -128,6 +136,37 @@ export default function ChatSessionPage() {
     (sessionError as { status?: number; originalStatus?: number } | undefined)?.originalStatus === 404;
 
   useEffect(() => {
+    messagesPrimedRef.current = false;
+    knownMessageIdsRef.current = new Set();
+    prevTypingRef.current = false;
+  }, [sessionUuid]);
+
+  useEffect(() => {
+    if (isAstrologerTyping && !prevTypingRef.current) {
+      playTyping();
+    }
+    prevTypingRef.current = isAstrologerTyping;
+  }, [isAstrologerTyping, playTyping]);
+
+  useEffect(() => {
+    if (messages.length === 0) return;
+
+    if (!messagesPrimedRef.current) {
+      messages.forEach((message) => knownMessageIdsRef.current.add(message.id));
+      messagesPrimedRef.current = true;
+      return;
+    }
+
+    for (const message of messages) {
+      if (knownMessageIdsRef.current.has(message.id)) continue;
+      knownMessageIdsRef.current.add(message.id);
+      if (message.senderType === 'astrologer') {
+        playReceive();
+      }
+    }
+  }, [messages, playReceive]);
+
+  useEffect(() => {
     const last = messages[messages.length - 1];
     if (last?.senderType === 'astrologer' || last?.senderType === 'system') {
       setIsAstrologerTyping(false);
@@ -140,10 +179,14 @@ export default function ChatSessionPage() {
   }, []);
 
   useEffect(() => {
-    const node = messagesViewportRef.current;
-    if (!node) return;
-    node.scrollTop = node.scrollHeight;
-  }, [messages, isAstrologerTyping]);
+    const anchor = messagesBottomRef.current;
+    if (!anchor) return;
+
+    const behavior: ScrollBehavior = messagesPrimedRef.current ? 'smooth' : 'auto';
+    requestAnimationFrame(() => {
+      anchor.scrollIntoView({ behavior, block: 'end' });
+    });
+  }, [messages, isAstrologerTyping, sending]);
 
   useEffect(() => {
     autoEndCleanupArmedRef.current = false;
@@ -189,12 +232,21 @@ export default function ChatSessionPage() {
         onEndChat={() => void closeSession()}
       />
 
-      <div className="flex flex-1 flex-col gap-4 p-4 sm:p-5">
-        {lowCoinsForNextMinute ? (
-          <p className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950">
-            {tc('lowBalance')}
-          </p>
-        ) : null}
+      <div className="flex min-h-0 flex-1 flex-col gap-3 p-4 sm:gap-4 sm:p-5">
+        <AnimatePresence mode="wait">
+          {lowCoinsForNextMinute ? (
+            <motion.p
+              key="low-balance"
+              initial={{ opacity: 0, y: -6, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -4, height: 0 }}
+              transition={{ duration: 0.25 }}
+              className="shrink-0 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-950"
+            >
+              {tc('lowBalance')}
+            </motion.p>
+          ) : null}
+        </AnimatePresence>
 
         <ChatMessageList
           messages={messages}
@@ -203,16 +255,20 @@ export default function ChatSessionPage() {
           isSessionClosed={isSessionClosed}
           isLoading={isLoading}
           viewportRef={messagesViewportRef}
+          bottomRef={messagesBottomRef}
         />
 
-        <ChatComposer
-          text={text}
-          onTextChange={setText}
-          onSubmit={() => void submit()}
-          sending={sending}
-          isSessionClosed={isSessionClosed}
-          isLoading={isLoading}
-        />
+        <div className="shrink-0">
+          <ChatComposer
+            text={text}
+            onTextChange={setText}
+            onSubmit={() => void submit()}
+            onPrimeAudio={primeChatAudio}
+            sending={sending}
+            isSessionClosed={isSessionClosed}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
     </ChatSessionShell>
   );

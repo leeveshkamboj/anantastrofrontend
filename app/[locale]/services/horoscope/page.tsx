@@ -28,9 +28,13 @@ import {
 } from '@/components/horoscope';
 import {
   ServiceFormSection,
+  ServiceProfileMeta,
   serviceFormCardClassName,
+  serviceFormCardContentClassName,
+  serviceCostBannerClassName,
   serviceProfileButtonClassName,
   serviceProfileIconClassName,
+  serviceProfileListButtonClassName,
 } from '@/components/services';
 import { CosmicButton } from '@/components/ui/CosmicButton';
 import { Card, CardContent } from '@/components/ui/card';
@@ -430,22 +434,22 @@ export default function HoroscopePage() {
   return (
     <div className="overflow-x-hidden">
       <HoroscopeHero />
-      <WhatIsHoroscope />
-      <HoroscopeHowItWorks />
-      <HoroscopeWhyDetailsMatter />
 
       <ServiceFormSection
         id="get-horoscope"
         title={th('sectionTitle')}
         subtitle={th('sectionSubtitle')}
       >
-        <ServiceCostBanner serviceKey={detailLevel === 'detailed' ? 'horoscope_detailed' : 'horoscope'} className="mb-8" />
+        <ServiceCostBanner
+          serviceKey={detailLevel === 'detailed' ? 'horoscope_detailed' : 'horoscope'}
+          className={serviceCostBannerClassName}
+        />
 
         <form onSubmit={handleSubmit} className="space-y-6">
             {/* Loading profiles (no profiles yet) */}
             {!hasProfiles && loadingKundlis && (
               <Card className={serviceFormCardClassName}>
-                <CardContent className="p-8 text-center text-gray-500">
+                <CardContent className={cn(serviceFormCardContentClassName, 'text-center text-gray-500')}>
                   {th('loadingCard')}
                 </CardContent>
               </Card>
@@ -454,11 +458,11 @@ export default function HoroscopePage() {
             {/* No profiles: manual form only (like kundli first-time) */}
             {!hasProfiles && !loadingKundlis && (
               <Card className={serviceFormCardClassName}>
-                <CardContent className="space-y-6 p-8">
-                  <h3 className="text-xl font-extrabold text-gray-900">
+                <CardContent className={serviceFormCardContentClassName}>
+                  <h3 className="text-lg font-extrabold text-gray-900 sm:text-xl">
                     {th('noProfilesTitle')}
                   </h3>
-                  <p className="text-gray-600 -mt-2">
+                  <p className="-mt-2 text-sm text-gray-600 sm:text-base">
                     {th('noProfilesSubtitle')}
                   </p>
                   <ManualBirthForm
@@ -481,21 +485,22 @@ export default function HoroscopePage() {
             {/* Has profiles + "Enter details manually" chosen: manual form with Back */}
             {hasProfiles && showManualForm && (
               <Card className={serviceFormCardClassName}>
-                <CardContent className="space-y-6 p-8">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-extrabold text-gray-900">
+                <CardContent className={serviceFormCardContentClassName}>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <h3 className="text-lg font-extrabold text-gray-900 sm:text-xl">
                       {th('manualTitle')}
                     </h3>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+                      className="h-10 w-full sm:w-auto"
                       onClick={handleBackToProfiles}
                     >
                       {th('backToProfiles')}
                     </Button>
                   </div>
-                  <p className="text-gray-600 -mt-2">
+                  <p className="-mt-2 text-sm text-gray-600 sm:text-base">
                     {th('manualSubtitle')}
                   </p>
                   <ManualBirthForm
@@ -518,9 +523,9 @@ export default function HoroscopePage() {
             {/* Has profiles + profile select view (like GetKundliSection) */}
             {hasProfiles && !showManualForm && (
               <Card className={serviceFormCardClassName}>
-                <CardContent className="space-y-6 p-8">
-                  <h3 className="text-xl font-extrabold text-gray-900">{th('selectProfileTitle')}</h3>
-                  <p className="text-gray-600 -mt-2">
+                <CardContent className={serviceFormCardContentClassName}>
+                  <h3 className="text-lg font-extrabold text-gray-900 sm:text-xl">{th('selectProfileTitle')}</h3>
+                  <p className="-mt-2 text-sm text-gray-600 sm:text-base">
                     {th('selectProfileSubtitle')}
                   </p>
                   {loadingKundlis ? (
@@ -533,7 +538,7 @@ export default function HoroscopePage() {
                             type="button"
                             onClick={() => setSelectedProfileId(k.id)}
                             className={cn(
-                              'flex w-full items-center gap-3 rounded-2xl p-4 text-left transition-all',
+                              serviceProfileListButtonClassName,
                               serviceProfileButtonClassName(selectedProfileId === k.id),
                             )}
                           >
@@ -545,25 +550,27 @@ export default function HoroscopePage() {
                             >
                               <User className="h-5 w-5" />
                             </div>
-                            <div>
+                            <div className="min-w-0 flex-1">
                               <p className="font-medium text-gray-900">{k.name}</p>
-                              <p className="text-sm text-gray-500">
-                                {k.dateOfBirth && `${tCommon('dobPrefix')} ${k.dateOfBirth}`}
-                                {k.timeOfBirth && ` • ${k.timeOfBirth}`}
-                                {k.placeOfBirth && ` • ${k.placeOfBirth}`}
-                              </p>
+                              <ServiceProfileMeta
+                                dateOfBirth={k.dateOfBirth}
+                                timeOfBirth={k.timeOfBirth}
+                                placeOfBirth={k.placeOfBirth}
+                                dobPrefix={tCommon('dobPrefix')}
+                              />
                             </div>
                           </button>
                         </li>
                       ))}
                     </ul>
                   )}
-                  <div className="flex items-center justify-between pt-2">
-                    <Label className="text-base font-medium">{th('enterManuallyLabel')}</Label>
+                  <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                    <Label className="text-sm font-medium sm:text-base">{th('enterManuallyLabel')}</Label>
                     <Button
                       type="button"
                       variant="outline"
                       size="sm"
+                      className="h-10 w-full sm:w-auto"
                       onClick={() => {
                         setShowManualForm(true);
                         setSelectedProfileId(null);
@@ -607,13 +614,13 @@ export default function HoroscopePage() {
                       className="h-auto min-h-11 w-full rounded-full py-3"
                       size="lg"
                     >
-                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-white text-sm font-medium">
-                        <Sparkles className="h-5 w-5 mr-2" />
-                        <span className="text-white">{isSubmitting ? th('creatingReport') : th('submitGetHoroscope')}</span>
+                      <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-sm font-medium text-white">
+                        <Sparkles className="mr-2 h-5 w-5 shrink-0" />
+                        <span>{isSubmitting ? th('creatingReport') : th('submitGetHoroscope')}</span>
                         {!isSubmitting && (detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine) && (
                           <>
                             <span aria-hidden>·</span>
-                            <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white whitespace-nowrap">
+                            <span className="inline-flex items-center justify-center gap-1.5 font-medium text-white">
                               <CoinGlyph className="h-4 w-4 shrink-0" />
                               {detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
                             </span>
@@ -632,6 +639,10 @@ export default function HoroscopePage() {
             )}
           </form>
       </ServiceFormSection>
+
+      <WhatIsHoroscope />
+      <HoroscopeHowItWorks />
+      <HoroscopeWhyDetailsMatter />
       <HoroscopeWhatYouGet />
       <HoroscopeFaq />
       <HoroscopeFinalCta />

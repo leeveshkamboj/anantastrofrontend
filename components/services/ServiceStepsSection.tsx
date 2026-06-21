@@ -3,6 +3,7 @@
 import { Container } from "@/components/layout/Container"
 import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
+import { serviceContentSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 import { CosmicCard } from "../ui/CosmicCard"
 
@@ -28,7 +29,7 @@ export function ServiceStepsSection({
   className,
 }: ServiceStepsSectionProps) {
   return (
-    <section className={cn("stars-bg bg-astro-purple px-6 py-20 text-white lg:px-24", className)}>
+    <section className={cn("stars-bg bg-astro-purple text-white", serviceContentSectionClassName, className)}>
       <Container>
         <ServiceSectionHeader eyebrow={eyebrow} title={title} subtitle={subtitle} light />
         <Stagger className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4 lg:items-stretch">

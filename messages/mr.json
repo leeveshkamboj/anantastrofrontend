@@ -1163,7 +1163,24 @@
     "dob": "DOB:",
     "time": "वेळ:",
     "genderMale": "पुरुष",
-    "genderFemale": "स्त्री"
+    "genderFemale": "स्त्री",
+    "loading": "Loading profiles…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editTitle": "Edit profile",
+    "editDescription": "Update birth details for {name}.",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "nameRequired": "Name is required.",
+    "updatedSuccess": "Profile updated.",
+    "updateFailed": "Could not update profile. Please try again.",
+    "deleteTitle": "Delete profile?",
+    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
+    "deleteConfirm": "Delete profile",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deletedSuccess": "Profile deleted.",
+    "deleteFailed": "Could not delete profile. Please try again."
   },
   "reports": {
     "title": "माझे अहवाल",
@@ -1420,7 +1437,14 @@
     "labelGender": "लिंग",
     "gender": "लिंग",
     "genderMale": "पुरुष",
-    "genderFemale": "स्त्री"
+    "genderFemale": "स्त्री",
+    "type": {
+      "vedic": "वैदिक ज्योतिषी",
+      "numerology": "अंकशास्त्रज्ञ",
+      "vastu": "वास्तु तज्ञ",
+      "tarot": "टॅरो रीडर",
+      "lal_kitab": "लाल किताब तज्ञ"
+    }
   },
   "admin": {
     "userUpdated": "वापरकर्ता यशस्वीरित्या अद्यतनित झाला",

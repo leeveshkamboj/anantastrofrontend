@@ -11,7 +11,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { BirthGenderSelect, type BirthGender } from '@/components/kundli/BirthGenderSelect';
 import { BookOpen, ArrowLeft } from 'lucide-react';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
-import { serviceFormCardClassName } from '@/components/services';
+import { serviceFormCardClassName, serviceFormCardContentClassName } from '@/components/services';
 import { CosmicButton } from '@/components/ui/CosmicButton';
 import { FadeIn } from '@/components/motion/FadeIn';
 
@@ -42,6 +42,9 @@ export interface BirthDetailsFormProps {
   nameId?: string;
   timeId?: string;
   placeId?: string;
+  /** When true, renders form fields only (no outer card). */
+  embedded?: boolean;
+  hideSubmitIcon?: boolean;
 }
 
 export function BirthDetailsForm({
@@ -70,15 +73,19 @@ export function BirthDetailsForm({
   nameId = 'name',
   timeId = 'time',
   placeId = 'place',
+  embedded = false,
+  hideSubmitIcon = false,
 }: BirthDetailsFormProps) {
   const tl = useTranslations('services.kundli.birthForm');
-  return (
-    <FadeIn preset="scaleIn" inView>
-      <Card className={serviceFormCardClassName}>
-      <CardContent className="p-8">
-        <h3 className="mb-2 text-xl font-extrabold text-gray-900">{title}</h3>
-        {subtitle && <p className="mb-6 text-gray-600">{subtitle}</p>}
-        <form onSubmit={onSubmit} className="space-y-5">
+  const form = (
+    <>
+      {!embedded && (
+        <>
+          <h3 className="mb-2 text-lg font-extrabold text-gray-900 sm:text-xl">{title}</h3>
+          {subtitle && <p className="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base">{subtitle}</p>}
+        </>
+      )}
+      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
           <div className="space-y-2">
             <Label htmlFor={nameId}>{tl('name')}</Label>
             <Input
@@ -149,13 +156,13 @@ export function BirthDetailsForm({
             variant="primary"
             className="h-auto min-h-11 w-full rounded-full py-3 text-base"
           >
-            <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
-              <BookOpen className="mr-2 h-4 w-4 shrink-0" />
+            <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
+              {!hideSubmitIcon && <BookOpen className="mr-2 h-4 w-4 shrink-0" />}
               {isSubmitting ? tl('saving') : submitLabel}
               {!isSubmitting && priceLine && (
                 <>
                   <span aria-hidden>·</span>
-                  <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-medium text-white">
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-white sm:text-sm">
                     <CoinGlyph className="h-4 w-4 shrink-0" />
                     {priceLine}
                   </span>
@@ -175,8 +182,20 @@ export function BirthDetailsForm({
             </Button>
           )}
         </form>
-      </CardContent>
-    </Card>
+    </>
+  );
+
+  if (embedded) {
+    return form;
+  }
+
+  return (
+    <FadeIn preset="scaleIn" inView>
+      <Card className={serviceFormCardClassName}>
+        <CardContent className={serviceFormCardContentClassName}>
+          {form}
+        </CardContent>
+      </Card>
     </FadeIn>
   );
 }

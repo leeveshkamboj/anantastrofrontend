@@ -63,18 +63,18 @@ function PlanCard({
     <CosmicCard
       padding="md"
       className={cn(
-        "relative items-stretch text-left",
+        "relative items-stretch p-5 text-left sm:p-8",
         isBestValue && "ring-2 ring-astro-orange ring-offset-2"
       )}
     >
       {isBestValue && (
-        <span className="absolute right-4 top-4 rounded-full bg-astro-orange px-3 py-1 text-xs font-bold text-white">
+        <span className="mb-3 inline-block rounded-full bg-astro-orange px-3 py-1 text-xs font-bold text-white sm:absolute sm:right-4 sm:top-4 sm:mb-0">
           {t("bestValue")}
         </span>
       )}
 
-      <div className={cn("mb-4", isBestValue && "pr-24")}>
-        <h3 className="text-xl font-bold">{plan.name}</h3>
+      <div className={cn("mb-4", isBestValue && "sm:pr-24")}>
+        <h3 className="text-lg font-bold sm:text-xl">{plan.name}</h3>
         {plan.discountLabel && (
           <span className="mt-2 inline-block rounded-full bg-astro-orange/10 px-3 py-0.5 text-xs font-semibold text-astro-orange">
             {plan.discountLabel}
@@ -84,7 +84,7 @@ function PlanCard({
       </div>
 
       <div className="mb-4">
-        <p className="text-3xl font-extrabold tabular-nums text-black md:text-4xl">
+        <p className="text-2xl font-extrabold tabular-nums text-black sm:text-3xl md:text-4xl">
           {formatInr(plan.pricePaise)}
         </p>
         {plan.originalPricePaise != null && plan.originalPricePaise > plan.pricePaise && (
@@ -160,11 +160,11 @@ export function PricingPlansSection({
   const t = useTranslations("pricing")
 
   return (
-    <section className="relative overflow-hidden bg-white px-6 py-20 text-astro-purple lg:px-24">
+    <section className="relative overflow-hidden bg-white px-4 py-12 text-astro-purple sm:px-6 sm:py-16 lg:px-24 lg:py-20">
       <DecorativePlanets variant="pricing" />
       <Container className="relative z-10">
         {isLoading && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
@@ -188,9 +188,10 @@ export function PricingPlansSection({
         {!isLoading && plans.length > 0 && (
           <Stagger
             className={cn(
-              "grid gap-6",
-              plans.length === 1 ? "mx-auto max-w-md" : "sm:grid-cols-2",
-              plans.length >= 3 && "lg:grid-cols-3"
+              "grid gap-4 sm:grid-cols-2 sm:gap-6",
+              plans.length === 1 && "mx-auto max-w-md",
+              plans.length >= 3 && "lg:grid-cols-3",
+              plans.length === 4 && "xl:grid-cols-4"
             )}
           >
             {plans.map((plan) => (

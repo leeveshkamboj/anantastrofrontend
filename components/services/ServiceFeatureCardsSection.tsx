@@ -5,6 +5,7 @@ import { Container } from "@/components/layout/Container"
 import { HoverLift } from "@/components/motion/HoverLift"
 import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
+import { serviceContentSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 
 const defaultIcons = [Calendar, Clock, MapPin]
@@ -31,7 +32,7 @@ export function ServiceFeatureCardsSection({
   className,
 }: ServiceFeatureCardsSectionProps) {
   return (
-    <section className={cn("relative overflow-hidden bg-white px-6 py-20 lg:px-24", className)}>
+    <section className={cn("relative overflow-hidden bg-white", serviceContentSectionClassName, className)}>
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-astro-purple/8 to-transparent"
         aria-hidden="true"

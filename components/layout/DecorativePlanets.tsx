@@ -29,12 +29,14 @@ const VARIANTS: Record<
 > = {
   reports: {
     saturn: {
-      className: "left-6 top-8 h-24 w-24 sm:left-10 sm:top-10 sm:h-28 sm:w-28",
+      className:
+        "-left-8 top-2 h-14 w-14 opacity-40 sm:left-10 sm:top-10 sm:h-28 sm:w-28 sm:opacity-100",
       width: 112,
       height: 112,
     },
     earth: {
-      className: "bottom-16 right-6 h-32 w-32 sm:bottom-20 sm:right-10 sm:h-36 sm:w-36",
+      className:
+        "-right-8 bottom-2 h-16 w-16 opacity-40 sm:bottom-20 sm:right-10 sm:h-36 sm:w-36 sm:opacity-100",
       width: 144,
       height: 144,
     },
@@ -42,13 +44,13 @@ const VARIANTS: Record<
   about: {
     saturn: {
       className:
-        "right-4 top-10 h-20 w-20 rotate-12 sm:right-16 sm:top-6 sm:h-32 sm:w-32",
+        "-right-8 top-0 h-12 w-12 rotate-12 opacity-30 sm:right-16 sm:top-6 sm:h-32 sm:w-32 sm:opacity-100",
       width: 128,
       height: 128,
     },
     earth: {
       className:
-        "bottom-10 left-0 h-28 w-28 -rotate-6 sm:bottom-16 sm:left-8 sm:h-40 sm:w-40",
+        "-left-10 bottom-0 h-14 w-14 -rotate-6 opacity-30 sm:bottom-16 sm:left-8 sm:h-40 sm:w-40 sm:opacity-100",
       width: 160,
       height: 160,
     },
@@ -56,13 +58,13 @@ const VARIANTS: Record<
   contact: {
     earth: {
       className:
-        "left-6 top-14 h-28 w-28 sm:left-16 sm:top-10 sm:h-36 sm:w-36",
+        "-left-8 top-2 h-14 w-14 opacity-30 sm:left-16 sm:top-10 sm:h-36 sm:w-36 sm:opacity-100",
       width: 144,
       height: 144,
     },
     saturn: {
       className:
-        "bottom-24 right-0 h-16 w-16 rotate-[20deg] opacity-50 sm:bottom-32 sm:right-6 sm:h-24 sm:w-24",
+        "-right-8 bottom-4 h-10 w-10 rotate-[20deg] opacity-25 sm:bottom-32 sm:right-6 sm:h-24 sm:w-24 sm:opacity-50",
       width: 96,
       height: 96,
     },
@@ -70,13 +72,13 @@ const VARIANTS: Record<
   pricing: {
     saturn: {
       className:
-        "bottom-6 left-1/2 h-20 w-20 -translate-x-1/2 sm:bottom-12 sm:left-20 sm:h-28 sm:w-28 sm:translate-x-0",
+        "-left-8 bottom-2 h-12 w-12 opacity-30 sm:bottom-12 sm:left-20 sm:h-28 sm:w-28 sm:opacity-100",
       width: 112,
       height: 112,
     },
     earth: {
       className:
-        "right-6 top-6 h-24 w-24 -rotate-[15deg] sm:right-20 sm:top-4 sm:h-32 sm:w-32",
+        "-right-8 top-2 h-14 w-14 -rotate-[15deg] opacity-30 sm:right-20 sm:top-4 sm:h-32 sm:w-32 sm:opacity-100",
       width: 128,
       height: 128,
     },
@@ -84,13 +86,13 @@ const VARIANTS: Record<
   "wallet-quick-actions": {
     saturn: {
       className:
-        "left-2 top-10 h-20 w-20 -rotate-12 opacity-80 sm:left-10 sm:top-8 sm:h-28 sm:w-28",
+        "-left-6 top-6 h-14 w-14 -rotate-12 opacity-50 sm:left-10 sm:top-8 sm:h-28 sm:w-28 sm:opacity-80",
       width: 112,
       height: 112,
     },
     earth: {
       className:
-        "bottom-8 right-2 h-28 w-28 rotate-6 sm:bottom-10 sm:right-10 sm:h-36 sm:w-36",
+        "-right-6 bottom-4 h-16 w-16 rotate-6 opacity-50 sm:bottom-10 sm:right-10 sm:h-36 sm:w-36 sm:opacity-100",
       width: 144,
       height: 144,
     },
@@ -98,7 +100,7 @@ const VARIANTS: Record<
   "register-status": {
     saturn: {
       className:
-        "left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 opacity-[0.08] sm:h-64 sm:w-64",
+        "left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 opacity-[0.06] sm:h-64 sm:w-64 sm:opacity-[0.08]",
       width: 256,
       height: 256,
     },
@@ -106,13 +108,13 @@ const VARIANTS: Record<
   "register-form": {
     earth: {
       className:
-        "bottom-8 right-4 h-32 w-32 sm:bottom-12 sm:right-12 sm:h-44 sm:w-44",
+        "-right-6 bottom-4 h-20 w-20 opacity-50 sm:bottom-12 sm:right-12 sm:h-44 sm:w-44 sm:opacity-100",
       width: 176,
       height: 176,
     },
     saturn: {
       className:
-        "left-8 top-6 h-16 w-16 rotate-45 opacity-70 sm:left-20 sm:top-10 sm:h-20 sm:w-20",
+        "-left-4 top-2 h-12 w-12 rotate-45 opacity-50 sm:left-20 sm:top-10 sm:h-20 sm:w-20 sm:opacity-70",
       width: 80,
       height: 80,
     },
@@ -150,9 +152,9 @@ export function DecorativePlanets({ variant = "reports" }: DecorativePlanetsProp
   const layout = VARIANTS[variant]
 
   return (
-    <>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
       {layout.saturn && <Planet src={SATURN_SRC} config={layout.saturn} />}
       {layout.earth && <Planet src={EARTH_SRC} config={layout.earth} />}
-    </>
+    </div>
   )
 }

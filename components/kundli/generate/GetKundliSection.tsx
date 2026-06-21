@@ -12,8 +12,11 @@ import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { cn } from '@/lib/utils';
 import {
   serviceFormCardClassName,
+  serviceFormCardContentClassName,
   serviceProfileButtonClassName,
   serviceProfileIconClassName,
+  serviceProfileListButtonClassName,
+  ServiceProfileMeta,
 } from '@/components/services';
 import { CosmicButton } from '@/components/ui/CosmicButton';
 import { BirthDetailsForm } from './BirthDetailsForm';
@@ -153,9 +156,9 @@ export function GetKundliSection({
   return (
     <FadeIn preset="scaleIn" inView>
       <Card className={serviceFormCardClassName}>
-        <CardContent className="space-y-6 p-8">
-          <h3 className="text-xl font-extrabold text-gray-900">{t('selectTitle')}</h3>
-          <p className="-mt-2 text-gray-600">{t('selectSubtitle')}</p>
+        <CardContent className={serviceFormCardContentClassName}>
+          <h3 className="text-lg font-extrabold text-gray-900 sm:text-xl">{t('selectTitle')}</h3>
+          <p className="-mt-2 text-sm text-gray-600 sm:text-base">{t('selectSubtitle')}</p>
           {isLoading ? (
             <p className="text-gray-500 text-sm">{tCommon('loadingProfiles')}</p>
           ) : (
@@ -168,7 +171,7 @@ export function GetKundliSection({
                         type="button"
                         onClick={() => onSelectProfile(k.id)}
                         className={cn(
-                          'flex w-full items-center gap-3 rounded-2xl p-4 text-left transition-all',
+                          serviceProfileListButtonClassName,
                           serviceProfileButtonClassName(selectedId === k.id),
                         )}
                       >
@@ -180,13 +183,14 @@ export function GetKundliSection({
                         >
                           <User className="h-5 w-5" />
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="font-medium text-gray-900">{k.name}</p>
-                          <p className="text-sm text-gray-500">
-                            {k.dateOfBirth && `${tCommon('dobPrefix')} ${k.dateOfBirth}`}
-                            {k.timeOfBirth && ` • ${k.timeOfBirth}`}
-                            {k.placeOfBirth && ` • ${k.placeOfBirth}`}
-                          </p>
+                          <ServiceProfileMeta
+                            dateOfBirth={k.dateOfBirth}
+                            timeOfBirth={k.timeOfBirth}
+                            placeOfBirth={k.placeOfBirth}
+                            dobPrefix={tCommon('dobPrefix')}
+                          />
                         </div>
                       </button>
                     </HoverLift>
@@ -195,12 +199,13 @@ export function GetKundliSection({
               </ul>
             </Stagger>
           )}
-        <div className="flex items-center justify-between pt-2">
-          <Label className="text-base font-medium">{t('someoneElseLabel')}</Label>
+        <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+          <Label className="text-sm font-medium sm:text-base">{t('someoneElseLabel')}</Label>
           <Button
             type="button"
             variant="outline"
             size="sm"
+            className="h-10 w-full sm:w-auto"
             onClick={() => {
               onShowSomeoneElseForm(true);
               onNameChange(kundliFormPrefill.name || '');
@@ -221,13 +226,13 @@ export function GetKundliSection({
             variant="primary"
             className="h-auto min-h-11 w-full rounded-full py-3 text-base"
           >
-            <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
-              <BookOpen className="h-4 w-4 mr-2 shrink-0" />
+            <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
+              <BookOpen className="mr-2 h-4 w-4 shrink-0" />
               {isStartingGeneration ? t('ctaStarting') : t('ctaGetKundli')}
               {!isStartingGeneration && generatePriceLine && (
                 <>
                   <span aria-hidden>·</span>
-                  <span className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-white whitespace-nowrap">
+                  <span className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-white sm:text-sm">
                     <CoinGlyph className="h-4 w-4 shrink-0" />
                     {generatePriceLine}
                   </span>

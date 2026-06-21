@@ -202,7 +202,7 @@ export function KundliHeroForm() {
 
   return (
     <motion.div
-      className="mx-16 w-full"
+      className="mx-auto w-full max-w-md lg:max-w-none lg:mx-16"
       initial="hidden"
       animate="visible"
       variants={scaleIn}
@@ -210,7 +210,7 @@ export function KundliHeroForm() {
       <CosmicCard
         variant="glass"
         padding="md"
-        className="celestial-surface-light w-full items-stretch text-left text-gray-900"
+        className="celestial-surface-light w-full items-stretch p-5 text-left text-gray-900 sm:p-8"
       >
         <FadeIn preset="fadeUp" delay={getChoreographyDelay("title", reduced)}>
           <h2 className="mb-1 text-center text-2xl font-bold text-gray-900">{t("cardTitle")}</h2>

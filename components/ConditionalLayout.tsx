@@ -9,11 +9,23 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const isAdminRoute = pathname?.startsWith('/admin');
   const isAstrologerRoute = pathname === '/astrologer' || pathname?.startsWith('/astrologer/');
   const isRegisterRoute = pathname?.startsWith('/astrologer/register');
+  const isChatRoute = pathname?.startsWith('/chat');
 
   // Don't show Navbar and Footer for admin routes or astrologer dashboard routes
   // But show them for astrologer registration routes
   if (isAdminRoute || (isAstrologerRoute && !isRegisterRoute)) {
     return <>{children}</>;
+  }
+
+  if (isChatRoute) {
+    return (
+      <>
+        <Navbar />
+        <main className="fixed inset-x-0 top-16 bottom-0 overflow-hidden bg-gray-50/80">
+          {children}
+        </main>
+      </>
+    );
   }
 
   // Show Navbar and Footer for regular routes

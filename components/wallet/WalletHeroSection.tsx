@@ -66,10 +66,10 @@ export function WalletHeroSection({
                 </span>
               </div>
 
-              <h1 className="mb-3 font-serif text-4xl font-extrabold leading-[1.08] text-gray-900 md:text-5xl">
+              <h1 className="mb-3 text-3xl font-extrabold leading-[1.08] text-gray-900 sm:text-4xl md:text-5xl">
                 {t("title")}
               </h1>
-              <p className="mx-auto mb-5 max-w-md text-base font-medium leading-relaxed text-gray-600 md:text-lg lg:mx-0">
+              <p className="mx-auto mb-5 max-w-md text-sm font-medium leading-relaxed text-gray-600 sm:text-base md:text-lg lg:mx-0">
                 {t("subtitleLong")}
               </p>
 
@@ -113,7 +113,7 @@ export function WalletHeroSection({
                   {isLoading ? (
                     <div className="h-16 w-48 animate-pulse rounded-xl bg-white/15" />
                   ) : (
-                    <p className="text-6xl font-extrabold tabular-nums tracking-tight text-white sm:text-7xl">
+                    <p className="text-5xl font-extrabold tabular-nums tracking-tight text-white sm:text-6xl md:text-7xl">
                       {balance}
                     </p>
                   )}

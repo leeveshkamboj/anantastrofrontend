@@ -1,192 +1,254 @@
 ANANTASTRO — ASTROLOGER DISPLAY PICTURE (DP) GENERATION PROMPTS
 ====================================================================
 
-Source: backend seed data (7 astrologers)
-Generated for: AnantAstro astrologers page design mockup
+Source: backend seed data (12 astrologers)
 
 USAGE NOTES
 -----------
-• Style A (Featured) → save as: public/images/astrologers/featured/{slug}.jpg
-  Used in: Featured Astrologers section (realistic portrait with golden glow)
+• Generate ONE astrologer at a time in a fresh chat/session — batch prompts cause same-face drift.
+• Production avatars (S3): upload as astrologers/{slug}.jpeg (512×512 JPEG, square headshot)
+• Optional local fallbacks: public/images/astrologers/featured/{slug}.jpg or directory/{slug}.png
+• Brand palette: yellow #ffc800, purple #2e0a5e, orange #ff9500
 
-• Style B (Directory) → save as: public/images/astrologers/directory/{slug}.png
-  Used in: Main Directory section (flat vector avatar on pastel circle)
+CRITICAL — AVOID SAME FACE (read before every generation)
+-----------------------------------------------------------
+Add this block to EVERY prompt you paste into an image generator:
 
-• Recommended size: 512×512 px (square), transparent or solid background as noted
-• Aspect ratio: 1:1, centered headshot/avatar
-• Brand palette reference: yellow #ffc800, purple #2e0a5e, orange #ff9500
+  UNIQUE PERSON — must look like a completely different real human from all other astrologers in this list.
+  NOT a generic AI face. NOT a Bollywood stock model. NOT the same person with different clothes.
+  Distinct face shape, nose, jawline, eye spacing, skin tone, age, hair, and accessories as specified below.
+
+Tips that help:
+• Use a different AI seed / new conversation per image
+• If faces still match, add: "photograph of a specific individual, asymmetric natural features, visible pores, slight imperfections"
+• If using Midjourney: add --seed with a random number per slug, or use --cref only for style NOT face
+• Reject and regenerate if two outputs could be siblings — they should look like strangers
+
+Each astrologer below has a locked VISUAL IDENTITY — do not soften or genericize these details.
 
 
 ====================================================================
 1. ARYA VEDIKA
 ====================================================================
-Slug: arya
-Gender: Female
-Persona: Calm mentor
-Location: Varanasi, Uttar Pradesh, India
-Specialties: Life Direction, Emotional Balance, Spiritual Guidance
-Coins/min: 6
+Slug: arya | Female | 38 | Varanasi | Vedic | 6 coins/min
 
+VISUAL IDENTITY: Oval face, warm wheatish skin, long straight black hair with centre part reaching mid-back (visible framing shoulders), small round red bindi, soft almond eyes, gentle closed-lip smile, no glasses, no heavy makeup.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian woman in her mid-30s named Arya Vedika, calm wise Vedic astrologer and spiritual mentor from Varanasi India. Warm gentle smile, serene confident eyes, traditional elegant Indian attire — soft cream or saffron saree with subtle gold border. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background fading to deep purple tones. Photorealistic, high quality, trustworthy and compassionate mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Arya Vedika, a 38-year-old North Indian Vedic astrologer woman from Varanasi. UNIQUE PERSON — oval face, warm wheatish complexion, long straight black hair centre-parted, small red bindi, soft almond eyes, calm gentle smile. Wearing cream Banarasi saree with thin gold border. Side-lit warm golden light from left, plain deep plum background, no bokeh clutter. Photorealistic, natural skin texture, asymmetric features. NOT generic AI face. Square 1:1, shoulders visible, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian woman, calm mentor astrologer character. Simple clean facial features, friendly warm expression, medium-length dark hair, small bindi optional. Wearing simple solid-color Indian top in soft saffron or cream. Solid light pastel yellow circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust avatar: North Indian woman, 38, oval face, wheatish skin, long straight black hair centre part, red bindi, cream top. Pastel yellow circle background. Distinct from other avatars — longer straight hair, bindi, oval face.
 
 
 ====================================================================
 2. NIRAV JYOTISH
 ====================================================================
-Slug: nirav
-Gender: Male
-Persona: Practical advisor
-Location: Jaipur, Rajasthan, India
-Specialties: Career, Finance, Business Timing
-Coins/min: 8
+Slug: nirav | Male | 42 | Jaipur | Numerology | 8 coins/min
 
+VISUAL IDENTITY: Square jaw, medium-brown Rajasthani skin, thick well-groomed MUSTACHE only (clean shaven chin — NO full beard), short black hair greying at temples, prominent straight nose, confident half-smile, no turban.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian man in his late 30s named Nirav Jyotish, practical Vedic astrologer and career advisor from Jaipur Rajasthan India. Confident approachable smile, sharp intelligent eyes, smart-casual Indian attire — neat cream or light maroon kurta with subtle embroidery. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind him. Dark neutral textured background with hints of royal purple. Photorealistic, high quality, trustworthy professional mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Nirav Jyotish, a 42-year-old Rajasthani numerologist man from Jaipur. UNIQUE PERSON — square jaw, medium-brown skin, thick mustache ONLY clean-shaven chin NO beard, grey temples, straight prominent nose. Wearing rust-maroon kurta with subtle block print. Even studio light, dark teal background. Photorealistic, natural skin. NOT same face as other men in this list. Square 1:1, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian man, practical advisor astrologer character. Simple clean facial features, confident friendly expression, short neat dark hair, light stubble optional. Wearing simple solid-color kurta in maroon or cream. Solid light pastel blue circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust: Rajasthani man, 42, square jaw, mustache only no beard, grey at temples, maroon kurta. Pastel blue circle. Mustache-only is the key differentiator.
 
 
 ====================================================================
 3. MAITRI SHASTRI
 ====================================================================
-Slug: maitri
-Gender: Female
-Persona: Relationship specialist
-Location: Ujjain, Madhya Pradesh, India
-Specialties: Marriage, Compatibility, Communication
-Coins/min: 9
+Slug: maitri | Female | 29 | Ujjain | Vedic | 9 coins/min
 
+VISUAL IDENTITY: Round face with dimples, fair skin, shoulder-length wavy dark brown hair, small gold nose ring (left nostril), bright open smile showing teeth, no bindi, youthful cheeks.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian woman in her early 30s named Maitri Shastri, relationship specialist and Vedic astrologer from Ujjain Madhya Pradesh India. Warm empathetic smile, kind expressive eyes, elegant traditional Indian attire — soft pink or rose saree with delicate gold accents. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background with soft purple undertones. Photorealistic, high quality, nurturing and trustworthy mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Maitri Shastri, a 29-year-old Vedic astrologer woman from Ujjain. UNIQUE PERSON — round face with dimples, fair skin, wavy shoulder-length brown hair, gold nose ring left nostril, bright warm smile. Wearing dusty-rose cotton saree. Soft front lighting, muted mauve background. Photorealistic. Clearly younger and rounder face than other women. Square 1:1, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian woman, relationship specialist astrologer character. Simple clean facial features, warm empathetic smile, shoulder-length dark wavy hair. Wearing simple solid-color Indian top in soft rose or pink. Solid light pastel pink circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust: woman 29, round face, dimples, wavy shoulder hair, nose ring, rose pink top. Pastel pink circle.
 
 
 ====================================================================
 4. DEV RISHI
 ====================================================================
-Slug: dev
-Gender: Male
-Persona: Traditional Vedic guide
-Location: Haridwar, Uttarakhand, India
-Specialties: Vedic Remedies, Mantras, Dosha Guidance
-Coins/min: 7
+Slug: dev | Male | 56 | Haridwar | Vedic | 7 coins/min
 
+VISUAL IDENTITY: Thin elongated face, deep smile lines, FULL white-grey beard (long, traditional), mostly bald with small white tuft at back, fair skin weathered by sun, wise tired eyes, red tilak on forehead, austere expression — oldest male in the roster.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian man in his 40s named Dev Rishi, traditional Vedic astrologer and spiritual guide from Haridwar Uttarakhand India. Calm dignified expression with a gentle wise smile, serene eyes, traditional Indian attire — white or off-white kurta with saffron shawl. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind him. Dark neutral textured background with deep spiritual purple tones. Photorealistic, high quality, wise and reverent mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Dev Rishi, a 56-year-old traditional Vedic pandit from Haridwar. UNIQUE PERSON — thin face, deep wrinkles, long white-grey FULL beard, mostly bald head, red tilak, fair weathered skin, serene serious expression NO big smile. White kurta saffron shawl. Muted natural light, dark stone-grey background, NO golden bokeh. Photorealistic elder sage. Must look visibly OLDER than all other men. Square 1:1, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian man, traditional Vedic guide astrologer character. Simple clean facial features, calm wise expression, short dark hair, optional tilak mark. Wearing simple solid-color white kurta with saffron accent. Solid light pastel saffron circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust: elderly man 56, thin face, long white beard, bald, tilak, saffron accent. Pastel saffron circle.
 
 
 ====================================================================
 5. TARA NAKSHETRA
 ====================================================================
-Slug: tara
-Gender: Female
-Persona: Modern intuitive counselor
-Location: Delhi, Delhi, India
-Specialties: Personal Growth, Mindset, Relationships
-Coins/min: 10
+Slug: tara | Female | 26 | Delhi | Numerology | 10 coins/min
 
+VISUAL IDENTITY: Heart-shaped face, medium skin, short bob haircut with subtle burgundy highlights (above chin length), NO bindi, thin metal frame glasses, bold small hoop earrings, confident smirk not full smile — most modern/urban look.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian woman in her late 20s named Tara Nakshetra, modern intuitive Vedic counselor and astrologer from Delhi India. Bright confident smile, expressive intelligent eyes, contemporary smart Indian attire — modern kurta or fusion ethnic top in teal or deep purple. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background with modern purple accents. Photorealistic, high quality, vibrant and approachable mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Tara Nakshetra, a 26-year-old numerologist from Delhi. UNIQUE PERSON — heart-shaped face, medium skin, short bob haircut with burgundy highlights, thin glasses, hoop earrings, confident slight smirk NO bindi. Wearing teal modern collared kurta. Cool urban studio light, dark charcoal-purple background. Photorealistic Gen-Z professional vibe. Short hair + glasses = must NOT look like long-haired saree women. Square 1:1, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian woman, modern intuitive counselor astrologer character. Simple clean facial features, bright confident expression, modern shoulder-length hair. Wearing simple solid-color contemporary Indian top in teal or purple. Solid light pastel lavender circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust: woman 26, bob cut with highlights, glasses, hoops, teal top. Pastel lavender circle.
 
 
 ====================================================================
 6. ISHAN ADITYA
 ====================================================================
-Slug: ishan
-Gender: Male
-Persona: Career strategist
-Location: Mumbai, Maharashtra, India
-Specialties: Job Switches, Leadership, Goal Planning
-Coins/min: 11
+Slug: ishan | Male | 33 | Mumbai | Vedic | 11 coins/min
 
+VISUAL IDENTITY: Heart-shaped face, light brown skin, clean-shaven, thick wavy hair swept back, broad smile, athletic shoulders, sharp groomed eyebrows — polished Mumbai professional, NO mustache NO beard.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian man in his mid-30s named Ishan Aditya, career strategist and Vedic astrologer from Mumbai Maharashtra India. Confident professional smile, focused ambitious eyes, smart modern Indian business-casual attire — well-fitted navy or charcoal kurta with subtle gold buttons. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind him. Dark neutral textured background with corporate purple undertones. Photorealistic, high quality, dynamic and trustworthy mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Ishan Aditya, a 33-year-old career astrologer from Mumbai. UNIQUE PERSON — heart-shaped face, light brown skin, clean-shaven, thick wavy hair swept back, broad white-tooth smile, groomed brows. Wearing fitted navy bandhgala. Bright corporate studio light, cool grey-violet background. Photorealistic. Clean-shaven young professional — distinct from mustached Nirav and bearded Dev/Rishi. Square 1:1, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian man, career strategist astrologer character. Simple clean facial features, confident professional expression, neat styled dark hair. Wearing simple solid-color kurta in navy or charcoal. Solid light pastel mint circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust: man 33, clean-shaven, wavy swept-back hair, navy bandhgala. Pastel mint circle.
 
 
 ====================================================================
 7. KAVYA PRERNA
 ====================================================================
-Slug: kavya
-Gender: Female
-Persona: Compassionate life coach
-Location: Pune, Maharashtra, India
-Specialties: Family, Healing, Self-confidence
-Coins/min: 7
+Slug: kavya | Female | 31 | Pune | Vastu | 7 coins/min
 
+VISUAL IDENTITY: Soft round-oval face, warm brown skin, long single braid over shoulder, minimal makeup, kind half-smile, small gold stud earrings, no nose ring, no bindi — maternal gentle look, slightly wider nose bridge.
 
---- STYLE A: FEATURED (Realistic Portrait) ---
+--- STYLE A (S3 / Featured realistic) ---
 
-Professional studio portrait of a South Asian woman in her early 30s named Kavya Prerna, compassionate life coach and Vedic astrologer from Pune Maharashtra India. Soft healing smile, warm reassuring eyes, elegant comfortable Indian attire — soft green or peach saree with minimal gold detail. Close-up circular headshot composition, centered face, shoulders visible. Soft warm studio lighting with subtle golden ethereal glow and bokeh sparkles behind her. Dark neutral textured background with gentle purple warmth. Photorealistic, high quality, comforting and uplifting mood. No text, no watermark, no logo. Square 1:1 aspect ratio.
+Professional studio headshot of Kavya Prerna, a 31-year-old Vastu expert from Pune. UNIQUE PERSON — soft round-oval face, warm brown skin, long black braid over one shoulder, gold studs, gentle half-smile, no bindi. Wearing sage-green cotton saree. Warm diffused light, soft olive-grey background. Photorealistic nurturing mood. Braid hairstyle must differ from loose hair and bob cut women. Square 1:1, no text.
 
+--- STYLE B (Directory vector) ---
 
---- STYLE B: DIRECTORY (Flat Vector Avatar) ---
-
-Minimalist flat-design vector illustration avatar of a South Asian woman, compassionate life coach astrologer character. Simple clean facial features, soft healing smile, long dark hair tied back gently. Wearing simple solid-color Indian top in soft green or peach. Solid light pastel peach circular background. Clean lines, solid color blocks, modern approachable style. No text, no photorealism. Square 1:1, centered bust portrait within circle.
+Flat vector bust: woman 31, warm brown skin, long braid, green top. Pastel peach circle.
 
 
 ====================================================================
-END OF PROMPTS
+8. RISHI LALVANI
+====================================================================
+Slug: rishi | Male | 47 | Kolkata | Lal Kitab | 8 coins/min
+
+VISUAL IDENTITY: Round face, Bengali features, medium-fair skin, thick black rectangular glasses, receding hairline with short sides, trimmed short boxed beard (NOT long like Dev), thoughtful pursed lips, intellectual serious look.
+
+--- STYLE A (S3 / Featured realistic) ---
+
+Professional studio headshot of Rishi Lalvani, a 47-year-old Lal Kitab astrologer from Kolkata. UNIQUE PERSON — round Bengali face, thick black rectangular GLASSES, receding hairline, short trimmed boxed beard, serious thoughtful expression. Wearing deep brown kurta. Flat even lighting, dark burgundy background. Photorealistic intellectual look. Glasses + round face + short beard = unique combo. Square 1:1, no text.
+
+--- STYLE B (Directory vector) ---
+
+Flat vector bust: man 47, round face, glasses, receding hair, short boxed beard, brown kurta. Pastel amber circle.
+
+
+====================================================================
+9. MEERA TARINI
+====================================================================
+Slug: meera | Female | 27 | Bengaluru | Tarot | 9 coins/min
+
+VISUAL IDENTITY: South Indian features, deeper brown skin, tight curly natural hair (afro-textured, ear length), white jasmine flower tucked behind ear, large gold jhumka earrings, wide nose, bright laugh lines, no bindi — distinctly South Indian, NOT North Indian fair skin.
+
+--- STYLE A (S3 / Featured realistic) ---
+
+Professional studio headshot of Meera Tarini, a 27-year-old tarot reader from Bengaluru. UNIQUE PERSON — South Indian woman, deeper brown skin, tight curly natural ear-length hair, jasmine flower behind ear, gold jhumkas, wide smile. Wearing deep indigo handloom top. Warm side light, dark indigo background. Photorealistic. Curly hair + deeper skin + jhumkas must look clearly different from straight-haired North Indian women. Square 1:1, no text.
+
+--- STYLE B (Directory vector) ---
+
+Flat vector bust: South Indian woman 27, curly hair, jasmine, jhumkas, indigo top. Pastel violet circle.
+
+
+====================================================================
+10. ARJUN HASTIN
+====================================================================
+Slug: arjun | Male | 37 | Chennai | Vedic | 7 coins/min
+
+VISUAL IDENTITY: Tamil features, dark brown skin, high cheekbones, clean-shaven, very short cropped hair (almost buzz cut), broad flat nose, calm neutral expression (NOT big smile), white angavastram over shoulder, subtle vibhuti stripes optional on forehead.
+
+--- STYLE A (S3 / Featured realistic) ---
+
+Professional studio headshot of Arjun Hastin, a 37-year-old Vedic astrologer from Chennai. UNIQUE PERSON — Tamil man, dark brown skin, high cheekbones, buzz-cut hair, clean-shaven, neutral calm expression no wide smile, broad nose. White veshti-style kurta with angavastram, subtle vibhuti on forehead. Natural daylight feel, warm stone background. Photorealistic. Darker skin + buzz cut + neutral face = distinct from Ishan/Nirav/Dev. Square 1:1, no text.
+
+--- STYLE B (Directory vector) ---
+
+Flat vector bust: Tamil man 37, dark skin, buzz cut, high cheekbones, white kurta. Pastel coral circle.
+
+
+====================================================================
+11. PRIYA ANAND
+====================================================================
+Slug: priya | Female | 34 | Lucknow | Vedic | 8 coins/min
+
+VISUAL IDENTITY: Long oval face, medium-fair skin, straight hair in LOW BUN at nape (no loose hair), light lavender dupatta draped over head partially (Awadhi style, NOT full hijab), small pearl earrings, soft reserved closed smile, arched eyebrows — elegant Lucknowi look.
+
+--- STYLE A (S3 / Featured realistic) ---
+
+Professional studio headshot of Priya Anand, a 34-year-old wellness astrologer from Lucknow. UNIQUE PERSON — long oval face, medium-fair skin, straight hair in low bun, light lavender dupatta partially covering head, pearl earrings, reserved soft smile. Wearing mint-green chikan-work saree. Soft window light, pale grey-lilac background. Photorealistic elegant Awadhi aesthetic. Dupatta + bun = unique silhouette. Square 1:1, no text.
+
+--- STYLE B (Directory vector) ---
+
+Flat vector bust: woman 34, low bun, dupatta on head, mint green top. Pastel mint circle.
+
+
+====================================================================
+12. VIKRAM SANKHYA
+====================================================================
+Slug: vikram | Male | 41 | Ahmedabad | Numerology | 10 coins/min
+
+VISUAL IDENTITY: Gujarati features, light brown skin, clean-shaven, salt-and-pepper short hair (more grey than black), rounder softer face, warm toothy grin, slightly receding hairline, ivory kurta with colourful Gujarati mirror-work embroidery at collar — friendly businessman energy.
+
+--- STYLE A (S3 / Featured realistic) ---
+
+Professional studio headshot of Vikram Sankhya, a 41-year-old business numerologist from Ahmedabad. UNIQUE PERSON — Gujarati man, light brown skin, salt-and-pepper short hair, round soft face, warm toothy grin, clean-shaven, slightly receding line. Ivory kurta with colourful mirror embroidery at collar. Bright friendly studio light, warm sand-colour background. Photorealistic approachable businessman. Grey hair + round face + big grin = distinct from black-haired Ishan and bearded elders. Square 1:1, no text.
+
+--- STYLE B (Directory vector) ---
+
+Flat vector bust: Gujarati man 41, salt-pepper hair, round face, big smile, ivory embroidered kurta. Pastel sky-blue circle.
+
+
+====================================================================
+QUICK REFERENCE — WHAT MAKES EACH FACE DIFFERENT
 ====================================================================
 
-After generating images, place them at:
+WOMEN:
+  arya   — 38, oval, wheatish, long straight hair, bindi
+  maitri — 29, round, fair, wavy hair, nose ring, dimples
+  tara   — 26, heart face, bob + glasses, urban
+  kavya  — 31, warm brown, long braid
+  meera  — 27, South Indian, curly hair, jhumkas, deeper skin
+  priya  — 34, low bun, dupatta on head, Lucknowi
 
-  Featured (Style A):
-    public/images/astrologers/featured/arya.jpg
-    public/images/astrologers/featured/nirav.jpg
-    public/images/astrologers/featured/maitri.jpg
-    public/images/astrologers/featured/dev.jpg
-    public/images/astrologers/featured/tara.jpg
-    public/images/astrologers/featured/ishan.jpg
-    public/images/astrologers/featured/kavya.jpg
+MEN:
+  nirav  — 42, mustache ONLY, square jaw, grey temples
+  dev    — 56, LONG white beard, bald, elder sage
+  ishan  — 33, clean-shaven, wavy swept hair, big smile
+  rishi  — 47, GLASSES, round face, short boxed beard
+  arjun  — 37, buzz cut, dark skin, neutral expression, Tamil
+  vikram — 41, salt-pepper hair, round face, toothy grin
 
-  Directory (Style B) — optional if replacing DiceBear fallbacks:
-    public/images/astrologers/directory/arya.png
-    public/images/astrologers/directory/nirav.png
-    public/images/astrologers/directory/maitri.png
-    public/images/astrologers/directory/dev.png
-    public/images/astrologers/directory/tara.png
-    public/images/astrologers/directory/ishan.png
-    public/images/astrologers/directory/kavya.png
 
-Images are stored in S3 at: astrologers/{slug}.jpeg
-The seeder sets avatar_url and users.profile_image to these S3 keys.
+====================================================================
+S3 UPLOAD CHECKLIST
+====================================================================
+
+  astrologers/arya.jpeg    astrologers/nirav.jpeg   astrologers/maitri.jpeg
+  astrologers/dev.jpeg     astrologers/tara.jpeg    astrologers/ishan.jpeg
+  astrologers/kavya.jpeg   astrologers/rishi.jpeg   astrologers/meera.jpeg
+  astrologers/arjun.jpeg   astrologers/priya.jpeg   astrologers/vikram.jpeg
+
+Then run (backend): npm run s3:astrologers-public-read
+
+Before uploading: line up all 12 thumbnails — if any two look like the same person, regenerate those with stronger UNIQUE PERSON wording.

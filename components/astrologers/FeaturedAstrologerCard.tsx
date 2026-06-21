@@ -4,7 +4,9 @@ import { ArrowUpRight, MapPin, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
+import { AstrologerTypeBadge } from "@/components/astrologers/AstrologerTypeBadge"
 import { getDisplayRating } from "@/lib/astrologer-utils"
 import type { ChatAstrologer } from "@/store/api/chatApi"
 import { cn } from "@/lib/utils"
@@ -66,7 +68,10 @@ export function FeaturedAstrologerCard({
 
         <div className="mb-3 text-center">
           <h3 className="text-xl font-extrabold text-gray-900">{astrologer.displayName}</h3>
-          <p className="mt-0.5 text-sm font-semibold text-astro-orange">
+          <div className="mt-2 flex justify-center">
+            <AstrologerTypeBadge astrologerType={astrologer.astrologerType} />
+          </div>
+          <p className="mt-2 text-sm font-semibold text-astro-orange">
             {astrologer.persona || t("personaFallback")}
           </p>
           {location ? (
@@ -105,6 +110,17 @@ export function FeaturedAstrologerCard({
               {specialty}
             </Badge>
           ))}
+        </div>
+
+        <div className="mb-5 flex items-center justify-center gap-2 rounded-2xl border border-gray-100 bg-linear-to-b from-gray-50 to-white px-4 py-3">
+          <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            {t("consultationPrice")}
+          </span>
+          <span className="inline-flex items-center gap-1 text-base font-extrabold tabular-nums text-gray-900">
+            {astrologer.coinsPerMinute}
+            <CoinGlyph className="h-4 w-4 text-astro-orange" />
+            <span className="text-xs font-semibold text-gray-500">/ {t("statPerMin").toLowerCase()}</span>
+          </span>
         </div>
 
         <Button

@@ -22,7 +22,7 @@ import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
-import { ServiceFormSection } from '@/components/services';
+import { ServiceFormSection, serviceCostBannerClassName } from '@/components/services';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   KundliGenerateHero,
@@ -437,11 +437,9 @@ function KundliGenerateContent() {
   return (
     <div className="overflow-x-hidden">
       <KundliGenerateHero />
-      <WhatIsKundli />
-      <HowItWorks />
-      <WhyDetailsMatter />
+
       <ServiceFormSection id="get-kundli" title={tk('sectionTitle')} subtitle={tk('sectionSubtitle')}>
-        <ServiceCostBanner serviceKey="kundli" className="mb-8" />
+        <ServiceCostBanner serviceKey="kundli" className={serviceCostBannerClassName} />
         <GetKundliSection
               hasProfiles={hasProfiles}
               isLoading={isLoading}
@@ -481,6 +479,10 @@ function KundliGenerateContent() {
               onBackSomeoneElse={handleBackSomeoneElse}
             />
       </ServiceFormSection>
+
+      <WhatIsKundli />
+      <HowItWorks />
+      <WhyDetailsMatter />
       <WhatYouGet />
       <KundliFaq />
       <KundliFinalCta />

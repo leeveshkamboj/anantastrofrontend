@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
+import { serviceCostBannerClassName } from '@/components/services';
 import {
   MatchmakingHero,
   WhatIsGunMilan,
@@ -337,12 +338,7 @@ export default function MatchmakingPage() {
   return (
     <div className="overflow-x-hidden">
       <MatchmakingHero />
-      <WhatIsGunMilan />
-      <MatchmakingHowItWorks />
-      <MatchmakingWhyDetailsMatter />
-      <div className="mx-auto max-w-3xl px-6 -mt-2 mb-2 lg:px-24">
-        <ServiceCostBanner serviceKey="matchmaking" />
-      </div>
+
       <MatchmakingFormSection
         matchStep={matchStep}
         setMatchStep={setMatchStep}
@@ -369,7 +365,14 @@ export default function MatchmakingPage() {
         onSubmit={handleSubmit}
         isComputing={isComputing}
         submitPriceLine={matchmakingPriceLine}
+        costBanner={
+          <ServiceCostBanner serviceKey="matchmaking" className={serviceCostBannerClassName} />
+        }
       />
+
+      <WhatIsGunMilan />
+      <MatchmakingHowItWorks />
+      <MatchmakingWhyDetailsMatter />
       <MatchmakingWhatYouGet />
       <MatchmakingFaq />
       <MatchmakingFinalCta />

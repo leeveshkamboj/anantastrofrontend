@@ -4,6 +4,7 @@ import { HelpCircle } from "lucide-react"
 import { Container } from "@/components/layout/Container"
 import { Stagger, StaggerItem } from "@/components/motion/Stagger"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
+import { serviceContentSectionClassName } from "@/components/services/service-layout"
 import { cn } from "@/lib/utils"
 
 type ServiceFaqItem = {
@@ -21,7 +22,7 @@ type ServiceFaqSectionProps = {
 
 export function ServiceFaqSection({ eyebrow, title, subtitle, items, className }: ServiceFaqSectionProps) {
   return (
-    <section className={cn("relative overflow-hidden bg-white px-6 py-20 lg:px-24", className)}>
+    <section className={cn("relative overflow-hidden bg-white", serviceContentSectionClassName, className)}>
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-astro-purple/8 to-transparent"
         aria-hidden="true"

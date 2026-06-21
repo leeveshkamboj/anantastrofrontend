@@ -17,12 +17,12 @@ export function AboutTeamSection() {
   const t = useTranslations("about")
 
   return (
-    <AnimatedSection className="relative overflow-hidden bg-white px-6 py-20 lg:px-24">
+    <AnimatedSection className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-24 lg:py-20">
       <DecorativePlanets variant="about" />
       <Container className="relative z-10">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-astro-purple">{t("teamTitle")}</h2>
-          <p className="mx-auto max-w-2xl text-gray-600">{t("teamSubtitle")}</p>
+        <div className="mb-10 text-center sm:mb-16">
+          <h2 className="mb-3 text-2xl font-bold text-astro-purple sm:mb-4 sm:text-3xl">{t("teamTitle")}</h2>
+          <p className="mx-auto max-w-2xl px-2 text-sm text-gray-600 sm:px-0 sm:text-base">{t("teamSubtitle")}</p>
         </div>
 
         <Stagger className="grid grid-cols-1 gap-6 md:grid-cols-3">

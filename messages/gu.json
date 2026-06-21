@@ -1163,7 +1163,24 @@
     "dob": "DOB:",
     "time": "સમય:",
     "genderMale": "પુરુષ",
-    "genderFemale": "સ્ત્રી"
+    "genderFemale": "સ્ત્રી",
+    "loading": "Loading profiles…",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editTitle": "Edit profile",
+    "editDescription": "Update birth details for {name}.",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "nameRequired": "Name is required.",
+    "updatedSuccess": "Profile updated.",
+    "updateFailed": "Could not update profile. Please try again.",
+    "deleteTitle": "Delete profile?",
+    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
+    "deleteConfirm": "Delete profile",
+    "deleteCancel": "Cancel",
+    "deleting": "Deleting…",
+    "deletedSuccess": "Profile deleted.",
+    "deleteFailed": "Could not delete profile. Please try again."
   },
   "reports": {
     "title": "મારા અહેવાલો",
@@ -1420,7 +1437,14 @@
     "labelGender": "જાતિ",
     "gender": "જાતિ",
     "genderMale": "પુરુષ",
-    "genderFemale": "સ્ત્રી"
+    "genderFemale": "સ્ત્રી",
+    "type": {
+      "vedic": "વૈદિક જ્યોતિષ",
+      "numerology": "અંકશાસ્ત્રી",
+      "vastu": "વાસ્તુ નિષ્ણાત",
+      "tarot": "ટેરોટ રીડર",
+      "lal_kitab": "લાલ કિતાબ એક્સપર્ટ"
+    }
   },
   "admin": {
     "userUpdated": "વપરાશકર્તા સફળતાપૂર્વક અપડેટ થયા",

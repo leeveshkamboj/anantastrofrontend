@@ -2,7 +2,15 @@ import type { ChatAstrologer } from '@/store/api/chatApi';
 
 export const FEATURED_ASTROLOGER_SLUGS = ['arya', 'nirav', 'maitri'] as const;
 
-export const YEARS_OF_EXPERIENCE = 8;
+export function getDisplayYearsOfExperience(
+  astrologer: Pick<ChatAstrologer, 'yearsOfExperience' | 'slug'>,
+): number {
+  if (typeof astrologer.yearsOfExperience === 'number' && astrologer.yearsOfExperience > 0) {
+    return astrologer.yearsOfExperience;
+  }
+  const hash = astrologer.slug.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return 5 + (hash % 8);
+}
 
 export type AstrologerFilters = {
   language: string;

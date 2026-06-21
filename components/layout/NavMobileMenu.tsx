@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react"
 import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useMotion } from "@/components/motion"
-import { getPresetForTier, getReducedPreset } from "@/lib/motion"
+import { getPresetForTier, getReducedPreset, getTransition } from "@/lib/motion"
 import { selectorLocales } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 
@@ -32,9 +32,15 @@ export function NavMobileMenu({ navLinks, isAuthenticated }: NavMobileMenuProps)
   const backdropVariants = reduced
     ? getReducedPreset("backdropFade")
     : getPresetForTier("backdropFade", "instrument")
-  const drawerVariants = reduced
-    ? getReducedPreset("drawerSlide")
-    : getPresetForTier("drawerSlide", "instrument")
+  const drawerTransition = getTransition("instrument")
+  const drawerVariants = {
+    hidden: { x: "-100%" },
+    visible: { x: 0, transition: drawerTransition },
+    exit: {
+      x: "-100%",
+      transition: { ...drawerTransition, duration: drawerTransition.duration * 0.8 },
+    },
+  }
 
   const close = () => setOpen(false)
 
@@ -65,7 +71,7 @@ export function NavMobileMenu({ navLinks, isAuthenticated }: NavMobileMenuProps)
             />
             <motion.nav
               key="nav-mobile-drawer"
-              className="fixed inset-y-0 right-0 z-50 flex w-[min(100vw-3rem,20rem)] flex-col gap-1 overflow-y-auto bg-white p-4 shadow-xl lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 flex w-[min(100vw-3rem,20rem)] flex-col gap-1 overflow-y-auto bg-white p-4 shadow-xl lg:hidden"
               aria-label="Mobile navigation"
               variants={drawerVariants}
               initial="hidden"
