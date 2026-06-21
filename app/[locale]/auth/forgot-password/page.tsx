@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AuthPageBrand } from '@/components/auth/AuthPageBrand';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { Link } from '@/i18n/navigation';
@@ -54,7 +53,6 @@ export default function ForgotPasswordPage() {
   return (
     <CelestialBackground className="flex min-h-screen items-center justify-center px-4 py-12">
       <div className="mx-auto w-full max-w-lg">
-        <AuthPageBrand />
         <FadeIn preset="scaleIn" inView={false}>
           <Card className="w-full border-0 bg-white shadow-2xl">
             <CardHeader>

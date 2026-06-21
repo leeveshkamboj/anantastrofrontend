@@ -6,6 +6,8 @@
 #   ./scripts/deploy-frontend.sh --test-local     # build --load, test on :3000, push, deploy
 #   ./scripts/deploy-frontend.sh --no-deploy        # build + push only
 #   ./scripts/deploy-frontend.sh --skip-build       # push existing local image + deploy
+#   ./scripts/deploy-frontend.sh --no-clean         # skip local Docker cleanup after deploy
+#   ./scripts/deploy-frontend.sh --only-clean       # local Docker cleanup only (no build/deploy)
 #
 # Environment:
 #   DOCKER_IMAGE         Full registry image ref (default: leeveshkamboj/anantastro-frontend:latest)
@@ -35,6 +37,8 @@ SSH_OPTS=(-i "$SSH_KEY" -o StrictHostKeyChecking=accept-new)
 DO_TEST_LOCAL=false
 DO_DEPLOY=true
 DO_BUILD=true
+DO_CLEAN=true
+DO_ONLY_CLEAN=false
 
 usage() {
   sed -n '2,13p' "$0" | sed 's/^# \?//'
@@ -46,6 +50,8 @@ while [[ $# -gt 0 ]]; do
     --test-local) DO_TEST_LOCAL=true; shift ;;
     --no-deploy) DO_DEPLOY=false; shift ;;
     --skip-build) DO_BUILD=false; shift ;;
+    --no-clean) DO_CLEAN=false; shift ;;
+    --only-clean) DO_ONLY_CLEAN=true; DO_BUILD=false; DO_DEPLOY=false; DO_CLEAN=true; shift ;;
     -h|--help) usage 0 ;;
     *) echo "Unknown option: $1" >&2; usage 1 ;;
   esac
@@ -111,6 +117,16 @@ test_local() {
   docker run --rm --platform linux/amd64 -p "${LOCAL_PORT}:3000" "$DOCKER_IMAGE" || true
 }
 
+clean_local() {
+  log "Cleaning local Docker cache (buildx + dangling images)"
+  docker buildx prune -f 2>/dev/null || true
+  docker builder prune -f 2>/dev/null || true
+  docker image rm "$DOCKER_IMAGE" 2>/dev/null || true
+  docker image prune -f 2>/dev/null || true
+  log "Local Docker after cleanup:"
+  docker system df 2>/dev/null | head -5 || true
+}
+
 deploy_remote() {
   log "Pulling ${DOCKER_IMAGE} on server and restarting frontend"
   ssh_cmd bash -s -- "$DOCKER_IMAGE" "$REMOTE_DIR" <<'REMOTE'
@@ -135,10 +151,16 @@ REMOTE
 }
 
 main() {
+  ensure_docker
+
+  if $DO_ONLY_CLEAN; then
+    clean_local
+    exit 0
+  fi
+
   [[ -f "$SSH_KEY" ]] || die "SSH key not found: $SSH_KEY"
   [[ -f Dockerfile ]] || die "Run from app repo root (Dockerfile not found)"
 
-  ensure_docker
   ensure_registry_login
 
   if $DO_BUILD; then
@@ -163,6 +185,10 @@ main() {
     log "Frontend deployed: https://test.anantastro.com"
   else
     log "Skipping server deploy (--no-deploy). Image pushed: ${DOCKER_IMAGE}"
+  fi
+
+  if $DO_CLEAN; then
+    clean_local
   fi
 }
 

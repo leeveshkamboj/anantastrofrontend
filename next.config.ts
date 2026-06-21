@@ -3,6 +3,27 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
+function buildConnectSrc(): string {
+  const sources = new Set(["'self'", "https:", "wss:"]);
+
+  if (process.env.NODE_ENV === "development") {
+    sources.add("ws:");
+    sources.add("http://localhost:*");
+    sources.add("http://127.0.0.1:*");
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+    if (apiUrl) {
+      try {
+        sources.add(new URL(apiUrl).origin);
+      } catch {
+        // ignore invalid API URL
+      }
+    }
+  }
+
+  return `connect-src ${Array.from(sources).join(" ")}`;
+}
+
 const nextConfig: NextConfig = {
   // Removed output: "export" to support dynamic routes in admin pages
   // If static export is required, consider using query parameters instead of dynamic routes
@@ -38,7 +59,7 @@ const nextConfig: NextConfig = {
           "style-src 'self' 'unsafe-inline'",
           "img-src 'self' data: blob: https:",
           "font-src 'self' data:",
-          "connect-src 'self' https: wss:",
+          buildConnectSrc(),
           "frame-src https://api.razorpay.com https://checkout.razorpay.com",
         ].join('; '),
       },

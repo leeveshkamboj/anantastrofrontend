@@ -214,7 +214,18 @@ cd /Users/leevesh/Workspace/Anantastro/app
 
 # Push an already-built local image and deploy (skip rebuild)
 ./scripts/deploy-frontend.sh --skip-build
+
+# Keep local build cache (skip post-deploy cleanup)
+./scripts/deploy-frontend.sh --no-clean
+
+# Local Docker cleanup only
+./scripts/deploy-frontend.sh --only-clean
 ```
+
+After a successful deploy, the script **automatically cleans local Docker cache** (~4–5 GB typical):
+- buildx build cache
+- local copy of the pushed image (if loaded)
+- dangling images
 
 Environment overrides:
 
@@ -269,3 +280,14 @@ The Dockerfile sets `NEXT_BUILD_NODE_OPTIONS=--max-old-space-size=2048`. Increas
 ### `docker: not running` on Mac
 
 Start Docker Desktop before building.
+
+### Local disk still full after deploy
+
+Run manually:
+
+```bash
+docker buildx prune -f
+docker builder prune -f
+docker image prune -f
+docker system df
+```

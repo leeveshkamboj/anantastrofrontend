@@ -13,7 +13,6 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/store/hooks/useAuth';
 import { useResendVerificationMutation } from '@/store/api/authApi';
-import { AuthPageBrand } from '@/components/auth/AuthPageBrand';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { MotionProvider } from '@/components/motion/MotionProvider';
@@ -112,7 +111,6 @@ export default function LoginPage() {
     <MotionProvider tier="auth">
     <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
       <div className="w-full max-w-lg mx-auto">
-        <AuthPageBrand />
         <FadeIn preset="scaleIn" inView={false}>
         <Card className="w-full shadow-2xl border-0 bg-white">
         <CardHeader>

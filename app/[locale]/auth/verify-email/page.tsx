@@ -5,7 +5,6 @@ import { useRouter } from '@/i18n/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useVerifyEmailMutation } from '@/store/api/authApi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AuthPageBrand } from '@/components/auth/AuthPageBrand';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { MotionProvider } from '@/components/motion/MotionProvider';
@@ -96,7 +95,6 @@ export default function VerifyEmailPage() {
     <MotionProvider tier="auth">
       <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
         <div className="w-full max-w-lg mx-auto">
-          <AuthPageBrand />
           <FadeIn preset="scaleIn" inView={false}>
             <VerifyEmailContent isSuccess={isSuccess} isError={isError} done={done} />
           </FadeIn>
