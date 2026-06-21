@@ -1,20 +1,22 @@
-import { cn } from '@/lib/utils';
+import Image from "next/image"
+import { cn } from "@/lib/utils"
 
-/** Consistent branded coin mark (star in circle — celestial + value). */
+/** Full-resolution coin mark (public/coin.png). */
+export const COIN_SRC = "/coin.png"
+
+/** UI-sized mark derived from coin.png for inline use across the app. */
+export const COIN_MARK_SRC = "/coin-mark.png"
+
+/** Consistent branded coin mark used wherever coin balance or cost is shown. */
 export function CoinGlyph({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn('inline-block', className)}
+    <Image
+      src={COIN_MARK_SRC}
+      alt=""
+      width={32}
+      height={32}
+      className={cn("inline-block shrink-0 object-contain", className)}
       aria-hidden
-    >
-      <circle cx="12" cy="12" r="10" className="fill-amber-400/25 stroke-amber-600" strokeWidth="1.5" />
-      <path
-        d="M12 4.5l1.2 3.6h3.8l-3 2.2 1.1 3.5L12 12.4 8.9 13.8l1.1-3.5-3-2.2h3.8L12 4.5z"
-        className="fill-amber-500"
-      />
-    </svg>
-  );
+    />
+  )
 }

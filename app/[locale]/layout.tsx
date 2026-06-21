@@ -30,6 +30,23 @@ export const metadata: Metadata = {
   title: "AnantAstro - Astrological Consultations & Reports",
   description:
     "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with AnantAstro",
+  icons: {
+    icon: "/logo-mark.png",
+    apple: "/logo.png",
+  },
+  openGraph: {
+    title: "AnantAstro - Astrological Consultations & Reports",
+    description:
+      "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with AnantAstro",
+    images: [
+      {
+        url: "/logo.png",
+        width: 2048,
+        height: 2048,
+        alt: "AnantAstro",
+      },
+    ],
+  },
 };
 
 export function generateStaticParams() {

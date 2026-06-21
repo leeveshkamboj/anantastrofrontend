@@ -1,7 +1,7 @@
 "use client"
 
 import { LayoutGroup } from "framer-motion"
-import { Link, usePathname } from "@/i18n/navigation"
+import { usePathname } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { useSelector } from "react-redux"
 import { CoinNavPill } from "@/components/coins/CoinNavPill"
@@ -11,6 +11,7 @@ import { NavMobileMenu } from "@/components/layout/NavMobileMenu"
 import { NavServicesDropdown } from "@/components/layout/NavServicesDropdown"
 import { NavUserMenu } from "@/components/layout/NavUserMenu"
 import { isNavActive } from "@/components/layout/nav-utils"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 import { useAuth } from "@/store/hooks/useAuth"
 import { selectIsAstrologer } from "@/store/slices/authSlice"
 
@@ -35,9 +36,7 @@ export function Navbar() {
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between">
         <div className="flex min-w-0 items-center gap-1 sm:gap-2">
           <NavMobileMenu navLinks={navLinks} isAuthenticated={isAuthenticated} />
-          <Link href="/" className="link-reset truncate text-xl font-bold tracking-tight text-black sm:text-2xl">
-            {t("brand")}
-          </Link>
+          <BrandLogo href="/" size="md" text={t("brand")} className="text-black" priority />
         </div>
 
         <LayoutGroup>

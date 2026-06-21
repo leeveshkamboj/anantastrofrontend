@@ -9,6 +9,7 @@ import { useMotion } from "@/components/motion"
 import { getPresetForTier, getReducedPreset, getTransition } from "@/lib/motion"
 import { selectorLocales } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 
 type NavLangKey = `lang_${(typeof selectorLocales)[number]}`
 
@@ -79,7 +80,7 @@ export function NavMobileMenu({ navLinks, isAuthenticated }: NavMobileMenuProps)
               exit="exit"
             >
               <div className="mb-4 flex items-center justify-between">
-                <span className="text-sm font-semibold text-gray-900">{t("brand")}</span>
+                <BrandLogo href="/" size="sm" text={t("brand")} className="text-gray-900" onClick={close} />
                 <button
                   type="button"
                   className="flex h-8 w-8 items-center justify-center rounded-full text-black"

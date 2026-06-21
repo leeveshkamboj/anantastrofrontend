@@ -3,6 +3,7 @@
 import { Facebook, Globe, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 
 const socialLinks = [
   { href: "https://facebook.com", label: "Facebook", Icon: Facebook },
@@ -42,7 +43,7 @@ export function Footer() {
     <footer className="bg-footer-gradient px-6 py-16 text-black lg:px-24">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="mb-2 text-3xl font-bold">{tNav("brand")}</div>
+          <BrandLogo href="/" size="xl" text={tNav("brand")} className="mb-2 text-black" />
           <p className="mb-6 text-sm text-gray-800">{t("tagline")}</p>
           <div className="flex space-x-4">
             {socialLinks.map(({ href, label, Icon }) => (

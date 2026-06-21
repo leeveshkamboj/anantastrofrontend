@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Home, ArrowRight } from 'lucide-react';
+import { AuthPageBrand } from '@/components/auth/AuthPageBrand';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { useTranslations } from 'next-intl';
 
@@ -15,6 +16,7 @@ export default function NotFound() {
   return (
     <CelestialBackground className="flex items-cente justify-center min-h-screen px-4 py-12">
       <div className="w-full max-w-2xl mx-auto">
+        <AuthPageBrand />
         <Card className="shadow-2xl border-0 bg-white">
           <CardHeader className="text-center">
             <div className="text-9xl font-bold text-primary opacity-20 mb-4">404</div>

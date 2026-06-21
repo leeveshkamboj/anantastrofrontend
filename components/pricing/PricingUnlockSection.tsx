@@ -1,7 +1,8 @@
 "use client"
 
-import { Check, Coins } from "lucide-react"
+import { Check } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { CosmicCard } from "@/components/ui/CosmicCard"
 
@@ -20,7 +21,7 @@ export function PricingUnlockSection() {
         >
           <div className="mb-5 flex items-start gap-3 sm:mb-6 sm:gap-4 md:mb-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-astro-purple/10 sm:h-12 sm:w-12">
-              <Coins className="h-5 w-5 text-astro-purple sm:h-6 sm:w-6" aria-hidden="true" />
+              <CoinGlyph className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-astro-purple sm:text-xl">{t("unlockTitle")}</h2>

@@ -1,7 +1,8 @@
 "use client"
 
-import { Sparkles, UserRound } from "lucide-react"
+import { Sparkles } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { BrandLogo } from "@/components/brand/BrandLogo"
 import { Container } from "@/components/layout/Container"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { useMotion } from "@/components/motion/MotionProvider"
@@ -23,9 +24,7 @@ export function AstrologerRegisterHero() {
 
         <FadeIn preset="fadeUp" inView={false} delay={getChoreographyDelay("icon", reduced)}>
           <div className="mb-4 flex justify-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-black bg-white">
-              <UserRound className="h-7 w-7 text-astro-orange" aria-hidden="true" />
-            </span>
+            <BrandLogo href={null} size="lg" text={tNav("brand")} showText={false} />
           </div>
         </FadeIn>
 

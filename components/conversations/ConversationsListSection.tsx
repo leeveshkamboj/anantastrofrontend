@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { format, formatDistanceToNow } from "date-fns"
-import { ArrowRight, Coins, Loader2, MessageCircleMore, User } from "lucide-react"
+import { ArrowRight, Loader2, MessageCircleMore, User } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
+import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { Container } from "@/components/layout/Container"
 import { Stagger, StaggerItem } from "@/components/motion"
 import { CosmicButton } from "@/components/ui/CosmicButton"
@@ -105,7 +106,7 @@ function SessionRow({
             {formatDistanceToNow(new Date(session.startedAt), { addSuffix: true })}
           </time>
           <span className="inline-flex items-center gap-1 font-medium text-gray-600">
-            <Coins className="h-3.5 w-3.5 text-amber-600" aria-hidden="true" />
+            <CoinGlyph className="h-3.5 w-3.5" />
             {t("coinsDebitedLine", { n: session.totalCoinsDebited ?? 0 })}
           </span>
         </div>

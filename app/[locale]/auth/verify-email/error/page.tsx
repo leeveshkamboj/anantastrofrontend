@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { AuthPageBrand } from '@/components/auth/AuthPageBrand';
 import { CelestialBackground } from '@/components/CelestialBackground';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { MotionProvider } from '@/components/motion/MotionProvider';
@@ -53,6 +54,7 @@ export default function VerifyEmailErrorPage() {
     <MotionProvider tier="auth">
       <CelestialBackground className="flex items-center justify-center min-h-screen px-4 py-12 overflow-hidden">
         <div className="w-full max-w-lg mx-auto">
+          <AuthPageBrand />
           <VerifyEmailErrorContent />
         </div>
       </CelestialBackground>

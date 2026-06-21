@@ -21,9 +21,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import {
   CalendarClock,
-  Coins,
   MapPin,
   Pencil,
   Plus,
@@ -605,7 +605,7 @@ export default function AdminAiAstrologersPage() {
                       : '—'}
                   </p>
                   <p className="inline-flex items-center gap-1.5">
-                    <Coins className="h-4 w-4 text-amber-600" />
+                    <CoinGlyph className="h-4 w-4" />
                     <span className="text-gray-500">Price:</span> {row.coinsPerMinute} coins/min
                   </p>
                   <p className="inline-flex items-center gap-1.5 md:col-span-2">

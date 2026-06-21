@@ -20,6 +20,7 @@ import {
   Calculator,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { BrandLogo } from '@/components/brand/BrandLogo';
 
 const menuItems = [
   {
@@ -86,8 +87,8 @@ export function Sidebar() {
   return (
     <div className="w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 flex flex-col shadow-sm z-10">
       <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-primary/5 to-primary/10">
-        <h1 className="text-xl font-bold text-gray-900">AnantAstro</h1>
-        <p className="text-xs text-gray-600 mt-1 font-medium">Admin Dashboard</p>
+        <BrandLogo href="/" size="sm" text="AnantAstro" className="text-gray-900" />
+        <p className="text-xs text-gray-600 mt-2 font-medium">Admin Dashboard</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
