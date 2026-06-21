@@ -23,6 +23,7 @@ import {
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { cn } from '@/lib/utils';
 import { ReportBodyText } from '@/lib/report-text';
+import { sanitizeChartSvg } from '@/lib/sanitize-chart-svg';
 import { AiTranslateBar } from '@/components/reports/AiTranslateBar';
 import { AnimatePresenceTabs } from '@/components/motion/AnimatePresenceTabs';
 import { FadeIn } from '@/components/motion/FadeIn';
@@ -553,8 +554,9 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
         : chartData && typeof (chartData as { image?: string }).image === 'string'
           ? (chartData as { image: string }).image
           : null;
-  const chartSvg =
+  const chartSvgRaw =
     chartData && typeof (chartData as { svg?: string }).svg === 'string' ? (chartData as { svg: string }).svg : null;
+  const chartSvg = chartSvgRaw ? sanitizeChartSvg(chartSvgRaw) : null;
 
   const hasKundliContent = !!(chartImageSrc || chartSvg || hasPlanetsData || (chartData && !hasPlanetsData));
 
