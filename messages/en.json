@@ -267,6 +267,7 @@
       "emailInvalid": "Please enter a valid email address",
       "passwordRequired": "Password is required",
       "passwordMin": "Password must be at least 6 characters",
+      "passwordMismatch": "Passwords do not match",
       "nameRequired": "Name is required"
     },
     "login": {
@@ -332,6 +333,8 @@
       "emailPlaceholder": "Enter your email",
       "password": "Password",
       "passwordPlaceholder": "Enter your password (min 6 characters)",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
       "phoneOptional": "Phone (Optional)",
       "phonePlaceholder": "Enter your phone number",
       "submit": "Sign Up",

@@ -79,6 +79,8 @@ export const selectIsAdmin = (state: { auth: AuthState }) =>
   state.auth.user?.role === 'admin';
 export const selectIsAstrologer = (state: { auth: AuthState }) =>
   state.auth.user?.role === 'astrologer';
+export const selectIsImpersonating = (state: { auth: AuthState }) =>
+  Boolean(state.auth.user?.impersonation?.active);
 export const selectAuthLoading = (state: { auth: AuthState }) =>
   state.auth.isLoading;
 export const selectAuthError = (state: { auth: AuthState }) => state.auth.error;

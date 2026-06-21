@@ -8,6 +8,7 @@ import { useExitImpersonationMutation } from '@/store/api/authApi';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { LogOut } from 'lucide-react';
+import { impersonationBannerTopClass } from '@/lib/impersonation-layout';
 
 export function ImpersonationBanner() {
   const t = useTranslations('admin');
@@ -30,8 +31,10 @@ export function ImpersonationBanner() {
   };
 
   return (
-    <div className="sticky top-0 z-[60] border-b border-amber-600/30 bg-amber-400 px-4 py-2 text-sm text-amber-950 shadow-sm">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2">
+    <div
+      className={`fixed inset-x-0 ${impersonationBannerTopClass} z-40 flex h-10 items-center border-b border-amber-600/30 bg-amber-400 px-4 text-sm text-amber-950 shadow-sm`}
+    >
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2">
         <p className="font-medium">
           {t('impersonationBanner', { userName: user.name })}
         </p>

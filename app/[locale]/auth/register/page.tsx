@@ -28,6 +28,7 @@ import { useTranslations } from 'next-intl';
 type RegisterFormData = {
   email: string;
   password: string;
+  confirmPassword: string;
   name: string;
   phone?: string;
   dateOfBirth?: string;
@@ -46,15 +47,21 @@ export default function RegisterPage() {
 
   const registerSchema = React.useMemo(
     () =>
-      z.object({
-        email: z.string().email(t('validation.emailInvalid')),
-        password: z.string().min(6, t('validation.passwordMin')),
-        name: z.string().min(1, t('validation.nameRequired')),
-        phone: z.string().optional(),
-        dateOfBirth: z.string().optional(),
-        timeOfBirth: z.string().optional(),
-        placeOfBirth: z.string().optional(),
-      }),
+      z
+        .object({
+          email: z.string().email(t('validation.emailInvalid')),
+          password: z.string().min(6, t('validation.passwordMin')),
+          confirmPassword: z.string().min(6, t('validation.passwordMin')),
+          name: z.string().min(1, t('validation.nameRequired')),
+          phone: z.string().optional(),
+          dateOfBirth: z.string().optional(),
+          timeOfBirth: z.string().optional(),
+          placeOfBirth: z.string().optional(),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          message: t('validation.passwordMismatch'),
+          path: ['confirmPassword'],
+        }),
     [t],
   );
 
@@ -87,10 +94,10 @@ export default function RegisterPage() {
         email: data.email,
         password: data.password,
         name: data.name,
-        phone: data.phone,
-        dateOfBirth: data.dateOfBirth,
-        timeOfBirth: data.timeOfBirth,
-        placeOfBirth: data.placeOfBirth,
+        ...(data.phone?.trim() && { phone: data.phone.trim() }),
+        ...(data.dateOfBirth?.trim() && { dateOfBirth: data.dateOfBirth.trim() }),
+        ...(data.timeOfBirth?.trim() && { timeOfBirth: data.timeOfBirth.trim() }),
+        ...(data.placeOfBirth?.trim() && { placeOfBirth: data.placeOfBirth.trim() }),
       };
       const result = await registerUser(payload);
       const responseData = result?.data as { requiresEmailVerification?: boolean; message?: string; user?: unknown; access_token?: string };
@@ -215,6 +222,20 @@ export default function RegisterPage() {
               />
               {errors.password && (
                 <p className="text-sm text-red-600">{errors.password.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">{t('register.confirmPassword')}</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder={t('register.confirmPasswordPlaceholder')}
+                {...registerField('confirmPassword')}
+                className={errors.confirmPassword ? 'border-red-500' : ''}
+              />
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-600">{errors.confirmPassword.message}</p>
               )}
             </div>
 

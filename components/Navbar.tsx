@@ -12,14 +12,19 @@ import { NavServicesDropdown } from "@/components/layout/NavServicesDropdown"
 import { NavUserMenu } from "@/components/layout/NavUserMenu"
 import { isNavActive } from "@/components/layout/nav-utils"
 import { BrandLogo } from "@/components/brand/BrandLogo"
+import { cn } from "@/lib/utils"
+import {
+  impersonationNavbarTopClass,
+} from "@/lib/impersonation-layout"
 import { useAuth } from "@/store/hooks/useAuth"
-import { selectIsAstrologer } from "@/store/slices/authSlice"
+import { selectIsAstrologer, selectIsImpersonating } from "@/store/slices/authSlice"
 
 export function Navbar() {
   const t = useTranslations("nav")
   const pathname = usePathname()
   const { isAuthenticated } = useAuth()
   const isAstrologer = useSelector(selectIsAstrologer)
+  const isImpersonating = useSelector(selectIsImpersonating)
 
   const navLinks = [
     { href: "/astrologers", label: t("astrologers") },
@@ -32,7 +37,12 @@ export function Navbar() {
   ]
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-hero-gradient px-6 lg:px-24">
+    <header
+      className={cn(
+        "fixed inset-x-0 z-50 bg-hero-gradient px-6 lg:px-24",
+        isImpersonating ? impersonationNavbarTopClass : "top-0",
+      )}
+    >
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between">
         <div className="flex min-w-0 items-center gap-1 sm:gap-2">
           <NavMobileMenu navLinks={navLinks} isAuthenticated={isAuthenticated} />

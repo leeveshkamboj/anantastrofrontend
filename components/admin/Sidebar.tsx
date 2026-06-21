@@ -2,9 +2,9 @@
 
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "@/i18n/navigation";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { logout } from '@/store/slices/authSlice';
+import { logout, selectIsImpersonating } from '@/store/slices/authSlice';
 import { useLogoutMutation } from '@/store/api/authApi';
 import { useRouter } from "@/i18n/navigation";
 import { useMotion } from '@/components/motion/MotionProvider';
@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BrandLogo } from '@/components/brand/BrandLogo';
+import { cn } from '@/lib/utils';
+import { impersonationNavbarTopClass } from '@/lib/impersonation-layout';
 
 const menuItems = [
   {
@@ -70,6 +72,7 @@ export function Sidebar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { reduced } = useMotion();
+  const isImpersonating = useSelector(selectIsImpersonating);
   const [logoutMutation] = useLogoutMutation();
 
   const handleLogout = async () => {
@@ -85,7 +88,12 @@ export function Sidebar() {
   };
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 h-screen fixed left-0 top-0 flex flex-col shadow-sm z-10">
+    <div
+      className={cn(
+        'fixed left-0 z-10 flex h-screen w-64 flex-col border-r border-gray-200 bg-white shadow-sm',
+        isImpersonating ? `${impersonationNavbarTopClass} h-[calc(100vh-2.5rem)]` : 'top-0',
+      )}
+    >
       <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-primary/5 to-primary/10">
         <BrandLogo href="/" size="sm" text="AnantAstro" className="text-gray-900" />
         <p className="text-xs text-gray-600 mt-2 font-medium">Admin Dashboard</p>
