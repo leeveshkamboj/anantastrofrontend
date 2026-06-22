@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from "@/i18n/navigation";
 import {
   useGetMyKundlisQuery,
@@ -37,6 +37,7 @@ export default function MatchmakingPage() {
   const te = useTranslations('services.errors');
   const tm = useTranslations('services.matchmaking');
   const tv = useTranslations('services.matchmaking.validation');
+  const navLocale = useLocale();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { compactLabel: matchmakingPriceLine } = useServiceRunPrice('matchmaking');
@@ -305,7 +306,12 @@ export default function MatchmakingPage() {
     try {
       setIsStartingFlow(true);
       const [payload1, payload2] = await Promise.all([getPartnerPayload(1), getPartnerPayload(2)]);
-      const res = await createMatchmakingReport({ partner1: payload1, partner2: payload2 }).unwrap();
+      const res = await createMatchmakingReport({
+        partner1: payload1,
+        partner2: payload2,
+        reportLocale: navLocale,
+        ...(navLocale === 'hi' && { reportLanguageStyle: 'simple' as const }),
+      }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {
         toast.success(te('matchmakingStarted'));

@@ -59,6 +59,8 @@ export interface CreateKundliGenerationRequest {
   name?: string;
   placeOfBirth?: string;
   gender?: 'Male' | 'Female';
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish';
 }
 
 export type KundliGenerationStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
@@ -138,6 +140,10 @@ export interface KundliGeneration {
   timezoneConfidence: 'verified' | 'legacy' | null;
   engineVersion: string | null;
   interpretation: string | null;
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish' | null;
+  interpretationsByLocale?: Record<string, string> | null;
+  simplifyUsedAt?: string | null;
   status: KundliGenerationStatus;
   errorMessage: string | null;
   shareToken: string | null;
@@ -168,6 +174,9 @@ export interface KundliHoroscopeAddonData {
   status: KundliHoroscopeAddonStatus;
   content: string | null;
   errorMessage: string | null;
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish' | null;
+  interpretationsByLocale?: Record<string, string> | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -240,6 +249,8 @@ export interface MatchmakingResult {
 export interface MatchmakingRequest {
   partner1: MatchmakingPartnerRequest;
   partner2: MatchmakingPartnerRequest;
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish';
 }
 
 export interface MatchmakingResponse {
@@ -270,6 +281,9 @@ export interface MatchmakingReport {
   result: MatchmakingResult | null;
   partner1ChartData: Record<string, unknown> | null;
   partner2ChartData: Record<string, unknown> | null;
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish' | null;
+  interpretationsByLocale?: Record<string, string> | null;
   status: MatchmakingReportStatus;
   errorMessage: string | null;
   shareToken: string | null;
@@ -304,6 +318,8 @@ export interface CreateHoroscopeRequest {
   placeOfBirth?: string;
   period: 'daily' | 'weekly' | 'monthly';
   detailLevel?: 'summary' | 'detailed';
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish';
 }
 
 export type HoroscopeReportStatus = 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
@@ -333,6 +349,9 @@ export interface HoroscopeReport {
   detailLevel: 'summary' | 'detailed';
   chartData: Record<string, unknown> | null;
   result: HoroscopeResult | Record<string, unknown> | null;
+  reportLocale?: string;
+  reportLanguageStyle?: 'simple' | 'hinglish' | null;
+  interpretationsByLocale?: Record<string, string> | null;
   status: HoroscopeReportStatus;
   errorMessage: string | null;
   shareToken: string | null;
@@ -354,6 +373,30 @@ export interface HoroscopeReportResponse {
 export interface HoroscopeReportsListResponse {
   isSuccess: boolean;
   data: HoroscopeReport[];
+}
+
+export interface TranslateReportLocaleRequest {
+  targetLocale: string;
+}
+
+export interface TranslateKundliInterpretationResponse {
+  isSuccess: boolean;
+  data: { interpretation: string; charged: boolean; targetLocale: string };
+}
+
+export interface TranslateHoroscopeAddonResponse {
+  isSuccess: boolean;
+  data: { content: string; charged: boolean; targetLocale: string };
+}
+
+export interface TranslateHoroscopeResultResponse {
+  isSuccess: boolean;
+  data: { result: Record<string, unknown>; charged: boolean; targetLocale: string };
+}
+
+export interface TranslateMatchmakingResultResponse {
+  isSuccess: boolean;
+  data: { result: Record<string, unknown>; charged: boolean; targetLocale: string };
 }
 
 /** Autocomplete suggestion; send placeId in profile create/update so backend resolves lat/lng */
@@ -458,6 +501,35 @@ export const kundliApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    translateKundliInterpretation: builder.mutation<
+      TranslateKundliInterpretationResponse,
+      { uuid: string; body: TranslateReportLocaleRequest }
+    >({
+      query: ({ uuid, body }) => ({
+        url: `/kundli/${uuid}/translate`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [
+        { type: 'KundliGeneration', id: uuid },
+        'Coins',
+      ],
+    }),
+    translateKundliHoroscopeAddon: builder.mutation<
+      TranslateHoroscopeAddonResponse,
+      { uuid: string; body: TranslateReportLocaleRequest }
+    >({
+      query: ({ uuid, body }) => ({
+        url: `/kundli/${uuid}/horoscope-addon/translate`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [
+        { type: 'KundliGeneration', id: uuid },
+        { type: 'KundliGeneration', id: `addon-${uuid}` },
+        'Coins',
+      ],
+    }),
     updateKundliShare: builder.mutation<ShareResponse, { uuid: string; enabled: boolean }>({
       query: ({ uuid, enabled }) => ({
         url: `/kundli/${uuid}/share`,
@@ -512,6 +584,20 @@ export const kundliApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (_result, _err, { uuid }) => [{ type: 'MatchmakingReport', id: uuid }],
     }),
+    translateMatchmakingReport: builder.mutation<
+      TranslateMatchmakingResultResponse,
+      { uuid: string; body: TranslateReportLocaleRequest }
+    >({
+      query: ({ uuid, body }) => ({
+        url: `/matchmaking/${uuid}/translate`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [
+        { type: 'MatchmakingReport', id: uuid },
+        'Coins',
+      ],
+    }),
     getMyMatchmakingReports: builder.query<
       MatchmakingReportsListResponse,
       { status?: MatchmakingReportStatus } | void
@@ -551,6 +637,20 @@ export const kundliApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (_result, _err, { uuid }) => [{ type: 'HoroscopeReport', id: uuid }],
     }),
+    translateHoroscopeReport: builder.mutation<
+      TranslateHoroscopeResultResponse,
+      { uuid: string; body: TranslateReportLocaleRequest }
+    >({
+      query: ({ uuid, body }) => ({
+        url: `/horoscope/${uuid}/translate`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: (_result, _err, { uuid }) => [
+        { type: 'HoroscopeReport', id: uuid },
+        'Coins',
+      ],
+    }),
     getMyHoroscopeReports: builder.query<
       HoroscopeReportsListResponse,
       { status?: HoroscopeReportStatus } | void
@@ -583,6 +683,8 @@ export const {
   useGetKundliByShareTokenQuery,
   useSimplifyKundliTextMutation,
   useSimplifyKundliTextByShareMutation,
+  useTranslateKundliInterpretationMutation,
+  useTranslateKundliHoroscopeAddonMutation,
   useUpdateKundliShareMutation,
   useLazyGetGeocodeQuery,
   useLazyGetGeocodeSuggestionsQuery,
@@ -591,10 +693,12 @@ export const {
   useGetMatchmakingReportQuery,
   useGetMatchmakingByShareTokenQuery,
   useUpdateMatchmakingShareMutation,
+  useTranslateMatchmakingReportMutation,
   useGetMyMatchmakingReportsQuery,
   useCreateHoroscopeReportMutation,
   useGetHoroscopeReportQuery,
   useGetHoroscopeByShareTokenQuery,
   useUpdateHoroscopeShareMutation,
+  useTranslateHoroscopeReportMutation,
   useGetMyHoroscopeReportsQuery,
 } = kundliApi;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from "@/i18n/navigation";
 import {
   useGetMyKundlisQuery,
@@ -232,6 +232,7 @@ export default function HoroscopePage() {
   const th = useTranslations('services.horoscope');
   const te = useTranslations('services.errors');
   const tCommon = useTranslations('services.common');
+  const navLocale = useLocale();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { compactLabel: summaryPriceLine } = useServiceRunPrice('horoscope');
@@ -401,6 +402,8 @@ export default function HoroscopePage() {
         placeOfBirth: (profile?.placeOfBirth ?? form.placeOfBirth?.trim()) || undefined,
         period,
         detailLevel,
+        reportLocale: navLocale,
+        ...(navLocale === 'hi' && { reportLanguageStyle: 'simple' as const }),
       }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {

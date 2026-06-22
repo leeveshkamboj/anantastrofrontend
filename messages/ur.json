@@ -67,10 +67,121 @@
     "termsOfService": "سروس کی شرائط",
     "refundPolicy": "رقم کی واپسی کی پالیسی"
   },
+  "legal": {
+    "badge": "قانونی",
+    "lastUpdated": "آخری بار اپ ڈیٹ کیا گیا: {date}",
+    "draftNotice": "جائزہ کے لیے مسودہ — یہ پالیسی لانچ کی تیاری کے لیے فراہم کی گئی ہے اور پروڈکشن کے استعمال سے پہلے اہل قانونی مشیر کے ذریعے اس کا جائزہ لیا جانا چاہیے۔",
+    "privacy": {
+      "title": "رازداری کی پالیسی",
+      "intro": {
+        "title": "تعارف",
+        "body": "اننت آسٹرو (\"ہم\"، \"ہم\"، \"انانت آسٹرو\") ایک ویدک علم نجوم کا پلیٹ فارم چلاتا ہے جو کنڈلی نسل، زائچہ اور میچ میکنگ رپورٹس، AI نجومی چیٹ، اور سکے پر مبنی خدمات پیش کرتا ہے۔ یہ رازداری کی پالیسی بتاتی ہے کہ جب آپ ہماری ویب سائٹ اور خدمات استعمال کرتے ہیں تو ہم آپ کی ذاتی معلومات کو کیسے اکٹھا، استعمال، ذخیرہ اور حفاظت کرتے ہیں۔"
+      },
+      "dataCollected": {
+        "title": "معلومات ہم جمع کرتے ہیں۔",
+        "body": "ہم وہ معلومات جمع کرتے ہیں جو آپ براہ راست فراہم کرتے ہیں: اکاؤنٹ کی تفصیلات (نام، ای میل، پاس ورڈ ہیش)، کنڈلی پروفائلز کے لیے پیدائش کا ڈیٹا (تاریخ، وقت، جائے پیدائش، جنس)، Razorpay کے ذریعے پروسیس کردہ ادائیگی سے متعلق میٹا ڈیٹا (ہم کارڈ کی مکمل تفصیلات اسٹور نہیں کرتے ہیں)، والیٹ اور سکے کے لین دین کی تاریخ، AI نجومیوں کے ساتھ چیٹ کے پیغامات، اور — اگر آپ Astrologer اور Astrologer کے بطور Astrologer درخواست دیتے ہیں۔ ہم تکنیکی ڈیٹا بھی اکٹھا کرتے ہیں جیسے کہ IP ایڈریس، براؤزر کی قسم، اور سیکیورٹی اور سروس ڈیلیوری کے لیے استعمال کے لاگ۔"
+      },
+      "howWeUse": {
+        "title": "ہم آپ کی معلومات کو کس طرح استعمال کرتے ہیں۔",
+        "body": "ہم آپ کے ڈیٹا کو علم نجوم کی رپورٹیں بنانے اور ڈیلیور کرنے، آپ کے سکے والیٹ کو چلانے، AI چیٹ سیشنز فراہم کرنے، آپ کے ای میل کی تصدیق کرنے، نجومی کی درخواستوں پر کارروائی کرنے، ہماری خدمات کو بہتر بنانے، دھوکہ دہی کو روکنے اور قانونی ذمہ داریوں کی تعمیل کرنے کے لیے استعمال کرتے ہیں۔ پیدائش کے اعداد و شمار کا استعمال مکمل طور پر چارٹس اور متعلقہ تشریحات کی گنتی کے لیے کیا جاتا ہے جن کی آپ درخواست کرتے ہیں۔"
+      },
+      "aiProcessing": {
+        "title": "AI اور خودکار پروسیسنگ",
+        "body": "کچھ خصوصیات کنڈلی کی تشریحات، زائچہ کا مواد، اور AI نجومی چیٹ کے جوابات تیار کرنے کے لیے تھرڈ پارٹی AI فراہم کنندگان (بشمول OpenAI) کے ذریعے چلنے والے خودکار نظام کا استعمال کرتی ہیں۔ ان پٹ میں آپ کے پیدائشی چارٹ کا ڈیٹا اور چیٹ کے پیغامات شامل ہو سکتے ہیں۔ آؤٹ پٹ خود بخود تیار ہوتے ہیں اور انسانی نجومی کے ذریعہ ان کا جائزہ نہیں لیا جاتا جب تک کہ کسی مخصوص سروس میں دوسری صورت میں بیان نہ کیا جائے۔ چیٹ میں حساس ذاتی، طبی، قانونی یا مالی معلومات کا اشتراک نہ کریں۔"
+      },
+      "sharing": {
+        "title": "شیئرنگ اور پروسیسرز",
+        "body": "ہم خدمت فراہم کنندگان کے ساتھ ڈیٹا کا اشتراک کرتے ہیں جو پلیٹ فارم کو چلانے میں ہماری مدد کرتے ہیں: ادائیگی کی پروسیسنگ (Razorpay)، ای میل کی ترسیل (SMTP)، کلاؤڈ اسٹوریج (جب فعال ہو)، نقشے/جیو کوڈنگ (گوگل میپس)، اور AI تخمینہ (اوپن اے آئی)۔ ہم آپ کی ذاتی معلومات فروخت نہیں کرتے ہیں۔ مشترکہ کنڈلی لنکس صرف ان لوگوں کے لیے قابل رسائی ہیں جنہیں آپ لنک دیتے ہیں جبکہ اشتراک فعال ہوتا ہے۔"
+      },
+      "retention": {
+        "title": "برقرار رکھنا",
+        "body": "جب آپ کا اکاؤنٹ فعال ہے اور خدمات فراہم کرنے، تنازعات کو حل کرنے اور قانونی تقاضوں کو پورا کرنے کے لیے ضرورت کے مطابق ہم اکاؤنٹ کو برقرار رکھتے ہیں اور ڈیٹا کی اطلاع دیتے ہیں۔ آپ ہماری ڈیٹا کو برقرار رکھنے کی ذمہ داریوں کے تحت حذف کرنے کی درخواست کر سکتے ہیں۔ Astrologer KYC دستاویزات کو قانون اور داخلی پالیسی کے لیے درکار درخواست اور تعمیل کی مدت کے لیے برقرار رکھا جاتا ہے۔"
+      },
+      "rights": {
+        "title": "آپ کے حقوق",
+        "body": "قابل اطلاق قانون (بشمول انڈیا کے ڈیجیٹل پرسنل ڈیٹا پروٹیکشن ایکٹ) پر منحصر ہے، آپ کو اپنے ذاتی ڈیٹا تک رسائی، درست کرنے یا حذف کرنے کے حقوق حاصل ہو سکتے ہیں۔ درخواست جمع کرانے کے لیے support@anantastro.com پر ہم سے رابطہ کریں۔ ہم ایک مناسب ٹائم فریم کے اندر جواب دیں گے۔"
+      },
+      "contact": {
+        "title": "رابطہ کریں۔",
+        "body": "رازداری کے سوالات یا درخواستوں کے لیے support@anantastro.com پر ای میل کریں۔"
+      }
+    },
+    "terms": {
+      "title": "سروس کی شرائط",
+      "intro": {
+        "title": "معاہدہ",
+        "body": "AnantAstro تک رسائی یا استعمال کرکے، آپ ان سروس کی شرائط سے اتفاق کرتے ہیں۔ اگر آپ متفق نہیں ہیں تو پلیٹ فارم کا استعمال نہ کریں۔"
+      },
+      "accounts": {
+        "title": "اکاؤنٹس",
+        "body": "آپ کو رجسٹریشن کی درست معلومات فراہم کرنی چاہیے اور اپنی اسناد کو محفوظ رکھنا چاہیے۔ آپ اپنے اکاؤنٹ کے تحت سرگرمی کے ذمہ دار ہیں۔ مقامی سائن اپ کے لیے ای میل کی توثیق درکار ہے۔ ہم ان شرائط کی خلاف ورزی کرنے والے اکاؤنٹس کو معطل یا ختم کر سکتے ہیں۔"
+      },
+      "coins": {
+        "title": "سکے اور ادائیگیاں",
+        "body": "خدمات Razorpay کے ذریعے خریدے گئے ورچوئل سکوں کا استعمال کرتے ہوئے خریدی جاتی ہیں۔ سکے ناقابل منتقلی ہیں سوائے اس کے کہ ہم واضح طور پر اجازت دیتے ہیں۔ پلیٹ فارم پر نوٹس کے ساتھ قیمتیں اور سکے کی قیمتیں تبدیل ہو سکتی ہیں۔ ریفنڈز ہماری ریفنڈ پالیسی کے زیر انتظام ہیں۔"
+      },
+      "services": {
+        "title": "علم نجوم کی خدمات",
+        "body": "کنڈلی، زائچہ، اور میچ میکنگ آؤٹ پٹ حساب کے متعین طریقوں اور جہاں قابل اطلاق ہو، AI تشریح کا استعمال کرتے ہوئے تیار کیے جاتے ہیں۔ نتائج ذاتی بصیرت اور تفریح کے لیے ہیں۔ وہ پیشہ ورانہ طبی، قانونی، مالی، یا نفسیاتی مشورے کا متبادل نہیں ہیں۔"
+      },
+      "aiDisclaimer": {
+        "title": "AI نجومی ڈس کلیمر",
+        "body": "AnantAstro پر AI نجومی کی چیٹ خودکار افراد کے ذریعہ فراہم کی جاتی ہے، انسانی نجومی نہیں۔ جوابات مشین لرننگ سسٹم کے ذریعہ تیار کیے جاتے ہیں اور یہ غلط یا نامکمل ہوسکتے ہیں۔ AI نجومی طبی، قانونی، مالی، یا سرمایہ کاری کا مشورہ فراہم نہیں کرتے ہیں۔ انسانی نجومی مارکیٹ پلیس کی خصوصیات، جب پیش کی جائیں گی، پروڈکٹ میں الگ سے بیان کی جائیں گی۔"
+      },
+      "prohibited": {
+        "title": "ممنوعہ استعمال",
+        "body": "آپ پلیٹ فارم کا غلط استعمال نہیں کر سکتے، غیر مجاز رسائی کی کوشش نہیں کر سکتے، ہمارے APIs کو ختم یا اوورلوڈ نہیں کر سکتے، غیر قانونی مواد اپ لوڈ نہیں کر سکتے، یا دوسروں کو نقصان پہنچانے کے لیے سروس کا استعمال نہیں کر سکتے۔ AI یا ترجمہ کے اختتامی نکات کا غلط استعمال معطلی کا باعث بن سکتا ہے۔"
+      },
+      "liability": {
+        "title": "ذمہ داری کی حد",
+        "body": "قانون کی طرف سے اجازت دی گئی مکمل حد تک، AnantAstro پلیٹ فارم کے استعمال یا علم نجوم کے مواد پر انحصار کرنے سے ہونے والے بالواسطہ یا نتیجہ خیز نقصانات کے لیے ذمہ دار نہیں ہے۔ کسی بھی دعوے کے لیے ہماری کل ذمہ داری اس رقم تک محدود ہے جو آپ نے دعویٰ سے پہلے کے بارہ مہینوں میں ہمیں ادا کی تھی۔"
+      },
+      "governing": {
+        "title": "گورننگ قانون",
+        "body": "یہ شرائط ہندوستان کے قوانین کے تحت چلتی ہیں۔ ہندوستان میں عدالتوں کا خصوصی دائرہ اختیار ہوگا، قابل اطلاق صارفین کے تحفظ کے قوانین کے تحت۔"
+      },
+      "contact": {
+        "title": "رابطہ کریں۔",
+        "body": "ان شرائط کے بارے میں سوالات: support@anantastro.com۔"
+      }
+    },
+    "refund": {
+      "title": "رقم کی واپسی کی پالیسی",
+      "intro": {
+        "title": "جائزہ",
+        "body": "یہ رقم کی واپسی کی پالیسی بتاتی ہے کہ کب AnantAstro سکے کی خریداریوں کو واپس کر سکتا ہے یا ناکام خدمات کے لیے چارجز کو واپس کر سکتا ہے۔ سکے خرید کر، آپ اس پالیسی سے اتفاق کرتے ہیں۔"
+      },
+      "coinPurchases": {
+        "title": "سکے کی خریداری",
+        "body": "Razorpay کے ذریعے سکے کی خریداری عام طور پر ناقابل واپسی ہوتی ہے ایک بار جب سکے آپ کے بٹوے میں جمع ہو جاتے ہیں، سوائے اس کے جہاں قانون کے مطابق ضرورت ہو یا جہاں ہم ڈپلیکیٹ چارج یا تکنیکی غلطی کی تصدیق کرتے ہوں۔ ہماری پرائیویسی پالیسی کے مطابق استعمال نہ ہونے یا آپ کا اکاؤنٹ بند ہونے تک غیر استعمال شدہ سکے آپ کے بٹوے میں موجود رہتے ہیں۔"
+      },
+      "failedServices": {
+        "title": "رپورٹ تیار کرنے میں ناکام",
+        "body": "اگر کوئی کنڈلی، زائچہ، یا میچ میکنگ جنریشن سککوں کو ڈیبٹ کرنے کے بعد ناکام ہو جاتی ہے اور ایک معقول دوبارہ کوشش کے بعد مکمل نہیں کی جا سکتی ہے، تو اپنی رپورٹ ID کے ساتھ 7 دنوں کے اندر support@anantastro.com پر رابطہ کریں۔ ہم چھان بین کریں گے اور، تصدیق ہونے پر، آپ کے بٹوے میں سکے بحال کریں گے۔"
+      },
+      "chatBilling": {
+        "title": "AI چیٹ بلنگ",
+        "body": "سیشن کے فعال ہونے کے دوران AI نجومی چیٹ کو سککوں میں فی منٹ بل کیا جاتا ہے۔ اگر آپ کو لگتا ہے کہ پلیٹ فارم کی غلطی کی وجہ سے آپ سے غلط چارج کیا گیا ہے، تو 48 گھنٹوں کے اندر اپنے سیشن ID کے ساتھ سپورٹ سے رابطہ کریں۔"
+      },
+      "process": {
+        "title": "رقم کی واپسی کی درخواست کیسے کریں۔",
+        "body": "اپنی رجسٹرڈ ای میل، ٹرانزیکشن یا سیشن آئی ڈی، اور مسئلے کی تفصیل کے ساتھ support@anantastro.com پر ای میل کریں۔ سکے کی خریداری کے لیے منظور شدہ رقم کی واپسی آپ کے اصل ادائیگی کے طریقے پر واپس کی جا سکتی ہے یا ہماری صوابدید پر اور Razorpay کی اجازت کے مطابق سکے کے طور پر کریڈٹ کی جا سکتی ہے۔"
+      },
+      "contact": {
+        "title": "رابطہ کریں۔",
+        "body": "رقم کی واپسی کی درخواستیں: support@anantastro.com۔"
+      }
+    }
+  },
   "home": {
+    "accountDeactivated": {
+      "title": "اکاؤنٹ غیر فعال کر دیا گیا۔",
+      "message": "آپ کا اکاؤنٹ غیر فعال کر دیا گیا ہے۔ اگر آپ کو لگتا ہے کہ یہ ایک غلطی ہے تو براہ کرم support@anantastro.com سے رابطہ کریں۔",
+      "dismiss": "برطرف کرنا"
+    },
     "hero": {
       "title": "AnantAstro کے ساتھ اپنی تقدیر دریافت کریں۔",
-      "subtitle": "درست کنڈلی جنریشن، ذاتی نوعیت کی زائچہ، AI سے چلنے والی رپورٹس، اور ماہر علم نجوم کی مشاورت سب ایک جگہ پر حاصل کریں۔",
+      "subtitle": "درست کنڈلی جنریشن، ذاتی نوعیت کی زائچہ، AI سے چلنے والی رپورٹس، اور ماہر علم نجوم کے مشورے سب ایک جگہ پر حاصل کریں۔",
       "getStartedFree": "مفت شروع کریں۔",
       "exploreServices": "سروسز کو دریافت کریں۔",
       "cardTitle": "اپنی کنڈلی حاصل کریں۔",
@@ -82,11 +193,21 @@
       "timeOfBirth": "پیدائش کا وقت",
       "placeOfBirth": "جائے پیدائش",
       "placePlaceholder": "شہر یا جائے پیدائش تلاش کریں۔",
-      "searching": "تلاش کر رہا ہے…",
-      "getKundli": "کنڈلی حاصل کریں۔",
       "gender": "جنس",
       "genderMale": "مرد",
-      "genderFemale": "خاتون"
+      "genderFemale": "خاتون",
+      "searching": "تلاش کر رہا ہے…",
+      "getKundli": "کنڈلی حاصل کریں۔"
+    },
+    "homepage": {
+      "heroTitle": "آپ کے ستارے، دوبارہ تصور کیے گئے۔",
+      "heroHashtag": "#جدید نجومی",
+      "explore": "دریافت کریں۔",
+      "viewSample": "نمونہ دیکھیں",
+      "getReport": "رپورٹ حاصل کریں۔",
+      "savedProfile": "محفوظ شدہ پروفائل",
+      "newProfile": "نیا پروفائل",
+      "termsHeading": "شرائط و ضوابط"
     },
     "features": {
       "title": "ہماری بنیادی خدمات",
@@ -102,9 +223,9 @@
     },
     "topAstrologers": {
       "eyebrow": "ماہر رہنما",
-      "title": "سرفہرست نجومی",
-      "subtitle": "ذاتی ویدک مشاورت کے لیے ہمارے اعلیٰ درجہ بند رہنماؤں سے جڑیں۔",
-      "viewAll": "تمام نجومی دیکھیں"
+      "title": "سرفہرست نجومی۔",
+      "subtitle": "ذاتی نوعیت کے ویدک مشورے کے لیے ہماری اعلیٰ درجہ کی گائیڈز سے جڑیں۔",
+      "viewAll": "تمام نجومیوں کو دیکھیں"
     },
     "aiReports": {
       "title": "ذاتی نوعیت کی نجومی رپورٹس",
@@ -145,21 +266,6 @@
       "subtitle": "ان ہزاروں مطمئن صارفین میں شامل ہوں جنہوں نے AnantAstro کے ذریعے رہنمائی اور وضاحت حاصل کی ہے۔",
       "getStarted": "مفت شروع کریں۔",
       "viewPricing": "قیمتوں کا تعین دیکھیں"
-    },
-    "homepage": {
-      "heroTitle": "آپ کے ستارے، دوبارہ تصور کیے گئے۔",
-      "heroHashtag": "#جدید نجومی",
-      "explore": "دریافت کریں۔",
-      "viewSample": "نمونہ دیکھیں",
-      "getReport": "رپورٹ حاصل کریں۔",
-      "savedProfile": "محفوظ شدہ پروفائل",
-      "newProfile": "نیا پروفائل",
-      "termsHeading": "شرائط و ضوابط"
-    },
-    "accountDeactivated": {
-      "title": "Account deactivated",
-      "message": "Your account has been deactivated. Please contact support@anantastro.com if you believe this is an error.",
-      "dismiss": "Dismiss"
     }
   },
   "auth": {
@@ -167,6 +273,7 @@
       "emailInvalid": "براہ کرم ایک درست ای میل ایڈریس درج کریں۔",
       "passwordRequired": "پاس ورڈ درکار ہے۔",
       "passwordMin": "پاس ورڈ کم از کم 6 حروف کا ہونا چاہیے۔",
+      "passwordMismatch": "پاس ورڈز مماثل نہیں ہیں۔",
       "nameRequired": "نام درکار ہے۔"
     },
     "login": {
@@ -185,7 +292,35 @@
       "verifyBanner": "سائن ان کرنے کے لیے اپنے ای میل کی تصدیق کریں۔ کیا ای میل نہیں ملا؟",
       "resendVerification": "توثیقی ای میل دوبارہ بھیجیں۔",
       "sending": "بھیج رہا ہے...",
-      "forgotPassword": "Forgot password?"
+      "forgotPassword": "پاس ورڈ بھول گئے؟"
+    },
+    "forgotPassword": {
+      "title": "پاس ورڈ بھول گئے۔",
+      "subtitle": "اپنا ای میل درج کریں اور ہم آپ کو دوبارہ ترتیب دینے کا لنک بھیجیں گے۔",
+      "email": "ای میل",
+      "emailPlaceholder": "اپنا ای میل درج کریں۔",
+      "emailInvalid": "براہ کرم ایک درست ای میل درج کریں۔",
+      "submit": "ری سیٹ لنک بھیجیں۔",
+      "submitting": "بھیج رہا ہے...",
+      "successToast": "اگر کوئی اکاؤنٹ موجود ہے تو، ایک ری سیٹ لنک بھیج دیا گیا ہے۔",
+      "errorToast": "ری سیٹ لنک نہیں بھیج سکا۔ براہ کرم دوبارہ کوشش کریں۔",
+      "checkInbox": "پاس ورڈ دوبارہ ترتیب دینے کے لنک کے لیے اپنا ان باکس چیک کریں۔",
+      "backToLogin": "واپس سائن ان کریں۔"
+    },
+    "resetPassword": {
+      "title": "پاس ورڈ دوبارہ ترتیب دیں۔",
+      "subtitle": "اپنے اکاؤنٹ کے لیے ایک نیا پاس ورڈ منتخب کریں۔",
+      "newPassword": "نیا پاس ورڈ",
+      "confirmPassword": "پاس ورڈ کی تصدیق کریں۔",
+      "passwordMin": "پاس ورڈ کم از کم 6 حروف کا ہونا چاہیے۔",
+      "passwordMismatch": "پاس ورڈز مماثل نہیں ہیں۔",
+      "submit": "پاس ورڈ دوبارہ ترتیب دیں۔",
+      "submitting": "ری سیٹ ہو رہا ہے...",
+      "successToast": "پاس ورڈ اپ ڈیٹ ہو گیا۔ آپ ابھی سائن ان کر سکتے ہیں۔",
+      "errorToast": "پاس ورڈ دوبارہ ترتیب نہیں دیا جا سکا۔ لنک غلط یا ختم ہو سکتا ہے۔",
+      "missingToken": "یہ ری سیٹ لنک غلط یا غائب ہے۔",
+      "requestNewLink": "ایک نئے لنک کی درخواست کریں۔",
+      "loading": "لوڈ ہو رہا ہے..."
     },
     "loginToast": {
       "success": "لاگ ان کامیاب! دوبارہ خوش آمدید۔",
@@ -204,6 +339,8 @@
       "emailPlaceholder": "اپنا ای میل درج کریں۔",
       "password": "پاس ورڈ",
       "passwordPlaceholder": "اپنا پاس ورڈ درج کریں (کم سے کم 6 حروف)",
+      "confirmPassword": "پاس ورڈ کی تصدیق کریں۔",
+      "confirmPasswordPlaceholder": "اپنا پاس ورڈ دوبارہ درج کریں۔",
       "phoneOptional": "فون (اختیاری)",
       "phonePlaceholder": "اپنا فون نمبر درج کریں۔",
       "submit": "سائن اپ کریں۔",
@@ -255,34 +392,6 @@
       "loading": "لوڈ ہو رہا ہے...",
       "success": "Google کے ساتھ کامیابی سے سائن ان ہو گیا!",
       "authFailed": "تصدیق ناکام ہوگئی"
-    },
-    "forgotPassword": {
-      "title": "Forgot password",
-      "subtitle": "Enter your email and we'll send you a reset link",
-      "email": "Email",
-      "emailPlaceholder": "Enter your email",
-      "emailInvalid": "Please enter a valid email",
-      "submit": "Send reset link",
-      "submitting": "Sending...",
-      "successToast": "If an account exists, a reset link has been sent.",
-      "errorToast": "Could not send reset link. Please try again.",
-      "checkInbox": "Check your inbox for a password reset link.",
-      "backToLogin": "Back to sign in"
-    },
-    "resetPassword": {
-      "title": "Reset password",
-      "subtitle": "Choose a new password for your account",
-      "newPassword": "New password",
-      "confirmPassword": "Confirm password",
-      "passwordMin": "Password must be at least 6 characters",
-      "passwordMismatch": "Passwords do not match",
-      "submit": "Reset password",
-      "submitting": "Resetting...",
-      "successToast": "Password updated. You can sign in now.",
-      "errorToast": "Could not reset password. The link may be invalid or expired.",
-      "missingToken": "This reset link is invalid or missing.",
-      "requestNewLink": "Request a new link",
-      "loading": "Loading..."
     }
   },
   "services": {
@@ -320,6 +429,9 @@
     "kundli": {
       "sectionTitle": "اپنی کنڈلی حاصل کریں۔",
       "sectionSubtitle": "پیدائش کی تفصیلات درج کریں یا نیچے محفوظ کردہ پروفائل کا انتخاب کریں۔",
+      "reportLanguageTitle": "رپورٹ کی زبان",
+      "reportLanguageSimple": "سادہ ہندی۔",
+      "reportLanguageHinglish": "Hinglish",
       "suspenseLoading": "لوڈ ہو رہا ہے…",
       "hero": {
         "title": "آپ کی کنڈلی",
@@ -404,11 +516,11 @@
         "timeOfBirth": "پیدائش کا وقت",
         "placeOfBirth": "جائے پیدائش",
         "placePlaceholder": "شہر یا جگہ تلاش کریں۔",
-        "searching": "تلاش کر رہا ہے…",
-        "saving": "محفوظ کر رہا ہے...",
         "gender": "جنس",
         "genderMale": "مرد",
-        "genderFemale": "خاتون"
+        "genderFemale": "خاتون",
+        "searching": "تلاش کر رہا ہے…",
+        "saving": "محفوظ کر رہا ہے..."
       }
     },
     "horoscope": {
@@ -424,7 +536,7 @@
       "creatingReport": "رپورٹ بنائی جا رہی ہے…",
       "manualTitle": "پیدائش کی تفصیلات درج کریں۔",
       "backToProfiles": "پروفائلز پر واپس جائیں۔",
-      "manualSubtitle": "محفوظ شدہ پروفائل استعمال کیے بغیر زائچہ حاصل کرنے کے لیے پیدائش کی تفصیلات درج کریں۔",
+      "manualSubtitle": "محفوظ کردہ پروفائل استعمال کیے بغیر زائچہ حاصل کرنے کے لیے پیدائش کی تفصیلات درج کریں۔",
       "selectProfileTitle": "ایک پروفائل منتخب کریں۔",
       "selectProfileSubtitle": "محفوظ کردہ پروفائل کا انتخاب کریں یا پیدائش کی تفصیلات دستی طور پر درج کریں، پھر مدت منتخب کریں اور اپنی زائچہ حاصل کریں۔",
       "enterManuallyLabel": "پیدائش کی تفصیلات دستی طور پر درج کریں۔",
@@ -555,7 +667,7 @@
         "title": "اکثر پوچھے گئے سوالات",
         "subtitle": "گن میلان اور میچ میکنگ کے بارے میں عام سوالات۔",
         "q1": "اشٹکوٹ یا گن ملن کیا ہے؟",
-        "a1": "گن ملن (جسے اشٹاکوٹ بھی کہا جاتا ہے) ایک ویدک علم نجوم کا طریقہ ہے جو 8 عوامل (کوٹاس) کا استعمال کرتے ہوئے شادی کی مطابقت کو اسکور کرتا ہے جس کے کل 36 پوائنٹس ہیں۔ یہ دونوں شراکت داروں کے پیدائشی چارٹ کا موازنہ کرتا ہے، خاص طور پر چاند نکشترا اور نشان۔",
+        "a1": "گن ملن (جسے اشٹاکوٹ بھی کہا جاتا ہے) ایک ویدک علم نجوم کا طریقہ ہے جو 8 عوامل (کوٹاس) کا استعمال کرتے ہوئے کل 36 پوائنٹس کا استعمال کرتے ہوئے شادی کی مطابقت کو اسکور کرتا ہے۔ یہ دونوں شراکت داروں کے پیدائشی چارٹ کا موازنہ کرتا ہے، خاص طور پر چاند نکشترا اور نشان۔",
         "q2": "میچ میکنگ کے لیے پیدائش کا وقت کیوں اہم ہے؟",
         "a2": "پیدائش کا وقت چاند کے نشان اور نکشتر کو طے کرتا ہے، جو بندوق کے میلان کے زیادہ تر قوانین (تارا، یونی، گانا، بھکوت، نادی) چلاتے ہیں۔ یہاں تک کہ تھوڑا سا وقت کا فرق نتیجہ بدل سکتا ہے۔",
         "q3": "کیا میں محفوظ کردہ کنڈلی پروفائلز استعمال کر سکتا ہوں؟",
@@ -589,6 +701,9 @@
         "enterBirthDetails": "پیدائش کی تفصیلات درج کریں۔",
         "birthDetailsHeading": "پیدائش کی تفصیلات",
         "name": "نام",
+        "gender": "جنس",
+        "genderMale": "مرد",
+        "genderFemale": "خاتون",
         "dateOfBirth": "تاریخ پیدائش",
         "timeOfBirth": "پیدائش کا وقت",
         "placeOfBirth": "جائے پیدائش",
@@ -606,10 +721,7 @@
         "match": "میچ",
         "summaryNote": "ہم اشٹاکوٹ (36 گناس) میچنگ چلائیں گے۔",
         "calculating": "حساب کر رہا ہے…",
-        "seeCompatibility": "مطابقت دیکھیں",
-        "gender": "جنس",
-        "genderMale": "مرد",
-        "genderFemale": "خاتون"
+        "seeCompatibility": "مطابقت دیکھیں"
       }
     }
   },
@@ -623,20 +735,23 @@
     "copyLink": "لنک کاپی کریں۔",
     "createShareableLink": "قابل اشتراک لنک بنائیں",
     "disableLink": "لنک کو غیر فعال کریں۔",
-    "dobTimeLine": "DOB: {dob} • وقت: {time}",
-    "loading": "لوڈ ہو رہا ہے…",
-    "goHome": "گھر جاؤ",
     "shareWhatsApp": "واٹس ایپ",
     "shareInstagram": "انسٹاگرام",
     "shareKundliMessage": "AnantAstro پر میری کنڈلی دیکھیں: {url}",
     "shareMatchmakingMessage": "AnantAstro پر ہماری گن میلان رپورٹ دیکھیں: {url}",
     "shareHoroscopeMessage": "AnantAstro پر میری زائچہ دیکھیں: {url}",
     "instagramShareCopied": "لنک کاپی ہو گیا — اشتراک کرنے کے لیے اسے انسٹاگرام میں چسپاں کریں۔",
-    "instagramShareFailed": "لنک کاپی نہیں کیا جا سکا۔ اس کے بجائے لنک کاپی کرنے کی کوشش کریں۔"
+    "instagramShareFailed": "لنک کاپی نہیں ہو سکا۔ اس کے بجائے لنک کاپی کرنے کی کوشش کریں۔",
+    "dobTimeLine": "DOB: {dob} • وقت: {time}",
+    "loading": "لوڈ ہو رہا ہے…",
+    "goHome": "گھر جاؤ"
   },
   "results": {
     "translate": {
       "hint": "یہ متن انگریزی میں ہے۔ آپ اپنی سائٹ کی زبان سے ملنے کے لیے اس کا ترجمہ کر سکتے ہیں۔",
+      "paidHint": "یہ رپورٹ کسی اور زبان میں ہے۔ اسے اپنی منتخب سائٹ کی زبان میں دیکھیں (سکے ہر زبان میں ایک بار لاگو ہوتے ہیں)۔",
+      "viewInLanguage": "میری زبان میں دیکھیں",
+      "insufficientCoins": "ترجمے کے لیے کافی سکے نہیں ہیں۔ جاری رکھنے کے لیے ایک پیک خریدیں۔",
       "translate": "ترجمہ کریں۔",
       "translating": "ترجمہ ہو رہا ہے…",
       "translateFailed": "ترجمہ ناکام ہو گیا۔ براہ کرم دوبارہ کوشش کریں۔",
@@ -650,34 +765,45 @@
       "queue": "آپ کی کنڈلی قطار میں ہے۔",
       "generating": "آپ کی کنڈلی بنائی جا رہی ہے…",
       "processingHint": "ہم آپ کے چارٹ کا حساب لگا رہے ہیں۔ اس میں عام طور پر چند سیکنڈ لگتے ہیں۔ صفحہ خود بخود اپ ڈیٹ ہو جائے گا۔",
+      "journey": {
+        "badge": "کنڈلی کا سفر",
+        "progress": "پیش رفت",
+        "autoUpdate": "آپ کی رپورٹ خود بخود ظاہر ہو جائے گی۔",
+        "stepDetails": "پیدائش کی تفصیلات کی توثیق کرنا",
+        "stepHouses": "چڑھنے والے اور مکانات کا حساب لگانا",
+        "stepPlanets": "سیاروں کی پوزیشنوں کا حساب لگانا",
+        "stepDasha": "نقشہ نقشہ نقشہ اور دشا ادوار",
+        "stepInsights": "زندگی کی بصیرت پیدا کرنا",
+        "stepFinalize": "اپنی کنڈلی کو حتمی شکل دینا"
+      },
       "generationFailed": "نسل ناکام ہوگئی",
       "yourKundli": "آپ کی کنڈلی",
       "tabs": {
+        "dashboard": "ڈیش بورڈ",
         "basic": "بنیادی",
         "kundli": "کنڈلی",
         "kp": "کے پی",
-        "dasha": "Dasha",
-        "ashtakvarga": "Ashtakvarga",
+        "dasha": "دشا",
+        "ashtakvarga": "اشٹاک ورگا",
         "report": "رپورٹ",
         "horoscope": "زائچہ",
-        "remedies": "علاج",
-        "dashboard": "ڈیش بورڈ"
+        "remedies": "علاج"
       },
       "interp": {
+        "domainSectionsHeading": "زندگی کی پیش گوئیاں",
+        "mahadasha": "مہادشا",
+        "yog": "یوگ",
+        "careerForecast": "کیریئر کی پیشن گوئی",
+        "marriage": "شادی",
+        "wealth": "دولت",
+        "reason": "وجہ",
         "description": "تفصیل",
         "personality": "شخصیت",
         "physical": "جسمانی",
         "health": "صحت",
-        "career": "Career",
+        "career": "کیریئر",
         "relationships": "رشتے",
-        "remedies": "علاج",
-        "mahadasha": "Mahadasha",
-        "yog": "Yog",
-        "marriage": "Marriage",
-        "wealth": "Wealth",
-        "reason": "Reason",
-        "domainSectionsHeading": "Life predictions",
-        "careerForecast": "Career prediction"
+        "remedies": "علاج"
       },
       "addon": {
         "overview": "جائزہ",
@@ -695,6 +821,9 @@
       "navamsaD9": "Navamsa (D-9)",
       "basicBirthHeading": "پیدائش کی تفصیلات",
       "labelName": "نام",
+      "labelGender": "جنس",
+      "genderMale": "مرد",
+      "genderFemale": "خاتون",
       "labelDob": "تاریخ پیدائش",
       "labelTime": "پیدائش کا وقت",
       "labelPlace": "جائے پیدائش",
@@ -734,7 +863,7 @@
         "nadi": "نادی",
         "sign": "دستخط",
         "signLord": "دستخط کرنے والا",
-        "nakshatraCharan": "نکشترا-چرن",
+        "nakshatraCharan": "نکشتر – چرن",
         "yog": "یوگ",
         "karan": "کرن",
         "tithi": "تیتھی",
@@ -747,7 +876,7 @@
       "birthChartRashiTitle": "پیدائش کا نقشہ (راشی)",
       "chartDataHeading": "چارٹ ڈیٹا",
       "noChartDataYet": "ابھی تک کوئی چارٹ ڈیٹا دستیاب نہیں ہے۔",
-      "kpBhavChalitTitle": "بھاو چلت چارٹ (KP)",
+      "kpBhavChalitTitle": "بھاو چلت چارٹ (کے پی)",
       "kpRulingPlanets": "حاکم سیاروں",
       "kpColPoint": "نقطہ",
       "kpStarLord": "سٹار لارڈ",
@@ -757,17 +886,6 @@
       "kpCusp": "کپ",
       "kpCuspsSection": "Cusps",
       "kpNoData": "KP چارٹ کا کوئی ڈیٹا دستیاب نہیں ہے۔ بھاو چلت (KP) ڈیٹا حاصل کرنے کے لیے ایک نئی کنڈلی بنائیں۔",
-      "reportHeading": "تشریح",
-      "noInterpretationYet": "ابھی تک کوئی تشریحی رپورٹ دستیاب نہیں ہے۔",
-      "horoscopeAddonTitle": "زائچہ کا اضافہ",
-      "horoscopeAddonGenerating": "ہوروسکوپ ایڈ آن تیار کرنا… یہ صفحہ خود بخود اپ ڈیٹ ہوجاتا ہے۔",
-      "horoscopeAddonUnlockHint": "اس کنڈلی کے لیے ایک تفصیلی زائچہ ایڈ آن بنانے کے لیے اس ٹیب کو غیر مقفل کریں۔",
-      "unlockHoroscope": "زائچہ کو غیر مقفل کریں۔",
-      "unlockingHoroscope": "غیر مقفل ہو رہا ہے…",
-      "noRemediesYet": "ابھی تک کوئی علاج دستیاب نہیں ہے۔",
-      "labelGender": "جنس",
-      "genderMale": "مرد",
-      "genderFemale": "خاتون",
       "vimshottariTitle": "ویمشوتری دشا",
       "yoginiTitle": "یوگنی دشا",
       "dashaAtBirth": "پیدائش کے وقت",
@@ -790,6 +908,14 @@
       "ashtakvargaSavTotal": "SAV گرینڈ کل",
       "ashtakvargaHouseHint": "کالم لگنا سے شمار کیے گئے 1-12 مکانات ہیں۔",
       "ashtakvargaNoData": "اشٹاک ورگا ڈیٹا دستیاب نہیں ہے۔ بھناشتکا ورگا اور سرواشٹکوارگا حاصل کرنے کے لیے ایک نئی کنڈلی بنائیں۔",
+      "reportHeading": "تشریح",
+      "noInterpretationYet": "ابھی تک کوئی تشریحی رپورٹ دستیاب نہیں ہے۔",
+      "horoscopeAddonTitle": "زائچہ کا اضافہ",
+      "horoscopeAddonGenerating": "ہوروسکوپ ایڈ آن تیار کرنا… یہ صفحہ خود بخود اپ ڈیٹ ہوجاتا ہے۔",
+      "horoscopeAddonUnlockHint": "اس کنڈلی کے لیے ایک تفصیلی زائچہ ایڈ آن بنانے کے لیے اس ٹیب کو غیر مقفل کریں۔",
+      "unlockHoroscope": "زائچہ کو غیر مقفل کریں۔",
+      "unlockingHoroscope": "غیر مقفل ہو رہا ہے…",
+      "noRemediesYet": "ابھی تک کوئی علاج دستیاب نہیں ہے۔",
       "yogHighlights": {
         "title": "سیاروں کے یوگاس",
         "rajYoga": "راج یوگا",
@@ -797,7 +923,7 @@
         "gajKesari": "گج کیسری یوگا",
         "budhaditya": "بدھادیتیا یوگا",
         "chandraMangal": "چندر منگل یوگا",
-        "kemadruma": "کیمادرما یوگا",
+        "kemadruma": "کیماڈروما یوگا",
         "neechaBhanga": "نیچا بھنگا",
         "viparitaRaja": "ویپریتا راجہ یوگا",
         "ruchaka": "روچاکا یوگا",
@@ -808,14 +934,14 @@
         "adhiYoga": "ادھی یوگا",
         "present": "حاضر",
         "notFormed": "نہیں بنتا",
-        "unavailable": "دستیاب نہیں۔"
+        "unavailable": "دستیاب نہیں"
       },
       "dashboard": {
         "interpretationLoading": "آپ کی رپورٹ ابھی تیار کی جا رہی ہے۔ یوگا کی جھلکیاں اور دشا ٹائمنگ پہلے ہی ذیل میں دستیاب ہیں۔",
         "sectionLoading": "خلاصہ تیار کیا جا رہا ہے…",
         "sectionEmpty": "اس علاقے کے لیے ابھی تک کوئی خلاصہ نہیں ہے۔",
         "explainSimply": "سادگی سے سمجھائیں۔",
-        "explaining": "آسان کر رہا ہے…",
+        "explaining": "آسان بنایا جا رہا ہے…",
         "showSimple": "سادہ دکھائیں۔",
         "showOriginal": "اصل دکھائیں۔",
         "readMore": "مکمل رپورٹ پڑھیں",
@@ -826,17 +952,6 @@
           "health": "صحت",
           "mahadasha": "مہادشا"
         }
-      },
-      "journey": {
-        "badge": "Kundli Journey",
-        "progress": "Progress",
-        "autoUpdate": "Your report will appear automatically",
-        "stepDetails": "Validating birth details",
-        "stepHouses": "Calculating ascendant & houses",
-        "stepPlanets": "Computing planetary positions",
-        "stepDasha": "Mapping nakshatra & dasha periods",
-        "stepInsights": "Generating life insights",
-        "stepFinalize": "Finalizing your kundli"
       }
     },
     "horoscope": {
@@ -854,6 +969,17 @@
       "generating": "آپ کا زائچہ تیار کیا جا رہا ہے…",
       "processingHint": "ہم آپ کی رپورٹ تیار کر رہے ہیں۔ یہ صفحہ خود بخود اپ ڈیٹ ہو جائے گا۔",
       "processingHintBuild": "ہم آپ کی ذاتی رپورٹ بنا رہے ہیں۔ اس میں ایک منٹ لگ سکتا ہے۔ صفحہ خود بخود اپ ڈیٹ ہو جائے گا۔",
+      "journey": {
+        "badge": "زائچہ کا سفر",
+        "progress": "پیش رفت",
+        "autoUpdate": "آپ کی رپورٹ خود بخود ظاہر ہو جائے گی۔",
+        "stepDetails": "پیدائش کی تفصیلات کی توثیق کرنا",
+        "stepChart": "اپنے پیدائشی چارٹ کی گنتی کرنا",
+        "stepTransits": "سیاروں کی آمدورفت پڑھنا",
+        "stepPeriod": "سیدھ میں رکھنا مدت اور وقت",
+        "stepPredictions": "اپنی پیشین گوئیاں لکھنا",
+        "stepFinalize": "اپنی زائچہ کو حتمی شکل دینا"
+      },
       "generationFailed": "رپورٹ ناکام ہوگئی",
       "yourHoroscope": "آپ کا زائچہ",
       "periodDetail": "{period} • {detail}",
@@ -863,22 +989,11 @@
       "summary": "خلاصہ",
       "detailed": "تفصیلی",
       "predictionLine": "{period} کی پیشن گوئی • {level}",
-      "periodDaily": "روزانہ",
-      "periodWeekly": "ہفتہ وار",
-      "periodMonthly": "ماہانہ",
       "periodLabel": "مدت",
       "detailLabel": "رپورٹ کی قسم",
-      "journey": {
-        "badge": "Horoscope Journey",
-        "progress": "Progress",
-        "autoUpdate": "Your report will appear automatically",
-        "stepDetails": "Validating birth details",
-        "stepChart": "Computing your natal chart",
-        "stepTransits": "Reading planetary transits",
-        "stepPeriod": "Aligning period & timing",
-        "stepPredictions": "Writing your predictions",
-        "stepFinalize": "Finalizing your horoscope"
-      }
+      "periodDaily": "روزانہ",
+      "periodWeekly": "ہفتہ وار",
+      "periodMonthly": "ماہانہ"
     },
     "matchmaking": {
       "invalidLink": "غلط میچ میکنگ لنک۔",
@@ -890,6 +1005,17 @@
       "computing": "گن میلان کمپیوٹنگ…",
       "processingHint": "ہم گن میلان کی کمپیوٹنگ کر رہے ہیں۔ یہ صفحہ خود بخود اپ ڈیٹ ہو جائے گا۔",
       "processingHintCompat": "ہم مطابقت کا حساب لگا رہے ہیں۔ اس میں عام طور پر چند سیکنڈ لگتے ہیں۔ صفحہ خود بخود اپ ڈیٹ ہو جائے گا۔",
+      "journey": {
+        "badge": "میچ میکنگ کا سفر",
+        "progress": "پیش رفت",
+        "autoUpdate": "آپ کی رپورٹ خود بخود ظاہر ہو جائے گی۔",
+        "stepPartners": "پارٹنر کی تفصیلات کی توثیق کی جا رہی ہے۔",
+        "stepCharts": "دونوں پیدائشی چارٹ بنانا",
+        "stepGunMilan": "گن میلان کے اسکور کمپیوٹنگ",
+        "stepCompatibility": "مطابقت کا تجزیہ کرنا",
+        "stepInsights": "تعلقات کی بصیرت پیدا کرنا",
+        "stepFinalize": "آپ کی رپورٹ کو حتمی شکل دینا"
+      },
       "generationFailed": "میچ میکنگ ناکام ہوگئی",
       "yourResult": "گن میلان کا نتیجہ",
       "reportTitle": "گن میلان رپورٹ",
@@ -995,17 +1121,6 @@
           "area": "اولاد",
           "meaning": "نادی جوڑے کی صحت کی مطابقت سے متعلق ہے۔ ولادت اور اولاد کے معاملات بھی اسی گنا سے طے ہوتے ہیں۔"
         }
-      },
-      "journey": {
-        "badge": "Matchmaking Journey",
-        "progress": "Progress",
-        "autoUpdate": "Your report will appear automatically",
-        "stepPartners": "Validating partner details",
-        "stepCharts": "Building both birth charts",
-        "stepGunMilan": "Computing Gun Milan scores",
-        "stepCompatibility": "Analyzing compatibility",
-        "stepInsights": "Generating relationship insights",
-        "stepFinalize": "Finalizing your report"
       }
     }
   },
@@ -1016,7 +1131,7 @@
       "disabled": "یہ لنک غلط ہے یا غیر فعال کر دیا گیا ہے۔",
       "title": "مشترکہ کنڈلی",
       "meta": "DOB: {dob} • وقت: {time}",
-      "ctaOwn": "اپنی اپنی کنڈلی حاصل کریں۔"
+      "ctaOwn": "اپنی کنڈلی حاصل کریں۔"
     },
     "horoscope": {
       "invalid": "شیئر کرنے کا غلط لنک۔",
@@ -1061,7 +1176,7 @@
     "toastCheckoutError": "چیک آؤٹ شروع نہیں کیا جا سکا۔ دوبارہ کوشش کریں یا سپورٹ سے رابطہ کریں۔",
     "emptyTitle": "کوئی پیک دستیاب نہیں ہے۔",
     "emptyHint": "جلد ہی دوبارہ چیک کریں یا سپورٹ سے رابطہ کریں۔",
-    "unlockTitle": "جسے آپ غیر مقفل کرسکتے ہیں۔",
+    "unlockTitle": "جسے آپ کھول سکتے ہیں۔",
     "unlockSubtitle": "جب آپ اہل رپورٹیں بناتے یا ڈاؤن لوڈ کرتے ہیں تو سکے ڈیبٹ ہوتے ہیں۔",
     "noPacksLive": "ابھی تک کوئی پیک لائیو نہیں ہے۔",
     "noPacksAdmin": "آپ کے منتظم نے سکے کے منصوبے شائع نہیں کیے ہیں۔ جلد ہی دوبارہ چیک کریں یا سپورٹ سے رابطہ کریں۔",
@@ -1074,6 +1189,24 @@
     "useCoinsOnServices": "خدمات پر سکے استعمال کریں۔",
     "checkoutDescription": "{name} — {quantity} سکے"
   },
+  "paymentThankYou": {
+    "badge": "ادائیگی کامیاب",
+    "title": "شکریہ!",
+    "subtitle": "آپ کی خریداری کی تصدیق ہوگئی ہے اور سکے آپ کے بٹوے میں ہیں۔",
+    "processingTitle": "ادائیگی کی تصدیق ہو رہی ہے…",
+    "processingSubtitle": "صرف ایک لمحہ جب ہم آپ کی خریداری کو محفوظ رکھیں۔",
+    "errorTitle": "ادائیگی کی تصدیق نہیں ہو سکی",
+    "errorSubtitle": "ہو سکتا ہے آپ کی ادائیگی پر ابھی بھی کارروائی ہو رہی ہو۔ ایک منٹ میں اپنا بٹوہ چیک کریں یا اگر سکے ظاہر نہیں ہوتے ہیں تو سپورٹ سے رابطہ کریں۔",
+    "coinsAdded": "+{n} سکے شامل کیے گئے۔",
+    "amountPaid": "ادا کی گئی رقم",
+    "newBalance": "نیا پرس بیلنس",
+    "coinsLabel": "سکے",
+    "orderRef": "آرڈر کا حوالہ",
+    "goToWallet": "پرس دیکھیں",
+    "generateKundli": "اپنی کنڈلی بنائیں",
+    "backToPricing": "قیمتوں کے تعین پر واپس جائیں۔",
+    "retry": "دوبارہ کوشش کریں۔"
+  },
   "wallet": {
     "badge": "سکے اور بلنگ",
     "title": "پرس",
@@ -1081,7 +1214,14 @@
     "subtitleLong": "آپ کا بیلنس، Razorpay کی خریداریاں، اور آپ نے پوری ایپ میں سکے کیسے استعمال کیے ہیں۔",
     "balance": "توازن",
     "availableBalance": "دستیاب بیلنس",
+    "balanceLabelEmpty": "ابھی تک کوئی سکے نہیں ہیں۔",
+    "balanceLabelLow": "کم توازن",
+    "balanceLabelAvailable": "دستیاب بیلنس",
     "coinsReady": "رپورٹس اور چارٹ پر استعمال کے لیے تیار سکے",
+    "balanceMessageEmpty": "رپورٹس بنانے اور چارٹس کو غیر مقفل کرنے کے لیے کوائن پیک خریدیں۔",
+    "balanceMessageLow": "{n} سکے باقی ہیں — آپ کی اگلی رپورٹ یا چیٹ سے پہلے ٹاپ اپ۔",
+    "balanceMessageModerate": "{n} سکے دستیاب ہیں — چند رپورٹس اور سیشنز کے لیے کافی ہیں۔",
+    "balanceMessageHealthy": "رپورٹوں، چارٹس اور مشاورت کے لیے {n} سکے تیار ہیں۔",
     "buyCoins": "سکے خریدیں۔",
     "addCoins": "سکے شامل کریں۔",
     "refresh": "ریفریش کریں۔",
@@ -1115,13 +1255,6 @@
     "statusPaid": "ادا کیا",
     "statusPending": "زیر التواء",
     "statusFailed": "ناکام",
-    "balanceLabelEmpty": "ابھی تک کوئی سکے نہیں ہیں۔",
-    "balanceLabelLow": "کم توازن",
-    "balanceLabelAvailable": "دستیاب بیلنس",
-    "balanceMessageEmpty": "رپورٹس بنانے اور چارٹس کو غیر مقفل کرنے کے لیے کوائن پیک خریدیں۔",
-    "balanceMessageLow": "{n} سکے باقی ہیں — آپ کی اگلی رپورٹ یا چیٹ سے پہلے ٹاپ اپ۔",
-    "balanceMessageModerate": "{n} سکے دستیاب ہیں — چند رپورٹس اور سیشنز کے لیے کافی ہیں۔",
-    "balanceMessageHealthy": "رپورٹوں، چارٹس اور مشاورت کے لیے {n} سکے تیار ہیں۔",
     "statPayments": "ادائیگیاں",
     "statActivity": "لین دین",
     "razorpaySecure": "ریزر پے محفوظ",
@@ -1197,34 +1330,38 @@
   },
   "settingsKundli": {
     "title": "کنڈلی پروفائل",
-    "description": "پیدائش کی تفصیلات آپ اور کنبہ کے افراد کے لیے محفوظ کر لی گئی ہیں۔ ہوم پیج سے یا کنڈلی بناتے وقت مزید شامل کریں۔",
+    "description": "پیدائش کی تفصیلات آپ اور کنبہ کے افراد کے لیے محفوظ کر لی گئی ہیں۔ یہاں پروفائلز میں ترمیم یا ہٹا دیں؛ حذف شدہ پروفائلز پوشیدہ ہیں لیکن ماضی کی رپورٹس آپ کی لائبریری میں رہتی ہیں۔",
     "emptyTitle": "ابھی تک کوئی کنڈلی پروفائلز نہیں ہیں۔",
     "emptyHint": "کنڈلی بنانے کے لیے ہوم پیج پر موجود فارم کو پُر کریں، یا جب آپ ہماری سروسز استعمال کریں تو ایک شامل کریں۔",
+    "loading": "پروفائلز لوڈ ہو رہے ہیں…",
     "dob": "DOB:",
     "time": "وقت:",
     "genderMale": "مرد",
     "genderFemale": "خاتون",
-    "loading": "Loading profiles…",
-    "edit": "Edit",
-    "delete": "Delete",
-    "editTitle": "Edit profile",
-    "editDescription": "Update birth details for {name}.",
-    "saveChanges": "Save changes",
-    "saving": "Saving…",
-    "nameRequired": "Name is required.",
-    "updatedSuccess": "Profile updated.",
-    "updateFailed": "Could not update profile. Please try again.",
-    "deleteTitle": "Delete profile?",
-    "deleteDescription": "This removes {name} from your saved profiles. Completed reports are not deleted.",
-    "deleteConfirm": "Delete profile",
-    "deleteCancel": "Cancel",
-    "deleting": "Deleting…",
-    "deletedSuccess": "Profile deleted.",
-    "deleteFailed": "Could not delete profile. Please try again."
+    "edit": "ترمیم کریں۔",
+    "delete": "حذف کریں۔",
+    "editTitle": "پروفائل میں ترمیم کریں۔",
+    "editDescription": "{name} کے لیے پیدائش کی تفصیلات اپ ڈیٹ کریں۔",
+    "saveChanges": "تبدیلیاں محفوظ کریں۔",
+    "saving": "محفوظ ہو رہا ہے…",
+    "nameRequired": "نام درکار ہے۔",
+    "updatedSuccess": "پروفائل اپ ڈیٹ ہو گیا۔",
+    "updateFailed": "پروفائل کو اپ ڈیٹ نہیں کیا جا سکا۔ براہ کرم دوبارہ کوشش کریں۔",
+    "deleteTitle": "پروفائل حذف کریں؟",
+    "deleteDescription": "یہ آپ کے محفوظ کردہ پروفائلز سے {name} کو ہٹا دیتا ہے۔ مکمل رپورٹس کو حذف نہیں کیا جاتا ہے۔",
+    "deleteConfirm": "پروفائل حذف کریں۔",
+    "deleteCancel": "منسوخ کریں۔",
+    "deleting": "حذف ہو رہا ہے…",
+    "deletedSuccess": "پروفائل حذف کر دیا گیا۔",
+    "deleteFailed": "پروفائل کو حذف نہیں کیا جا سکا۔ براہ کرم دوبارہ کوشش کریں۔"
   },
   "reports": {
     "title": "میری رپورٹس",
     "subtitle": "آپ کی مکمل کنڈلی، زائچہ، اور گن میلان (میچ میکنگ) رپورٹس",
+    "badge": "آپ کی لائبریری",
+    "libraryEyebrow": "محفوظ شدہ رپورٹس",
+    "libraryTitle": "اپنی رپورٹس کو براؤز کریں۔",
+    "librarySubtitle": "مکمل پڑھنے کو دوبارہ کھولنے کے لیے کسی بھی رپورٹ کو تھپتھپائیں۔",
     "newKundli": "نئی کنڈلی",
     "horoscope": "زائچہ",
     "gunMilan": "گن میلان",
@@ -1255,23 +1392,10 @@
     "srDob": "تاریخ پیدائش",
     "srTime": "وقت",
     "srPlace": "جگہ",
-    "scoreLine": "{score}/{max} پوائنٹس · {pct}% میچ",
-    "badge": "آپ کی لائبریری",
-    "libraryEyebrow": "محفوظ شدہ رپورٹس",
-    "libraryTitle": "اپنی رپورٹس کو براؤز کریں۔",
-    "librarySubtitle": "مکمل پڑھنے کو دوبارہ کھولنے کے لیے کسی بھی رپورٹ کو تھپتھپائیں۔"
+    "scoreLine": "{score}/{max} پوائنٹس · {pct}% میچ"
   },
   "conversations": {
     "title": "بات چیت",
-    "loading": "بات چیت لوڈ ہو رہی ہے…",
-    "empty": "ابھی تک کوئی بات چیت نہیں ہے۔",
-    "coinsDebited": "سکے ڈیبٹ",
-    "coinsDebitedLine": "{n} سکے ڈیبٹ ہوئے۔",
-    "open": "کھولیں۔",
-    "astrologerFallback": "نجومی",
-    "sessionNumber": "سیشن #{id}",
-    "statusActive": "فعال",
-    "statusEnded": "ختم ہوا۔",
     "subtitle": "AI نجومیوں کے ساتھ وہیں سے شروع کریں جہاں سے آپ نے چھوڑا تھا۔",
     "badge": "پیغامات",
     "listTitle": "آپ کے سیشنز",
@@ -1282,7 +1406,16 @@
     "continueChat": "چیٹ جاری رکھیں",
     "emptyHint": "ہمارے نجومیوں کے صفحہ سے مشاورت شروع کریں۔",
     "sessionCount": "{n، جمع، ایک {# بات چیت} دوسری {# بات چیت}}",
-    "statusPaused": "روک دیا گیا"
+    "loading": "بات چیت لوڈ ہو رہی ہے…",
+    "empty": "ابھی تک کوئی بات چیت نہیں ہے۔",
+    "coinsDebited": "سکے ڈیبٹ",
+    "coinsDebitedLine": "{n} سکے ڈیبٹ ہوئے۔",
+    "open": "کھولیں۔",
+    "astrologerFallback": "نجومی",
+    "sessionNumber": "سیشن #{id}",
+    "statusActive": "فعال",
+    "statusPaused": "روک دیا گیا",
+    "statusEnded": "ختم ہوا۔"
   },
   "contact": {
     "heroTitle": "ہم سے رابطہ کریں۔",
@@ -1296,6 +1429,9 @@
     "subject": "موضوع",
     "message": "پیغام",
     "submit": "پیغام بھیجیں۔",
+    "submitting": "بھیج رہا ہے…",
+    "submitSuccess": "شکریہ! ہمیں آپ کا پیغام موصول ہوا ہے اور جلد ہی جواب دیں گے۔",
+    "submitError": "آپ کا پیغام نہیں بھیج سکا۔ براہ کرم دوبارہ کوشش کریں یا support@anantastro.com پر ای میل کریں۔",
     "infoTitle": "رابطہ کی معلومات",
     "emailTitle": "ای میل",
     "emailDesc": "ای میل کے ذریعے رابطہ کریں۔",
@@ -1314,7 +1450,7 @@
     "placeholderSubject": "یہ کس حوالے سے ہے؟",
     "placeholderMessage": "ہمیں بتائیں کہ ہم آپ کی مدد کیسے کر سکتے ہیں…",
     "getInTouchTitle": "رابطے میں رہیں",
-    "getInTouchBody": "چاہے آپ کو ہماری خدمات کے بارے میں سوالات ہوں، تکنیکی مدد کی ضرورت ہو، یا رائے دینا چاہیں، ہم مدد کے لیے حاضر ہیں۔ ہماری ٹیم آپ کی مدد کے لیے 24/7 دستیاب ہے۔",
+    "getInTouchBody": "چاہے آپ کو ہماری خدمات کے بارے میں سوالات ہوں، تکنیکی مدد کی ضرورت ہو، یا تاثرات فراہم کرنا چاہیں، ہم مدد کے لیے حاضر ہیں۔ ہماری ٹیم آپ کی مدد کے لیے 24/7 دستیاب ہے۔",
     "urgentTitle": "فوری مدد کی ضرورت ہے؟",
     "urgentBody": "فوری معاملات یا فوری مدد کے لیے، براہ کرم ہمیں براہ راست کال کریں یا ویب سائٹ پر دستیاب ہماری لائیو چیٹ کی خصوصیت کا استعمال کریں۔",
     "liveChat": "لائیو چیٹ شروع کریں۔",
@@ -1327,10 +1463,7 @@
     "faq3q": "کیا میری ذاتی معلومات محفوظ ہیں؟",
     "faq3a": "بالکل! ہم آپ کے تمام ڈیٹا کی حفاظت کے لیے انڈسٹری کے معیاری انکرپشن کا استعمال کرتے ہیں۔ آپ کی پیدائش کی تفصیلات اور ذاتی معلومات کبھی بھی تیسرے فریق کے ساتھ شیئر نہیں کی جاتی ہیں۔",
     "faq4q": "اگر میں مطمئن نہیں ہوں تو کیا مجھے رقم کی واپسی مل سکتی ہے؟",
-    "faq4a": "ہاں، ہم اپنی تمام سروسز پر 30 دن کی رقم واپس کرنے کی گارنٹی پیش کرتے ہیں۔ اگر آپ مطمئن نہیں ہیں تو، مکمل رقم کی واپسی کے لیے ہماری سپورٹ ٹیم سے رابطہ کریں۔",
-    "submitting": "Sending…",
-    "submitSuccess": "Thank you! We received your message and will respond soon.",
-    "submitError": "Could not send your message. Please try again or email support@anantastro.com."
+    "faq4a": "ہاں، ہم اپنی تمام سروسز پر 30 دن کی رقم واپس کرنے کی گارنٹی پیش کرتے ہیں۔ اگر آپ مطمئن نہیں ہیں تو، مکمل رقم کی واپسی کے لیے ہماری سپورٹ ٹیم سے رابطہ کریں۔"
   },
   "about": {
     "heroTitle": "AnantAstro کے بارے میں",
@@ -1406,33 +1539,8 @@
     "profileCreated": "کنڈلی پروفائل بنایا گیا۔",
     "kundliCreateFailed": "کنڈلی پروفائل بنانے میں ناکام",
     "chatStartFailed": "چیٹ شروع نہیں ہو سکی",
-    "heroTitle": "نجومیوں سے جڑیں۔",
-    "heroSubtitle": "اپنا کنڈلی پروفائل منتخب کریں اور ذاتی مشاورت شروع کریں۔",
-    "loadingList": "نجومیوں کو لوڈ کیا جا رہا ہے…",
-    "onlineNow": "ابھی آن لائن",
-    "offline": "آف لائن",
-    "personaFallback": "علم نجوم کنسلٹنٹ",
-    "consultationPrice": "مشاورتی قیمت",
-    "coinsPerMin": "{n} سکے/منٹ",
-    "startChat": "چیٹ شروع کریں۔",
-    "currentlyOffline": "فی الحال آف لائن",
-    "dialogTitle": "کنڈلی پروفائل منتخب کریں۔",
-    "dialogDescription": "محفوظ کردہ پروفائل کا انتخاب کریں یا کسی اور کو شامل کریں، پھر اپنی چیٹ شروع کریں۔",
-    "noProfilesHint": "ابھی تک کوئی محفوظ شدہ پروفائلز نہیں ہیں۔ ذیل میں ایک شامل کریں۔",
-    "someoneElsePrompt": "کسی اور کے لیے چیٹ کرنا چاہتے ہیں؟",
-    "someoneElse": "کوئی اور",
-    "formIntro": "بہترین علم نجوم کی رہنمائی کے لیے پیدائش کی درست تفصیلات استعمال کریں۔",
-    "labelName": "نام",
-    "fullNamePh": "پورا نام",
-    "labelDob": "تاریخ پیدائش",
-    "dobPh": "تاریخ منتخب کریں۔",
-    "labelTime": "پیدائش کا وقت",
-    "labelPlace": "جائے پیدائش",
-    "placePh": "شہر یا جگہ تلاش کریں۔",
-    "searchingPlaces": "تلاش کر رہا ہے…",
-    "saveProfile": "پروفائل محفوظ کریں۔",
-    "saving": "محفوظ ہو رہا ہے…",
-    "back": "پیچھے",
+    "heroTitle": "Cosmos کے ساتھ جڑیں۔",
+    "heroSubtitle": "ہمارے تصدیق شدہ ماہر نجومیوں سے ملیں۔",
     "heroStatExperts": "ماہر رہنما",
     "heroStatRating": "اوسط درجہ بندی",
     "heroStatLive": "لائیو مشاورت",
@@ -1477,17 +1585,42 @@
     "statPerMin": "فی منٹ",
     "startConsultation": "مشاورت شروع کریں۔",
     "noResults": "کوئی نجومی آپ کے فلٹرز سے میل نہیں کھاتا۔ اپنے انتخاب کو ایڈجسٹ کرنے کی کوشش کریں۔",
-    "labelGender": "جنس",
-    "gender": "جنس",
-    "genderMale": "مرد",
-    "genderFemale": "خاتون",
+    "loadingList": "نجومیوں کو لوڈ کیا جا رہا ہے…",
+    "onlineNow": "ابھی آن لائن",
+    "offline": "آف لائن",
+    "personaFallback": "علم نجوم کنسلٹنٹ",
     "type": {
       "vedic": "ویدک نجومی۔",
       "numerology": "ماہرِ شماریات",
       "vastu": "واستو ماہر",
       "tarot": "ٹیرو ریڈر",
       "lal_kitab": "لال کتاب کے ماہر"
-    }
+    },
+    "consultationPrice": "مشاورتی قیمت",
+    "coinsPerMin": "{n} سکے/منٹ",
+    "startChat": "چیٹ شروع کریں۔",
+    "currentlyOffline": "فی الحال آف لائن",
+    "dialogTitle": "کنڈلی پروفائل منتخب کریں۔",
+    "dialogDescription": "محفوظ کردہ پروفائل کا انتخاب کریں یا کسی اور کو شامل کریں، پھر اپنی چیٹ شروع کریں۔",
+    "noProfilesHint": "ابھی تک کوئی محفوظ شدہ پروفائلز نہیں ہیں۔ ذیل میں ایک شامل کریں۔",
+    "someoneElsePrompt": "کسی اور کے لیے چیٹ کرنا چاہتے ہیں؟",
+    "someoneElse": "کوئی اور",
+    "formIntro": "بہترین علم نجوم کی رہنمائی کے لیے پیدائش کی درست تفصیلات استعمال کریں۔",
+    "labelName": "نام",
+    "labelGender": "جنس",
+    "gender": "جنس",
+    "genderMale": "مرد",
+    "genderFemale": "خاتون",
+    "fullNamePh": "پورا نام",
+    "labelDob": "تاریخ پیدائش",
+    "dobPh": "تاریخ منتخب کریں۔",
+    "labelTime": "پیدائش کا وقت",
+    "labelPlace": "جائے پیدائش",
+    "placePh": "شہر یا جگہ تلاش کریں۔",
+    "searchingPlaces": "تلاش کر رہا ہے…",
+    "saveProfile": "پروفائل محفوظ کریں۔",
+    "saving": "محفوظ ہو رہا ہے…",
+    "back": "پیچھے"
   },
   "admin": {
     "userUpdated": "صارف کامیابی کے ساتھ اپ ڈیٹ ہو گیا۔",
@@ -1505,6 +1638,11 @@
     "requestRejected": "درخواست مسترد کر دی گئی۔",
     "canReapply": "صارف اب دوبارہ درخواست دے سکتا ہے۔",
     "userDeleted": "صارف کو کامیابی سے حذف کر دیا گیا۔",
+    "impersonationBanner": "بطور {userName} دیکھ رہا ہے",
+    "exitImpersonation": "نقالی سے باہر نکلیں۔",
+    "impersonationExiting": "باہر نکل رہا ہے…",
+    "impersonationExited": "آپ کے ایڈمن اکاؤنٹ پر واپس آ گیا۔",
+    "impersonationExitFailed": "نقالی سے باہر نہیں جا سکا۔ دوبارہ سائن ان کرنے کی کوشش کریں۔",
     "packName": "ایک پیک کا نام درج کریں۔",
     "coinMin": "سکے کی مقدار کم از کم 1 ہونی چاہیے۔",
     "priceMin": "قیمت (پیسہ) کم از کم 1 ہونی چاہیے۔",
@@ -1534,14 +1672,9 @@
     "aiCreateFailed": "بنانا ناکام ہو گیا۔",
     "aiUpdateFailed": "اپ ڈیٹ ناکام ہو گیا۔",
     "aiDeleteFailed": "حذف کرنا ناکام ہو گیا۔",
-    "packSaveFailed": "پیک محفوظ نہیں ہو سکا",
+    "packSaveFailed": "پیک محفوظ نہیں کیا جا سکا",
     "costUpdated": "اپ ڈیٹ کردہ {label}",
-    "userDeleteFailed": "صارف کو حذف کرنے میں ناکام",
-    "impersonationBanner": "Viewing as {userName}",
-    "exitImpersonation": "Exit impersonation",
-    "impersonationExiting": "Exiting…",
-    "impersonationExited": "Returned to your admin account",
-    "impersonationExitFailed": "Could not exit impersonation. Try signing in again."
+    "userDeleteFailed": "صارف کو حذف کرنے میں ناکام"
   },
   "astrologer": {
     "uploadBothDocs": "براہ کرم آدھار اور پین کارڈ دونوں اپ لوڈ کریں۔",
@@ -1655,7 +1788,7 @@
       "shravana": "شروانہ",
       "dhanishta": "دھنشتہ",
       "shatabhisha": "شتابھیشا",
-      "purva_bhadrapada": "پوروا بھدرپد",
+      "purva_bhadrapada": "پوروا بھدرپدا",
       "uttara_bhadrapada": "اترا بھدرپد",
       "revati": "ریوتی"
     },
@@ -1672,64 +1805,69 @@
     },
     "varna": {
       "kshatriya": "کھشتریا",
+      "kshattriya": "کشتریہ",
       "vaishya": "ویشیا",
       "brahmin": "برہمن",
-      "shudra": "شودر",
-      "kshattriya": "کشتریہ"
+      "shudra": "شودر"
     },
     "vashya": {
       "nara": "نارا",
       "jalachar": "جلاچار",
-      "chatuspad": "چٹسپاد",
-      "keeta": "کیتا",
       "jalchar": "جلچار",
+      "chatuspad": "چٹسپاد",
       "chatushpada": "چٹوشپادا",
+      "keeta": "کیتا",
       "vanacara": "وانکارا۔"
     },
     "yoni": {
       "horse": "گھوڑا",
+      "ashva": "اشوا",
       "elephant": "ہاتھی",
+      "gaja": "گاجا",
       "goat": "بکری",
+      "chaga": "چاگا",
       "serpent": "سانپ",
+      "sarpa": "سرپا",
       "dog": "کتا",
+      "shawan": "شاون",
       "cat": "بلی",
+      "marjaar": "مرجار",
       "rat": "چوہا",
+      "mushaka": "مشکا",
       "cow": "گائے",
       "buffalo": "بھینس",
+      "mahish": "مہیش",
       "tiger": "ٹائیگر",
+      "vyaghra": "ویاگرا",
       "deer": "ہرن",
+      "mriga": "مریگا",
       "hare": "ہرے",
       "monkey": "بندر",
-      "mongoose": "منگوز",
-      "simha": "سمہا",
-      "ashva": "اشوا",
-      "gaja": "گاجا",
-      "chaga": "چاگا",
-      "sarpa": "سرپا",
-      "shawan": "شاون",
-      "marjaar": "مرجار",
-      "mushaka": "مشکا",
-      "mahish": "مہیش",
-      "vyaghra": "ویاگرا",
-      "mriga": "مریگا",
       "vanar": "ونار",
       "vaanar": "وانار",
+      "mongoose": "منگوز",
       "nakula": "نکولا",
+      "simha": "سمہا",
       "mesha": "میشا",
       "maheesha": "مہیشا"
     },
     "gan": {
       "deva": "دیوا۔",
-      "manushya": "مانوشیا",
-      "rakshasa": "رکشا",
       "dev": "دیو",
-      "manav": "مناو"
+      "manushya": "مانوشیا",
+      "manav": "مناو",
+      "rakshasa": "رکشا"
     },
     "nadi": {
       "adi": "عدی",
+      "adhya": "ادھیا",
       "madhya": "مدھیہ",
-      "antya": "انتیا",
-      "adhya": "ادھیا"
+      "antya": "انتیا"
+    },
+    "yunja": {
+      "poorva": "پوروا",
+      "madhya": "مدھیہ",
+      "antya": "انتیا"
     },
     "paya": {
       "copper": "تانبا",
@@ -1753,6 +1891,7 @@
       "sukarman": "سوکرمن",
       "dhriti": "دھرتی",
       "shula": "شولا",
+      "shoola": "شولا۔",
       "ganda": "گانڈا۔",
       "vridhi": "وردھی",
       "dhruva": "دھروا",
@@ -1770,29 +1909,28 @@
       "shukla": "شکلا",
       "brahma": "برہما",
       "indra": "اندرا",
-      "vaidhriti": "ویدھرتی",
-      "shoola": "شولا۔"
+      "vaidhriti": "ویدھرتی"
     },
     "karan": {
       "bav": "باو",
       "balav": "بالاو",
+      "baalav": "بالاو",
       "kaulav": "کولاو",
       "taitil": "تیتیل",
       "garija": "گریجا",
+      "gar": "گار",
       "vanij": "ونیز",
       "vishti": "وشتی",
+      "vashti": "وشتی۔",
       "shakuni": "شکونی",
       "chatushpada": "چٹوشپادا",
       "naga": "ناگا",
-      "kimstughna": "کمسٹگھنا",
-      "baalav": "بالاو",
-      "gar": "گار",
-      "vashti": "وشتی۔"
+      "kimstughna": "کمسٹگھنا"
     },
     "tithi": {
       "krishna_pratipada": "کرشنا پرتیپدا",
       "krishna_dvitiya": "کرشنا دویتیا",
-      "krishna_tritiya": "کرشنا ترتیہ",
+      "krishna_tritiya": "کرشنا تریتیہ",
       "krishna_chaturthi": "کرشنا چترتھی",
       "krishna_panchami": "کرشنا پنچمی",
       "krishna_shashthi": "کرشنا ششتھی",
@@ -1864,21 +2002,6 @@
       "se": "سی",
       "de": "ڈی"
     },
-    "chart_terms": {
-      "combust": "کمبسٹ",
-      "retrograde": "پیچھے ہٹنا",
-      "lagna": "لگنا"
-    },
-    "kpPoints": {
-      "mo": "مو",
-      "asc": "Asc",
-      "day_lord": "دن رب"
-    },
-    "yunja": {
-      "poorva": "پوروا",
-      "madhya": "مدھیہ",
-      "antya": "انتیا"
-    },
     "yogini": {
       "mangala": "منگلا",
       "pingala": "پنگلا",
@@ -1888,130 +2011,16 @@
       "ulka": "الکا",
       "siddha": "سدھ",
       "sankata": "سنکاتا"
-    }
-  },
-  "paymentThankYou": {
-    "badge": "ادائیگی کامیاب",
-    "title": "شکریہ!",
-    "subtitle": "آپ کی خریداری کی تصدیق ہوگئی ہے اور سکے آپ کے بٹوے میں ہیں۔",
-    "processingTitle": "ادائیگی کی تصدیق ہو رہی ہے…",
-    "processingSubtitle": "صرف ایک لمحہ جب ہم آپ کی خریداری کو محفوظ رکھیں۔",
-    "errorTitle": "ادائیگی کی تصدیق نہیں ہو سکی",
-    "errorSubtitle": "ہو سکتا ہے آپ کی ادائیگی پر ابھی بھی کارروائی ہو رہی ہو۔ ایک منٹ میں اپنا بٹوہ چیک کریں یا اگر سکے ظاہر نہیں ہوتے ہیں تو سپورٹ سے رابطہ کریں۔",
-    "coinsAdded": "+{n} سکے شامل کیے گئے۔",
-    "amountPaid": "ادا کی گئی رقم",
-    "newBalance": "نیا پرس بیلنس",
-    "coinsLabel": "سکے",
-    "orderRef": "آرڈر کا حوالہ",
-    "goToWallet": "پرس دیکھیں",
-    "generateKundli": "اپنی کنڈلی بنائیں",
-    "backToPricing": "قیمتوں کے تعین پر واپس جائیں۔",
-    "retry": "دوبارہ کوشش کریں۔"
-  },
-  "legal": {
-    "badge": "Legal",
-    "lastUpdated": "Last updated: {date}",
-    "draftNotice": "Draft for review — this policy is provided for launch readiness and should be reviewed by qualified legal counsel before production use.",
-    "privacy": {
-      "title": "Privacy Policy",
-      "intro": {
-        "title": "Introduction",
-        "body": "AnantAstro (\"we\", \"us\", \"AnantAstro\") operates a Vedic astrology platform offering kundli generation, horoscope and matchmaking reports, AI astrologer chat, and coin-based services. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our website and services."
-      },
-      "dataCollected": {
-        "title": "Information we collect",
-        "body": "We collect information you provide directly: account details (name, email, password hash), birth data for kundli profiles (date, time, place of birth, gender), payment-related metadata processed by Razorpay (we do not store full card details), wallet and coin transaction history, chat messages with AI astrologers, and—if you apply as an astrologer—KYC documents such as Aadhar and PAN. We also collect technical data such as IP address, browser type, and usage logs for security and service delivery."
-      },
-      "howWeUse": {
-        "title": "How we use your information",
-        "body": "We use your data to create and deliver astrology reports, operate your coin wallet, provide AI chat sessions, verify your email, process astrologer applications, improve our services, prevent fraud, and comply with legal obligations. Birth data is used solely to compute charts and related interpretations you request."
-      },
-      "aiProcessing": {
-        "title": "AI and automated processing",
-        "body": "Certain features use automated systems powered by third-party AI providers (including OpenAI) to generate kundli interpretations, horoscope content, and AI astrologer chat replies. Inputs may include your birth chart data and chat messages. Outputs are generated automatically and are not reviewed by a human astrologer unless stated otherwise in a specific service. Do not share sensitive personal, medical, legal, or financial information in chat."
-      },
-      "sharing": {
-        "title": "Sharing and processors",
-        "body": "We share data with service providers who help us operate the platform: payment processing (Razorpay), email delivery (SMTP), cloud storage (when enabled), maps/geocoding (Google Maps), and AI inference (OpenAI). We do not sell your personal information. Shared kundli links are accessible only to people you give the link to while sharing is enabled."
-      },
-      "retention": {
-        "title": "Retention",
-        "body": "We retain account and report data while your account is active and as needed to provide services, resolve disputes, and meet legal requirements. You may request deletion subject to our data retention obligations. Astrologer KYC documents are retained for the application and compliance period required by law and internal policy."
-      },
-      "rights": {
-        "title": "Your rights",
-        "body": "Depending on applicable law (including India's Digital Personal Data Protection Act), you may have rights to access, correct, or delete your personal data. Contact us at support@anantastro.com to submit a request. We will respond within a reasonable timeframe."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "For privacy questions or requests, email support@anantastro.com."
-      }
     },
-    "terms": {
-      "title": "Terms of Service",
-      "intro": {
-        "title": "Agreement",
-        "body": "By accessing or using AnantAstro, you agree to these Terms of Service. If you do not agree, do not use the platform."
-      },
-      "accounts": {
-        "title": "Accounts",
-        "body": "You must provide accurate registration information and keep your credentials secure. You are responsible for activity under your account. Email verification is required for local sign-up. We may suspend or terminate accounts that violate these terms."
-      },
-      "coins": {
-        "title": "Coins and payments",
-        "body": "Services are purchased using virtual coins bought through Razorpay. Coins are non-transferable except as we expressly allow. Prices and coin costs may change with notice on the platform. Refunds are governed by our Refund Policy."
-      },
-      "services": {
-        "title": "Astrology services",
-        "body": "Kundli, horoscope, and matchmaking outputs are generated using defined calculation methods and, where applicable, AI interpretation. Results are for personal insight and entertainment. They are not a substitute for professional medical, legal, financial, or psychological advice."
-      },
-      "aiDisclaimer": {
-        "title": "AI astrologer disclaimer",
-        "body": "AI astrologer chat on AnantAstro is provided by automated personas, not human astrologers. Responses are generated by machine learning systems and may be inaccurate or incomplete. AI astrologers do not provide medical, legal, financial, or investment advice. Human astrologer marketplace features, when offered, will be described separately in the product."
-      },
-      "prohibited": {
-        "title": "Prohibited use",
-        "body": "You may not misuse the platform, attempt unauthorized access, scrape or overload our APIs, upload unlawful content, or use the service to harm others. Abuse of AI or translation endpoints may result in suspension."
-      },
-      "liability": {
-        "title": "Limitation of liability",
-        "body": "To the fullest extent permitted by law, AnantAstro is not liable for indirect or consequential damages arising from use of the platform or reliance on astrological content. Our total liability for any claim is limited to the amount you paid us in the twelve months preceding the claim."
-      },
-      "governing": {
-        "title": "Governing law",
-        "body": "These terms are governed by the laws of India. Courts in India shall have exclusive jurisdiction, subject to applicable consumer protection laws."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "Questions about these terms: support@anantastro.com."
-      }
+    "chart_terms": {
+      "combust": "کمبسٹ",
+      "retrograde": "پیچھے ہٹنا",
+      "lagna": "لگنا"
     },
-    "refund": {
-      "title": "Refund Policy",
-      "intro": {
-        "title": "Overview",
-        "body": "This Refund Policy explains when AnantAstro may refund coin purchases or reverse charges for failed services. By purchasing coins, you agree to this policy."
-      },
-      "coinPurchases": {
-        "title": "Coin purchases",
-        "body": "Coin purchases via Razorpay are generally non-refundable once coins are credited to your wallet, except where required by law or where we confirm a duplicate charge or technical error. Unused coins remain in your wallet until used or your account is closed per our Privacy Policy."
-      },
-      "failedServices": {
-        "title": "Failed report generation",
-        "body": "If a kundli, horoscope, or matchmaking generation fails after coins are debited and cannot be completed after a reasonable retry, contact support@anantastro.com within 7 days with your report ID. We will investigate and, if confirmed, restore coins to your wallet."
-      },
-      "chatBilling": {
-        "title": "AI chat billing",
-        "body": "AI astrologer chat is billed per minute in coins while a session is active. If you believe you were charged incorrectly due to a platform error, contact support within 48 hours with your session ID."
-      },
-      "process": {
-        "title": "How to request a refund",
-        "body": "Email support@anantastro.com with your registered email, transaction or session ID, and a description of the issue. Approved refunds for coin purchases may be returned to your original payment method or credited as coins, at our discretion and as permitted by Razorpay."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "Refund requests: support@anantastro.com."
-      }
+    "kpPoints": {
+      "mo": "مو",
+      "asc": "Asc",
+      "day_lord": "دن رب"
     }
   }
 }

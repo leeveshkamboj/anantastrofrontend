@@ -6,15 +6,8 @@ import { useAuth } from '@/store/hooks/useAuth';
 import type { ServiceKey } from '@/store/api/coinsApi';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { CoinGlyph } from './CoinGlyph';
+import { getServiceCoinLabel } from '@/lib/service-coin-meta';
 import { cn } from '@/lib/utils';
-
-const LABELS: Record<ServiceKey, string> = {
-  kundli: 'Kundli generation',
-  matchmaking: 'Matchmaking report',
-  horoscope: 'Horoscope report',
-  horoscope_detailed: 'Detailed horoscope report',
-  kundli_horoscope_addon: 'Kundli horoscope add-on',
-};
 
 export function ServiceCostBanner({
   serviceKey,
@@ -31,7 +24,7 @@ export function ServiceCostBanner({
 
   if (cost == null) return null;
 
-  const short = LABELS[serviceKey] ?? serviceKey;
+  const short = getServiceCoinLabel(serviceKey);
   const low = isAuthenticated && balance != null && balance < cost;
 
   return (

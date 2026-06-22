@@ -227,6 +227,16 @@
       "subtitle": "Connect with our highest-rated guides for personalized Vedic consultations.",
       "viewAll": "View all astrologers"
     },
+    "plans": {
+      "eyebrow": "Coin packs",
+      "title": "Compare plans & pick your pack",
+      "subtitle": "One wallet balance for every report. Buy coins once, spend on kundli, horoscope, and matchmaking — no subscriptions.",
+      "viewAllPricing": "View full pricing",
+      "compareCaption": "Coin pack comparison",
+      "compareFeature": "Feature",
+      "comparePrice": "Price",
+      "compareOffer": "Offer"
+    },
     "aiReports": {
       "title": "Personalized Astrological Reports",
       "subtitle": "Get personalized insights based on traditional astrological wisdom. Our reports cover career, love, personality, and life predictions.",
@@ -429,6 +439,9 @@
     "kundli": {
       "sectionTitle": "Get your Kundli",
       "sectionSubtitle": "Enter birth details or choose a saved profile below.",
+      "reportLanguageTitle": "Report language",
+      "reportLanguageSimple": "Simple Hindi",
+      "reportLanguageHinglish": "Hinglish",
       "suspenseLoading": "Loading…",
       "hero": {
         "title": "Your Kundli",
@@ -746,6 +759,9 @@
   "results": {
     "translate": {
       "hint": "This text is in English. You can translate it to match your site language.",
+      "paidHint": "This report is in another language. View it in your selected site language (coins apply once per language).",
+      "viewInLanguage": "View in my language",
+      "insufficientCoins": "Not enough coins for translation. Purchase a pack to continue.",
       "translate": "Translate",
       "translating": "Translating…",
       "translateFailed": "Translation failed. Please try again.",

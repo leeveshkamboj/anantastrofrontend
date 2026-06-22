@@ -24,13 +24,16 @@ import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import { cn } from '@/lib/utils';
 import { ReportBodyText } from '@/lib/report-text';
 import { sanitizeChartSvg } from '@/lib/sanitize-chart-svg';
-import { AiTranslateBar } from '@/components/reports/AiTranslateBar';
+import { ReportLanguageSwitch } from '@/components/reports/ReportLanguageSwitch';
 import { AnimatePresenceTabs } from '@/components/motion/AnimatePresenceTabs';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { Button } from '@/components/ui/button';
 import { useAstroDisplay } from '@/hooks/useAstroDisplay';
-import { useTranslateSections } from '@/hooks/useTranslateSections';
+import {
+  usePaidKundliAddonTranslation,
+  usePaidKundliInterpretationTranslation,
+} from '@/hooks/usePaidKundliReportTranslation';
 
 const INTERPRETATION_KEYS = [
   'description',
@@ -467,8 +470,10 @@ export interface KundliResultContentProps {
 export function KundliResultContent({ gen, shareToken = null }: KundliResultContentProps) {
   const tk = useTranslations('results.kundli');
   const astro = useAstroDisplay();
-  const interpretTranslate = useTranslateSections();
-  const addonTranslate = useTranslateSections();
+  const interpretTranslation = usePaidKundliInterpretationTranslation(gen.uuid, gen.interpretation, {
+    reportLocale: gen.reportLocale,
+    interpretationsByLocale: gen.interpretationsByLocale,
+  });
   const [activeTab, setActiveTab] = useState<KundliTabId>('dashboard');
   const [shouldPollAddon, setShouldPollAddon] = useState(false);
   const { compactLabel: addonPrice } = useServiceRunPrice('kundli_horoscope_addon');
@@ -480,7 +485,13 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
   });
   const [unlockAddon, { isLoading: unlockingAddon }] = useUnlockKundliHoroscopeAddonMutation();
 
-  const interpretation = gen.interpretation ?? '';
+  const interpretation = interpretTranslation.content;
+
+  const addonPrimary = addonData?.data?.content ?? null;
+  const addonTranslation = usePaidKundliAddonTranslation(gen.uuid, addonPrimary, {
+    reportLocale: addonData?.data?.reportLocale ?? gen.reportLocale,
+    interpretationsByLocale: addonData?.data?.interpretationsByLocale,
+  });
 
   useEffect(() => {
     const status = addonData?.data?.status;
@@ -491,10 +502,10 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
     setShouldPollAddon(false);
   }, [addonData?.data?.status]);
 
-  useEffect(() => {
-    interpretTranslate.reset();
-    addonTranslate.reset();
-  }, [gen.uuid, interpretTranslate.reset, addonTranslate.reset]);
+  const dashboardGen = {
+    ...gen,
+    interpretation: interpretTranslation.content || gen.interpretation,
+  };
 
   const panchangDisplay = (key: (typeof PANCHANG_KEYS)[number], val: string | undefined) => {
     const v = val ?? '';
@@ -596,12 +607,23 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
 
       <AnimatePresenceTabs activeKey={activeTab}>
       {activeTab === 'dashboard' && (
-        <KundliDashboardTab
-          gen={gen}
-          shareToken={shareToken}
-          interpretationLoading={gen.status !== 'COMPLETED' && !gen.interpretation}
-          onReadMore={() => setActiveTab('report')}
-        />
+        <>
+          <ReportLanguageSwitch
+            visible={interpretTranslation.needsPaidTranslate}
+            isTranslating={interpretTranslation.isTranslating}
+            priceLabel={interpretTranslation.priceLabel}
+            hint={interpretTranslation.hint}
+            actionLabel={interpretTranslation.actionLabel}
+            translatingLabel={interpretTranslation.translatingLabel}
+            onTranslate={() => void interpretTranslation.handleTranslate()}
+          />
+          <KundliDashboardTab
+            gen={dashboardGen}
+            shareToken={shareToken}
+            interpretationLoading={gen.status !== 'COMPLETED' && !gen.interpretation}
+            onReadMore={() => setActiveTab('report')}
+          />
+        </>
       )}
 
       {activeTab === 'basic' && (
@@ -904,22 +926,16 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
                   <YogHighlightStrip chartData={chartData} />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('reportHeading')}</h2>
-                <AiTranslateBar
-                  visible={
-                    interpretTranslate.needsUi &&
-                    interpretTranslate.translatedByKey == null
-                  }
-                  isTranslating={interpretTranslate.loading}
-                  onTranslate={() => {
-                    const s = parseMainInterpretationSections(interpretation);
-                    if (s) void interpretTranslate.translateSections(s);
-                  }}
+                <ReportLanguageSwitch
+                  visible={interpretTranslation.needsPaidTranslate}
+                  isTranslating={interpretTranslation.isTranslating}
+                  priceLabel={interpretTranslation.priceLabel}
+                  hint={interpretTranslation.hint}
+                  actionLabel={interpretTranslation.actionLabel}
+                  translatingLabel={interpretTranslation.translatingLabel}
+                  onTranslate={() => void interpretTranslation.handleTranslate()}
                 />
-                <InterpretationBlock
-                  variant="main"
-                  content={interpretation}
-                  translatedByKey={interpretTranslate.translatedByKey}
-                />
+                <InterpretationBlock variant="main" content={interpretation} />
               </CardContent>
             </ResultCard>
           ) : (
@@ -944,21 +960,16 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
               <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('horoscopeAddonTitle')}</h2>
               {isReady ? (
                 <>
-                  <AiTranslateBar
-                    visible={
-                      addonTranslate.needsUi && addonTranslate.translatedByKey == null
-                    }
-                    isTranslating={addonTranslate.loading}
-                    onTranslate={() => {
-                      const s = parseAddonSections(addon!.content!);
-                      if (s) void addonTranslate.translateSections(s);
-                    }}
+                  <ReportLanguageSwitch
+                    visible={addonTranslation.needsPaidTranslate}
+                    isTranslating={addonTranslation.isTranslating}
+                    priceLabel={addonTranslation.priceLabel}
+                    hint={addonTranslation.hint}
+                    actionLabel={addonTranslation.actionLabel}
+                    translatingLabel={addonTranslation.translatingLabel}
+                    onTranslate={() => void addonTranslation.handleTranslate()}
                   />
-                  <InterpretationBlock
-                    variant="addon"
-                    content={addon!.content!}
-                    translatedByKey={addonTranslate.translatedByKey}
-                  />
+                  <InterpretationBlock variant="addon" content={addonTranslation.content} />
                 </>
               ) : isWorking || addonLoading ? (
                 <p className="text-sm text-gray-600">{tk('horoscopeAddonGenerating')}</p>
@@ -1007,24 +1018,21 @@ export function KundliResultContent({ gen, shareToken = null }: KundliResultCont
         } catch {
           // ignore
         }
-        const remediesDisplay =
-          interpretTranslate.translatedByKey?.remedies ?? remediesText;
+        const remediesDisplay = remediesText;
         return (
           <ResultCard>
             <CardContent>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">{tk('interp.remedies')}</h2>
               {remediesText ? (
                 <>
-                  <AiTranslateBar
-                    visible={
-                      interpretTranslate.needsUi &&
-                      interpretTranslate.translatedByKey == null
-                    }
-                    isTranslating={interpretTranslate.loading}
-                    onTranslate={() => {
-                      const s = parseMainInterpretationSections(interpretation);
-                      if (s) void interpretTranslate.translateSections(s);
-                    }}
+                  <ReportLanguageSwitch
+                    visible={interpretTranslation.needsPaidTranslate}
+                    isTranslating={interpretTranslation.isTranslating}
+                    priceLabel={interpretTranslation.priceLabel}
+                    hint={interpretTranslation.hint}
+                    actionLabel={interpretTranslation.actionLabel}
+                    translatingLabel={interpretTranslation.translatingLabel}
+                    onTranslate={() => void interpretTranslation.handleTranslate()}
                   />
                   <ReportBodyText text={remediesDisplay} className="text-sm" preferList />
                 </>

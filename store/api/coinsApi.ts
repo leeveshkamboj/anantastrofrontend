@@ -1,6 +1,15 @@
 import { baseApi } from './baseApi';
 
-export type ServiceKey = 'kundli' | 'matchmaking' | 'horoscope' | 'kundli_horoscope_addon' | 'horoscope_detailed';
+export type ServiceKey =
+  | 'kundli'
+  | 'matchmaking'
+  | 'horoscope'
+  | 'kundli_horoscope_addon'
+  | 'horoscope_detailed'
+  | 'kundli_translate'
+  | 'kundli_horoscope_addon_translate'
+  | 'horoscope_translate'
+  | 'matchmaking_translate';
 
 export interface ServiceCoinCostRow {
   serviceKey: string;

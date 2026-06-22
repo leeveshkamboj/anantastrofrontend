@@ -77,7 +77,12 @@ export function KundliDashboardTab({
   const [simpleBySection, setSimpleBySection] = useState<Partial<Record<DashboardSectionKey, string>>>({});
   const [showSimple, setShowSimple] = useState<Partial<Record<DashboardSectionKey, boolean>>>({});
 
+  const simplifyLocked = Boolean(gen.simplifyUsedAt) && !shareToken;
+
   const handleExplain = async (sectionKey: DashboardSectionKey, originalText: string) => {
+    if (simplifyLocked && !simpleBySection[sectionKey]) {
+      return;
+    }
     if (simpleBySection[sectionKey]) {
       setShowSimple((prev) => ({ ...prev, [sectionKey]: !prev[sectionKey] }));
       return;
@@ -149,7 +154,7 @@ export function KundliDashboardTab({
                   <p className="text-sm text-gray-500 flex-1">{tk('sectionEmpty')}</p>
                 )}
                 <div className="flex flex-wrap gap-2 pt-1">
-                  {original && !waitingForReport && (
+                  {original && !waitingForReport && !simplifyLocked && (
                     <Button
                       type="button"
                       variant="outline"

@@ -10,9 +10,9 @@ import {
 } from '@/store/api/kundliApi';
 import type { HoroscopeReportStatus, HoroscopeReportResponse } from '@/store/api/kundliApi';
 import type { RootState } from '@/store/store';
-import { AiTranslateBar } from '@/components/reports/AiTranslateBar';
+import { ReportLanguageSwitch } from '@/components/reports/ReportLanguageSwitch';
 import { useAuth } from '@/store/hooks/useAuth';
-import { useTranslateSections } from '@/hooks/useTranslateSections';
+import { usePaidHoroscopeReportTranslation } from '@/hooks/usePaidHoroscopeReportTranslation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
@@ -21,7 +21,6 @@ import { useTranslations } from 'next-intl';
 import {
   HoroscopeResultHeader,
   HoroscopeReportContent,
-  parseHoroscopeSections,
 } from '@/components/horoscope/result';
 import { HoroscopeJourneyExperience, KundliResultStatusPanel } from '@/components/kundli/result';
 import { Container } from '@/components/layout/Container';
@@ -36,7 +35,6 @@ export default function HoroscopeResultPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const id = typeof params?.id === 'string' ? params.id : '';
-  const aiTranslate = useTranslateSections();
 
   const cachedStatus = useSelector((state: RootState) =>
     id ? kundliApi.endpoints.getHoroscopeReport.select(id)(state)?.data?.data?.status : undefined,
@@ -94,9 +92,10 @@ export default function HoroscopeResultPage() {
     refetch();
   }, [id, refetch]);
 
-  useEffect(() => {
-    aiTranslate.reset();
-  }, [id, aiTranslate.reset]);
+  const reportTranslation = usePaidHoroscopeReportTranslation(id, report?.result ?? null, {
+    reportLocale: report?.reportLocale,
+    interpretationsByLocale: report?.interpretationsByLocale,
+  });
 
   const backButton = (
     <Button
@@ -233,21 +232,17 @@ export default function HoroscopeResultPage() {
 
               <section className="relative bg-gray-50/80 px-6 pb-20 pt-6 lg:px-24 lg:pt-8">
                 <Container className="relative z-10 space-y-6">
-                  {parseHoroscopeSections(report.result) ? (
-                    <AiTranslateBar
-                      visible={aiTranslate.needsUi && aiTranslate.translatedByKey == null}
-                      isTranslating={aiTranslate.loading}
-                      onTranslate={() => {
-                        const s = parseHoroscopeSections(report.result);
-                        if (s) void aiTranslate.translateSections(s);
-                      }}
-                    />
-                  ) : null}
-
-                  <HoroscopeReportContent
-                    result={report.result}
-                    translatedByKey={aiTranslate.translatedByKey}
+                  <ReportLanguageSwitch
+                    visible={reportTranslation.needsPaidTranslate}
+                    isTranslating={reportTranslation.isTranslating}
+                    priceLabel={reportTranslation.priceLabel}
+                    hint={reportTranslation.hint}
+                    actionLabel={reportTranslation.actionLabel}
+                    translatingLabel={reportTranslation.translatingLabel}
+                    onTranslate={() => void reportTranslation.handleTranslate()}
                   />
+
+                  <HoroscopeReportContent result={reportTranslation.result ?? report.result} />
                 </Container>
               </section>
             </div>

@@ -15,51 +15,10 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { formatInrFromPaise } from '@/hooks/useServiceRunPrice';
+import { getServiceCoinMeta } from '@/lib/service-coin-meta';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { cn } from '@/lib/utils';
-import { BookOpen, Coins, Gift, HeartHandshake, Loader2, Sparkles, Wallet } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
-
-const SERVICE_META: Record<
-  string,
-  { label: string; description: string; icon: LucideIcon; ring: string; iconBg: string }
-> = {
-  kundli: {
-    label: 'Kundli generation',
-    description: 'Birth chart generation flow',
-    icon: BookOpen,
-    ring: 'ring-violet-200/80',
-    iconBg: 'bg-violet-100 text-violet-700',
-  },
-  matchmaking: {
-    label: 'Matchmaking',
-    description: 'Gun Milan / compatibility report',
-    icon: HeartHandshake,
-    ring: 'ring-rose-200/80',
-    iconBg: 'bg-rose-100 text-rose-700',
-  },
-  horoscope: {
-    label: 'Horoscope',
-    description: 'Daily / weekly / monthly reports',
-    icon: Sparkles,
-    ring: 'ring-amber-200/80',
-    iconBg: 'bg-amber-100 text-amber-800',
-  },
-  horoscope_detailed: {
-    label: 'Horoscope (detailed)',
-    description: 'Long-form horoscope report',
-    icon: Sparkles,
-    ring: 'ring-fuchsia-200/80',
-    iconBg: 'bg-fuchsia-100 text-fuchsia-800',
-  },
-  kundli_horoscope_addon: {
-    label: 'Kundli horoscope add-on',
-    description: 'Paid horoscope tab unlock for kundli',
-    icon: BookOpen,
-    ring: 'ring-indigo-200/80',
-    iconBg: 'bg-indigo-100 text-indigo-800',
-  },
-};
+import { Coins, Gift, Loader2, Sparkles, Wallet } from 'lucide-react';
 
 export default function AdminCoinsPage() {
   const t = useTranslations('admin');
@@ -100,7 +59,7 @@ export default function AdminCoinsPage() {
   const saveCost = async (serviceKey: string, coinCost: number) => {
     try {
       await putCost({ serviceKey, coinCost }).unwrap();
-      toast.success(t('costUpdated', { label: SERVICE_META[serviceKey]?.label ?? serviceKey }));
+      toast.success(t('costUpdated', { label: getServiceCoinMeta(serviceKey).label }));
       refetchCosts();
     } catch {
       toast.error(t('costFailed'));
@@ -179,7 +138,7 @@ export default function AdminCoinsPage() {
             </div>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Kundli, matchmaking, horoscope, detailed horoscope, kundli add-on
+            Generation, reports, add-ons, translations, and chat
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200/90 bg-white/90 p-5 shadow-sm">
@@ -313,8 +272,8 @@ function ServiceCostCard({
     setV(String(initial));
   }, [initial]);
 
-  const meta = SERVICE_META[serviceKey];
-  const Icon = meta?.icon ?? Sparkles;
+  const meta = getServiceCoinMeta(serviceKey);
+  const Icon = meta.icon;
   const coinVal = parseInt(v, 10);
   const estimatedPaise =
     defaultInrPerCoinPaise != null && Number.isFinite(coinVal) && coinVal >= 1
@@ -325,7 +284,7 @@ function ServiceCostCard({
     <Card
       className={cn(
         'overflow-hidden border-violet-100/90 shadow-md shadow-violet-950/5 transition-shadow hover:shadow-lg',
-        meta?.ring && `ring-1 ${meta.ring}`,
+        meta.ring && `ring-1 ${meta.ring}`,
       )}
     >
       <CardContent className="p-0">
@@ -333,14 +292,14 @@ function ServiceCostCard({
           <span
             className={cn(
               'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
-              meta?.iconBg ?? 'bg-violet-100 text-violet-700',
+              meta.iconBg,
             )}
           >
             <Icon className="h-5 w-5" />
           </span>
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold leading-tight text-gray-900">{meta?.label ?? serviceKey}</h3>
-            <p className="mt-0.5 text-xs text-muted-foreground">{meta?.description ?? 'Service key'}</p>
+            <h3 className="font-semibold leading-tight text-gray-900">{meta.label}</h3>
+            <p className="mt-0.5 text-xs text-muted-foreground">{meta.description}</p>
             <code className="mt-2 inline-block rounded-md bg-white/80 px-2 py-0.5 text-[11px] text-muted-foreground ring-1 ring-violet-100">
               {serviceKey}
             </code>

@@ -21,5 +21,5 @@ export const routing = defineRouting({
   localePrefix: "as-needed",
 });
 
-/** Locales shown in the nav language switcher (expand when translations are ready). */
-export const selectorLocales = ["en", "hi"] as const satisfies readonly (typeof routing.locales)[number][];
+/** Locales shown in the nav language switcher. */
+export const selectorLocales = routing.locales;

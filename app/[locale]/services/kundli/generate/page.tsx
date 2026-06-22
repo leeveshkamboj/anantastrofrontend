@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, Suspense } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,10 +35,13 @@ import {
   GetKundliSection,
 } from '@/components/kundli/generate';
 import { Loader2 } from 'lucide-react';
+import { HindiReportLanguageChoice } from '@/components/reports/HindiReportLanguageChoice';
+import type { ReportLanguageStyle } from '@/lib/report-locale';
 
 function KundliGenerateContent() {
   const tk = useTranslations('services.kundli');
   const te = useTranslations('services.errors');
+  const navLocale = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -75,6 +78,7 @@ function KundliGenerateContent() {
   const [selectedPlace, setSelectedPlace] = useState<PlaceSuggestion | null>(null);
   const placeInputContainerRef = useRef<HTMLDivElement>(null);
   const skipSuggestionsRef = useRef(false);
+  const [reportLanguageStyle, setReportLanguageStyle] = useState<ReportLanguageStyle>('simple');
 
   const { compactLabel: kundliPriceLine } = useServiceRunPrice('kundli');
 
@@ -274,6 +278,8 @@ function KundliGenerateContent() {
         ...(name?.trim() && { name: name.trim() }),
         ...(trimmedPlace && { placeOfBirth: trimmedPlace }),
         ...(profileGender && { gender: profileGender }),
+        reportLocale: navLocale,
+        ...(navLocale === 'hi' && { reportLanguageStyle }),
       }).unwrap();
       const uuid = res?.data?.uuid;
       if (uuid) {
@@ -440,6 +446,18 @@ function KundliGenerateContent() {
 
       <ServiceFormSection id="get-kundli" title={tk('sectionTitle')} subtitle={tk('sectionSubtitle')}>
         <ServiceCostBanner serviceKey="kundli" className={serviceCostBannerClassName} />
+        {navLocale === 'hi' && (
+          <HindiReportLanguageChoice
+            value={reportLanguageStyle}
+            onChange={setReportLanguageStyle}
+            className="mb-4"
+            labels={{
+              title: tk('reportLanguageTitle'),
+              simple: tk('reportLanguageSimple'),
+              hinglish: tk('reportLanguageHinglish'),
+            }}
+          />
+        )}
         <GetKundliSection
               hasProfiles={hasProfiles}
               isLoading={isLoading}
