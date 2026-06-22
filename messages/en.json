@@ -221,6 +221,12 @@
       "reports": "Reports",
       "reportsDesc": "Personalized insights on career, love, personality, and life predictions."
     },
+    "topAstrologers": {
+      "eyebrow": "Expert guides",
+      "title": "Top Astrologers",
+      "subtitle": "Connect with our highest-rated guides for personalized Vedic consultations.",
+      "viewAll": "View all astrologers"
+    },
     "aiReports": {
       "title": "Personalized Astrological Reports",
       "subtitle": "Get personalized insights based on traditional astrological wisdom. Our reports cover career, love, personality, and life predictions.",

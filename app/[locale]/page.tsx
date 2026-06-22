@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import { HeroSection } from "@/components/homepage/HeroSection"
 import { ServicesSection } from "@/components/homepage/ServicesSection"
 import { ReportsSection } from "@/components/homepage/ReportsSection"
+import { TopAstrologersSection } from "@/components/homepage/TopAstrologersSection"
 import { AccountDeactivatedBanner } from "@/components/homepage/AccountDeactivatedBanner"
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroSection />
       <ServicesSection />
       <ReportsSection />
+      <TopAstrologersSection />
     </div>
   )
 }
