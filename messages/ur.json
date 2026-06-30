@@ -266,6 +266,16 @@
       "subtitle": "ان ہزاروں مطمئن صارفین میں شامل ہوں جنہوں نے AnantAstro کے ذریعے رہنمائی اور وضاحت حاصل کی ہے۔",
       "getStarted": "مفت شروع کریں۔",
       "viewPricing": "قیمتوں کا تعین دیکھیں"
+    },
+    "plans": {
+      "eyebrow": "سکے کے پیک",
+      "title": "منصوبوں کا موازنہ کریں اور اپنا پیک منتخب کریں۔",
+      "subtitle": "ہر رپورٹ کے لیے ایک بٹوے کا بیلنس۔ ایک بار سکے خریدیں، کنڈلی، زائچہ، اور میچ میکنگ پر خرچ کریں — کوئی رکنیت نہیں۔",
+      "viewAllPricing": "مکمل قیمتیں دیکھیں",
+      "compareCaption": "سکے پیک کا موازنہ",
+      "compareFeature": "فیچر",
+      "comparePrice": "قیمت",
+      "compareOffer": "پیشکش"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "پہلے ہی خریدا ہے؟",
     "viewWalletHistory": "بٹوے اور ادائیگی کی تاریخ دیکھیں",
     "useCoinsOnServices": "خدمات پر سکے استعمال کریں۔",
-    "checkoutDescription": "{name} — {quantity} سکے"
+    "checkoutDescription": "{name} — {quantity} سکے",
+    "unavailable": "دستیاب نہیں"
   },
   "paymentThankYou": {
     "badge": "ادائیگی کامیاب",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "اپنے سکے استعمال کریں۔",
     "quickActionsSubtitle": "سیدھے وہاں جائیں جہاں اننت آسٹرو میں سکے خرچ ہوتے ہیں۔",
     "quickActionAstrologers": "آپ کے بٹوے سے لائیو مشاورت کا بل فی منٹ۔",
-    "quickActionPricing": "جب آپ کو مزید سکوں کی ضرورت ہو تو پیک کا موازنہ کریں اور ٹاپ اپ کریں۔"
+    "quickActionPricing": "جب آپ کو مزید سکوں کی ضرورت ہو تو پیک کا موازنہ کریں اور ٹاپ اپ کریں۔",
+    "buyCoinsUnavailable": "دستیاب نہیں۔",
+    "browsePacksUnavailable": "دستیاب نہیں۔"
   },
   "profile": {
     "loading": "پروفائل لوڈ ہو رہا ہے…",

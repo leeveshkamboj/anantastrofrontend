@@ -266,6 +266,16 @@
       "subtitle": "AnantAstro ৰ জৰিয়তে নিৰ্দেশনা আৰু স্পষ্টতা বিচাৰি পোৱা হাজাৰ হাজাৰ সন্তুষ্ট ব্যৱহাৰকাৰীৰ সৈতে যোগদান কৰক।",
       "getStarted": "বিনামূলীয়াকৈ আৰম্ভ কৰক",
       "viewPricing": "মূল্য নিৰ্ধাৰণ চাওক"
+    },
+    "plans": {
+      "eyebrow": "মুদ্ৰাৰ পেক",
+      "title": "পৰিকল্পনা তুলনা কৰক & আপোনাৰ পেক বাছি লওক",
+      "subtitle": "প্ৰতিটো প্ৰতিবেদনৰ বাবে এটাকৈ ৱালেট বেলেঞ্চ। এবাৰ মুদ্ৰা কিনিব, কুণ্ডলী, ৰাশিফল, আৰু মেচমেকিঙত খৰচ কৰক — কোনো চাবস্ক্ৰিপচন নাই।",
+      "viewAllPricing": "সম্পূৰ্ণ মূল্য চাওক",
+      "compareCaption": "মুদ্ৰাৰ পেক তুলনা",
+      "compareFeature": "বৈশিষ্ট্য",
+      "comparePrice": "মূল্য",
+      "compareOffer": "অফাৰ"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "ইতিমধ্যে ক্ৰয় কৰা হৈছেনে?",
     "viewWalletHistory": "ৱালেট আৰু পেমেণ্টৰ ইতিহাস চাওক",
     "useCoinsOnServices": "সেৱাসমূহত মুদ্ৰা ব্যৱহাৰ কৰক",
-    "checkoutDescription": "{name} — {quantity} মুদ্ৰা"
+    "checkoutDescription": "{name} — {quantity} মুদ্ৰা",
+    "unavailable": "উপলব্ধ নহয়"
   },
   "paymentThankYou": {
     "badge": "পেমেন্ট সফল",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "আপোনাৰ মুদ্ৰা ব্যৱহাৰ কৰক",
     "quickActionsSubtitle": "AnantAstro ৰ ওপৰেৰে মুদ্ৰা খৰচ কৰা ঠাইলৈ পোনে পোনে জপিয়াই যাওক।",
     "quickActionAstrologers": "আপোনাৰ মানিবেগৰ পৰা প্ৰতি মিনিটত বিল কৰা লাইভ পৰামৰ্শ।",
-    "quickActionPricing": "পেক তুলনা কৰক আৰু যেতিয়া আপুনি অধিক মুদ্ৰাৰ প্ৰয়োজন হয় তেতিয়া টপ আপ কৰক।"
+    "quickActionPricing": "পেক তুলনা কৰক আৰু যেতিয়া আপুনি অধিক মুদ্ৰাৰ প্ৰয়োজন হয় তেতিয়া টপ আপ কৰক।",
+    "buyCoinsUnavailable": "উপলব্ধ নহয়",
+    "browsePacksUnavailable": "উপলব্ধ নহয়"
   },
   "profile": {
     "loading": "প্ৰফাইল লোড কৰা হৈছে...",

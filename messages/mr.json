@@ -266,6 +266,16 @@
       "subtitle": "अनंतअ‍ॅस्ट्रोच्या माध्यमातून मार्गदर्शन आणि स्पष्टता मिळवलेल्या हजारो समाधानी वापरकर्त्यांमध्ये सामील व्हा.",
       "getStarted": "मोफत सुरुवात करा",
       "viewPricing": "किंमत पहा"
+    },
+    "plans": {
+      "eyebrow": "नाणे पॅक",
+      "title": "योजनांची तुलना करा आणि तुमचा पॅक निवडा",
+      "subtitle": "प्रत्येक अहवालासाठी एक वॉलेट शिल्लक. एकदा नाणी विकत घ्या, कुंडली, जन्मकुंडली आणि मॅचमेकिंगवर खर्च करा — कोणतीही सदस्यता नाही.",
+      "viewAllPricing": "संपूर्ण किंमत पहा",
+      "compareCaption": "नाणे पॅक तुलना",
+      "compareFeature": "वैशिष्ट्य",
+      "comparePrice": "किंमत",
+      "compareOffer": "ऑफर"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "आधीच खरेदी केले आहे का?",
     "viewWalletHistory": "वॉलेट आणि पेमेंट इतिहास पहा",
     "useCoinsOnServices": "सेवांवर नाणी वापरा",
-    "checkoutDescription": "{name} — {quantity} नाणी"
+    "checkoutDescription": "{name} — {quantity} नाणी",
+    "unavailable": "अनुपलब्ध"
   },
   "paymentThankYou": {
     "badge": "पेमेंट यशस्वी झाले.",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "तुमची नाणी वापरा",
     "quickActionsSubtitle": "अनंतऍस्ट्रोमध्ये जिथे नाणी खर्च केली जातात, तिथे थेट जा.",
     "quickActionAstrologers": "थेट सल्लामसलतीसाठी तुमच्या वॉलेटमधून प्रति मिनिट शुल्क आकारले जाते.",
-    "quickActionPricing": "पॅकची तुलना करा आणि जेव्हा तुम्हाला अधिक नाण्यांची गरज असेल तेव्हा टॉप अप करा."
+    "quickActionPricing": "पॅकची तुलना करा आणि जेव्हा तुम्हाला अधिक नाण्यांची गरज असेल तेव्हा टॉप अप करा.",
+    "buyCoinsUnavailable": "अनुपलब्ध",
+    "browsePacksUnavailable": "अनुपलब्ध"
   },
   "profile": {
     "loading": "प्रोफाइल लोड होत आहे…",

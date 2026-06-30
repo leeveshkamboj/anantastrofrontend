@@ -1197,7 +1197,8 @@
     "alreadyPurchased": "पहले से ही खरीदा?",
     "viewWalletHistory": "वॉलेट और भुगतान इतिहास देखें",
     "useCoinsOnServices": "सेवाओं पर सिक्कों का उपयोग करें",
-    "checkoutDescription": "{name} — {quantity} सिक्के"
+    "checkoutDescription": "{name} — {quantity} सिक्के",
+    "unavailable": "अनुपलब्ध"
   },
   "paymentThankYou": {
     "badge": "भुगतान सफल रहा",
@@ -1278,7 +1279,9 @@
     "quickActionsTitle": "अपने सिक्कों का उपयोग करें",
     "quickActionsSubtitle": "सीधे उस स्थान पर जाएं जहां अनंतएस्ट्रो में सिक्कों का उपयोग किया जाता है।",
     "quickActionAstrologers": "लाइव परामर्श के लिए आपके वॉलेट से प्रति मिनट के हिसाब से शुल्क लिया जाएगा।",
-    "quickActionPricing": "पैक्स की तुलना करें और जब आपको अधिक सिक्कों की आवश्यकता हो तो टॉप अप करें।"
+    "quickActionPricing": "पैक्स की तुलना करें और जब आपको अधिक सिक्कों की आवश्यकता हो तो टॉप अप करें।",
+    "buyCoinsUnavailable": "अनुपलब्ध",
+    "browsePacksUnavailable": "अनुपलब्ध"
   },
   "profile": {
     "loading": "प्रोफ़ाइल लोड हो रही है…",

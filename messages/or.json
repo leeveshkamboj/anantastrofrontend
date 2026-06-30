@@ -266,6 +266,16 @@
       "subtitle": "ଅନନ୍ତଆଷ୍ଟ୍ରୋ ମାଧ୍ୟମରେ ମାର୍ଗଦର୍ଶନ ଏବଂ ସ୍ପଷ୍ଟତା ପାଇଥିବା ହଜାର ହଜାର ସନ୍ତୁଷ୍ଟ ଉପଭୋକ୍ତାଙ୍କ ସହିତ ଯୋଗଦାନ କରନ୍ତୁ।",
       "getStarted": "ମାଗଣାରେ ଆରମ୍ଭ କରନ୍ତୁ",
       "viewPricing": "ମୂଲ୍ୟ ଦେଖନ୍ତୁ"
+    },
+    "plans": {
+      "eyebrow": "ମୁଦ୍ରା ପ୍ୟାକ୍ |",
+      "title": "ଯୋଜନାଗୁଡିକ ତୁଳନା କରନ୍ତୁ ଏବଂ ଆପଣଙ୍କର ପ୍ୟାକ୍ ବାଛନ୍ତୁ |",
+      "subtitle": "ପ୍ରତ୍ୟେକ ରିପୋର୍ଟ ପାଇଁ ଗୋଟିଏ ୱାଲେଟ୍ ବାଲାନ୍ସ | ଥରେ ମୁଦ୍ରା କିଣନ୍ତୁ, କୁଣ୍ଡଲି, ରାଶିଫଳ ଏବଂ ମେଳକ ତିଆରିରେ ଖର୍ଚ୍ଚ କରନ୍ତୁ - କ subs ଣସି ସଦସ୍ୟତା ନାହିଁ |",
+      "viewAllPricing": "ପୂର୍ଣ୍ଣ ମୂଲ୍ୟ ଦେଖନ୍ତୁ |",
+      "compareCaption": "ମୁଦ୍ରା ପ୍ୟାକ୍ ତୁଳନା",
+      "compareFeature": "ବ .ଶିଷ୍ଟ୍ୟ",
+      "comparePrice": "ମୂଲ୍ୟ",
+      "compareOffer": "ଅଫର୍"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "ପୂର୍ବରୁ କିଣାଯାଇଛି?",
     "viewWalletHistory": "ୱାଲେଟ୍ ଏବଂ ପେମେଣ୍ଟ ଇତିହାସ ଦେଖନ୍ତୁ",
     "useCoinsOnServices": "ସେବାଗୁଡ଼ିକରେ କଏନ୍ ବ୍ୟବହାର କରନ୍ତୁ",
-    "checkoutDescription": "{name} — {quantity} ମୁଦ୍ରା"
+    "checkoutDescription": "{name} — {quantity} ମୁଦ୍ରା",
+    "unavailable": "ଉପଲବ୍ଧ ନାହିଁ"
   },
   "paymentThankYou": {
     "badge": "ପେମେଣ୍ଟ ସଫଳ ହୋଇଛି",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "ତୁମର କଏନ୍ ବ୍ୟବହାର କର",
     "quickActionsSubtitle": "ଅନନ୍ତଆଷ୍ଟ୍ରୋରେ ଯେଉଁଠାରେ କଏନ୍ ଖର୍ଚ୍ଚ ହେଉଛି ସେଠାକୁ ସିଧା ଯାଆନ୍ତୁ।",
     "quickActionAstrologers": "ଆପଣଙ୍କ ୱାଲେଟରୁ ପ୍ରତି ମିନିଟ୍ ପାଇଁ ଲାଇଭ୍ ପରାମର୍ଶ ବିଲ୍।",
-    "quickActionPricing": "ପ୍ୟାକ୍ ତୁଳନା କରନ୍ତୁ ଏବଂ ଅଧିକ କଏନ୍ ଆବଶ୍ୟକ ହେଲେ ଟପ୍ ଅପ୍ କରନ୍ତୁ।"
+    "quickActionPricing": "ପ୍ୟାକ୍ ତୁଳନା କରନ୍ତୁ ଏବଂ ଅଧିକ କଏନ୍ ଆବଶ୍ୟକ ହେଲେ ଟପ୍ ଅପ୍ କରନ୍ତୁ।",
+    "buyCoinsUnavailable": "ଉପଲବ୍ଧ ନାହିଁ",
+    "browsePacksUnavailable": "ଉପଲବ୍ଧ ନାହିଁ"
   },
   "profile": {
     "loading": "ପ୍ରୋଫାଇଲ୍ ଲୋଡ୍ ହେଉଛି…",

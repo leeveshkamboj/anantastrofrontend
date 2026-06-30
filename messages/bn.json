@@ -266,6 +266,16 @@
       "subtitle": "অনন্তঅ্যাস্ট্রোর মাধ্যমে দিকনির্দেশনা ও স্পষ্টতা খুঁজে পাওয়া হাজার হাজার সন্তুষ্ট ব্যবহারকারীর সাথে যোগ দিন।",
       "getStarted": "বিনামূল্যে শুরু করুন",
       "viewPricing": "মূল্য দেখুন"
+    },
+    "plans": {
+      "eyebrow": "কয়েন প্যাক",
+      "title": "পরিকল্পনা তুলনা করুন এবং আপনার প্যাক চয়ন করুন",
+      "subtitle": "প্রতিটি রিপোর্টের জন্য একটি ওয়ালেট ব্যালেন্স। একবার কয়েন কিনুন, কুন্ডলি, রাশিফল ​​এবং ম্যাচমেকিং-এ খরচ করুন — কোনো সাবস্ক্রিপশন নেই।",
+      "viewAllPricing": "সম্পূর্ণ মূল্য দেখুন",
+      "compareCaption": "কয়েন প্যাকের তুলনা",
+      "compareFeature": "বৈশিষ্ট্য",
+      "comparePrice": "দাম",
+      "compareOffer": "অফার"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "ইতিমধ্যে কেনা হয়ে গেছে?",
     "viewWalletHistory": "ওয়ালেট ও পেমেন্টের ইতিহাস দেখুন",
     "useCoinsOnServices": "পরিষেবাগুলিতে মুদ্রা ব্যবহার করুন",
-    "checkoutDescription": "{name} — {quantity} মুদ্রা"
+    "checkoutDescription": "{name} — {quantity} মুদ্রা",
+    "unavailable": "অনুপলব্ধ"
   },
   "paymentThankYou": {
     "badge": "পেমেন্ট সফল হয়েছে",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "আপনার মুদ্রা ব্যবহার করুন",
     "quickActionsSubtitle": "AnantAstro-তে কয়েনগুলো কোথায় খরচ করা হয়, সরাসরি সেখানে চলে যান।",
     "quickActionAstrologers": "লাইভ পরামর্শের বিল আপনার ওয়ালেট থেকে প্রতি মিনিটে পরিশোধ করতে হবে।",
-    "quickActionPricing": "প্যাকগুলো তুলনা করুন এবং আরও কয়েনের প্রয়োজন হলে টপ আপ করুন।"
+    "quickActionPricing": "প্যাকগুলো তুলনা করুন এবং আরও কয়েনের প্রয়োজন হলে টপ আপ করুন।",
+    "buyCoinsUnavailable": "অনুপলব্ধ",
+    "browsePacksUnavailable": "অনুপলব্ধ"
   },
   "profile": {
     "loading": "প্রোফাইল লোড হচ্ছে…",

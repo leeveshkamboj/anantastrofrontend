@@ -266,6 +266,16 @@
       "subtitle": "ਹਜ਼ਾਰਾਂ ਸੰਤੁਸ਼ਟ ਉਪਭੋਗਤਾਵਾਂ ਨਾਲ ਜੁੜੋ ਜਿਨ੍ਹਾਂ ਨੇ ਅਨੰਤਐਸਟ੍ਰੋ ਰਾਹੀਂ ਮਾਰਗਦਰਸ਼ਨ ਅਤੇ ਸਪਸ਼ਟਤਾ ਪ੍ਰਾਪਤ ਕੀਤੀ ਹੈ।",
       "getStarted": "ਮੁਫ਼ਤ ਵਿੱਚ ਸ਼ੁਰੂਆਤ ਕਰੋ",
       "viewPricing": "ਕੀਮਤ ਵੇਖੋ"
+    },
+    "plans": {
+      "eyebrow": "ਸਿੱਕਾ ਪੈਕ",
+      "title": "ਯੋਜਨਾਵਾਂ ਦੀ ਤੁਲਨਾ ਕਰੋ ਅਤੇ ਆਪਣਾ ਪੈਕ ਚੁਣੋ",
+      "subtitle": "ਹਰ ਰਿਪੋਰਟ ਲਈ ਇੱਕ ਵਾਲਿਟ ਬੈਲੇਂਸ। ਇੱਕ ਵਾਰ ਸਿੱਕੇ ਖਰੀਦੋ, ਕੁੰਡਲੀ, ਕੁੰਡਲੀ, ਅਤੇ ਮੈਚਮੇਕਿੰਗ 'ਤੇ ਖਰਚ ਕਰੋ - ਕੋਈ ਗਾਹਕੀ ਨਹੀਂ।",
+      "viewAllPricing": "ਪੂਰੀ ਕੀਮਤ ਵੇਖੋ",
+      "compareCaption": "ਸਿੱਕਾ ਪੈਕ ਦੀ ਤੁਲਨਾ",
+      "compareFeature": "ਵਿਸ਼ੇਸ਼ਤਾ",
+      "comparePrice": "ਕੀਮਤ",
+      "compareOffer": "ਪੇਸ਼ਕਸ਼"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "ਕੀ ਪਹਿਲਾਂ ਹੀ ਖਰੀਦ ਲਿਆ ਹੈ?",
     "viewWalletHistory": "ਵਾਲਿਟ ਅਤੇ ਭੁਗਤਾਨ ਇਤਿਹਾਸ ਵੇਖੋ",
     "useCoinsOnServices": "ਸੇਵਾਵਾਂ 'ਤੇ ਸਿੱਕਿਆਂ ਦੀ ਵਰਤੋਂ ਕਰੋ",
-    "checkoutDescription": "{name} — {quantity} ਸਿੱਕੇ"
+    "checkoutDescription": "{name} — {quantity} ਸਿੱਕੇ",
+    "unavailable": "ਅਣਉਪਲਬਧ"
   },
   "paymentThankYou": {
     "badge": "ਭੁਗਤਾਨ ਸਫਲ ਰਿਹਾ",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "ਆਪਣੇ ਸਿੱਕਿਆਂ ਦੀ ਵਰਤੋਂ ਕਰੋ",
     "quickActionsSubtitle": "ਸਿੱਧੇ ਉੱਥੇ ਜਾਓ ਜਿੱਥੇ ਅਨੰਤਐਸਟ੍ਰੋ ਵਿੱਚ ਸਿੱਕੇ ਖਰਚ ਕੀਤੇ ਜਾਂਦੇ ਹਨ।",
     "quickActionAstrologers": "ਤੁਹਾਡੇ ਬਟੂਏ ਤੋਂ ਪ੍ਰਤੀ ਮਿੰਟ ਦੇ ਹਿਸਾਬ ਨਾਲ ਲਾਈਵ ਸਲਾਹ-ਮਸ਼ਵਰੇ।",
-    "quickActionPricing": "ਜਦੋਂ ਤੁਹਾਨੂੰ ਹੋਰ ਸਿੱਕਿਆਂ ਦੀ ਲੋੜ ਹੋਵੇ ਤਾਂ ਪੈਕਾਂ ਦੀ ਤੁਲਨਾ ਕਰੋ ਅਤੇ ਟੌਪ ਅੱਪ ਕਰੋ।"
+    "quickActionPricing": "ਜਦੋਂ ਤੁਹਾਨੂੰ ਹੋਰ ਸਿੱਕਿਆਂ ਦੀ ਲੋੜ ਹੋਵੇ ਤਾਂ ਪੈਕਾਂ ਦੀ ਤੁਲਨਾ ਕਰੋ ਅਤੇ ਟੌਪ ਅੱਪ ਕਰੋ।",
+    "buyCoinsUnavailable": "ਅਣਉਪਲਬਧ",
+    "browsePacksUnavailable": "ਅਣਉਪਲਬਧ"
   },
   "profile": {
     "loading": "ਪ੍ਰੋਫਾਈਲ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",

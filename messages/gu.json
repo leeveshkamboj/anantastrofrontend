@@ -266,6 +266,16 @@
       "subtitle": "અનંતએસ્ટ્રો દ્વારા માર્ગદર્શન અને સ્પષ્ટતા મેળવનારા હજારો સંતુષ્ટ વપરાશકર્તાઓ સાથે જોડાઓ.",
       "getStarted": "મફતમાં શરૂઆત કરો",
       "viewPricing": "કિંમત જુઓ"
+    },
+    "plans": {
+      "eyebrow": "સિક્કા પેક",
+      "title": "યોજનાઓની તુલના કરો અને તમારું પેક પસંદ કરો",
+      "subtitle": "દરેક રિપોર્ટ માટે એક વોલેટ બેલેન્સ. એકવાર સિક્કા ખરીદો, કુંડળી, જન્માક્ષર અને મેચમેકિંગ પર ખર્ચ કરો — કોઈ સબ્સ્ક્રિપ્શન્સ નહીં.",
+      "viewAllPricing": "સંપૂર્ણ કિંમત જુઓ",
+      "compareCaption": "સિક્કા પેક સરખામણી",
+      "compareFeature": "લક્ષણ",
+      "comparePrice": "કિંમત",
+      "compareOffer": "ઓફર"
     }
   },
   "auth": {
@@ -1187,7 +1197,8 @@
     "alreadyPurchased": "પહેલેથી જ ખરીદી લીધું છે?",
     "viewWalletHistory": "વોલેટ અને ચુકવણી ઇતિહાસ જુઓ",
     "useCoinsOnServices": "સેવાઓ પર સિક્કાનો ઉપયોગ કરો",
-    "checkoutDescription": "{name} — {quantity} સિક્કા"
+    "checkoutDescription": "{name} — {quantity} સિક્કા",
+    "unavailable": "અનુપલબ્ધ"
   },
   "paymentThankYou": {
     "badge": "ચુકવણી સફળ થઈ",
@@ -1268,7 +1279,9 @@
     "quickActionsTitle": "તમારા સિક્કા વાપરો",
     "quickActionsSubtitle": "અનંતએસ્ટ્રોમાં જ્યાં સિક્કા ખર્ચવામાં આવે છે ત્યાં સીધા જાઓ.",
     "quickActionAstrologers": "તમારા વૉલેટમાંથી પ્રતિ મિનિટ બિલ કરાયેલ લાઇવ પરામર્શ.",
-    "quickActionPricing": "જ્યારે તમને વધુ સિક્કાની જરૂર હોય ત્યારે પેકની તુલના કરો અને ટોપ અપ કરો."
+    "quickActionPricing": "જ્યારે તમને વધુ સિક્કાની જરૂર હોય ત્યારે પેકની તુલના કરો અને ટોપ અપ કરો.",
+    "buyCoinsUnavailable": "અનુપલબ્ધ",
+    "browsePacksUnavailable": "અનુપલબ્ધ"
   },
   "profile": {
     "loading": "પ્રોફાઇલ લોડ કરી રહ્યું છે…",
