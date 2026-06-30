@@ -40,7 +40,15 @@ export default function MatchmakingPage() {
   const navLocale = useLocale();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  const { compactLabel: matchmakingPriceLine } = useServiceRunPrice('matchmaking');
+  const matchmakingPrice = useServiceRunPrice('matchmaking');
+  const matchmakingServicePrice =
+    matchmakingPrice.coinCost != null && matchmakingPrice.compactLabel
+      ? {
+          coinCost: matchmakingPrice.coinCost,
+          isFree: matchmakingPrice.isFree,
+          compactLabel: matchmakingPrice.compactLabel,
+        }
+      : null;
   const { data: kundlisData, isLoading: loadingKundlis } = useGetMyKundlisQuery(undefined, { skip: !isAuthenticated });
   const [createMatchmakingReport, { isLoading: isComputing }] = useCreateMatchmakingReportMutation();
   const [getGeocode] = useLazyGetGeocodeQuery();
@@ -370,7 +378,8 @@ export default function MatchmakingPage() {
         validatePartner2={validatePartner2}
         onSubmit={handleSubmit}
         isComputing={isComputing}
-        submitPriceLine={matchmakingPriceLine}
+        submitPriceLine={matchmakingServicePrice?.compactLabel ?? null}
+        submitServicePrice={matchmakingServicePrice}
         costBanner={
           <ServiceCostBanner serviceKey="matchmaking" className={serviceCostBannerClassName} />
         }

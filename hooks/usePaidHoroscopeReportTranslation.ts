@@ -25,7 +25,8 @@ export function usePaidHoroscopeReportTranslation(
   const uiLocale = useLocale();
   const tt = useTranslations('results.translate');
   const router = useRouter();
-  const { compactLabel: priceLabel } = useServiceRunPrice('horoscope_translate');
+  const { compactLabel: priceLabel, coinCost: priceCoinCost, isFree: priceIsFree } =
+    useServiceRunPrice('horoscope_translate');
   const [translate, { isLoading }] = useTranslateHoroscopeReportMutation();
   const [translatedOverride, setTranslatedOverride] = useState<Record<string, unknown> | null>(
     null,
@@ -72,6 +73,8 @@ export function usePaidHoroscopeReportTranslation(
     result: resolved.data,
     needsPaidTranslate: resolved.needsPaidTranslate,
     priceLabel,
+    priceCoinCost,
+    priceIsFree,
     isTranslating: isLoading,
     handleTranslate,
     hint: tt('paidHint'),

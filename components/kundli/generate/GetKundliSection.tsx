@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { BookOpen, Plus, User } from 'lucide-react';
+import { ServicePriceDisplay } from '@/components/coins/ServicePriceDisplay';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { cn } from '@/lib/utils';
 import {
@@ -56,6 +57,7 @@ export interface GetKundliSectionProps {
   generatePriceLine?: string | null;
   /** Same line on profile creation / someone-else forms when generation will charge coins */
   runPriceLine?: string | null;
+  kundliServicePrice?: { coinCost: number; isFree: boolean; compactLabel: string } | null;
   kundliFormPrefill: { name?: string; dateOfBirth?: string; timeOfBirth?: string; placeOfBirth?: string; gender?: 'Male' | 'Female' };
   onBackSomeoneElse?: () => void;
 }
@@ -89,6 +91,7 @@ export function GetKundliSection({
   isStartingGeneration,
   generatePriceLine,
   runPriceLine,
+  kundliServicePrice,
   kundliFormPrefill,
   onBackSomeoneElse,
 }: GetKundliSectionProps) {
@@ -115,6 +118,7 @@ export function GetKundliSection({
         placeInputRef={placeInputRef}
         submitLabel={t('submitGetKundli')}
         priceLine={runPriceLine}
+        servicePrice={kundliServicePrice}
         onSubmit={onAddProfile}
         isSubmitting={isCreating}
       />
@@ -142,6 +146,7 @@ export function GetKundliSection({
         placeInputRef={placeInputRef}
         submitLabel={isCreating || isUpdating ? t('submitSaving') : t('submitGetKundliLower')}
         priceLine={runPriceLine}
+        servicePrice={kundliServicePrice}
         onSubmit={onAddProfile}
         isSubmitting={isCreating || isUpdating}
         nameId="someone-name"
@@ -229,12 +234,23 @@ export function GetKundliSection({
             <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
               <BookOpen className="mr-2 h-4 w-4 shrink-0" />
               {isStartingGeneration ? t('ctaStarting') : t('ctaGetKundli')}
-              {!isStartingGeneration && generatePriceLine && (
+              {!isStartingGeneration && (kundliServicePrice || generatePriceLine) && (
                 <>
                   <span aria-hidden>·</span>
                   <span className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-white sm:text-sm">
-                    <CoinGlyph className="h-4 w-4 shrink-0" />
-                    {generatePriceLine}
+                    {kundliServicePrice ? (
+                      <ServicePriceDisplay
+                        coinCost={kundliServicePrice.coinCost}
+                        isFree={kundliServicePrice.isFree}
+                        compactLabel={kundliServicePrice.compactLabel}
+                        glyphClassName="text-white"
+                      />
+                    ) : (
+                      <>
+                        <CoinGlyph className="h-4 w-4 shrink-0" />
+                        {generatePriceLine}
+                      </>
+                    )}
                   </span>
                 </>
               )}

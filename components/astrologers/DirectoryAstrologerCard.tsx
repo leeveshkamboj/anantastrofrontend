@@ -4,7 +4,7 @@ import { ArrowUpRight, MapPin, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CoinGlyph } from "@/components/coins/CoinGlyph"
+import { ChatPerMinutePrice } from "@/components/coins/ChatPerMinutePrice"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
 import { AstrologerTypeBadge } from "@/components/astrologers/AstrologerTypeBadge"
 import { getDisplayRating, getDisplayYearsOfExperience } from "@/lib/astrologer-utils"
@@ -93,10 +93,11 @@ export function DirectoryAstrologerCard({
         <StatCell
           label={t("statPerMin")}
           value={
-            <span className="inline-flex items-center gap-0.5">
-              {astrologer.coinsPerMinute}
-              <CoinGlyph className="h-3.5 w-3.5" />
-            </span>
+            <ChatPerMinutePrice
+              coinsPerMinute={astrologer.coinsPerMinute}
+              className="text-sm font-extrabold text-gray-900"
+              glyphClassName="h-3.5 w-3.5 text-astro-orange"
+            />
           }
         />
       </div>

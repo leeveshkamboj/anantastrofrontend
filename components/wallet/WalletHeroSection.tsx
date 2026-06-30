@@ -3,6 +3,7 @@
 import { CreditCard, Loader2, RefreshCw, ShieldCheck, Sparkles } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { useCoinLaunchFlags } from "@/hooks/useServiceRunPrice"
 import { CelestialBackground } from "@/components/CelestialBackground"
 import { CoinGlyph } from "@/components/coins/CoinGlyph"
 import { Container } from "@/components/layout/Container"
@@ -30,7 +31,8 @@ export function WalletHeroSection({
   onRefresh,
 }: WalletHeroSectionProps) {
   const t = useTranslations("wallet")
-  const isLowBalance = !isLoading && balance < LOW_BALANCE_THRESHOLD
+  const { coinPurchasesEnabled, freeServicesEnabled } = useCoinLaunchFlags()
+  const isLowBalance = !freeServicesEnabled && !isLoading && balance < LOW_BALANCE_THRESHOLD
   const balanceTone = getBalanceTone(balance)
   const balanceLabelKey = getBalanceLabelKey(balance)
   const balanceMessageKey = getBalanceMessageKey(balance)
@@ -85,12 +87,19 @@ export function WalletHeroSection({
                 ) : null}
               </div>
 
-              <CosmicButton asChild size="lg" className="w-full sm:w-auto normal-case tracking-normal">
-                <Link href="/pricing">
+              {coinPurchasesEnabled ? (
+                <CosmicButton asChild size="lg" className="w-full sm:w-auto normal-case tracking-normal">
+                  <Link href="/pricing">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    {t("buyCoins")}
+                  </Link>
+                </CosmicButton>
+              ) : (
+                <CosmicButton size="lg" className="w-full sm:w-auto normal-case tracking-normal" disabled>
                   <CreditCard className="mr-2 h-4 w-4" />
-                  {t("buyCoins")}
-                </Link>
-              </CosmicButton>
+                  {t("buyCoinsUnavailable")}
+                </CosmicButton>
+              )}
             </div>
 
             <div className="celestial-surface-dark relative w-full shrink-0 overflow-hidden rounded-[1.5rem] bg-linear-to-br from-astro-purple via-[#3d1578] to-astro-dark p-6 text-white shadow-[0_20px_48px_-12px_rgba(46,10,94,0.45)] sm:p-8 lg:w-[42%] xl:w-[38%]">

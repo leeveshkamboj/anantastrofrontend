@@ -236,6 +236,8 @@ export default function HoroscopeResultPage() {
                     visible={reportTranslation.needsPaidTranslate}
                     isTranslating={reportTranslation.isTranslating}
                     priceLabel={reportTranslation.priceLabel}
+                    priceCoinCost={reportTranslation.priceCoinCost}
+                    priceIsFree={reportTranslation.priceIsFree}
                     hint={reportTranslation.hint}
                     actionLabel={reportTranslation.actionLabel}
                     translatingLabel={reportTranslation.translatingLabel}

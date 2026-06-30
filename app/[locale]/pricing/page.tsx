@@ -11,7 +11,7 @@ import { PricingBottomSection } from '@/components/pricing/PricingBottomSection'
 
 export default function PricingPage() {
   const { data, isLoading } = useGetCoinPlansPublicQuery();
-  const { isAuthenticated, checkoutPlanId, isCreatingOrder, handleBuy } =
+  const { isAuthenticated, checkoutPlanId, isCreatingOrder, coinPurchasesEnabled, handleBuy } =
     useCoinPlanCheckout('/pricing');
 
   const plans = data?.data ?? [];
@@ -27,6 +27,7 @@ export default function PricingPage() {
         isAuthenticated={isAuthenticated}
         checkoutPlanId={checkoutPlanId}
         isCreatingOrder={isCreatingOrder}
+        coinPurchasesEnabled={coinPurchasesEnabled}
         isBestValuePlan={isBestValuePlan}
         onBuy={handleBuy}
       />

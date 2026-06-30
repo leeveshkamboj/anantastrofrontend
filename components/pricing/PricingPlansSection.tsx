@@ -18,6 +18,7 @@ interface PricingPlansSectionProps {
   isAuthenticated: boolean
   checkoutPlanId: number | null
   isCreatingOrder: boolean
+  coinPurchasesEnabled: boolean
   isBestValuePlan: (planId: number) => boolean
   onBuy: (planId: number) => void
 }
@@ -28,6 +29,7 @@ export function PricingPlansSection({
   isAuthenticated,
   checkoutPlanId,
   isCreatingOrder,
+  coinPurchasesEnabled,
   isBestValuePlan,
   onBuy,
 }: PricingPlansSectionProps) {
@@ -76,6 +78,7 @@ export function PricingPlansSection({
                     isBestValue={isBestValuePlan(plan.id)}
                     isAuthenticated={isAuthenticated}
                     isCheckoutLoading={isCreatingOrder && checkoutPlanId === plan.id}
+                    coinPurchasesEnabled={coinPurchasesEnabled}
                     onBuy={onBuy}
                   />
                 </HoverLift>

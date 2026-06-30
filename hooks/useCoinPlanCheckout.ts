@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { useRouter } from "@/i18n/navigation"
+import { useCoinLaunchFlags } from "@/hooks/useServiceRunPrice"
 import { useCreateCoinCheckoutOrderMutation } from "@/store/api/coinsApi"
 import { useAuth } from "@/store/hooks/useAuth"
 import { loadRazorpayScript, openRazorpayCheckout } from "@/lib/razorpay-checkout"
@@ -14,10 +15,12 @@ export function useCoinPlanCheckout(returnPath: string) {
   const tNav = useTranslations("nav")
   const router = useRouter()
   const { isAuthenticated, user } = useAuth()
+  const { coinPurchasesEnabled } = useCoinLaunchFlags()
   const [createOrder, { isLoading: isCreatingOrder }] = useCreateCoinCheckoutOrderMutation()
   const [checkoutPlanId, setCheckoutPlanId] = useState<number | null>(null)
 
   const handleBuy = async (planId: number) => {
+    if (!coinPurchasesEnabled) return
     if (!isAuthenticated) {
       router.push(`/auth/login?next=${encodeURIComponent(returnPath)}`)
       return
@@ -66,6 +69,7 @@ export function useCoinPlanCheckout(returnPath: string) {
     isAuthenticated,
     checkoutPlanId,
     isCreatingOrder,
+    coinPurchasesEnabled,
     handleBuy,
   }
 }

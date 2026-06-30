@@ -15,6 +15,7 @@ type ChatSessionHeaderProps = {
   astrologer?: ChatAstrologer
   balance: number
   coinsPerMinute: number
+  freeServicesEnabled?: boolean
   elapsedLabel: string
   nextBillLabel: string
   billedSecondsLive: number
@@ -27,6 +28,7 @@ export function ChatSessionHeader({
   astrologer,
   balance,
   coinsPerMinute,
+  freeServicesEnabled = false,
   elapsedLabel,
   nextBillLabel,
   billedSecondsLive,
@@ -104,8 +106,19 @@ export function ChatSessionHeader({
 
             <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
               <span className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 font-semibold text-gray-700">
-                <CoinGlyph className="h-3.5 w-3.5 text-astro-orange" />
-                {t("perMin", { n: coinsPerMinute })}
+                {freeServicesEnabled && coinsPerMinute > 0 ? (
+                  <span className="inline-flex items-center gap-1">
+                    <CoinGlyph className="h-3.5 w-3.5 text-astro-orange" />
+                    <span className="line-through tabular-nums text-gray-500">{coinsPerMinute}</span>
+                    <span className="text-emerald-700">Free</span>
+                    <span>/min</span>
+                  </span>
+                ) : (
+                  <>
+                    <CoinGlyph className="h-3.5 w-3.5 text-astro-orange" />
+                    {t("perMin", { n: coinsPerMinute })}
+                  </>
+                )}
               </span>
               <span className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 font-semibold text-gray-700">
                 {t("wallet")} {balance}

@@ -15,6 +15,7 @@ import { useAuth } from '@/store/hooks/useAuth';
 import { toast } from 'sonner';
 import { parseFetchBaseError } from '@/lib/api-errors';
 import { ServiceCostBanner } from '@/components/coins/ServiceCostBanner';
+import { ServicePriceDisplay } from '@/components/coins/ServicePriceDisplay';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
 import {
@@ -88,6 +89,7 @@ function ManualBirthForm({
   isSubmitting,
   submitLabel,
   priceLine,
+  servicePrice,
 }: {
   form: BirthForm;
   setForm: React.Dispatch<React.SetStateAction<BirthForm>>;
@@ -100,6 +102,7 @@ function ManualBirthForm({
   isSubmitting: boolean;
   submitLabel: string;
   priceLine?: string | null;
+  servicePrice?: { coinCost: number; isFree: boolean; compactLabel: string } | null;
 }) {
   const t = useTranslations('services.horoscope.manualForm');
   return (
@@ -213,12 +216,23 @@ function ManualBirthForm({
       >
         <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-white text-sm font-medium">
           <span className="text-white">{submitLabel}</span>
-        {!isSubmitting && priceLine && (
+        {!isSubmitting && (servicePrice || priceLine) && (
             <>
               <span aria-hidden>·</span>
               <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white whitespace-nowrap">
-                <CoinGlyph className="h-4 w-4 shrink-0" />
-                {priceLine}
+                {servicePrice ? (
+                  <ServicePriceDisplay
+                    coinCost={servicePrice.coinCost}
+                    isFree={servicePrice.isFree}
+                    compactLabel={servicePrice.compactLabel}
+                    glyphClassName="text-white"
+                  />
+                ) : (
+                  <>
+                    <CoinGlyph className="h-4 w-4 shrink-0" />
+                    {priceLine}
+                  </>
+                )}
               </span>
             </>
         )}
@@ -235,8 +249,14 @@ export default function HoroscopePage() {
   const navLocale = useLocale();
   const router = useRouter();
   const { isAuthenticated } = useAuth();
-  const { compactLabel: summaryPriceLine } = useServiceRunPrice('horoscope');
-  const { compactLabel: detailedPriceLine } = useServiceRunPrice('horoscope_detailed');
+  const summaryPrice = useServiceRunPrice('horoscope');
+  const detailedPrice = useServiceRunPrice('horoscope_detailed');
+  const toServicePrice = (p: ReturnType<typeof useServiceRunPrice>) =>
+    p.coinCost != null && p.compactLabel
+      ? { coinCost: p.coinCost, isFree: p.isFree, compactLabel: p.compactLabel }
+      : null;
+  const summaryServicePrice = toServicePrice(summaryPrice);
+  const detailedServicePrice = toServicePrice(detailedPrice);
   const { data: kundlisData, isLoading: loadingKundlis } = useGetMyKundlisQuery(undefined, {
     skip: !isAuthenticated,
   });
@@ -479,7 +499,14 @@ export default function HoroscopePage() {
                     setSuggestions={setSuggestions}
                     isSubmitting={isSubmitting}
                     submitLabel={th('submitGetHoroscope')}
-                    priceLine={detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
+                    priceLine={
+                      detailLevel === 'detailed'
+                        ? detailedServicePrice?.compactLabel
+                        : summaryServicePrice?.compactLabel
+                    }
+                    servicePrice={
+                      detailLevel === 'detailed' ? detailedServicePrice : summaryServicePrice
+                    }
                   />
                 </CardContent>
               </Card>
@@ -517,7 +544,14 @@ export default function HoroscopePage() {
                     setSuggestions={setSuggestions}
                     isSubmitting={isSubmitting}
                     submitLabel={isSubmitting ? th('creatingReport') : th('submitGetHoroscope')}
-                    priceLine={detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
+                    priceLine={
+                      detailLevel === 'detailed'
+                        ? detailedServicePrice?.compactLabel
+                        : summaryServicePrice?.compactLabel
+                    }
+                    servicePrice={
+                      detailLevel === 'detailed' ? detailedServicePrice : summaryServicePrice
+                    }
                   />
                 </CardContent>
               </Card>
@@ -620,12 +654,33 @@ export default function HoroscopePage() {
                       <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-sm font-medium text-white">
                         <Sparkles className="mr-2 h-5 w-5 shrink-0" />
                         <span>{isSubmitting ? th('creatingReport') : th('submitGetHoroscope')}</span>
-                        {!isSubmitting && (detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine) && (
+                        {!isSubmitting &&
+                          (detailLevel === 'detailed' ? detailedServicePrice : summaryServicePrice) && (
                           <>
                             <span aria-hidden>·</span>
                             <span className="inline-flex items-center justify-center gap-1.5 font-medium text-white">
-                              <CoinGlyph className="h-4 w-4 shrink-0" />
-                              {detailLevel === 'detailed' ? detailedPriceLine : summaryPriceLine}
+                              {(detailLevel === 'detailed'
+                                ? detailedServicePrice
+                                : summaryServicePrice) ? (
+                                <ServicePriceDisplay
+                                  coinCost={
+                                    (detailLevel === 'detailed'
+                                      ? detailedServicePrice
+                                      : summaryServicePrice)!.coinCost
+                                  }
+                                  isFree={
+                                    (detailLevel === 'detailed'
+                                      ? detailedServicePrice
+                                      : summaryServicePrice)!.isFree
+                                  }
+                                  compactLabel={
+                                    (detailLevel === 'detailed'
+                                      ? detailedServicePrice
+                                      : summaryServicePrice)!.compactLabel
+                                  }
+                                  glyphClassName="text-white"
+                                />
+                              ) : null}
                             </span>
                           </>
                         )}

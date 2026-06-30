@@ -80,7 +80,15 @@ function KundliGenerateContent() {
   const skipSuggestionsRef = useRef(false);
   const [reportLanguageStyle, setReportLanguageStyle] = useState<ReportLanguageStyle>('simple');
 
-  const { compactLabel: kundliPriceLine } = useServiceRunPrice('kundli');
+  const kundliPrice = useServiceRunPrice('kundli');
+  const kundliServicePrice =
+    kundliPrice.coinCost != null && kundliPrice.compactLabel
+      ? {
+          coinCost: kundliPrice.coinCost,
+          isFree: kundliPrice.isFree,
+          compactLabel: kundliPrice.compactLabel,
+        }
+      : null;
 
   const [debouncedPlaceSearch, setDebouncedPlaceSearch] = useState('');
   useEffect(() => {
@@ -485,8 +493,9 @@ function KundliGenerateContent() {
               isUpdating={isUpdating}
               onGetKundli={handleGetKundli}
               isStartingGeneration={isStartingGeneration}
-              generatePriceLine={kundliPriceLine}
-              runPriceLine={kundliPriceLine}
+              generatePriceLine={kundliServicePrice?.compactLabel ?? null}
+              runPriceLine={kundliServicePrice?.compactLabel ?? null}
+              kundliServicePrice={kundliServicePrice}
               kundliFormPrefill={{
                 name: kundliForm.name || '',
                 dateOfBirth: kundliForm.dateOfBirth || undefined,

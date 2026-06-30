@@ -3,6 +3,7 @@
 import { AlertTriangle } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { useCoinLaunchFlags } from "@/hooks/useServiceRunPrice"
 import { Container } from "@/components/layout/Container"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { CosmicButton } from "@/components/ui/CosmicButton"
@@ -15,8 +16,9 @@ type WalletLowBalanceBannerProps = {
 
 export function WalletLowBalanceBanner({ balance, isLoading }: WalletLowBalanceBannerProps) {
   const t = useTranslations("wallet")
+  const { freeServicesEnabled, coinPurchasesEnabled } = useCoinLaunchFlags()
 
-  if (isLoading || balance >= LOW_BALANCE_THRESHOLD) {
+  if (isLoading || freeServicesEnabled || balance >= LOW_BALANCE_THRESHOLD) {
     return null
   }
 
@@ -34,9 +36,11 @@ export function WalletLowBalanceBanner({ balance, isLoading }: WalletLowBalanceB
               <p className="mt-0.5 text-sm text-amber-900/80">{t("lowBalanceBanner")}</p>
             </div>
           </div>
-          <CosmicButton asChild size="sm" className="shrink-0 normal-case tracking-normal">
-            <Link href="/pricing">{t("addCoins")}</Link>
-          </CosmicButton>
+          {coinPurchasesEnabled ? (
+            <CosmicButton asChild size="sm" className="shrink-0 normal-case tracking-normal">
+              <Link href="/pricing">{t("addCoins")}</Link>
+            </CosmicButton>
+          ) : null}
         </div>
         </FadeIn>
       </Container>

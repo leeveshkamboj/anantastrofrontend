@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { ServicePriceDisplay } from '@/components/coins/ServicePriceDisplay';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { cn } from '@/lib/utils';
 import { Languages, Loader2 } from 'lucide-react';
@@ -10,6 +11,8 @@ export type ReportLanguageSwitchProps = {
   visible: boolean;
   isTranslating: boolean;
   priceLabel: string | null;
+  priceCoinCost?: number | null;
+  priceIsFree?: boolean;
   hint: string;
   actionLabel: string;
   translatingLabel: string;
@@ -22,6 +25,8 @@ export function ReportLanguageSwitch({
   visible,
   isTranslating,
   priceLabel,
+  priceCoinCost,
+  priceIsFree = false,
   hint,
   actionLabel,
   translatingLabel,
@@ -50,8 +55,18 @@ export function ReportLanguageSwitch({
             {priceLabel && (
               <>
                 <span aria-hidden>·</span>
-                <CoinGlyph className="h-4 w-4 shrink-0" />
-                <span>{priceLabel}</span>
+                {priceIsFree && priceCoinCost != null ? (
+                  <ServicePriceDisplay
+                    coinCost={priceCoinCost}
+                    isFree
+                    compactLabel={priceLabel}
+                  />
+                ) : (
+                  <>
+                    <CoinGlyph className="h-4 w-4 shrink-0" />
+                    <span>{priceLabel}</span>
+                  </>
+                )}
               </>
             )}
           </span>

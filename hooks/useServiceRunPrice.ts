@@ -1,8 +1,9 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useGetServiceCoinCostsQuery } from '@/store/api/coinsApi';
+import { useGetPublicCoinPricingReferenceQuery, useGetServiceCoinCostsQuery } from '@/store/api/coinsApi';
 import type { ServiceKey } from '@/store/api/coinsApi';
+import { buildServicePriceLabel } from '@/lib/service-price-label';
 
 export function formatInrFromPaise(paise: number) {
   const rupees = paise / 100;
@@ -13,28 +14,48 @@ export function formatInrFromPaise(paise: number) {
   }).format(rupees);
 }
 
-/** Coin cost per run for a service (from `/coins/service-costs`). No INR — UI shows coins + icon only. */
+/** Coin cost per run for a service (from `/coins/service-costs`). */
 export function useServiceRunPrice(serviceKey: ServiceKey) {
   const { data: costsData, isLoading: loadingCosts } = useGetServiceCoinCostsQuery();
+  const { data: pricingRef } = useGetPublicCoinPricingReferenceQuery();
 
   return useMemo(() => {
-    const coinCost = costsData?.data?.find((c) => c.serviceKey === serviceKey)?.coinCost;
-    const loading = loadingCosts;
+    const row = costsData?.data?.find((c) => c.serviceKey === serviceKey);
+    const freeServicesEnabled =
+      costsData?.meta?.freeServicesEnabled ?? pricingRef?.data?.freeServicesEnabled ?? false;
 
-    if (coinCost == null) {
+    if (row?.coinCost == null) {
       return {
-        loading,
-        coinCost: null,
-        /** e.g. "10 coins" — pair with `CoinGlyph` in UI */
+        loading: loadingCosts,
+        coinCost: null as number | null,
+        effectiveCoinCost: null as number | null,
+        isFree: false,
         compactLabel: null as string | null,
       };
     }
 
-    const coinsWord = coinCost === 1 ? 'coin' : 'coins';
+    const effectiveCoinCost = row.effectiveCoinCost ?? row.coinCost;
+    const label = buildServicePriceLabel({
+      coinCost: row.coinCost,
+      effectiveCoinCost,
+      freeServicesEnabled,
+    });
+
     return {
-      loading,
-      coinCost,
-      compactLabel: `${coinCost} ${coinsWord}`,
+      loading: loadingCosts,
+      coinCost: label.coinCost,
+      effectiveCoinCost: label.effectiveCoinCost,
+      isFree: label.isFree,
+      compactLabel: label.compactLabel,
     };
-  }, [costsData?.data, loadingCosts, serviceKey]);
+  }, [costsData?.data, costsData?.meta?.freeServicesEnabled, loadingCosts, pricingRef?.data?.freeServicesEnabled, serviceKey]);
+}
+
+export function useCoinLaunchFlags() {
+  const { data, isLoading } = useGetPublicCoinPricingReferenceQuery();
+  return {
+    loading: isLoading,
+    freeServicesEnabled: data?.data?.freeServicesEnabled ?? false,
+    coinPurchasesEnabled: data?.data?.coinPurchasesEnabled ?? true,
+  };
 }

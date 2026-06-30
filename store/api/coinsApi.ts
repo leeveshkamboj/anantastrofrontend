@@ -14,6 +14,7 @@ export type ServiceKey =
 export interface ServiceCoinCostRow {
   serviceKey: string;
   coinCost: number;
+  effectiveCoinCost?: number;
 }
 
 export interface CoinPlanPublic {
@@ -60,12 +61,27 @@ export interface VerifyCheckoutResponse {
 
 export const coinsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getServiceCoinCosts: builder.query<{ isSuccess: boolean; data: ServiceCoinCostRow[] }, void>({
+    getServiceCoinCosts: builder.query<
+      {
+        isSuccess: boolean;
+        data: ServiceCoinCostRow[];
+        meta?: { freeServicesEnabled: boolean };
+      },
+      void
+    >({
       query: () => '/coins/service-costs',
       providesTags: ['Coins'],
     }),
     getPublicCoinPricingReference: builder.query<
-      { isSuccess: boolean; data: { defaultInrPerCoinPaise: number } },
+      {
+        isSuccess: boolean;
+        data: {
+          defaultInrPerCoinPaise: number;
+          signupBonusCoins: number;
+          freeServicesEnabled: boolean;
+          coinPurchasesEnabled: boolean;
+        };
+      },
       void
     >({
       query: () => '/coins/pricing-reference',

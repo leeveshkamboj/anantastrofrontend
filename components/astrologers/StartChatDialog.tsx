@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 import { BirthGenderSelect } from '@/components/kundli/BirthGenderSelect';
-import { CoinGlyph } from '@/components/coins/CoinGlyph';
+import { ChatPerMinutePrice } from '@/components/coins/ChatPerMinutePrice';
 import {
   Dialog,
   DialogContent,
@@ -227,7 +227,12 @@ export function StartChatDialog({ open, onOpenChange, activeAstrologer }: StartC
                 {ta('startChat')}
                 {activeAstrologer?.coinsPerMinute ? (
                   <span className="inline-flex items-center gap-1 text-xs font-medium opacity-90">
-                    · <CoinGlyph className="h-3.5 w-3.5" /> {ta('coinsPerMin', { n: activeAstrologer.coinsPerMinute })}
+                    ·{' '}
+                    <ChatPerMinutePrice
+                      coinsPerMinute={activeAstrologer.coinsPerMinute}
+                      labeled
+                      glyphClassName="h-3.5 w-3.5 text-astro-orange"
+                    />
                   </span>
                 ) : null}
               </span>

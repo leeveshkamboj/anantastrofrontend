@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 import { BirthGenderSelect, type BirthGender } from '@/components/kundli/BirthGenderSelect';
 import { BookOpen, ArrowLeft } from 'lucide-react';
+import { ServicePriceDisplay } from '@/components/coins/ServicePriceDisplay';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 import { serviceFormCardClassName, serviceFormCardContentClassName } from '@/components/services';
 import { CosmicButton } from '@/components/ui/CosmicButton';
@@ -35,6 +36,7 @@ export interface BirthDetailsFormProps {
   submitLabel: string;
   /** Shown under the submit label, e.g. coin + INR for one generation */
   priceLine?: string | null;
+  servicePrice?: { coinCost: number; isFree: boolean; compactLabel: string } | null;
   onSubmit: (e: React.FormEvent) => void;
   isSubmitting?: boolean;
   backLabel?: string;
@@ -66,6 +68,7 @@ export function BirthDetailsForm({
   placeInputRef,
   submitLabel,
   priceLine,
+  servicePrice,
   onSubmit,
   isSubmitting = false,
   backLabel,
@@ -159,12 +162,23 @@ export function BirthDetailsForm({
             <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
               {!hideSubmitIcon && <BookOpen className="mr-2 h-4 w-4 shrink-0" />}
               {isSubmitting ? tl('saving') : submitLabel}
-              {!isSubmitting && priceLine && (
+              {!isSubmitting && (servicePrice || priceLine) && (
                 <>
                   <span aria-hidden>·</span>
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-white sm:text-sm">
-                    <CoinGlyph className="h-4 w-4 shrink-0" />
-                    {priceLine}
+                    {servicePrice ? (
+                      <ServicePriceDisplay
+                        coinCost={servicePrice.coinCost}
+                        isFree={servicePrice.isFree}
+                        compactLabel={servicePrice.compactLabel}
+                        glyphClassName="text-white"
+                      />
+                    ) : (
+                      <>
+                        <CoinGlyph className="h-4 w-4 shrink-0" />
+                        {priceLine}
+                      </>
+                    )}
                   </span>
                 </>
               )}

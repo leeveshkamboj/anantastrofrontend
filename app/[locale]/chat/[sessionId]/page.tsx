@@ -15,6 +15,7 @@ import {
   useSendChatMessageMutation,
 } from '@/store/api/chatApi';
 import { useGetMyWalletQuery } from '@/store/api/coinsApi';
+import { useCoinLaunchFlags } from '@/hooks/useServiceRunPrice';
 import {
   ChatComposer,
   ChatMessageList,
@@ -104,9 +105,13 @@ export default function ChatSessionPage() {
   const balance = walletData?.data?.balance ?? 0;
   const session = sessionData?.data;
   const astrologer = session?.aiAstrologer;
+  const { freeServicesEnabled } = useCoinLaunchFlags();
   const coinsPerMinute = astrologer?.coinsPerMinute ?? 0;
   const lowCoinsForNextMinute =
-    session?.status === 'active' && coinsPerMinute > 0 && balance < coinsPerMinute;
+    !freeServicesEnabled &&
+    session?.status === 'active' &&
+    coinsPerMinute > 0 &&
+    balance < coinsPerMinute;
   const elapsedSeconds = session?.startedAt
     ? Math.max(
         0,
@@ -222,6 +227,7 @@ export default function ChatSessionPage() {
         astrologer={astrologer}
         balance={balance}
         coinsPerMinute={coinsPerMinute}
+        freeServicesEnabled={freeServicesEnabled}
         elapsedLabel={elapsedLabel}
         nextBillLabel={nextBillLabel}
         billedSecondsLive={billedSecondsLive}

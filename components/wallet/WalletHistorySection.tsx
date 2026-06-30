@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
+import { useCoinLaunchFlags } from "@/hooks/useServiceRunPrice"
 import { Container } from "@/components/layout/Container"
 import { FadeIn } from "@/components/motion/FadeIn"
 import { ServiceSectionHeader } from "@/components/services/ServiceSectionHeader"
@@ -126,6 +127,7 @@ function PaymentsList({
   paymentStatusLabel: (status: string | null | undefined) => string
 }) {
   const t = useTranslations("wallet")
+  const { coinPurchasesEnabled } = useCoinLaunchFlags()
 
   if (loading) return <LoadingRows count={3} />
 
@@ -135,8 +137,18 @@ function PaymentsList({
         <CreditCard className="mx-auto h-10 w-10 text-astro-purple/30" />
         <p className="mt-3 text-sm font-semibold text-gray-800">{t("payEmpty")}</p>
         <p className="mt-1 text-xs text-gray-500">{t("payEmptyHint")}</p>
-        <CosmicButton asChild variant="outline" size="sm" className="mt-4">
-          <Link href="/pricing">{t("browsePacks")}</Link>
+        <CosmicButton
+          variant="outline"
+          size="sm"
+          className="mt-4"
+          disabled={!coinPurchasesEnabled}
+          asChild={coinPurchasesEnabled}
+        >
+          {coinPurchasesEnabled ? (
+            <Link href="/pricing">{t("browsePacks")}</Link>
+          ) : (
+            <span>{t("browsePacksUnavailable")}</span>
+          )}
         </CosmicButton>
       </div>
     )

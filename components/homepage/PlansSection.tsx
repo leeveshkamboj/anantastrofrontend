@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl"
 import { Container } from "@/components/layout/Container"
 import { AnimatedSection, HoverLift, Stagger, StaggerItem } from "@/components/motion"
 import { PlanCard } from "@/components/pricing/PlanCard"
-import { PlansComparisonTable } from "@/components/pricing/PlansComparisonTable"
 import { CosmicButton } from "@/components/ui/CosmicButton"
 import { useCoinPlanCheckout } from "@/hooks/useCoinPlanCheckout"
 import { computePlanComparison } from "@/lib/coin-plans"
@@ -16,7 +15,7 @@ import { useGetCoinPlansPublicQuery } from "@/store/api/coinsApi"
 export function PlansSection() {
   const t = useTranslations("home.plans")
   const { data, isLoading } = useGetCoinPlansPublicQuery()
-  const { isAuthenticated, checkoutPlanId, isCreatingOrder, handleBuy } =
+  const { isAuthenticated, checkoutPlanId, isCreatingOrder, coinPurchasesEnabled, handleBuy } =
     useCoinPlanCheckout("/")
 
   const plans = data?.data ?? []
@@ -54,32 +53,29 @@ export function PlansSection() {
             ))}
           </div>
         ) : (
-          <>
-            <Stagger
-              className={cn(
-                "grid gap-4 sm:grid-cols-2 sm:gap-6",
-                plans.length === 1 && "mx-auto max-w-md",
-                plans.length >= 3 && "lg:grid-cols-3",
-                plans.length === 4 && "xl:grid-cols-4"
-              )}
-            >
-              {plans.map((plan) => (
-                <StaggerItem key={plan.id}>
-                  <HoverLift className="h-full">
-                    <PlanCard
-                      plan={plan}
-                      isBestValue={isBestValuePlan(plan.id)}
-                      isAuthenticated={isAuthenticated}
-                      isCheckoutLoading={isCreatingOrder && checkoutPlanId === plan.id}
-                      onBuy={handleBuy}
-                    />
-                  </HoverLift>
-                </StaggerItem>
-              ))}
-            </Stagger>
-
-            <PlansComparisonTable plans={plans} isBestValuePlan={isBestValuePlan} />
-          </>
+          <Stagger
+            className={cn(
+              "grid gap-4 sm:grid-cols-2 sm:gap-6",
+              plans.length === 1 && "mx-auto max-w-md",
+              plans.length >= 3 && "lg:grid-cols-3",
+              plans.length === 4 && "xl:grid-cols-4"
+            )}
+          >
+            {plans.map((plan) => (
+              <StaggerItem key={plan.id}>
+                <HoverLift className="h-full">
+                  <PlanCard
+                    plan={plan}
+                    isBestValue={isBestValuePlan(plan.id)}
+                    isAuthenticated={isAuthenticated}
+                    isCheckoutLoading={isCreatingOrder && checkoutPlanId === plan.id}
+                    coinPurchasesEnabled={coinPurchasesEnabled}
+                    onBuy={handleBuy}
+                  />
+                </HoverLift>
+              </StaggerItem>
+            ))}
+          </Stagger>
         )}
 
         <div className="mt-10 text-center sm:mt-12">

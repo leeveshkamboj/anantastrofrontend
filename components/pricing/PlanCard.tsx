@@ -17,6 +17,7 @@ export interface PlanCardProps {
   isBestValue: boolean
   isAuthenticated: boolean
   isCheckoutLoading: boolean
+  coinPurchasesEnabled: boolean
   onBuy: (planId: number) => void
 }
 
@@ -25,6 +26,7 @@ export function PlanCard({
   isBestValue,
   isAuthenticated,
   isCheckoutLoading,
+  coinPurchasesEnabled,
   onBuy,
 }: PlanCardProps) {
   const t = useTranslations("pricing")
@@ -86,13 +88,15 @@ export function PlanCard({
         size="lg"
         className="mt-auto normal-case tracking-normal"
         onClick={() => onBuy(plan.id)}
-        disabled={isCheckoutLoading}
+        disabled={!coinPurchasesEnabled || isCheckoutLoading}
       >
         {isCheckoutLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             {t("openingCheckout")}
           </>
+        ) : !coinPurchasesEnabled ? (
+          t("unavailable")
         ) : isAuthenticated ? (
           <>
             <CreditCard className="mr-2 h-4 w-4" />

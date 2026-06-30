@@ -25,7 +25,8 @@ export function usePaidKundliInterpretationTranslation(
   const uiLocale = useLocale();
   const tt = useTranslations('results.translate');
   const router = useRouter();
-  const { compactLabel: priceLabel } = useServiceRunPrice('kundli_translate');
+  const { compactLabel: priceLabel, coinCost: priceCoinCost, isFree: priceIsFree } =
+    useServiceRunPrice('kundli_translate');
   const [translate, { isLoading }] = useTranslateKundliInterpretationMutation();
   const [translatedOverride, setTranslatedOverride] = useState<string | null>(null);
 
@@ -67,6 +68,8 @@ export function usePaidKundliInterpretationTranslation(
     content: resolved.content,
     needsPaidTranslate: resolved.needsPaidTranslate,
     priceLabel,
+    priceCoinCost,
+    priceIsFree,
     isTranslating: isLoading,
     handleTranslate,
     hint: tt('paidHint'),
@@ -83,7 +86,8 @@ export function usePaidKundliAddonTranslation(
   const uiLocale = useLocale();
   const tt = useTranslations('results.translate');
   const router = useRouter();
-  const { compactLabel: priceLabel } = useServiceRunPrice('kundli_horoscope_addon_translate');
+  const { compactLabel: priceLabel, coinCost: priceCoinCost, isFree: priceIsFree } =
+    useServiceRunPrice('kundli_horoscope_addon_translate');
   const [translate, { isLoading }] = useTranslateKundliHoroscopeAddonMutation();
   const [translatedOverride, setTranslatedOverride] = useState<string | null>(null);
 
@@ -125,6 +129,8 @@ export function usePaidKundliAddonTranslation(
     content: resolved.content,
     needsPaidTranslate: resolved.needsPaidTranslate,
     priceLabel,
+    priceCoinCost,
+    priceIsFree,
     isTranslating: isLoading,
     handleTranslate,
     hint: tt('paidHint'),

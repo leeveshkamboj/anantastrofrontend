@@ -29,6 +29,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { toast } from 'sonner';
 import { Heart, User, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ServicePriceDisplay } from '@/components/coins/ServicePriceDisplay';
 import { CoinGlyph } from '@/components/coins/CoinGlyph';
 
 function PartnerReviewDetails({
@@ -88,6 +89,7 @@ export interface MatchmakingFormSectionProps {
   isComputing: boolean;
   /** Shown on the final CTA, e.g. "12 coins · ₹12" */
   submitPriceLine?: string | null;
+  submitServicePrice?: { coinCost: number; isFree: boolean; compactLabel: string } | null;
   result?: MatchmakingResultType | null;
   costBanner?: React.ReactNode;
 }
@@ -118,6 +120,7 @@ export function MatchmakingFormSection({
   onSubmit,
   isComputing,
   submitPriceLine,
+  submitServicePrice,
   result,
   costBanner,
 }: MatchmakingFormSectionProps) {
@@ -462,12 +465,23 @@ export function MatchmakingFormSection({
                   >
                     <span className="inline-flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
                       {isComputing ? tf('calculating') : tf('seeCompatibility')}
-                      {!isComputing && submitPriceLine && (
+                      {!isComputing && (submitServicePrice || submitPriceLine) && (
                         <>
                           <span aria-hidden>·</span>
                           <span className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-white">
-                            <CoinGlyph className="h-4 w-4 shrink-0" />
-                            {submitPriceLine}
+                            {submitServicePrice ? (
+                              <ServicePriceDisplay
+                                coinCost={submitServicePrice.coinCost}
+                                isFree={submitServicePrice.isFree}
+                                compactLabel={submitServicePrice.compactLabel}
+                                glyphClassName="text-white"
+                              />
+                            ) : (
+                              <>
+                                <CoinGlyph className="h-4 w-4 shrink-0" />
+                                {submitPriceLine}
+                              </>
+                            )}
                           </span>
                         </>
                       )}

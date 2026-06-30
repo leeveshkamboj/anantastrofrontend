@@ -4,7 +4,7 @@ import { ArrowUpRight, MapPin, Star } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CoinGlyph } from "@/components/coins/CoinGlyph"
+import { ChatPerMinutePrice } from "@/components/coins/ChatPerMinutePrice"
 import { AstrologerAvatar } from "@/components/astrologers/AstrologerAvatar"
 import { AstrologerTypeBadge } from "@/components/astrologers/AstrologerTypeBadge"
 import { getDisplayRating } from "@/lib/astrologer-utils"
@@ -116,11 +116,13 @@ export function FeaturedAstrologerCard({
           <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
             {t("consultationPrice")}
           </span>
-          <span className="inline-flex items-center gap-1 text-base font-extrabold tabular-nums text-gray-900">
-            {astrologer.coinsPerMinute}
-            <CoinGlyph className="h-4 w-4 text-astro-orange" />
-            <span className="text-xs font-semibold text-gray-500">/ {t("statPerMin").toLowerCase()}</span>
-          </span>
+          <ChatPerMinutePrice
+            coinsPerMinute={astrologer.coinsPerMinute}
+            className="text-base font-extrabold text-gray-900"
+            glyphClassName="h-4 w-4 text-astro-orange"
+            suffix={`/ ${t("statPerMin").toLowerCase()}`}
+            suffixClassName="text-xs font-semibold text-gray-500"
+          />
         </div>
 
         <Button

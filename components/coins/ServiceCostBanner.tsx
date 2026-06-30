@@ -4,8 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { useGetMyWalletQuery } from '@/store/api/coinsApi';
 import { useAuth } from '@/store/hooks/useAuth';
 import type { ServiceKey } from '@/store/api/coinsApi';
-import { useServiceRunPrice } from '@/hooks/useServiceRunPrice';
-import { CoinGlyph } from './CoinGlyph';
+import { useCoinLaunchFlags, useServiceRunPrice } from '@/hooks/useServiceRunPrice';
+import { ServicePriceDisplay } from './ServicePriceDisplay';
 import { getServiceCoinLabel } from '@/lib/service-coin-meta';
 import { cn } from '@/lib/utils';
 
@@ -17,15 +17,21 @@ export function ServiceCostBanner({
   className?: string;
 }) {
   const { isAuthenticated } = useAuth();
-  const { coinCost: cost } = useServiceRunPrice(serviceKey);
+  const { coinCost, isFree, compactLabel } = useServiceRunPrice(serviceKey);
+  const { freeServicesEnabled, coinPurchasesEnabled } = useCoinLaunchFlags();
   const { data: walletData } = useGetMyWalletQuery(undefined, { skip: !isAuthenticated });
 
   const balance = walletData?.data?.balance;
 
-  if (cost == null) return null;
+  if (coinCost == null || compactLabel == null) return null;
 
   const short = getServiceCoinLabel(serviceKey);
-  const low = isAuthenticated && balance != null && balance < cost;
+  const low =
+    !freeServicesEnabled &&
+    isAuthenticated &&
+    balance != null &&
+    coinCost != null &&
+    balance < coinCost;
 
   return (
     <div
@@ -36,9 +42,15 @@ export function ServiceCostBanner({
       )}
     >
       <div className="flex items-center gap-2 font-medium">
-        <CoinGlyph className="h-5 w-5 shrink-0 text-amber-600" />
         <span>
-          {short} uses <span className="tabular-nums font-semibold">{cost}</span> coins per run.
+          {short} uses{' '}
+          <ServicePriceDisplay
+            coinCost={coinCost}
+            isFree={isFree}
+            compactLabel={compactLabel}
+            className="inline-flex"
+          />{' '}
+          per run.
         </span>
       </div>
       {isAuthenticated && balance != null && (
@@ -47,7 +59,7 @@ export function ServiceCostBanner({
           <span className="font-semibold tabular-nums">{balance}</span> coins
         </span>
       )}
-      {low && (
+      {low && coinPurchasesEnabled && (
         <Link
           href="/pricing"
           className="ml-auto font-semibold text-amber-900 underline-offset-2 hover:underline"
