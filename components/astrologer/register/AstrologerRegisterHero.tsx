@@ -33,7 +33,7 @@ export function AstrologerRegisterHero() {
         </FadeIn>
         <FadeIn preset="fadeUp" inView={false} delay={getChoreographyDelay("subtitle", reduced)}>
           <p className="mx-auto max-w-xl text-sm text-gray-800 md:text-base">
-            Register to become a verified astrologer on AnantAstro
+            Register to become a verified astrologer on {tNav("brand")}
           </p>
         </FadeIn>
       </Container>

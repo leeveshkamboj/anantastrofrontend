@@ -1,4 +1,6 @@
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { BRAND_LOGO_MARK_SRC } from "@/components/brand/BrandLogo"
 
 export function Header() {
   return (
@@ -24,13 +26,15 @@ export function Header() {
       <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo and App Name */}
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary via-primary-light to-cream flex items-center justify-center shadow-lg">
-            <div className="w-8 h-8 rounded-full border-2 border-primary-light flex items-center justify-center">
-              <span className="text-white text-lg font-bold">A</span>
-            </div>
-          </div>
+          <Image
+            src={BRAND_LOGO_MARK_SRC}
+            alt="Anant Astro"
+            width={48}
+            height={48}
+            className="h-12 w-12 shrink-0 rounded-full object-contain"
+          />
           <h1 className="text-2xl md:text-3xl font-serif font-bold text-white">
-            AnantAstro
+            Anant Astro
           </h1>
         </div>
 

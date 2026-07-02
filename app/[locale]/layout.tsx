@@ -28,23 +28,23 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "AnantAstro - Astrological Consultations & Reports",
+  title: "Anant Astro - Astrological Consultations & Reports",
   description:
-    "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with AnantAstro",
+    "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with Anant Astro",
   icons: {
     icon: "/logo-mark.png",
-    apple: "/logo.png",
+    apple: "/logo-mark.png",
   },
   openGraph: {
-    title: "AnantAstro - Astrological Consultations & Reports",
+    title: "Anant Astro - Astrological Consultations & Reports",
     description:
-      "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with AnantAstro",
+      "Get accurate kundli, personalized horoscopes, detailed reports, and expert astrological consultations with Anant Astro",
     images: [
       {
         url: "/logo.png",
-        width: 2048,
-        height: 2048,
-        alt: "AnantAstro",
+        width: 1024,
+        height: 1024,
+        alt: "Anant Astro",
       },
     ],
   },

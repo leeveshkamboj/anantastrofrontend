@@ -95,7 +95,7 @@ export function Sidebar() {
       )}
     >
       <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-primary/5 to-primary/10">
-        <BrandLogo href="/" size="sm" text="AnantAstro" className="text-gray-900" />
+        <BrandLogo href="/" size="sm" className="text-gray-900" />
         <p className="text-xs text-gray-600 mt-2 font-medium">Admin Dashboard</p>
       </div>
 

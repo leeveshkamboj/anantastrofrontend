@@ -4,10 +4,10 @@ import Image from "next/image"
 import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 
-/** Full-resolution brand mark (public/logo.png). */
+/** Full-resolution brand logo (public/logo.png). */
 export const BRAND_LOGO_SRC = "/logo.png"
 
-/** UI-sized mark derived from logo.png for nav, footer, and sidebars. */
+/** Circular AA monogram for nav, footer, and sidebars (public/logo-mark.png). */
 export const BRAND_LOGO_MARK_SRC = "/logo-mark.png"
 
 const SIZE_CONFIG = {
@@ -32,7 +32,7 @@ export interface BrandLogoProps {
 }
 
 export function BrandLogo({
-  text = "AnantAstro",
+  text = "Anant Astro",
   showText = true,
   size = "md",
   href = "/",
@@ -49,7 +49,7 @@ export function BrandLogo({
       alt={text}
       width={dimension}
       height={dimension}
-      className={cn("shrink-0 rounded-full object-cover", imageClassName)}
+      className={cn("shrink-0 rounded-full object-contain", imageClassName)}
       priority={priority ?? size === "md"}
     />
   )
