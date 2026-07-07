@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Clock, Mail, MapPin, Phone, Send, type LucideIcon } from "lucide-react"
+import { Clock, Mail, Phone, Send, type LucideIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { Container } from "@/components/layout/Container"
@@ -18,8 +18,8 @@ import { parseFetchBaseError } from "@/lib/api-errors"
 type ContactInfoItem =
   | {
       icon: LucideIcon
-      titleKey: "emailTitle" | "phoneTitle" | "addressTitle" | "hoursTitle"
-      descKey: "emailDesc" | "phoneDesc" | "addressDesc" | "hoursDesc"
+      titleKey: "emailTitle" | "phoneTitle" | "hoursTitle"
+      descKey: "emailDesc" | "phoneDesc" | "hoursDesc"
       value: string
       link: string
     }
@@ -43,15 +43,8 @@ const contactInfo: ContactInfoItem[] = [
     icon: Phone,
     titleKey: "phoneTitle",
     descKey: "phoneDesc",
-    value: "+1 (555) 123-4567",
-    link: "tel:+15551234567",
-  },
-  {
-    icon: MapPin,
-    titleKey: "addressTitle",
-    descKey: "addressDesc",
-    value: "123 Astrology Street, Cosmic City, CC 12345",
-    link: "#",
+    value: "+91 9811927240",
+    link: "tel:+919811927240",
   },
   {
     icon: Clock,
