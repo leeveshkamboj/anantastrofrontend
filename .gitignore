@@ -40,6 +40,7 @@ yarn-error.log*
 .env.*
 !.env.example
 !.env.seed.example
+!.env.deploy.example
 
 # screenshot tooling (generated assets + secrets)
 /screenshots/**/*.png

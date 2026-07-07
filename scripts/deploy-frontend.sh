@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
-# Build the frontend Docker image locally (linux/amd64), push to a registry, pull on EC2.
+# Build the frontend Docker image locally (linux/amd64), push to Docker Hub, pull on EC2.
 #
 # Usage:
-#   ./scripts/deploy-frontend.sh                  # build + push + deploy
+#   ./scripts/deploy-frontend.sh                  # build + push + deploy (tag: latest)
 #   ./scripts/deploy-frontend.sh --test-local     # build --load, test on :3000, push, deploy
 #   ./scripts/deploy-frontend.sh --no-deploy        # build + push only
 #   ./scripts/deploy-frontend.sh --skip-build       # push existing local image + deploy
 #   ./scripts/deploy-frontend.sh --no-clean         # skip local Docker cleanup after deploy
 #   ./scripts/deploy-frontend.sh --only-clean       # local Docker cleanup only (no build/deploy)
 #
-# Environment:
-#   DOCKER_IMAGE         Full registry image ref (default: leeveshkamboj/anantastro-frontend:latest)
+# Environment (set in .env.deploy or export):
+#   DOCKER_USERNAME      Docker Hub user (default: anantastro)
+#   DOCKER_TOKEN         Docker Hub PAT (required for push/pull)
+#   DOCKER_REGISTRY      Image repo (default: anantastro/anantastro-frontend)
+#   DOCKER_TAG           Image tag (default: latest)
+#   DOCKER_IMAGE         Full ref override (default: ${DOCKER_REGISTRY}:${DOCKER_TAG})
 #   SSH_KEY              Path to PEM key (default: /Users/leevesh/keys/anant.pem)
 #   SSH_USER             SSH user (default: ubuntu)
 #   SSH_HOST             Server IP/hostname (default: 18.215.189.57)
@@ -23,7 +27,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-DOCKER_IMAGE="${DOCKER_IMAGE:-leeveshkamboj/anantastro-frontend:latest}"
+ENV_DEPLOY_FILE="${ENV_DEPLOY_FILE:-$ROOT_DIR/.env.deploy}"
 SSH_KEY="${SSH_KEY:-/Users/leevesh/keys/anant.pem}"
 SSH_USER="${SSH_USER:-ubuntu}"
 SSH_HOST="${SSH_HOST:-18.215.189.57}"
@@ -41,7 +45,7 @@ DO_CLEAN=true
 DO_ONLY_CLEAN=false
 
 usage() {
-  sed -n '2,13p' "$0" | sed 's/^# \?//'
+  sed -n '2,20p' "$0" | sed 's/^# \?//'
   exit "${1:-0}"
 }
 
@@ -64,6 +68,20 @@ require_cmd() {
   command -v "$1" >/dev/null 2>&1 || die "Missing required command: $1"
 }
 
+load_deploy_env() {
+  if [[ -f "$ENV_DEPLOY_FILE" ]]; then
+    set -a
+    # shellcheck source=/dev/null
+    source "$ENV_DEPLOY_FILE"
+    set +a
+  fi
+
+  DOCKER_USERNAME="${DOCKER_USERNAME:-anantastro}"
+  DOCKER_REGISTRY="${DOCKER_REGISTRY:-anantastro/anantastro-frontend}"
+  DOCKER_TAG="${DOCKER_TAG:-latest}"
+  DOCKER_IMAGE="${DOCKER_IMAGE:-${DOCKER_REGISTRY}:${DOCKER_TAG}}"
+}
+
 ssh_cmd() {
   ssh "${SSH_OPTS[@]}" "${SSH_USER}@${SSH_HOST}" "$@"
 }
@@ -84,9 +102,15 @@ ensure_buildx() {
 }
 
 ensure_registry_login() {
-  if [[ ! -f ~/.docker/config.json ]]; then
-    log "No ~/.docker/config.json — run: docker login"
-  fi
+  [[ -n "${DOCKER_TOKEN:-}" ]] || die "DOCKER_TOKEN not set. Add it to ${ENV_DEPLOY_FILE} or export it."
+  log "Logging into Docker Hub as ${DOCKER_USERNAME}"
+  printf '%s' "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin >/dev/null
+}
+
+ensure_remote_registry_login() {
+  [[ -n "${DOCKER_TOKEN:-}" ]] || die "DOCKER_TOKEN not set. Add it to ${ENV_DEPLOY_FILE} or export it."
+  log "Logging into Docker Hub on server as ${DOCKER_USERNAME}"
+  printf '%s' "$DOCKER_TOKEN" | ssh_cmd "docker login -u ${DOCKER_USERNAME} --password-stdin" >/dev/null
 }
 
 build_image() {
@@ -128,6 +152,8 @@ clean_local() {
 }
 
 deploy_remote() {
+  ensure_remote_registry_login
+
   log "Pulling ${DOCKER_IMAGE} on server and restarting frontend"
   ssh_cmd bash -s -- "$DOCKER_IMAGE" "$REMOTE_DIR" <<'REMOTE'
 set -euo pipefail
@@ -135,13 +161,14 @@ DOCKER_IMAGE="$1"
 REMOTE_DIR="$2"
 cd "$REMOTE_DIR"
 
+export FRONTEND_IMAGE="$DOCKER_IMAGE"
+
 if ! grep -q "$DOCKER_IMAGE" docker-compose.yml 2>/dev/null; then
-  echo "WARNING: docker-compose.yml may not reference ${DOCKER_IMAGE}"
-  echo "         Update frontend.image in ~/docker-compose.yml. See docs/deploy-frontend-local-build.md"
+  echo "NOTE: using FRONTEND_IMAGE=${DOCKER_IMAGE} for this deploy"
 fi
 
 docker compose pull frontend
-docker compose up -d frontend --no-build --force-recreate
+FRONTEND_IMAGE="$DOCKER_IMAGE" docker compose up -d frontend --no-build --force-recreate
 
 sleep 5
 docker compose ps frontend
@@ -151,6 +178,7 @@ REMOTE
 }
 
 main() {
+  load_deploy_env
   ensure_docker
 
   if $DO_ONLY_CLEAN; then

@@ -31,12 +31,6 @@ export function LegalPageLayout({ title, lastUpdated, children }: LegalPageLayou
       </CelestialBackground>
 
       <Container className="px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <div
-          role="note"
-          className="mb-8 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950"
-        >
-          {t("draftNotice")}
-        </div>
         <article className="prose prose-gray max-w-3xl prose-headings:font-bold prose-h2:text-xl prose-p:text-gray-700">
           {children}
         </article>

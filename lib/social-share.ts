@@ -16,6 +16,10 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
 export async function shareViaInstagram(url: string): Promise<'copied' | 'failed'> {
   const ok = await copyTextToClipboard(url);
   if (!ok) return 'failed';
-  window.open('https://www.instagram.com/', '_blank', 'noopener,noreferrer');
+  window.open(
+    'https://www.instagram.com/anantastroofficialpage',
+    '_blank',
+    'noopener,noreferrer',
+  );
   return 'copied';
 }

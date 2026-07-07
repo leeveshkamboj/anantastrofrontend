@@ -1,15 +1,21 @@
 "use client"
 
-import { Facebook, Globe, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react"
+import { Globe, Instagram, Mail, Phone, Youtube } from "lucide-react"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 import { BrandLogo } from "@/components/brand/BrandLogo"
 
 const socialLinks = [
-  { href: "https://facebook.com", label: "Facebook", Icon: Facebook },
-  { href: "https://twitter.com", label: "Twitter", Icon: Twitter },
-  { href: "https://instagram.com", label: "Instagram", Icon: Instagram },
-  { href: "https://youtube.com", label: "YouTube", Icon: Youtube },
+  {
+    href: "https://www.instagram.com/anantastroofficialpage",
+    label: "Instagram",
+    Icon: Instagram,
+  },
+  {
+    href: "https://www.youtube.com/@anantastro-l4e",
+    label: "YouTube",
+    Icon: Youtube,
+  },
 ] as const
 
 export function Footer() {
@@ -92,19 +98,13 @@ export function Footer() {
           <ul className="space-y-3 text-sm">
             <li className="flex items-center">
               <Phone className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
-              +1 (555) 123-4567
+              <a href="tel:+919811927240" className="hover:underline">
+                +91 9811927240
+              </a>
             </li>
             <li className="flex items-center">
               <Mail className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />
               support@anantastro.com
-            </li>
-            <li className="flex items-start">
-              <MapPin className="mr-2 mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>
-                123 Astrology Street
-                <br />
-                Mystic City, MC 12345
-              </span>
             </li>
             <li className="flex items-center">
               <Globe className="mr-2 h-4 w-4 shrink-0" aria-hidden="true" />

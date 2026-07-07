@@ -70,7 +70,6 @@
   "legal": {
     "badge": "Legal",
     "lastUpdated": "Last updated: {date}",
-    "draftNotice": "Draft for review — this policy is provided for launch readiness and should be reviewed by qualified legal counsel before production use.",
     "privacy": {
       "title": "Privacy Policy",
       "intro": {
